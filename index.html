@@ -64,7 +64,7 @@
       --navy2: #F8F9FC;
       --navy3: #EFF1F7;
       --navy4: #E4E8F2;
-      --gold: #9A6A1A;
+      --gold: #8B5E16;
       --gold2: #7A5010;
       --gold-bg: rgba(154, 106, 26, .12);
       --gold-bg2: rgba(154, 106, 26, .06);
@@ -87,14 +87,14 @@
       --sh: 0 1px 4px rgba(0, 0, 0, .06);
       --sh2: 0 4px 20px rgba(0, 0, 0, .10);
       --sh3: 0 8px 40px rgba(0, 0, 0, .14);
-      --body-bg: #F0F2F8;
-      --sidebar-bg-val: #FFFFFF;
-      --topbar-bg-val: rgba(255, 255, 255, .95);
-      --widget-bg: #FFFFFF;
-      --input-bg: #FFFFFF;
-      --modal-bg: #FFFFFF;
-      --modal-foot-bg: #FFFFFF;
-      --fc-front-bg: #FFFFFF;
+      --body-bg: #F5F2EC;
+      --sidebar-bg-val: #F8F6F0;
+      --topbar-bg-val: rgba(253, 252, 250, .97);
+      --widget-bg: #FDFCFA;
+      --input-bg: #FDFCFA;
+      --modal-bg: #FDFCFA;
+      --modal-foot-bg: #FDFCFA;
+      --fc-front-bg: #FDFCFA;
       --mode-icon: "☀️"
     }
 
@@ -108,7 +108,8 @@
       font-family: "Outfit", sans-serif;
       background: var(--body-bg);
       color: var(--white);
-      min-height: 100vh;
+      height: 100vh;
+      overflow: hidden;
       transition: background .2s, color .2s
     }
 
@@ -126,7 +127,8 @@
       position: relative;
       z-index: 1;
       display: flex;
-      min-height: 100vh
+      height: 100vh;
+      overflow: hidden
     }
 
     .sidebar {
@@ -231,7 +233,9 @@
       margin-left: 196px;
       flex: 1;
       display: flex;
-      flex-direction: column
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden
     }
 
     .topbar {
@@ -266,7 +270,8 @@
       flex: 1;
       padding: 0;
       position: relative;
-      overflow: hidden;
+      overflow-y: auto;
+      overflow-x: hidden;
       display: flex;
       flex-direction: column;
     }
@@ -278,7 +283,6 @@
 
     .view.active {
       display: block;
-      min-height: 100%;
     }
 
     .btn {
@@ -462,7 +466,7 @@
 
     .dash-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 12px;
       margin-bottom: 22px
     }
@@ -710,7 +714,7 @@
     }
 
     .deck-bar {
-      height: 4px;
+      height: 6px;
       background: var(--white4);
       border-radius: 4px;
       overflow: hidden;
@@ -1053,7 +1057,8 @@
       color: var(--white3);
       flex-shrink: 0;
       margin-top: 2px;
-      width: 26px
+      width: 36px;
+      min-width: 36px
     }
 
     .q-body {
@@ -2139,8 +2144,8 @@
     .macro-kpi {
       background: var(--navy2);
       border: 1px solid var(--border2);
-      border-radius: 12px;
-      padding: 18px 20px;
+      border-radius: 10px;
+      padding: 13px 15px;
       position: relative;
       overflow: hidden;
       transition: border-color .2s
@@ -2197,11 +2202,11 @@
 
     .macro-kpi-val {
       font-family: "IBM Plex Mono", monospace;
-      font-size: 26px;
-      font-weight: 600;
+      font-size: 22px;
+      font-weight: 700;
       color: var(--white);
       line-height: 1;
-      margin-bottom: 5px
+      margin-bottom: 4px
     }
 
     .macro-kpi-val.loading {
@@ -4124,22 +4129,34 @@
     #view-dcf,
     #view-finstatements,
     #view-revenue,
-    #view-macro,
     #view-files,
     #view-flashcard {
+      padding: 0 !important;
+    }
+
+    /* macro: padding handled by inner container */
+    #view-macro {
       padding: 0 !important;
     }
 
     #view-dcf.active,
     #view-finstatements.active,
     #view-revenue.active,
-    #view-macro.active,
     #view-files.active,
     #view-flashcard.active {
       height: 100%;
       overflow: hidden;
       display: flex;
       flex-direction: column;
+    }
+
+    /* Macro: plain block, parent .content handles scroll */
+    #view-macro.active {
+      display: block !important;
+      height: auto !important;
+      min-height: 100% !important;
+      overflow: visible !important;
+      flex: 1 0 auto !important;
     }
 
     /* Landing grids inside full-height views get their own padding */
@@ -4192,20 +4209,15 @@
       min-height: 0;
     }
 
-    /* ── Macro: responsive grid fix ── */
-    #view-macro {
-      overflow-x: hidden;
-    }
-
-    /* Convert inline 4-col grids to a responsive class */
+    /* macro-grid-4: always 4 cols on desktop */
     .macro-grid-4 {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 22px;
+      gap: 10px;
+      margin-bottom: 18px;
     }
 
-    @media (max-width: 1100px) {
+    @media (max-width: 1200px) {
       .macro-grid-4 {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -4219,7 +4231,6 @@
       #view-dcf.active,
       #view-finstatements.active,
       #view-revenue.active,
-      #view-macro.active,
       #view-files.active,
       #view-flashcard.active {
         height: 100%;
@@ -4832,7 +4843,7 @@
 
     /* ── Deck progress ── */
     .deck-bar {
-      height: 5px;
+      height: 6px;
     }
 
     .deck-fill {
@@ -5199,8 +5210,8 @@
 
     /* ── Macro KPIs ── */
     .macro-kpi {
-      border-radius: 14px;
-      padding: 20px 22px;
+      border-radius: 10px;
+      padding: 13px 15px;
       transition: border-color .18s, box-shadow .18s;
     }
 
@@ -5211,24 +5222,24 @@
 
     .macro-kpi-val {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 28px;
+      font-size: 22px;
       font-weight: 700;
-      letter-spacing: -1.5px;
+      letter-spacing: -1px;
       line-height: 1.1;
     }
 
     .macro-kpi-label {
-      font-size: 9px;
+      font-size: 8.5px;
       font-weight: 700;
-      letter-spacing: .12em;
+      letter-spacing: .1em;
       text-transform: uppercase;
       color: var(--white3);
-      margin-bottom: 10px;
+      margin-bottom: 6px;
     }
 
     .macro-kpi-sub {
-      font-size: 11px;
-      line-height: 1.55;
+      font-size: 10px;
+      line-height: 1.45;
     }
 
     /* ── Football field ── */
@@ -5340,6 +5351,7 @@
 
     body.sidebar-collapsed .main {
       margin-left: 0;
+      height: 100vh;
     }
 
     #sidebarToggleBtn {
@@ -5429,7 +5441,7 @@
 
     .sk-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 12px;
       margin-bottom: 20px;
     }
@@ -5792,11 +5804,15 @@
       background: var(--navy3);
       border: 1.5px solid var(--border2);
       border-radius: 8px;
-      padding: 5px 10px 5px 9px;
+      padding: 5px 14px 5px 10px;
       cursor: pointer;
       transition: all .15s;
       font-family: "Outfit", sans-serif;
       white-space: nowrap;
+      min-width: 220px;
+      flex: 1;
+      max-width: 340px;
+      justify-content: flex-start;
     }
 
     #gsTopbarBtn:hover {
@@ -6376,6 +6392,22 @@
       flex-wrap: wrap;
     }
 
+
+    .heatmap-months-row {
+      display: flex;
+      gap: 0;
+      margin-bottom: 2px;
+      overflow: hidden;
+    }
+    .heatmap-month-lbl {
+      font-size: 8px;
+      color: var(--white3);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      min-width: 45px;
+      flex-shrink: 0;
+    }
+
     .heatmap-cell {
       width: 13px;
       height: 13px;
@@ -6732,6 +6764,51 @@
       color: var(--red);
       border: 1px solid rgba(248, 113, 113, .25);
     }
+
+
+    .fc-a-formatted .fa-step {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 7px;
+      padding: 7px 11px;
+      background: var(--gold-bg2);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 7px 7px 0;
+    }
+    .fc-a-formatted .fa-step-num {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--gold2);
+      min-width: 16px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .fc-a-formatted .fa-step-text {
+      font-size: 13px;
+      color: var(--white2);
+      line-height: 1.6;
+    }
+    .fc-a-formatted .fa-formula {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      background: var(--navy3);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 7px 7px 0;
+      padding: 6px 11px;
+      color: var(--gold2);
+      margin: 5px 0;
+      line-height: 1.7;
+    }
+    .fc-a-formatted .fa-para {
+      font-size: 13.5px;
+      color: var(--white2);
+      line-height: 1.72;
+      margin-bottom: 5px;
+    }
+    .fc-a-formatted strong { font-weight: 700; color: var(--white); }
 
     /* ── Notes field on flashcard ── */
     .fc-notes-area {
@@ -7091,6 +7168,7 @@
 
       .main {
         margin-left: 0 !important;
+        height: 100vh;
       }
 
       /* Topbar layout: menu btn | title | actions */
@@ -7230,7 +7308,7 @@
   <div id="mobileMenu" role="dialog" aria-label="Navigation menu">
     <div class="mm-header">
       <div class="mm-logo">Finance <span>Analyst</span> Toolkit</div>
-      <button class="mm-close" onclick="closeMobileMenu()" aria-label="Close menu">✕</button>
+      <button class="mm-close" onclick="closeMobileMenu()" aria-label="Close menu"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/></svg></button>
     </div>
 
     <div class="mm-sec">Interview Prep</div>
@@ -7301,7 +7379,7 @@
     <div id="cheatsheetBox">
       <div class="cs-head">
         <div class="cs-title">📄 Export Cheatsheet</div>
-        <button class="cs-close" onclick="csClose()">✕</button>
+        <button class="cs-close" onclick="csClose()"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/></svg></button>
       </div>
       <div class="cs-body">
 
@@ -7626,12 +7704,20 @@
       <div class="sb-sec">My Workspace</div>
       <div class="nav-item" onclick="nav(&#39;files&#39;)"><span>📁</span> My Files</div>
       <div class="nav-sep"></div>
-      <div class="sb-sec">Manage</div>
-      <div class="nav-item" onclick="nav(&#39;add&#39;)"><span>➕</span> Add Question</div>
-      <div class="nav-item" onclick="nav(&#39;import&#39;)"><span>📥</span> Bulk Import</div>
-      <div class="nav-sep"></div>
-      <div class="sb-sec">Support</div>
-      <div class="nav-item" onclick="nav('support')"><span>💬</span> Feedback &amp; Contact</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 18px 6px">
+        <span style="font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--white3)">Manage &amp; Support</span>
+        <div style="display:flex;gap:5px">
+          <button onclick="nav('add')" title="Add Question" style="width:26px;height:26px;border-radius:6px;border:1.5px solid var(--border2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--white3);transition:all .14s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold2)';this.style.background='var(--gold-bg2)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--white3)';this.style.background='transparent'">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 1v10M1 6h10"/></svg>
+          </button>
+          <button onclick="nav('import')" title="Bulk Import" style="width:26px;height:26px;border-radius:6px;border:1.5px solid var(--border2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--white3);transition:all .14s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold2)';this.style.background='var(--gold-bg2)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--white3)';this.style.background='transparent'">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 1v7M3 5l3 3 3-3"/><path d="M1 10h10"/></svg>
+          </button>
+          <button onclick="nav('support')" title="Feedback &amp; Support" style="width:26px;height:26px;border-radius:6px;border:1.5px solid var(--border2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--white3);transition:all .14s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold2)';this.style.background='var(--gold-bg2)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--white3)';this.style.background='transparent'">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="5"/><path d="M6 5c0-1 1.5-1.3 1.5-.3C7.5 5.5 6 5.5 6 7"/><circle cx="6" cy="9" r=".5" fill="currentColor"/></svg>
+          </button>
+        </div>
+      </div>
       <div class="sb-stats" id="sbStats">
         <div class="sb-stat">Total Q&amp;As <b>220</b></div>
         <div class="sb-stat">Mastered <b>0 (0%)</b></div>
@@ -7642,49 +7728,52 @@
       <div class="topbar"><button id="topbarMenuBtn" onclick="openMobileMenu()" aria-label="Menu">☰</button><button
           id="sidebarToggleBtn" onclick="toggleSidebar()" title="Toggle sidebar">‹‹</button>
         <div class="tb-title">Finance <span>Analyst Toolkit</span></div><button id="gsTopbarBtn" onclick="gsOpen()"
-          title="Search (Cmd+K)">🔍<span class="gs-topbar-label"> Search</span><span
+          title="Search (Cmd+K)">🔍<span class="gs-topbar-label"> Search questions, topics...</span><span style="flex:1"></span><span
             class="gs-topbar-kbd">⌘K</span></button>
-        <div class="tb-btns"><button class="btn btn-o btn-print" onclick="csOpen()" title="Export as PDF cheatsheet"
-            style="gap:6px"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor"
-              stroke-width="1.8">
-              <path d="M8 1v9M4 6l4 4 4-4" />
-              <rect x="2" y="11" width="12" height="3" rx="1" />
-            </svg>Export</button><button class="theme-toggle" onclick="toggleTheme()" id="themeToggleBtn"><span
-              id="themeIcon">☀️</span>
-            <div class="toggle-track">
-              <div class="toggle-thumb"></div>
-            </div><span id="themeLabel">Light</span>
-          </button><button class="btn btn-o" onclick="resetProgress()">🔄 Reset Progress</button><button
-            class="btn btn-p" onclick="nav(&#39;flashcard&#39;)">▶ Start Studying</button></div>
+        <div class="tb-btns">
+          <button class="btn btn-o btn-print" onclick="csOpen()" style="gap:6px">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 1v9M4 6l4 4 4-4"/><rect x="2" y="11" width="12" height="3" rx="1"/></svg>Export
+          </button>
+          <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleBtn">
+            <span id="themeIcon">☀️</span>
+            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+            <span id="themeLabel">Light</span>
+          </button>
+          <div style="position:relative" id="settingsDropWrap">
+            <button class="btn btn-o" onclick="toggleSettingsMenu()" style="gap:5px;padding:7px 11px" title="Settings">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="2.5"/><path d="M8 1.5v1M8 13.5v1M1.5 8h1M13.5 8h1M3.2 3.2l.7.7M12.1 12.1l.7.7M3.2 12.8l.7-.7M12.1 3.9l.7-.7"/></svg>
+            </button>
+            <div id="settingsDropMenu" style="display:none;position:absolute;right:0;top:calc(100% + 6px);background:var(--navy2);border:1px solid var(--border);border-radius:10px;box-shadow:var(--sh3);min-width:190px;z-index:400;overflow:hidden">
+              <div style="padding:5px 0">
+                <div onclick="confirmResetProgress()" style="display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:12px;color:var(--red);cursor:pointer" onmouseover="this.style.background='var(--red-bg)'" onmouseout="this.style.background=''">
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 8a6 6 0 1 1 1 3.5"/><path d="M2 12V8h4"/></svg> Reset Progress
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-p" onclick="nav('flashcard')">&#9654; Start Studying</button>
+        </div>
       </div>
       <div class="content">
         <div id="skeletonOverlay"></div>
         <div class="view" id="view-dashboard">
-          <div class="hero">
-            <h2>Finance Analyst Toolkit 🎯</h2>
-            <p>400 finance interview Q&amp;As with spaced-repetition flashcards, plus a full Indian equity sector
-              reference with revenue model frameworks for 10 industries.</p>
+          <div class="hero" id="dashHero">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+              <div>
+                <div id="heroDate" style="font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);margin-bottom:5px"></div>
+                <div style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--white)">Finance <span style="color:var(--gold)">Analyst Toolkit</span></div>
+              </div>
+              <button class="btn btn-p" onclick="startMockInterview()" style="flex-shrink:0;font-size:11px;gap:6px">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6"/><path d="M8 4v4l2.5 2.5"/></svg>Mock Interview
+              </button>
+            </div>
+            <div id="heroBriefing" style="font-size:12px;color:var(--white2);line-height:1.6;margin-bottom:16px;padding:9px 14px;background:var(--gold-bg2);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;min-height:34px">Loading your session brief...</div>
             <div class="hero-stats" id="heroStats">
-              <div>
-                <div class="hs-val">220</div>
-                <div class="hs-lab">Total Q&amp;As</div>
-              </div>
-              <div>
-                <div class="hs-val">0</div>
-                <div class="hs-lab">Mastered</div>
-              </div>
-              <div>
-                <div class="hs-val">0</div>
-                <div class="hs-lab">In Progress</div>
-              </div>
-              <div>
-                <div class="hs-val">220</div>
-                <div class="hs-lab">Unseen</div>
-              </div>
-              <div>
-                <div class="hs-val" style="color:var(--green)">10</div>
-                <div class="hs-lab">Sectors</div>
-              </div>
+              <div><div class="hs-val" id="hsTotalQA">220</div><div class="hs-lab">Total Q&amp;As</div></div>
+              <div><div class="hs-val" id="hsMastered">0</div><div class="hs-lab">Mastered</div></div>
+              <div><div class="hs-val" id="hsInProgress">0</div><div class="hs-lab">In Progress</div></div>
+              <div><div class="hs-val" id="hsUnseen">220</div><div class="hs-lab">Unseen</div></div>
+              <div><div class="hs-val" id="hsDue" style="color:var(--gold2)">0</div><div class="hs-lab">Due Today</div></div>
             </div>
           </div>
           <div class="dash-grid" id="catGrid">
@@ -7695,7 +7784,7 @@
               <div class="cat-bar">
                 <div class="cat-fill" style="width:0%"></div>
               </div>
-              <div class="cat-pct">0% complete</div>
+              <div class="cat-pct" data-cat-pct="true">Start →</div>
             </div>
             <div class="cat-card cat-val" onclick="navToFlashcard('Valuation')">
               <div class="cat-emoji">💰</div>
@@ -7704,7 +7793,7 @@
               <div class="cat-bar">
                 <div class="cat-fill" style="width:0%"></div>
               </div>
-              <div class="cat-pct">0% complete</div>
+              <div class="cat-pct" data-cat-pct="true">Start →</div>
             </div>
             <div class="cat-card cat-ma" onclick="navToFlashcard('M&A / LBO / IB')">
               <div class="cat-emoji">🤝</div>
@@ -7713,7 +7802,7 @@
               <div class="cat-bar">
                 <div class="cat-fill" style="width:0%"></div>
               </div>
-              <div class="cat-pct">0% complete</div>
+              <div class="cat-pct" data-cat-pct="true">Start →</div>
             </div>
             <div class="cat-card cat-gf" onclick="navToFlashcard('General Finance')">
               <div class="cat-emoji">📈</div>
@@ -7722,7 +7811,7 @@
               <div class="cat-bar">
                 <div class="cat-fill" style="width:0%"></div>
               </div>
-              <div class="cat-pct">0% complete</div>
+              <div class="cat-pct" data-cat-pct="true">Start →</div>
             </div>
             <div class="cat-card cat-er" onclick="navToFlashcard('Equity Research')">
               <div class="cat-emoji">🔬</div>
@@ -7731,7 +7820,7 @@
               <div class="cat-bar">
                 <div class="cat-fill" style="width:0%"></div>
               </div>
-              <div class="cat-pct">0% complete</div>
+              <div class="cat-pct" data-cat-pct="true">Start →</div>
             </div>
             <div class="cat-card cat-bq" onclick="navToFlashcard('Behavioral')">
               <div class="cat-emoji">🎯</div>
@@ -7740,10 +7829,23 @@
               <div class="cat-bar">
                 <div class="cat-fill" style="width:0%"></div>
               </div>
-              <div class="cat-pct">0% complete</div>
+              <div class="cat-pct" data-cat-pct="true">Start →</div>
             </div>
           </div>
           <div id="streakWidgetWrap" style="margin-bottom:16px"></div>
+          <div onclick="startMockInterview()" style="background:linear-gradient(135deg,var(--navy3) 0%,rgba(201,168,76,.08) 100%);border:1.5px solid var(--gold);border-radius:14px;padding:18px 22px;margin-bottom:16px;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 30px rgba(201,168,76,.2)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+            <div style="display:flex;align-items:center;gap:14px">
+              <div style="width:44px;height:44px;border-radius:10px;background:var(--gold-bg);border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🎯</div>
+              <div>
+                <div style="font-size:13px;font-weight:700;color:var(--white);margin-bottom:3px">Mock Interview Mode</div>
+                <div style="font-size:11px;color:var(--white3);line-height:1.4">Timed · 20 questions · Simulates real interview pressure — 30 seconds per answer</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:4px;background:var(--red-bg);color:var(--red);border:1px solid rgba(248,113,113,.25)">30s / Q</span>
+              <button class="btn btn-p" style="font-size:11px;padding:7px 16px" onclick="startMockInterview();event.stopPropagation()">Start →</button>
+            </div>
+          </div>
           <div class="dash-row">
             <div class="widget">
               <div class="wt">Recently Studied</div>
@@ -7864,13 +7966,20 @@
                     Answer</button><button class="btn btn-o" onclick="toggleBkCurrent()">🔖 Bookmark</button><button
                     class="btn btn-o" onclick="openModal(1)">📖 Full View</button><button class="btn btn-o"
                     onclick="skipCard()">⏭ Skip</button></div>
-                <div class="fc-rate" id="fcRate" style="display:none"><button class="rate-btn rate-missed"
-                    onclick="rateCard(&#39;missed&#39;)"><span class="rate-emoji">😓</span>Missed It<span
-                      class="rate-key">Press 1</span></button><button class="rate-btn rate-almost"
-                    onclick="rateCard(&#39;almost&#39;)"><span class="rate-emoji">🤔</span>Almost<span
-                      class="rate-key">Press 2</span></button><button class="rate-btn rate-got"
-                    onclick="rateCard(&#39;got&#39;)"><span class="rate-emoji">✅</span>Got It!<span
-                      class="rate-key">Press 3</span></button></div>
+                <div class="fc-rate" id="fcRate" style="display:none">
+                  <button class="rate-btn rate-missed" onclick="rateCard('missed')">
+                    <span class="rate-emoji">😓</span>Missed It
+                    <span class="rate-key" style="font-size:9px;opacity:.6;font-weight:400">→ 1 hr · [1]</span>
+                  </button>
+                  <button class="rate-btn rate-almost" onclick="rateCard('almost')">
+                    <span class="rate-emoji">🤔</span>Almost
+                    <span class="rate-key" style="font-size:9px;opacity:.6;font-weight:400">→ tomorrow · [2]</span>
+                  </button>
+                  <button class="rate-btn rate-got" onclick="rateCard('got')">
+                    <span class="rate-emoji">✅</span>Got It!
+                    <span class="rate-key" style="font-size:9px;opacity:.6;font-weight:400">→ 7 days · [3]</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -7892,31 +8001,24 @@
             <button class="btn btn-o" style="font-size:11px;padding:5px 12px;" onclick="exitMultiMode()">✕
               Cancel</button>
           </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;padding:0">
+            <div style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--white)">Browse All &nbsp;<span id="browseCount" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--gold2)">–</span></div>
+            <button class="btn btn-o" style="font-size:11px;padding:5px 12px;" onclick="toggleMultiMode()" id="multiBtn">☑ Select</button>
+          </div>
           <div class="browse-bar">
-            <div class="search-wrap"><span>🔍</span><input type="text" id="searchInput"
-                placeholder="Search questions and answers..." oninput="renderBrowse()"></div><select class="sel"
-              id="catF" onchange="renderBrowse()">
-              <option value="all">All Categories</option>
-              <option value="Accounting">Accounting</option>
-              <option value="Valuation">Valuation / DCF / EV</option>
-              <option value="M&amp;A / LBO / IB">M&amp;A / LBO / IB</option>
-              <option value="General Finance">General Finance</option>
-              <option value="Equity Research">Equity Research</option>
-              <option value="Behavioral">Behavioral</option>
-            </select><select class="sel" id="diffF" onchange="renderBrowse()">
-              <option value="all">All Difficulty</option>
-              <option value="Easy">Easy</option>
-              <option value="Medium">Medium</option>
-              <option value="Hard">Hard</option>
-            </select><select class="sel" id="statF" onchange="renderBrowse()">
-              <option value="all">All Status</option>
-              <option value="unseen">Unseen</option>
-              <option value="learning">Learning</option>
-              <option value="mastered">Mastered</option>
-              <option value="missed">Missed</option>
-            </select><button class="btn btn-o" style="font-size:11px;padding:5px 12px;" onclick="toggleMultiMode()"
-              id="multiBtn">☑ Select</button>
-            <div class="bc" id="browseCount">Loading...</div>
+            <div class="search-wrap"><span>🔍</span><input type="text" id="searchInput" placeholder="Search questions and answers..." oninput="debouncedRenderBrowse(this.value)"></div>
+            <select class="sel" id="catF" onchange="renderBrowse()">
+              <option value="all">All Categories</option><option value="Accounting">Accounting</option><option value="Valuation">Valuation / DCF / EV</option><option value="M&amp;A / LBO / IB">M&amp;A / LBO / IB</option><option value="General Finance">General Finance</option><option value="Equity Research">Equity Research</option><option value="Behavioral">Behavioral</option>
+            </select>
+            <select class="sel" id="diffF" onchange="renderBrowse()">
+              <option value="all">All Difficulty</option><option value="Easy">Easy</option><option value="Medium">Medium</option><option value="Hard">Hard</option>
+            </select>
+            <select class="sel" id="statF" onchange="renderBrowse()">
+              <option value="all">All Status</option><option value="unseen">Unseen</option><option value="learning">Learning</option><option value="mastered">Mastered</option><option value="missed">Missed</option>
+            </select>
+            <select class="sel" id="sortF" onchange="renderBrowse()" title="Sort questions">
+              <option value="default">Sort: Default</option><option value="mostMissed">Most Missed</option><option value="neverSeen">Never Seen First</option><option value="recentlyAdded">Recently Added</option><option value="alpha">Alphabetical</option>
+            </select>
           </div>
           <div class="q-list" id="qList">
             <div style="text-align:center;padding:40px;color:var(--white3);font-size:13px">Loading questions...</div>
@@ -11650,7 +11752,7 @@ A: WACC is the weighted average cost of capital."></textarea>
 
       </div>
       <div class="view" id="view-macro">
-        <div id="macro-all-content" style="flex:1;overflow-y:auto;padding:26px;box-sizing:border-box;min-height:0;">
+        <div id="macro-all-content" style="padding:26px;box-sizing:border-box;">
 
           <!-- HEADER -->
           <div
@@ -11983,6 +12085,329 @@ A: WACC is the weighted average cost of capital."></textarea>
                   </tr>
                 </tbody>
               </table>
+            </div>
+          </div>
+
+          <!-- ══ SECTION 4: FISCAL POLICY ══ -->
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:24px">
+            <div style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--white3)">🏛️ Fiscal Policy &amp; Government Finance</div>
+            <div style="flex:1;height:1px;background:var(--border2)"></div>
+            <div style="font-size:9px;color:var(--white3)">Source: MoF · indiabudget.gov.in</div>
+          </div>
+          <div class="macro-grid-4">
+            <div class="macro-kpi kpi-red" onclick="editMacroKpi('fiscaldef')" style="cursor:pointer">
+              <div class="macro-kpi-label">Fiscal Deficit (FY25) <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-fiscaldef">4.8% of GDP</div>
+              <div class="macro-kpi-sub" id="ms-fiscaldef">FY26 target: 4.4%. Capex ₹11.1L Cr in FY26 budget</div>
+              <div id="mt-fiscaldef" style="margin-top:6px"><span class="macro-kpi-trend trend-down">↓ Consolidating — glide path to 4.5% by FY26</span></div>
+            </div>
+            <div class="macro-kpi kpi-green" onclick="editMacroKpi('capex')" style="cursor:pointer">
+              <div class="macro-kpi-label">Govt Capex FY26 <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-capex">₹11.1L Cr</div>
+              <div class="macro-kpi-sub" id="ms-capex">Up ~17% YoY. Focus: roads, railways, defence</div>
+              <div id="mt-capex" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Crowding-in private investment</span></div>
+            </div>
+            <div class="macro-kpi kpi-blue" onclick="editMacroKpi('debtgdp')" style="cursor:pointer">
+              <div class="macro-kpi-label">Debt / GDP <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-debtgdp">~56%</div>
+              <div class="macro-kpi-sub" id="ms-debtgdp">Central + state combined. EM peers avg ~65%</div>
+              <div id="mt-debtgdp" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ Manageable vs peers; trending down</span></div>
+            </div>
+            <div class="macro-kpi kpi-orange" onclick="editMacroKpi('divestment')" style="cursor:pointer">
+              <div class="macro-kpi-label">Divestment Target FY26 <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-divestment">₹47,000 Cr</div>
+              <div class="macro-kpi-sub" id="ms-divestment">FY25 achieved only ~₹16,000 Cr vs ₹50,000 Cr target</div>
+              <div id="mt-divestment" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ Historically underachieved</span></div>
+            </div>
+          </div>
+
+          <!-- ══ SECTION 5: BANKING SYSTEM HEALTH ══ -->
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:24px">
+            <div style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--white3)">🏦 Banking System Health</div>
+            <div style="flex:1;height:1px;background:var(--border2)"></div>
+            <div style="font-size:9px;color:var(--white3)">Source: RBI FSR · Dec 2024</div>
+          </div>
+          <div class="macro-grid-4">
+            <div class="macro-kpi kpi-green" onclick="editMacroKpi('gnpa')" style="cursor:pointer">
+              <div class="macro-kpi-label">Gross NPA Ratio <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-gnpa">2.6%</div>
+              <div class="macro-kpi-sub" id="ms-gnpa">Sep 2024. 12-year low. Net NPA at ~0.6%</div>
+              <div id="mt-gnpa" style="margin-top:6px"><span class="macro-kpi-trend trend-down">↓ Best asset quality in a decade</span></div>
+            </div>
+            <div class="macro-kpi kpi-green" onclick="editMacroKpi('crar')" style="cursor:pointer">
+              <div class="macro-kpi-label">System CRAR <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-crar">16.8%</div>
+              <div class="macro-kpi-sub" id="ms-crar">Sep 2024. Well above RBI 11.5% minimum requirement</div>
+              <div id="mt-crar" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Banks well-capitalised</span></div>
+            </div>
+            <div class="macro-kpi kpi-blue" onclick="editMacroKpi('creditgrowth')" style="cursor:pointer">
+              <div class="macro-kpi-label">Bank Credit Growth <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-creditgrowth">11.5%</div>
+              <div class="macro-kpi-sub" id="ms-creditgrowth">YoY as of Jan 2025. Retail &amp; MSME leading</div>
+              <div id="mt-creditgrowth" style="margin-top:6px"><span class="macro-kpi-trend trend-down">↓ Moderation from 15%+ in FY24</span></div>
+            </div>
+            <div class="macro-kpi kpi-orange" onclick="editMacroKpi('cdrat')" style="cursor:pointer">
+              <div class="macro-kpi-label">Credit-Deposit Ratio <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-cdrat">78%</div>
+              <div class="macro-kpi-sub" id="ms-cdrat">RBI flagged it as elevated. Deposit growth lagging credit</div>
+              <div id="mt-cdrat" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ RBI watching — risk to liquidity</span></div>
+            </div>
+          </div>
+
+          <!-- ══ SECTION 6: CAPITAL MARKETS ══ -->
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:24px">
+            <div style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--white3)">📊 Capital Markets &amp; Flows</div>
+            <div style="flex:1;height:1px;background:var(--border2)"></div>
+            <div style="font-size:9px;color:var(--white3)">Source: NSE · SEBI · AMFI</div>
+          </div>
+          <div class="macro-grid-4">
+            <div class="macro-kpi kpi-orange" onclick="editMacroKpi('nifty')" style="cursor:pointer">
+              <div class="macro-kpi-label">Nifty 50 (approx.) <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-nifty">~22,500</div>
+              <div class="macro-kpi-sub" id="ms-nifty">~15% below Sep 2024 peak of 26,277. P/E ~19x</div>
+              <div id="mt-nifty" style="margin-top:6px"><span class="macro-kpi-trend trend-down">↓ Corrected — valuations more reasonable</span></div>
+            </div>
+            <div class="macro-kpi kpi-green" onclick="editMacroKpi('sip')" style="cursor:pointer">
+              <div class="macro-kpi-label">SIP Monthly Flows <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-sip">₹26,400 Cr</div>
+              <div class="macro-kpi-sub" id="ms-sip">Jan 2025. Record high. 10 Cr+ active SIP accounts</div>
+              <div id="mt-sip" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Retail financialisation structural trend</span></div>
+            </div>
+            <div class="macro-kpi kpi-purple" onclick="editMacroKpi('mfaum')" style="cursor:pointer">
+              <div class="macro-kpi-label">MF Industry AUM <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-mfaum">₹67L Cr</div>
+              <div class="macro-kpi-sub" id="ms-mfaum">Jan 2025. Crossed ₹50L Cr mark Nov 2023</div>
+              <div id="mt-mfaum" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Tripled in 5 years</span></div>
+            </div>
+            <div class="macro-kpi kpi-gold" onclick="editMacroKpi('ipomarket')" style="cursor:pointer">
+              <div class="macro-kpi-label">IPO Market FY25 <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-ipomarket">₹1.6L Cr</div>
+              <div class="macro-kpi-sub" id="ms-ipomarket">FY25 record issuance. 70+ mainboard IPOs</div>
+              <div id="mt-ipomarket" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Primary market boom</span></div>
+            </div>
+          </div>
+
+          <!-- ══ SECTION 7: TRADE & CURRENT ACCOUNT ══ -->
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:24px">
+            <div style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--white3)">🌐 Trade, Current Account &amp; Remittances</div>
+            <div style="flex:1;height:1px;background:var(--border2)"></div>
+            <div style="font-size:9px;color:var(--white3)">Source: RBI · DGCI&amp;S · Ministry of Commerce</div>
+          </div>
+          <div class="macro-grid-4">
+            <div class="macro-kpi kpi-red" onclick="editMacroKpi('cad')" style="cursor:pointer">
+              <div class="macro-kpi-label">Current Account Deficit <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-cad">1.2% of GDP</div>
+              <div class="macro-kpi-sub" id="ms-cad">Q2 FY25. Manageable. FY23 was -2.0% during energy crisis</div>
+              <div id="mt-cad" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ Contained — supported by services surplus</span></div>
+            </div>
+            <div class="macro-kpi kpi-blue" onclick="editMacroKpi('tradedef')" style="cursor:pointer">
+              <div class="macro-kpi-label">Merch. Trade Deficit <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-tradedef">~$23 bn/mo</div>
+              <div class="macro-kpi-sub" id="ms-tradedef">Jan 2025. Oil &amp; electronics dominate imports</div>
+              <div id="mt-tradedef" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ Structural — India is a net importer</span></div>
+            </div>
+            <div class="macro-kpi kpi-green" onclick="editMacroKpi('remit')" style="cursor:pointer">
+              <div class="macro-kpi-label">Remittances (FY25E) <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-remit">~$125 bn</div>
+              <div class="macro-kpi-sub" id="ms-remit">World's largest recipient. UAE, US, UK top sources</div>
+              <div id="mt-remit" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Key CAD buffer — ~3.5% of GDP</span></div>
+            </div>
+            <div class="macro-kpi kpi-purple" onclick="editMacroKpi('servexp')" style="cursor:pointer">
+              <div class="macro-kpi-label">Services Exports <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-servexp">~$340 bn</div>
+              <div class="macro-kpi-sub" id="ms-servexp">FY25E. IT/BPO, travel, finance. Surplus ~$160 bn</div>
+              <div id="mt-servexp" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Structural strength — offsets merch. deficit</span></div>
+            </div>
+          </div>
+
+          <!-- ══ SECTION 8: EMPLOYMENT & CONSUMPTION ══ -->
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:24px">
+            <div style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--white3)">👥 Employment, Consumption &amp; Rural Economy</div>
+            <div style="flex:1;height:1px;background:var(--border2)"></div>
+            <div style="font-size:9px;color:var(--white3)">Source: CMIE · MoRD · MoSPI</div>
+          </div>
+          <div class="macro-grid-4">
+            <div class="macro-kpi kpi-orange" onclick="editMacroKpi('unemp')" style="cursor:pointer">
+              <div class="macro-kpi-label">Urban Unemployment <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-unemp">7.8%</div>
+              <div class="macro-kpi-sub" id="ms-unemp">CMIE Jan 2025. Rural unemployment ~6.0%</div>
+              <div id="mt-unemp" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ Elevated vs pre-COVID; services hiring picking up</span></div>
+            </div>
+            <div class="macro-kpi kpi-green" onclick="editMacroKpi('mnrega')" style="cursor:pointer">
+              <div class="macro-kpi-label">MGNREGA Demand <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-mnrega">~22 Cr days/mo</div>
+              <div class="macro-kpi-sub" id="ms-mnrega">Rural distress indicator. Budget FY26: ₹86,000 Cr</div>
+              <div id="mt-mnrega" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ Rural safety net — watch for demand spikes</span></div>
+            </div>
+            <div class="macro-kpi kpi-blue" onclick="editMacroKpi('tractors')" style="cursor:pointer">
+              <div class="macro-kpi-label">Tractor Sales (Rural Proxy) <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-tractors">+12% YoY</div>
+              <div class="macro-kpi-sub" id="ms-tractors">Jan 2025. Strong rabi sowing + good kharif MSP</div>
+              <div id="mt-tractors" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Rural demand recovering</span></div>
+            </div>
+            <div class="macro-kpi kpi-gold" onclick="editMacroKpi('consindex')" style="cursor:pointer">
+              <div class="macro-kpi-label">FMCG Volume Growth <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-consindex">~5-6% YoY</div>
+              <div class="macro-kpi-sub" id="ms-consindex">Urban outperforming rural. Premium segment outpacing mass</div>
+              <div id="mt-consindex" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ K-shaped recovery — urban premiumisation</span></div>
+            </div>
+          </div>
+
+          <!-- ══ SECTION 9: GLOBAL LINKAGES ══ -->
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:24px">
+            <div style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--white3)">🌍 Global Macro Linkages</div>
+            <div style="flex:1;height:1px;background:var(--border2)"></div>
+            <div style="font-size:9px;color:var(--white3)">Source: Fed · IMF · Bloomberg</div>
+          </div>
+          <div class="macro-grid-4">
+            <div class="macro-kpi kpi-blue" onclick="editMacroKpi('fedrate')" style="cursor:pointer">
+              <div class="macro-kpi-label">US Fed Funds Rate <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-fedrate">4.25–4.50%</div>
+              <div class="macro-kpi-sub" id="ms-fedrate">Paused. Market pricing 1–2 cuts in 2025 post-inflation</div>
+              <div id="mt-fedrate" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ Higher-for-longer — DXY strength pressures INR</span></div>
+            </div>
+            <div class="macro-kpi kpi-orange" onclick="editMacroKpi('dxy')" style="cursor:pointer">
+              <div class="macro-kpi-label">DXY (USD Index) <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-dxy">~108</div>
+              <div class="macro-kpi-sub" id="ms-dxy">Strong USD = FII outflows from EMs incl. India</div>
+              <div id="mt-dxy" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Strong USD — key headwind for India</span></div>
+            </div>
+            <div class="macro-kpi kpi-gold" onclick="editMacroKpi('gold')" style="cursor:pointer">
+              <div class="macro-kpi-label">Gold Price <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-gold">~$2,650/oz</div>
+              <div class="macro-kpi-sub" id="ms-gold">India 2nd largest consumer. Import duty cut to 6% in Budget</div>
+              <div id="mt-gold" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Adds to CAD if demand surges</span></div>
+            </div>
+            <div class="macro-kpi kpi-purple" onclick="editMacroKpi('imfgdp')" style="cursor:pointer">
+              <div class="macro-kpi-label">IMF India GDP Forecast <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-val" id="mv-imfgdp">6.5% FY26</div>
+              <div class="macro-kpi-sub" id="ms-imfgdp">IMF WEO Jan 2025. Fastest growing major economy</div>
+              <div id="mt-imfgdp" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ India outpacing China (~4.5%) &amp; US (~2.7%)</span></div>
+            </div>
+          </div>
+
+          <!-- ══ DEEP DIVE TABLES ══ -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:24px;margin-bottom:24px">
+
+            <!-- GDP Decomposition Table -->
+            <div class="macro-card">
+              <div class="macro-card-title">India GDP — Demand Side Decomposition (FY25E)</div>
+              <table class="macro-table">
+                <tbody>
+                  <tr><th>Component</th><th>% of GDP</th><th>Growth YoY</th><th>Signal</th></tr>
+                  <tr><td>Private Consumption (PFCE)</td><td class="mnum">56%</td><td class="mgood">+7.3%</td><td>Urban recovery</td></tr>
+                  <tr><td>Govt Consumption (GFCE)</td><td class="mnum">11%</td><td class="mwarn">+4.1%</td><td>Restrained</td></tr>
+                  <tr><td>Gross Fixed Capital Formation</td><td class="mnum">33%</td><td class="mgood">+7.2%</td><td>Capex-led</td></tr>
+                  <tr><td>Exports (goods + services)</td><td class="mnum">23%</td><td class="mgood">+8.5%</td><td>Services strong</td></tr>
+                  <tr><td>Imports</td><td class="mnum">25%</td><td class="mbad">+9.0%</td><td>Oil &amp; electronics</td></tr>
+                  <tr><td><strong>GDP Growth (FY25E)</strong></td><td class="mnum">—</td><td class="mgood"><strong>6.4%</strong></td><td><strong>Capex-driven</strong></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Sector GDP Contribution Table -->
+            <div class="macro-card">
+              <div class="macro-card-title">GVA by Sector — Supply Side (FY25E)</div>
+              <table class="macro-table">
+                <tbody>
+                  <tr><th>Sector</th><th>% of GVA</th><th>Growth</th><th>Key Watch</th></tr>
+                  <tr><td>Agriculture &amp; Allied</td><td class="mnum">17%</td><td class="mgood">+3.8%</td><td>Rabi season</td></tr>
+                  <tr><td>Industry (Mfg + Mining)</td><td class="mnum">28%</td><td class="mwarn">+5.9%</td><td>IIP, PLI uptake</td></tr>
+                  <tr><td>Manufacturing</td><td class="mnum">17%</td><td class="mgood">+6.5%</td><td>PLI schemes</td></tr>
+                  <tr><td>Construction</td><td class="mnum">9%</td><td class="mgood">+8.2%</td><td>Infra push</td></tr>
+                  <tr><td>Services</td><td class="mnum">55%</td><td class="mgood">+7.1%</td><td>IT, BFSI, travel</td></tr>
+                  <tr><td>Finance &amp; Real Estate</td><td class="mnum">21%</td><td class="mgood">+7.9%</td><td>Credit growth</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- RBI Monetary Policy Transmission -->
+            <div class="macro-card">
+              <div class="macro-card-title">RBI Monetary Policy — Key Rates &amp; Transmission</div>
+              <table class="macro-table">
+                <tbody>
+                  <tr><th>Rate</th><th>Current</th><th>Direction</th><th>Purpose</th></tr>
+                  <tr><td>Repo Rate</td><td class="mgood">6.25%</td><td class="mgood">↓ Cutting</td><td>Lending rate floor</td></tr>
+                  <tr><td>SDF (Standing Deposit Facility)</td><td class="mnum">6.00%</td><td class="mgood">↓</td><td>Absorbs surplus liquidity</td></tr>
+                  <tr><td>MSF (Marginal Standing Facility)</td><td class="mnum">6.50%</td><td class="mgood">↓</td><td>Emergency bank borrowing</td></tr>
+                  <tr><td>CRR</td><td class="mgood">4.00%</td><td class="mgood">↓ Cut</td><td>Cash held with RBI</td></tr>
+                  <tr><td>SLR</td><td class="mnum">18.0%</td><td class="mwarn">→ Stable</td><td>G-Sec held by banks</td></tr>
+                  <tr><td>1-Yr MCLR (SBI)</td><td class="mnum">~8.75%</td><td class="mwarn">→</td><td>Actual lending rate benchmark</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- India vs Peers Comparison -->
+            <div class="macro-card">
+              <div class="macro-card-title">India vs EM Peers — Key Macro Scorecard</div>
+              <table class="macro-table">
+                <tbody>
+                  <tr><th>Metric</th><th>India</th><th>China</th><th>Brazil</th><th>Indonesia</th></tr>
+                  <tr><td>GDP Growth</td><td class="mgood">6.4%</td><td class="mwarn">4.5%</td><td class="mbad">2.2%</td><td class="mgood">5.2%</td></tr>
+                  <tr><td>Inflation (CPI)</td><td class="mgood">4.3%</td><td class="mgood">0.5%</td><td class="mbad">4.9%</td><td class="mgood">2.8%</td></tr>
+                  <tr><td>Policy Rate</td><td class="mnum">6.25%</td><td class="mgood">3.10%</td><td class="mbad">13.25%</td><td class="mwarn">6.00%</td></tr>
+                  <tr><td>Fiscal Deficit/GDP</td><td class="mwarn">4.8%</td><td class="mwarn">3.0%</td><td class="mbad">7.5%</td><td class="mgood">2.7%</td></tr>
+                  <tr><td>Debt/GDP</td><td class="mwarn">~56%</td><td class="mbad">~83%</td><td class="mbad">~88%</td><td class="mgood">~38%</td></tr>
+                  <tr><td>Forex Reserves</td><td class="mgood">$625bn</td><td class="mgood">$3.3tn</td><td class="mwarn">$345bn</td><td class="mwarn">$145bn</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- ══ EXTENDED INTERVIEW ANSWER TEMPLATES ══ -->
+          <div style="font-family:'DM Serif Display',serif;font-size:16px;color:var(--white);margin:0 0 14px;display:flex;align-items:center;gap:10px">
+            💬 More Interview Answer Templates
+            <span style="flex:1;height:1px;background:var(--border2);display:block"></span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
+
+            <div style="background:linear-gradient(135deg,var(--navy3),var(--navy4));border:1px solid var(--border);border-radius:12px;padding:16px 18px">
+              <div style="font-size:10px;font-weight:700;color:var(--gold2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px">Q: "What is the state of India's fiscal policy?"</div>
+              <div style="font-size:12px;color:var(--white2);line-height:1.8;font-style:italic">"India is on a fiscal consolidation path — the deficit narrows from 5.1% in FY24 to a target of 4.4% in FY26. The key feature of the current budget philosophy is <strong style="color:var(--white);font-style:normal">capex-led growth</strong> — ₹11.1L Cr in FY26 infrastructure spend is designed to crowd-in private investment. Revenue capex (roads, railways, urban infra) multipliers are estimated at 2.5–3x vs 1x for revenue expenditure. However, divestment has historically underdelivered, and interest payments now consume ~20% of government revenues — a structural constraint on fiscal flexibility."</div>
+            </div>
+
+            <div style="background:linear-gradient(135deg,var(--navy3),var(--navy4));border:1px solid var(--border);border-radius:12px;padding:16px 18px">
+              <div style="font-size:10px;font-weight:700;color:var(--gold2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px">Q: "How healthy is India's banking system?"</div>
+              <div style="font-size:12px;color:var(--white2);line-height:1.8;font-style:italic">"India's banks are in the best shape in a decade. Gross NPAs have fallen to ~2.6% — a 12-year low — and capital adequacy (CRAR at 16.8%) is well above the regulatory minimum. The prior NPA crisis of 2015–2019 has been substantially resolved through IBC, bank recapitalisations, and write-offs. The current risk to watch is the <strong style="color:var(--white);font-style:normal">elevated credit-deposit ratio (~78%)</strong> — credit has grown faster than deposits, which RBI has flagged as a systemic liquidity risk. Unsecured retail lending growth is also being monitored after RBI raised risk weights in late 2023."</div>
+            </div>
+
+            <div style="background:linear-gradient(135deg,var(--navy3),var(--navy4));border:1px solid var(--border);border-radius:12px;padding:16px 18px">
+              <div style="font-size:10px;font-weight:700;color:var(--gold2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px">Q: "What are the key risks to India's growth story?"</div>
+              <div style="font-size:12px;color:var(--white2);line-height:1.8;font-style:italic">"I'd highlight four: <strong style="color:var(--white);font-style:normal">(1) Geopolitical &amp; crude oil risk</strong> — India imports ~85% of oil; a supply shock to Brent significantly widens the CAD and INR. <strong style="color:var(--white);font-style:normal">(2) INR depreciation</strong> — at ₹86.5/$, further weakening raises import costs and triggers FII outflows. <strong style="color:var(--white);font-style:normal">(3) Private capex gap</strong> — government has been doing the heavy lifting; private sector investment has been sluggish due to capacity utilisation concerns. <strong style="color:var(--white);font-style:normal">(4) Rural consumption lag</strong> — despite urban recovery, rural demand remains uneven, making inflation in food (50% of CPI basket) a political and economic risk."</div>
+            </div>
+
+            <div style="background:linear-gradient(135deg,var(--navy3),var(--navy4));border:1px solid var(--border);border-radius:12px;padding:16px 18px">
+              <div style="font-size:10px;font-weight:700;color:var(--gold2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px">Q: "How do global factors affect Indian equities?"</div>
+              <div style="font-size:12px;color:var(--white2);line-height:1.8;font-style:italic">"Three global factors dominate Indian equity flows: <strong style="color:var(--white);font-style:normal">(1) US Fed policy</strong> — when the Fed holds rates high, the DXY strengthens (currently ~108), making EM assets less attractive and driving FII outflows from India (net -₹90,000 Cr in CY25 YTD). <strong style="color:var(--white);font-style:normal">(2) Crude oil</strong> — Brent at $74 is benign; above $90–95 it creates a stagflation risk for India via higher inflation and a wider CAD. <strong style="color:var(--white);font-style:normal">(3) US–China tensions</strong> — paradoxically a tailwind for India via supply chain diversification and China+1 manufacturing FDI."</div>
+            </div>
+
+            <div style="background:linear-gradient(135deg,var(--navy3),var(--navy4));border:1px solid var(--border);border-radius:12px;padding:16px 18px">
+              <div style="font-size:10px;font-weight:700;color:var(--gold2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px">Q: "Explain India's Current Account and what defends the INR?"</div>
+              <div style="font-size:12px;color:var(--white2);line-height:1.8;font-style:italic">"India structurally runs a current account deficit — goods imports (oil, electronics, gold) exceed exports, creating a merchandise deficit of ~$23bn/month. This is partially offset by a services surplus (~$160bn annually from IT/BPO/travel) and remittances (~$125bn, world's largest). The CAD is currently manageable at ~1.2% of GDP. The INR is defended by <strong style="color:var(--white);font-style:normal">RBI's $625bn forex reserves</strong> (~11 months import cover) and active intervention — the RBI sold dollars aggressively when INR breached 87 to prevent overshooting. The risk is a sharp crude spike widening the CAD and forcing the RBI to choose between reserves and INR."</div>
+            </div>
+
+            <div style="background:linear-gradient(135deg,var(--navy3),var(--navy4));border:1px solid var(--border);border-radius:12px;padding:16px 18px">
+              <div style="font-size:10px;font-weight:700;color:var(--gold2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px">Q: "What does the SIP/MF data tell you about Indian markets?"</div>
+              <div style="font-size:12px;color:var(--white2);line-height:1.8;font-style:italic">"SIP inflows at ₹26,400 Cr/month (record) and MF AUM of ₹67L Cr are structural, not cyclical — they reflect the financialisation of household savings, with 10 Cr+ SIP accounts. This has two market implications: <strong style="color:var(--white);font-style:normal">(1) DII buying power</strong> absorbs FII selling (which is exactly what happened in CY25 when FIIs sold ₹90,000 Cr but markets didn't collapse). <strong style="color:var(--white);font-style:normal">(2) Valuation floor</strong> — consistent domestic demand has compressed the typical correction depth. Historically Nifty corrections were 25–30%; the CY25 correction to ~22,500 is only ~15%. The risk: if SIPs slow during a deep correction, the support mechanism weakens — a 'SIP shock absorber' hypothesis that hasn't been stress-tested in a prolonged bear market."</div>
+            </div>
+          </div>
+
+          <!-- ══ QUICK CHEATSHEET ══ -->
+          <div style="background:var(--gold-bg2);border:1.5px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:10px">
+            <div style="font-family:'DM Serif Display',serif;font-size:15px;color:var(--white);margin-bottom:12px">⚡ Quick Cheat Sheet — Numbers to Know Cold</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px 20px;font-size:11.5px;color:var(--white2);line-height:1.8">
+              <div><span style="color:var(--gold2);font-weight:600">India GDP size:</span> ~$3.7 trillion (FY25E) — 5th largest globally</div>
+              <div><span style="color:var(--gold2);font-weight:600">Nominal GDP growth:</span> ~10.5% (real 6.4% + ~4% deflator)</div>
+              <div><span style="color:var(--gold2);font-weight:600">Per capita GDP:</span> ~$2,600 (USD) — still EM, huge headroom</div>
+              <div><span style="color:var(--gold2);font-weight:600">RBI inflation target:</span> 4% ± 2% band (2–6% tolerance)</div>
+              <div><span style="color:var(--gold2);font-weight:600">Food weight in CPI:</span> ~46% — why monsoon drives inflation</div>
+              <div><span style="color:var(--gold2);font-weight:600">India's oil import bill:</span> ~$130–150bn/yr (~85% imported)</div>
+              <div><span style="color:var(--gold2);font-weight:600">Nifty 50 P/E (current):</span> ~19x — below 5-yr avg of ~22x</div>
+              <div><span style="color:var(--gold2);font-weight:600">India market cap/GDP:</span> ~130% — elevated but justified by growth</div>
+              <div><span style="color:var(--gold2);font-weight:600">NSE listed companies:</span> 2,200+ (market cap ~₹380L Cr)</div>
+              <div><span style="color:var(--gold2);font-weight:600">IBC resolution rate:</span> ~45% recovery vs 25% in old BIFR regime</div>
+              <div><span style="color:var(--gold2);font-weight:600">PLI scheme outlay:</span> ₹1.97L Cr across 14 sectors</div>
+              <div><span style="color:var(--gold2);font-weight:600">India FDI inflows FY25:</span> ~$45bn — manufacturing &amp; services</div>
             </div>
           </div>
 
@@ -13546,16 +13971,16 @@ A: WACC is the weighted average cost of capital."></textarea>
             '<style>' + csPrintStyles() + '</style>' +
             '</head><body>' +
 
-            // Cover header
+            // Compact inline header — sits above page 1 content, no page break after
             '<div class="cs-print-header">' +
-            '<div class="cs-print-logo">Finance <span>Analyst</span> Toolkit</div>' +
-            '<div class="cs-print-meta">Interview Cheatsheet &nbsp;·&nbsp; ' + dateStr + '</div>' +
-            '<div class="cs-print-topics">' + titles.join(' &nbsp;·&nbsp; ') + '</div>' +
+            '<div><div class="cs-print-logo">Finance <span>Analyst</span> Toolkit</div>' +
+            '<div class="cs-print-meta">Interview Cheatsheet &nbsp;·&nbsp; ' + dateStr + '</div></div>' +
+            '<div class="cs-print-right"><div class="cs-print-topics">' + titles.join(' · ') + '</div></div>' +
             '</div>' +
 
             sectionsHTML +
 
-            '<div class="cs-print-footer">Finance Analyst Toolkit &nbsp;·&nbsp; ' + dateStr + ' &nbsp;·&nbsp; For personal study use</div>' +
+            '<div class="cs-print-footer">Finance Analyst Toolkit &nbsp;·&nbsp; ' + dateStr + ' &nbsp;·&nbsp; For personal study use only</div>' +
             '</body></html>';
         }
 
@@ -13563,107 +13988,112 @@ A: WACC is the weighted average cost of capital."></textarea>
           return [
             '*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }',
             'body { font-family: "Outfit", sans-serif; font-size: 10pt; line-height: 1.5; color: #1A1F2E; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }',
-            '@page { size: A4; margin: 14mm 12mm 14mm 12mm; }',
+            '@page { size: A4; margin: 12mm 12mm 12mm 12mm; }',
 
-            // Cover header
-            '.cs-print-header { margin-bottom: 18pt; padding-bottom: 12pt; border-bottom: 2pt solid #9A6A1A; }',
-            '.cs-print-logo { font-family: "DM Serif Display", serif; font-size: 20pt; color: #1A1F2E; line-height: 1.1; }',
+            // Compact inline header — NOT a full page
+            '.cs-print-header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 8pt; border-bottom: 2pt solid #9A6A1A; margin-bottom: 14pt; flex-wrap: wrap; gap: 6pt; page-break-after: avoid; break-after: avoid; }',
+            '.cs-print-logo { font-family: "DM Serif Display", serif; font-size: 16pt; color: #1A1F2E; line-height: 1.1; }',
             '.cs-print-logo span { color: #9A6A1A; }',
-            '.cs-print-meta { font-size: 8pt; color: #666; margin-top: 3pt; text-transform: uppercase; letter-spacing: .06em; }',
-            '.cs-print-topics { font-size: 9pt; color: #9A6A1A; font-weight: 600; margin-top: 5pt; }',
+            '.cs-print-right { text-align: right; }',
+            '.cs-print-meta { font-size: 7.5pt; color: #888; text-transform: uppercase; letter-spacing: .05em; }',
+            '.cs-print-topics { font-size: 8pt; color: #9A6A1A; font-weight: 600; margin-top: 2pt; }',
 
-            // Section dividers
-            '.cs-section { margin-bottom: 20pt; page-break-inside: avoid; break-inside: avoid; }',
-            '.cs-section-header { display: flex; align-items: center; gap: 8pt; margin-bottom: 10pt; padding-bottom: 6pt; border-bottom: 1.5pt solid #e4e8f2; }',
-            '.cs-section-icon { font-size: 14pt; }',
-            '.cs-section-title { font-family: "DM Serif Display", serif; font-size: 14pt; color: #1A1F2E; }',
+            // Section dividers — no forced page break before first section
+            '.cs-section { margin-bottom: 16pt; }',
+            '.cs-section + .cs-section { page-break-before: auto; break-before: auto; }',
+            '.cs-section-header { display: flex; align-items: center; gap: 6pt; margin-bottom: 8pt; padding: 5pt 8pt; background: #faf8f0; border-left: 2.5pt solid #9A6A1A; border-radius: 0 4pt 4pt 0; page-break-after: avoid; break-after: avoid; }',
+            '.cs-section-icon { font-size: 12pt; }',
+            '.cs-section-title { font-family: "DM Serif Display", serif; font-size: 13pt; color: #1A1F2E; }',
+
+            // Prevent orphaned section headers
+            '.cs-section-header + * { page-break-before: avoid; break-before: avoid; }',
 
             // Grids
-            '.dcf-grid, .fs-grid, .mod-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8pt; margin-bottom: 10pt; }',
-            '.dcf-grid-3, .fs-grid-3, .mod-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6pt; margin-bottom: 10pt; }',
+            '.dcf-grid, .fs-grid, .mod-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7pt; margin-bottom: 9pt; }',
+            '.dcf-grid-3, .fs-grid-3, .mod-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5pt; margin-bottom: 9pt; }',
 
             // Cards
-            '.dcf-card, .fs-card, .mod-card, .macro-card { border: 1pt solid #e4e8f2; border-radius: 5pt; padding: 8pt; page-break-inside: avoid; break-inside: avoid; }',
-            '.dcf-card-title, .fs-card-title, .mod-card-title, .macro-card-title { font-size: 7pt; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #9A6A1A; margin-bottom: 7pt; padding-bottom: 5pt; border-bottom: 1pt solid #e4e8f2; }',
+            '.dcf-card, .fs-card, .mod-card, .macro-card { border: 1pt solid #e4e8f2; border-radius: 4pt; padding: 7pt; page-break-inside: avoid; break-inside: avoid; }',
+            '.dcf-card-title, .fs-card-title, .mod-card-title, .macro-card-title { font-size: 7pt; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #9A6A1A; margin-bottom: 6pt; padding-bottom: 4pt; border-bottom: 1pt solid #e4e8f2; }',
             '.dcf-card-title::after, .fs-card-title::after, .mod-card-title::after { display: none; }',
 
             // Steps
-            '.dcf-step { display: flex; gap: 8pt; padding: 6pt 0; border-bottom: 1pt solid #f0f2f8; }',
+            '.dcf-step { display: flex; gap: 7pt; padding: 5pt 0; border-bottom: 1pt solid #f0f2f8; page-break-inside: avoid; break-inside: avoid; }',
             '.dcf-step:last-child { border-bottom: none; }',
-            '.dcf-step-num { width: 18pt; height: 18pt; border-radius: 50%; background: #f0f2f8; border: 1pt solid #9A6A1A; color: #9A6A1A; font-size: 8pt; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }',
-            '.dcf-step-title { font-size: 9pt; font-weight: 700; color: #1A1F2E; margin-bottom: 2pt; }',
-            '.dcf-step-desc { font-size: 8.5pt; color: #444; line-height: 1.45; }',
+            '.dcf-step-num { width: 16pt; height: 16pt; border-radius: 50%; background: #f0f2f8; border: 1pt solid #9A6A1A; color: #9A6A1A; font-size: 7.5pt; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }',
+            '.dcf-step-title { font-size: 8.5pt; font-weight: 700; color: #1A1F2E; margin-bottom: 2pt; }',
+            '.dcf-step-desc { font-size: 8pt; color: #444; line-height: 1.4; }',
 
             // Formulas
-            '.dcf-formula, .fs-formula, .mod-formula { background: #f8f9fc; border: 1pt solid #e4e8f2; border-left: 2.5pt solid #9A6A1A; border-radius: 0 4pt 4pt 0; padding: 6pt 8pt; font-family: "IBM Plex Mono", monospace; font-size: 8pt; line-height: 1.7; color: #1A1F2E; margin-bottom: 7pt; white-space: pre-wrap; }',
+            '.dcf-formula, .fs-formula, .mod-formula { background: #f8f9fc; border: 1pt solid #e4e8f2; border-left: 2pt solid #9A6A1A; border-radius: 0 4pt 4pt 0; padding: 5pt 7pt; font-family: "IBM Plex Mono", monospace; font-size: 7.5pt; line-height: 1.65; color: #1A1F2E; margin-bottom: 6pt; white-space: pre-wrap; page-break-inside: avoid; break-inside: avoid; }',
             '.dcf-formula::before, .fs-formula::before { display: none; }',
-            '.dcf-hl, .fhl, .fs-formula .fhl { color: #7A5010; font-weight: 600; }',
-            '.dcf-cm, .fcm { color: #888; font-size: 7.5pt; }',
+            '.dcf-hl, .fhl { color: #7A5010; font-weight: 600; }',
+            '.dcf-cm, .fcm { color: #888; font-size: 7pt; }',
             '.dcf-op, .fop { color: #5B4FCF; }',
-            'code { font-family: "IBM Plex Mono", monospace; font-size: 7.5pt; background: #f0f2f8; padding: 0 3pt; border-radius: 2pt; color: #7A5010; }',
+            'code { font-family: "IBM Plex Mono", monospace; font-size: 7pt; background: #f0f2f8; padding: 0 3pt; border-radius: 2pt; color: #7A5010; }',
 
             // Tables
-            'table { width: 100%; border-collapse: collapse; font-size: 8.5pt; margin-bottom: 8pt; }',
-            'th { font-size: 7pt; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #9A6A1A; padding: 5pt 7pt; background: #faf8f0; border-bottom: 1.5pt solid #e4d5b0; text-align: left; }',
-            'td { padding: 5pt 7pt; border-bottom: 1pt solid #f0f2f8; vertical-align: top; color: #333; }',
+            'table { width: 100%; border-collapse: collapse; font-size: 8pt; margin-bottom: 7pt; page-break-inside: avoid; break-inside: avoid; }',
+            'th { font-size: 6.5pt; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: #9A6A1A; padding: 4pt 6pt; background: #faf8f0; border-bottom: 1.5pt solid #e4d5b0; text-align: left; }',
+            'td { padding: 4pt 6pt; border-bottom: 1pt solid #f0f2f8; vertical-align: top; color: #333; }',
             'tr:last-child td { border-bottom: none; }',
             'tr:nth-child(even) td { background: #fafafa; }',
             'td:first-child { font-weight: 600; color: #1A1F2E; }',
-            '.ratio-formula { font-family: "IBM Plex Mono", monospace; font-size: 7.5pt; color: #7A5010; background: #faf8f0; padding: 3pt 5pt; border-radius: 3pt; }',
+            '.ratio-formula { font-family: "IBM Plex Mono", monospace; font-size: 7pt; color: #7A5010; background: #faf8f0; padding: 2pt 4pt; border-radius: 2pt; }',
             '.ratio-good { color: #0D7A55 !important; font-weight: 600; }',
             '.ratio-bad  { color: #C0392B !important; }',
 
             // Warn/tip boxes
-            '.dcf-warn, .fs-pitfall, .mod-warn { background: #fff5f5; border-left: 2.5pt solid #C0392B; border-radius: 0 4pt 4pt 0; padding: 5pt 8pt; margin-bottom: 5pt; font-size: 8.5pt; display: flex; gap: 6pt; }',
-            '.dcf-tip, .fs-tip, .mod-tip { background: #f0faf5; border-left: 2.5pt solid #0D7A55; border-radius: 0 4pt 4pt 0; padding: 5pt 8pt; margin-bottom: 5pt; font-size: 8.5pt; display: flex; gap: 6pt; }',
+            '.dcf-warn, .fs-pitfall, .mod-warn { background: #fff5f5; border-left: 2pt solid #C0392B; border-radius: 0 4pt 4pt 0; padding: 4pt 7pt; margin-bottom: 4pt; font-size: 8pt; display: flex; gap: 5pt; page-break-inside: avoid; break-inside: avoid; }',
+            '.dcf-tip, .fs-tip, .mod-tip { background: #f0faf5; border-left: 2pt solid #0D7A55; border-radius: 0 4pt 4pt 0; padding: 4pt 7pt; margin-bottom: 4pt; font-size: 8pt; display: flex; gap: 5pt; page-break-inside: avoid; break-inside: avoid; }',
             '.dcf-warn-text strong, .dcf-tip-text strong { display: inline; }',
 
             // Section descriptions
-            '.dcf-section-desc, .fs-section-desc, .mod-section-desc, .ratio-section-desc { background: #faf8f0; border-left: 2.5pt solid #9A6A1A; border-radius: 0 4pt 4pt 0; padding: 6pt 9pt; font-size: 9pt; margin-bottom: 10pt; color: #333; }',
+            '.dcf-section-desc, .fs-section-desc, .mod-section-desc, .ratio-section-desc { background: #faf8f0; border-left: 2pt solid #9A6A1A; border-radius: 0 4pt 4pt 0; padding: 5pt 8pt; font-size: 8.5pt; margin-bottom: 8pt; color: #333; page-break-inside: avoid; break-inside: avoid; }',
 
             // Section heads
-            '.dcf-section-head, .fs-section-head, .mod-section-head { font-family: "DM Serif Display", serif; font-size: 12pt; color: #1A1F2E; margin: 12pt 0 7pt; padding-bottom: 5pt; border-bottom: 1pt solid #e4e8f2; }',
+            '.dcf-section-head, .fs-section-head, .mod-section-head { font-family: "DM Serif Display", serif; font-size: 11pt; color: #1A1F2E; margin: 10pt 0 6pt; padding-bottom: 4pt; border-bottom: 1pt solid #e4e8f2; page-break-after: avoid; break-after: avoid; }',
             '.dcf-section-head::after, .fs-section-head::after, .mod-section-head::after { display: none; }',
 
             // Shortcut keys
-            '.mod-key { font-family: "IBM Plex Mono", monospace; font-size: 7.5pt; background: #f0f2f8; border: 1pt solid #ccc; border-bottom: 1.5pt solid #bbb; border-radius: 3pt; padding: 1pt 5pt; color: #1A1F2E; display: inline-block; }',
-            '.mod-shortcut-row { display: flex; align-items: center; gap: 8pt; padding: 4pt 0; border-bottom: 1pt solid #f0f2f8; font-size: 8.5pt; }',
+            '.mod-key { font-family: "IBM Plex Mono", monospace; font-size: 7pt; background: #f0f2f8; border: 1pt solid #ccc; border-bottom: 1.5pt solid #bbb; border-radius: 3pt; padding: 1pt 4pt; color: #1A1F2E; display: inline-block; }',
+            '.mod-shortcut-row { display: flex; align-items: center; gap: 7pt; padding: 3pt 0; border-bottom: 1pt solid #f0f2f8; font-size: 8pt; }',
             '.mod-shortcut-row:last-child { border-bottom: none; }',
-            '.mod-shortcut-keys { min-width: 100pt; display: flex; align-items: center; gap: 3pt; flex-wrap: wrap; }',
+            '.mod-shortcut-keys { min-width: 90pt; display: flex; align-items: center; gap: 3pt; flex-wrap: wrap; }',
 
             // Chips/badges
-            '.chip, .dcf-badge, .rsc-badge { font-size: 7pt; font-weight: 700; padding: 1pt 5pt; border-radius: 4pt; background: #f0f2f8; color: #1A1F2E; border: none; display: inline-block; }',
+            '.chip, .dcf-badge, .rsc-badge { font-size: 6.5pt; font-weight: 700; padding: 1pt 4pt; border-radius: 3pt; background: #f0f2f8; color: #1A1F2E; border: none; display: inline-block; }',
 
             // FS linkage rows
-            '.fs-link-row { display: flex; align-items: flex-start; gap: 8pt; padding: 5pt 0; border-bottom: 1pt solid #f0f2f8; font-size: 8.5pt; }',
-            '.fs-link-from { font-weight: 700; color: #7A5010; min-width: 110pt; }',
+            '.fs-link-row { display: flex; align-items: flex-start; gap: 7pt; padding: 4pt 0; border-bottom: 1pt solid #f0f2f8; font-size: 8pt; }',
+            '.fs-link-from { font-weight: 700; color: #7A5010; min-width: 100pt; }',
             '.fs-link-arrow { color: #888; }',
             '.fs-link-to { color: #444; flex: 1; }',
 
             // Footer
-            '.cs-print-footer { margin-top: 18pt; padding-top: 8pt; border-top: 1pt solid #e4e8f2; font-size: 7.5pt; color: #999; text-align: center; }',
+            '.cs-print-footer { margin-top: 14pt; padding-top: 6pt; border-top: 1pt solid #e4e8f2; font-size: 7pt; color: #aaa; text-align: center; }',
 
             // Sensitivity table
-            '.sens-table { font-family: "IBM Plex Mono", monospace; }',
+            '.sens-table { font-family: "IBM Plex Mono", monospace; font-size: 7.5pt; }',
             '.sens-base { background: #faf8f0 !important; color: #7A5010 !important; font-weight: 700; }',
             '.sens-bull { background: #f0faf5 !important; color: #0D7A55 !important; }',
             '.sens-bear { background: #fff5f5 !important; color: #C0392B !important; }',
 
             // Football field
-            '.football-bar { display: flex; align-items: center; gap: 8pt; margin-bottom: 5pt; }',
-            '.football-label { font-size: 8.5pt; font-weight: 600; min-width: 90pt; text-align: right; }',
-            '.football-track { flex: 1; height: 14pt; background: #f0f2f8; border-radius: 3pt; position: relative; overflow: hidden; }',
-            '.football-range { position: absolute; height: 100%; border-radius: 3pt; display: flex; align-items: center; justify-content: center; font-size: 7pt; font-weight: 700; }',
+            '.football-bar { display: flex; align-items: center; gap: 7pt; margin-bottom: 4pt; }',
+            '.football-label { font-size: 8pt; font-weight: 600; min-width: 80pt; text-align: right; }',
+            '.football-track { flex: 1; height: 12pt; background: #f0f2f8; border-radius: 3pt; position: relative; overflow: hidden; }',
+            '.football-range { position: absolute; height: 100%; border-radius: 3pt; display: flex; align-items: center; justify-content: center; font-size: 6.5pt; font-weight: 700; }',
 
             // KPI grids  
-            '.fs-kpi-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 6pt; margin-bottom: 8pt; }',
-            '.fs-kpi { border: 1pt solid #e4e8f2; border-radius: 4pt; padding: 5pt; }',
-            '.fs-kpi-label { font-size: 7pt; text-transform: uppercase; letter-spacing: .06em; color: #888; margin-bottom: 3pt; }',
-            '.fs-kpi-val { font-family: "IBM Plex Mono", monospace; font-size: 9pt; font-weight: 700; color: #7A5010; }',
+            '.fs-kpi-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 5pt; margin-bottom: 7pt; }',
+            '.fs-kpi { border: 1pt solid #e4e8f2; border-radius: 3pt; padding: 4pt; }',
+            '.fs-kpi-label { font-size: 6.5pt; text-transform: uppercase; letter-spacing: .05em; color: #888; margin-bottom: 2pt; }',
+            '.fs-kpi-val { font-family: "IBM Plex Mono", monospace; font-size: 8.5pt; font-weight: 700; color: #7A5010; }',
 
-            // Page breaks
-            '.dcf-card, .fs-card, .mod-card, .dcf-step, .cs-section { page-break-inside: avoid; break-inside: avoid; }',
-            '.cs-section + .cs-section { page-break-before: auto; }',
+            // Hide interactive elements
+            'button, .copy-btn, [onclick] { pointer-events: none; }',
+            '.dcf-tab-btn, .fs-tab-btn, .mod-tab, .ratio-tab-btn, .rm-tab { display: none !important; }',
           ].join('\n');
         }
 
@@ -13919,6 +14349,7 @@ A: WACC is the weighted average cost of capital."></textarea>
             '<div class="sc-icon">' + icon + '</div>' +
             '<div class="sc-title">' + title + '</div>' +
             '<div class="sc-sub">' + subtitle + '</div>' +
+            '<div id="scRecommendation" style="display:none;margin-bottom:16px"></div>' +
             '<div class="sc-stats">' +
             '<div class="sc-stat"><div class="sc-val c-green">' + results.got + '</div><div class="sc-lab">Got It ✅</div></div>' +
             '<div class="sc-stat"><div class="sc-val c-gold">' + results.almost + '</div><div class="sc-lab">Almost 🤔</div></div>' +
@@ -14424,10 +14855,16 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
           openFsTab(panelId, ids.indexOf(panelId));
         }
 
-        var MACRO_DEFAULTS = { repo: { val: "6.25%", note: "Cut 25bps Feb 2025. Next MPC: Apr 2025", trend: "\u2193 Easing cycle started", trendCls: "trend-down" }, gsec: { val: "6.68%", note: "Down ~40bps from Oct 2024 high of ~7.1%", trend: "\u2193 Falling on rate cut expectations", trendCls: "trend-down" }, cpi: { val: "4.31%", note: "Jan 2025. Back within RBI 4% target band", trend: "\u2193 Easing \u2014 veg prices normalising", trendCls: "trend-down" }, crr: { val: "4.00%", note: "Cut 50bps Dec 2024. Injects \u20b91.16L Cr liquidity", trend: "\u2193 Cut to ease system liquidity", trendCls: "trend-down" }, gdp: { val: "6.4%", note: "FY25 advance estimate. FY24 was 8.2%", trend: "\u2193 Moderation from FY24 peak", trendCls: "trend-down" }, wpi: { val: "2.31%", note: "Jan 2025. Mfg goods deflation persists", trend: "\u2192 Low \u2014 input cost benign", trendCls: "trend-flat" }, iip: { val: "3.2%", note: "Dec 2024 YoY. Manufacturing at 3.0%", trend: "\u2192 Modest industrial recovery", trendCls: "trend-flat" }, gst: { val: "\u20b91.96L Cr", note: "Jan 2025. 2nd highest ever. +12.3% YoY", trend: "\u2191 Strong consumption signal", trendCls: "trend-up" }, inr: { val: "\u20b986.5", note: "Weakened ~5% in FY25. RBI intervening", trend: "\u2193 INR under pressure vs USD", trendCls: "trend-down" }, fii: { val: "-\u20b982,000 Cr", note: "CY2025 YTD. DII buying offsetting outflows", trend: "\u2193 FII net sellers \u2014 USD strength", trendCls: "trend-down" }, crude: { val: "$74", note: "Per barrel. India imports ~85% of oil", trend: "\u2192 Range-bound \u2014 benign for India", trendCls: "trend-flat" }, forex: { val: "$625 bn", note: "Feb 2025. ~11 months import cover", trend: "\u2193 Fell from $700bn peak \u2014 RBI intervention", trendCls: "trend-down" } };
+        var MACRO_DEFAULTS = { repo: { val: "6.25%", note: "Cut 25bps Feb 2025. Next MPC: Apr 2025", trend: "\u2193 Easing cycle started", trendCls: "trend-down" }, gsec: { val: "6.68%", note: "Down ~40bps from Oct 2024 high of ~7.1%", trend: "\u2193 Falling on rate cut expectations", trendCls: "trend-down" }, cpi: { val: "4.31%", note: "Jan 2025. Back within RBI 4% target band", trend: "\u2193 Easing \u2014 veg prices normalising", trendCls: "trend-down" }, crr: { val: "4.00%", note: "Cut 50bps Dec 2024. Injects \u20b91.16L Cr liquidity", trend: "\u2193 Cut to ease system liquidity", trendCls: "trend-down" }, gdp: { val: "6.4%", note: "FY25 advance estimate. FY24 was 8.2%", trend: "\u2193 Moderation from FY24 peak", trendCls: "trend-down" }, wpi: { val: "2.31%", note: "Jan 2025. Mfg goods deflation persists", trend: "\u2192 Low \u2014 input cost benign", trendCls: "trend-flat" }, iip: { val: "3.2%", note: "Dec 2024 YoY. Manufacturing at 3.0%", trend: "\u2192 Modest industrial recovery", trendCls: "trend-flat" }, gst: { val: "\u20b91.96L Cr", note: "Jan 2025. 2nd highest ever. +12.3% YoY", trend: "\u2191 Strong consumption signal", trendCls: "trend-up" }, inr: { val: "\u20b986.5", note: "Weakened ~5% in FY25. RBI intervening", trend: "\u2193 INR under pressure vs USD", trendCls: "trend-down" }, fii: { val: "-\u20b982,000 Cr", note: "CY2025 YTD. DII buying offsetting outflows", trend: "\u2193 FII net sellers \u2014 USD strength", trendCls: "trend-down" }, crude: { val: "$74", note: "Per barrel. India imports ~85% of oil", trend: "\u2192 Range-bound \u2014 benign for India", trendCls: "trend-flat" }, forex: { val: "$625 bn", note: "Feb 2025. ~11 months import cover", trend: "\u2193 Fell from $700bn peak \u2014 RBI intervention", trendCls: "trend-down" },
+fiscaldef: { val: "4.8% of GDP", note: "FY26 target: 4.4%. Capex \u20b911.1L Cr in FY26 budget", trend: "\u2193 Consolidating \u2014 glide path to 4.5% by FY26", trendCls: "trend-down" }, capex: { val: "\u20b911.1L Cr", note: "Up ~17% YoY. Focus: roads, railways, defence", trend: "\u2191 Crowding-in private investment", trendCls: "trend-up" }, debtgdp: { val: "~56%", note: "Central + state combined. EM peers avg ~65%", trend: "\u2192 Manageable vs peers; trending down", trendCls: "trend-flat" }, divestment: { val: "\u20b947,000 Cr", note: "FY25 achieved only ~\u20b916,000 Cr vs \u20b950,000 Cr target", trend: "\u2192 Historically underachieved", trendCls: "trend-flat" },
+gnpa: { val: "2.6%", note: "Sep 2024. 12-year low. Net NPA at ~0.6%", trend: "\u2193 Best asset quality in a decade", trendCls: "trend-down" }, crar: { val: "16.8%", note: "Sep 2024. Well above RBI 11.5% minimum requirement", trend: "\u2191 Banks well-capitalised", trendCls: "trend-up" }, creditgrowth: { val: "11.5%", note: "YoY as of Jan 2025. Retail & MSME leading", trend: "\u2193 Moderation from 15%+ in FY24", trendCls: "trend-down" }, cdrat: { val: "78%", note: "RBI flagged it as elevated. Deposit growth lagging credit", trend: "\u2192 RBI watching \u2014 risk to liquidity", trendCls: "trend-flat" },
+nifty: { val: "~22,500", note: "~15% below Sep 2024 peak of 26,277. P/E ~19x", trend: "\u2193 Corrected \u2014 valuations more reasonable", trendCls: "trend-down" }, sip: { val: "\u20b926,400 Cr", note: "Jan 2025. Record high. 10 Cr+ active SIP accounts", trend: "\u2191 Retail financialisation structural trend", trendCls: "trend-up" }, mfaum: { val: "\u20b967L Cr", note: "Jan 2025. Crossed \u20b950L Cr mark Nov 2023", trend: "\u2191 Tripled in 5 years", trendCls: "trend-up" }, ipomarket: { val: "\u20b91.6L Cr", note: "FY25 record issuance. 70+ mainboard IPOs", trend: "\u2191 Primary market boom", trendCls: "trend-up" },
+cad: { val: "1.2% of GDP", note: "Q2 FY25. Manageable. FY23 was -2.0% during energy crisis", trend: "\u2192 Contained \u2014 supported by services surplus", trendCls: "trend-flat" }, tradedef: { val: "~$23 bn/mo", note: "Jan 2025. Oil & electronics dominate imports", trend: "\u2192 Structural \u2014 India is a net importer", trendCls: "trend-flat" }, remit: { val: "~$125 bn", note: "World's largest recipient. UAE, US, UK top sources", trend: "\u2191 Key CAD buffer \u2014 ~3.5% of GDP", trendCls: "trend-up" }, servexp: { val: "~$340 bn", note: "FY25E. IT/BPO, travel, finance. Surplus ~$160 bn", trend: "\u2191 Structural strength \u2014 offsets merch. deficit", trendCls: "trend-up" },
+unemp: { val: "7.8%", note: "CMIE Jan 2025. Rural unemployment ~6.0%", trend: "\u2192 Elevated vs pre-COVID; services hiring picking up", trendCls: "trend-flat" }, mnrega: { val: "~22 Cr days/mo", note: "Rural distress indicator. Budget FY26: \u20b986,000 Cr", trend: "\u2192 Rural safety net \u2014 watch for demand spikes", trendCls: "trend-flat" }, tractors: { val: "+12% YoY", note: "Jan 2025. Strong rabi sowing + good kharif MSP", trend: "\u2191 Rural demand recovering", trendCls: "trend-up" }, consindex: { val: "~5-6% YoY", note: "Urban outperforming rural. Premium segment outpacing mass", trend: "\u2191 K-shaped recovery \u2014 urban premiumisation", trendCls: "trend-up" },
+fedrate: { val: "4.25\u20134.50%", note: "Paused. Market pricing 1\u20132 cuts in 2025 post-inflation", trend: "\u2192 Higher-for-longer \u2014 DXY strength pressures INR", trendCls: "trend-flat" }, dxy: { val: "~108", note: "Strong USD = FII outflows from EMs incl. India", trend: "\u2191 Strong USD \u2014 key headwind for India", trendCls: "trend-up" }, gold: { val: "~$2,650/oz", note: "India 2nd largest consumer. Import duty cut to 6% in Budget", trend: "\u2191 Adds to CAD if demand surges", trendCls: "trend-up" }, imfgdp: { val: "6.5% FY26", note: "IMF WEO Jan 2025. Fastest growing major economy", trend: "\u2191 India outpacing China (~4.5%) & US (~2.7%)", trendCls: "trend-up" } };
         var _mKey = "";
         function loadMacroKpis() { try { var s = JSON.parse(localStorage.getItem("macro_kpis_v2") || "{}"); Object.keys(MACRO_DEFAULTS).forEach(function (k) { var d = s[k] || MACRO_DEFAULTS[k]; var v = document.getElementById("mv-" + k), n = document.getElementById("ms-" + k), t = document.getElementById("mt-" + k); if (v) v.textContent = d.val; if (n) n.textContent = d.note; if (t) t.innerHTML = '<span class="macro-kpi-trend ' + d.trendCls + '">' + d.trend + "</span>"; }); var ts = localStorage.getItem("macro_kpis_ts"); if (ts) { var el = document.getElementById("macroLastSaved"); if (el) el.textContent = "Last updated: " + new Date(parseInt(ts)).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }); } updateMacroAnswers(); } catch (e) { } }
-        function editMacroKpi(key) { var s = {}; try { s = JSON.parse(localStorage.getItem("macro_kpis_v2") || "{}"); } catch (e) { } var d = s[key] || MACRO_DEFAULTS[key]; _mKey = key; document.getElementById("macroEditVal").value = d.val; document.getElementById("macroEditTrend").value = d.trend; document.getElementById("macroEditNote").value = d.note; var tt = { repo: "Repo Rate", gsec: "10-Yr G-Sec", cpi: "CPI Inflation", crr: "CRR", gdp: "GDP Growth", wpi: "WPI Inflation", iip: "IIP Growth", gst: "GST Collections", inr: "INR / USD", fii: "FII Flows", crude: "Brent Crude", forex: "Forex Reserves" }; document.getElementById("macroEditTitle").textContent = "Edit: " + (tt[key] || key); document.getElementById("macroEditModal").style.display = "flex"; setTimeout(function () { document.getElementById("macroEditVal").focus(); }, 50); }
+        function editMacroKpi(key) { var s = {}; try { s = JSON.parse(localStorage.getItem("macro_kpis_v2") || "{}"); } catch (e) { } var d = s[key] || MACRO_DEFAULTS[key]; _mKey = key; document.getElementById("macroEditVal").value = d.val; document.getElementById("macroEditTrend").value = d.trend; document.getElementById("macroEditNote").value = d.note; var tt = { repo: "Repo Rate", gsec: "10-Yr G-Sec", cpi: "CPI Inflation", crr: "CRR", gdp: "GDP Growth", wpi: "WPI Inflation", iip: "IIP Growth", gst: "GST Collections", inr: "INR / USD", fii: "FII Flows", crude: "Brent Crude", forex: "Forex Reserves", fiscaldef: "Fiscal Deficit", capex: "Govt Capex FY26", debtgdp: "Debt / GDP", divestment: "Divestment Target", gnpa: "Gross NPA Ratio", crar: "System CRAR", creditgrowth: "Bank Credit Growth", cdrat: "Credit-Deposit Ratio", nifty: "Nifty 50", sip: "SIP Monthly Flows", mfaum: "MF Industry AUM", ipomarket: "IPO Market FY25", cad: "Current Account Deficit", tradedef: "Merch. Trade Deficit", remit: "Remittances", servexp: "Services Exports", unemp: "Urban Unemployment", mnrega: "MGNREGA Demand", tractors: "Tractor Sales", consindex: "FMCG Volume Growth", fedrate: "US Fed Funds Rate", dxy: "DXY USD Index", gold: "Gold Price", imfgdp: "IMF India GDP Forecast" }; document.getElementById("macroEditTitle").textContent = "Edit: " + (tt[key] || key); document.getElementById("macroEditModal").style.display = "flex"; setTimeout(function () { document.getElementById("macroEditVal").focus(); }, 50); }
         function saveMacroKpi() { var key = _mKey, val = document.getElementById("macroEditVal").value.trim(), trend = document.getElementById("macroEditTrend").value.trim(), note = document.getElementById("macroEditNote").value.trim(); if (!val) return; var cls = trend.startsWith("\u2191") ? "trend-up" : trend.startsWith("\u2193") ? "trend-down" : "trend-flat"; if (trend.startsWith("↑")) cls = "trend-up"; else if (trend.startsWith("↓")) cls = "trend-down"; else cls = "trend-flat"; var s = {}; try { s = JSON.parse(localStorage.getItem("macro_kpis_v2") || "{}"); } catch (e) { } s[key] = { val: val, note: note, trend: trend, trendCls: cls }; try { localStorage.setItem("macro_kpis_v2", JSON.stringify(s)); } catch (e) { } var v = document.getElementById("mv-" + key), n = document.getElementById("ms-" + key), t = document.getElementById("mt-" + key); if (v) v.textContent = val; if (n) n.textContent = note; if (t) t.innerHTML = '<span class="macro-kpi-trend ' + cls + '">' + trend + "</span>"; document.getElementById("macroEditModal").style.display = "none"; updateMacroAnswers(); }
         function saveMacroAll() { try { localStorage.setItem("macro_kpis_ts", Date.now()); } catch (e) { } var el = document.getElementById("macroLastSaved"); if (el) el.textContent = "Last updated: " + new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }); showToast("\u2705 Macro data saved!"); }
         function getM(k) { try { var s = JSON.parse(localStorage.getItem("macro_kpis_v2") || "{}"); return (s[k] || MACRO_DEFAULTS[k]).val; } catch (e) { return MACRO_DEFAULTS[k] ? MACRO_DEFAULTS[k].val : "\u2014"; } }
@@ -14792,6 +15229,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
           });
         }
         function save() {
+          _searchIndex = null; // invalidate search index
           try { localStorage.setItem('finToolkit_v2', JSON.stringify({ questions: questions, savedAt: new Date().toISOString() })); } catch (e) { }
         }
         function nav(view) {
@@ -14814,7 +15252,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
             if (view === 'dashboard') renderDashboard();
             if (view === 'flashcard' && !_skipSession) startSession(activeCat, activeDiff); _skipSession = false;
             if (view === 'revenue') { var _rg = document.getElementById('rm-sector-grid'); var _rd = document.getElementById('rm-sector-detail'); if (_rg) _rg.style.display = ''; if (_rd) _rd.style.display = 'none'; }
-            if (view === 'browse') renderBrowse();
+            if (view === 'browse') { buildSearchIndex(); renderBrowse(); }
             var contentEl = document.querySelector('.content');
             if (contentEl) contentEl.scrollTop = 0;
             window.scrollTo(0, 0);
@@ -15076,13 +15514,46 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
           if (e.key === 'ArrowLeft') prevCard();
           if (e.key === 'ArrowRight') skipCard();
         });
+
+        // ── Fast search index — rebuild when questions change ──
+        var _searchIndex = null;
+        function buildSearchIndex() {
+          _searchIndex = questions.map(function(q) {
+            return {
+              id: q.id,
+              ql: (q.q || '').toLowerCase(),
+              al: (q.a || '').toLowerCase()
+            };
+          });
+        }
+
+        // ── Debounced browse search ──
+        var _browseDebounceTimer = null;
+        function debouncedRenderBrowse(val) {
+          clearTimeout(_browseDebounceTimer);
+          // If short query, render immediately (fast); longer queries debounce
+          var delay = (val && val.length > 0) ? 120 : 0;
+          _browseDebounceTimer = setTimeout(function() {
+            renderBrowse();
+          }, delay);
+        }
+
         function renderBrowse() {
           var search = (document.getElementById('searchInput').value || '').toLowerCase();
           var cat = document.getElementById('catF').value;
           var diff = document.getElementById('diffF').value;
           var stat = document.getElementById('statF').value;
-          var filtered = questions.filter(function (q) {
-            return (cat === 'all' || q.cat === cat) && (diff === 'all' || q.diff === diff) && (stat === 'all' || q.status === stat) && (!search || q.q.toLowerCase().indexOf(search) !== -1 || q.a.toLowerCase().indexOf(search) !== -1);
+          // Use pre-built lowercase index for fast search
+          if (!_searchIndex || _searchIndex.length !== questions.length) buildSearchIndex();
+          var filtered = questions.filter(function (q, i) {
+            if (cat !== 'all' && q.cat !== cat) return false;
+            if (diff !== 'all' && q.diff !== diff) return false;
+            if (stat !== 'all' && q.status !== stat) return false;
+            if (search) {
+              var idx = _searchIndex[i];
+              if (!idx || (idx.ql.indexOf(search) === -1 && idx.al.indexOf(search) === -1)) return false;
+            }
+            return true;
           });
           document.getElementById('browseCount').textContent = filtered.length + ' question' + (filtered.length !== 1 ? 's' : '');
           var list = document.getElementById('qList');
@@ -16041,6 +16512,249 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
           panel.innerHTML = html;
         });
 
+
+    // ════════════════════════════════════════════════════
+    //  ENHANCEMENT PACK — all UX/UI improvements
+    // ════════════════════════════════════════════════════
+
+    // Settings dropdown
+    function toggleSettingsMenu() {
+      var m = document.getElementById('settingsDropMenu');
+      if (!m) return;
+      var isOpen = m.style.display === 'block';
+      m.style.display = isOpen ? 'none' : 'block';
+      if (!isOpen) {
+        setTimeout(function() {
+          document.addEventListener('click', function _close(e) {
+            var wrap = document.getElementById('settingsDropWrap');
+            if (wrap && !wrap.contains(e.target)) { m.style.display = 'none'; }
+            document.removeEventListener('click', _close);
+          });
+        }, 50);
+      }
+    }
+
+    function confirmResetProgress() {
+      if (document.getElementById('settingsDropMenu')) document.getElementById('settingsDropMenu').style.display='none';
+      if (confirm('Reset ALL progress? This cannot be undone.')) { resetProgress(); }
+    }
+
+    // ── Hero date + mission briefing ──
+    function updateDashHero() {
+      var dateEl = document.getElementById('heroDate');
+      var briefEl = document.getElementById('heroBriefing');
+      if (dateEl) {
+        var d = new Date();
+        dateEl.textContent = d.toLocaleDateString('en-IN', {weekday:'long',year:'numeric',month:'long',day:'numeric'});
+      }
+      var qs = window.QUESTIONS || [];
+      var total = qs.length;
+      var mastered = 0, inProg = 0, unseen = 0, due = 0;
+      var catMissed = {};
+      var now = Date.now();
+      qs.forEach(function(q) {
+        var s = getProgress ? getProgress(q.id) : null;
+        if (!s || !s.status || s.status === 'unseen') { unseen++; }
+        else if (s.status === 'mastered') { mastered++; }
+        else { inProg++; }
+        if (s && s.nextReview && s.nextReview <= now) due++;
+        if (s && s.missed > 0) { catMissed[q.category] = (catMissed[q.category]||0) + s.missed; }
+      });
+      // update hero stats
+      var el;
+      if ((el=document.getElementById('hsTotalQA'))) el.textContent = total;
+      if ((el=document.getElementById('hsMastered'))) el.textContent = mastered;
+      if ((el=document.getElementById('hsInProgress'))) el.textContent = inProg;
+      if ((el=document.getElementById('hsUnseen'))) el.textContent = unseen;
+      if ((el=document.getElementById('hsDue'))) el.textContent = due;
+      // mission briefing
+      if (briefEl) {
+        var weak = Object.entries(catMissed).sort(function(a,b){return b[1]-a[1]}).slice(0,2).map(function(x){return x[0]});
+        var parts = [];
+        if (due > 0) parts.push('<strong style="color:var(--gold2)">' + due + ' card' + (due!==1?'s':'') + ' due for review</strong>');
+        if (weak.length > 0) parts.push('Weak areas: <strong style="color:var(--white)">' + weak.join(', ') + '</strong>');
+        if (mastered > 0 && total > 0) parts.push(mastered + ' / ' + total + ' mastered');
+        if (parts.length === 0) parts.push('Welcome back! Start with <strong style="color:var(--gold2)">Quick 20</strong> to assess your current level.');
+        briefEl.innerHTML = parts.join(' &nbsp;·&nbsp; ');
+      }
+      // cat-pct "Start →" vs percentage
+      document.querySelectorAll('[data-cat-pct="true"]').forEach(function(el) {
+        var cc = el.closest('.cat-card'); if (!cc) return;
+        var cn = cc.querySelector('.cat-name'); if (!cn) return;
+        var cat = cn.textContent.trim();
+        var cqs = qs.filter(function(q){ return q.category && (q.category===cat || q.category.includes(cat.split('/')[0].trim()) || cat.includes(q.category.split('/')[0].trim())); });
+        var started = cqs.some(function(q){ var s=getProgress?getProgress(q.id):null; return s&&s.status&&s.status!=='unseen'; });
+        if (!started) {
+          el.textContent = 'Start →';
+          el.style.color = 'var(--gold)';
+          el.style.fontWeight = '600';
+        } else {
+          var m2 = cqs.filter(function(q){var s=getProgress?getProgress(q.id):null;return s&&s.status==='mastered';}).length;
+          var pct = cqs.length > 0 ? Math.round((m2/cqs.length)*100) : 0;
+          el.textContent = pct + '% complete';
+          el.style.color = '';
+          el.style.fontWeight = '';
+        }
+      });
+    }
+
+    // ── Answer formatter for fc-back ──
+    function formatFcAnswer(rawText) {
+      if (!rawText || rawText.trim().length < 10) return rawText;
+      var lines = rawText.split('\n');
+      var html = '<div class="fc-a-formatted">';
+      lines.forEach(function(line) {
+        var t = line.trim();
+        if (!t) { html += '<div style="height:5px"></div>'; return; }
+        var sm = t.match(/^(\d+)[.)\s]\s+(.+)/);
+        var isFormula = t.includes('=') && t.length < 100 && /[A-Z]{2,}/.test(t) && !/[a-z]{5,}/.test(t);
+        var fmt = t.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        if (sm) {
+          html += '<div class="fa-step"><span class="fa-step-num">' + sm[1] + '.</span><span class="fa-step-text">' + fmt + '</span></div>';
+        } else if (isFormula) {
+          html += '<div class="fa-formula">' + t + '</div>';
+        } else {
+          html += '<div class="fa-para">' + fmt + '</div>';
+        }
+      });
+      html += '</div>';
+      return html;
+    }
+
+    // ── Heatmap month labels ──
+    function addHeatmapMonthLabels() {
+      var hg = document.querySelector('.heatmap-grid');
+      if (!hg) return;
+      var cells = hg.querySelectorAll('.heatmap-cell');
+      if (!cells.length) return;
+      var mrow = document.createElement('div');
+      mrow.className = 'heatmap-months-row';
+      var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var today = new Date();
+      var labels = [];
+      // 70 cells = 70 days
+      for (var i = 69; i >= 0; i--) {
+        var d = new Date(today);
+        d.setDate(d.getDate() - i);
+        if (d.getDate() === 1 || i === 69) {
+          labels.push({idx: 69-i, text: MONTHS[d.getMonth()]});
+        }
+      }
+      var prevIdx = -1;
+      labels.forEach(function(lbl) {
+        if (prevIdx >= 0) {
+          var gap = lbl.idx - prevIdx;
+          var spacer = document.createElement('div');
+          spacer.style.cssText = 'min-width:' + (gap * 16) + 'px;flex-shrink:0';
+          mrow.appendChild(spacer);
+        }
+        var span = document.createElement('div');
+        span.className = 'heatmap-month-lbl';
+        span.textContent = lbl.text;
+        mrow.appendChild(span);
+        prevIdx = lbl.idx;
+      });
+      var wrap = hg.closest('.heatmap-wrap');
+      if (wrap && !wrap.querySelector('.heatmap-months-row')) {
+        wrap.insertBefore(mrow, hg);
+      }
+    }
+
+    // ── Session complete weakness recommendation ──
+    var _scSessionCats = {};
+    var _origLogCardResult = typeof logCardResult === 'function' ? logCardResult : null;
+
+    // ── Sort By wiring ──
+    var _origRenderBrowse = typeof renderBrowse === 'function' ? renderBrowse : null;
+    if (_origRenderBrowse) {
+      renderBrowse = function() {
+        _origRenderBrowse.apply(this, arguments);
+        var sortF = document.getElementById('sortF');
+        if (!sortF || sortF.value === 'default') return;
+        var list = document.getElementById('qList');
+        if (!list) return;
+        var items = Array.from(list.querySelectorAll('.q-item'));
+        if (items.length < 2) return;
+        var sv = sortF.value;
+        items.sort(function(a,b) {
+          var idA = parseInt(a.dataset.qid||a.dataset.id||0);
+          var idB = parseInt(b.dataset.qid||b.dataset.id||0);
+          if (sv === 'mostMissed') {
+            var sA=getProgress?getProgress(idA):{}, sB=getProgress?getProgress(idB):{};
+            return ((sB&&sB.missed)||0) - ((sA&&sA.missed)||0);
+          } else if (sv === 'neverSeen') {
+            var sA=getProgress?getProgress(idA):{}, sB=getProgress?getProgress(idB):{};
+            var aU=(!sA||!sA.status||sA.status==='unseen')?0:1;
+            var bU=(!sB||!sB.status||sB.status==='unseen')?0:1;
+            return aU-bU;
+          } else if (sv === 'alpha') {
+            var tA=(a.querySelector('.q-q')||{}).textContent||'';
+            var tB=(b.querySelector('.q-q')||{}).textContent||'';
+            return tA.localeCompare(tB);
+          } else if (sv === 'recentlyAdded') {
+            return idB - idA;
+          }
+          return 0;
+        });
+        items.forEach(function(item){ list.appendChild(item); });
+      };
+    }
+
+    // ── Nav hook to run hero update ──
+    var _origNav = typeof nav === 'function' ? nav : null;
+    if (_origNav) {
+      nav = function(view) {
+        _origNav.apply(this, arguments);
+        if (view === 'dashboard') { setTimeout(updateDashHero, 150); }
+      };
+    }
+
+    // ── Answer format hook via MutationObserver ──
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(function() {
+        buildSearchIndex(); // pre-build on load
+        var fcArea = document.getElementById('fcArea');
+        if (fcArea) {
+          var mo = new MutationObserver(function() {
+            var fcAs = fcArea.querySelectorAll('.fc-back .fc-a:not([data-fmt])');
+            fcAs.forEach(function(el) {
+              if (el.textContent.trim().length > 0) {
+                el.setAttribute('data-fmt','1');
+                el.innerHTML = formatFcAnswer(el.textContent);
+              }
+            });
+          });
+          mo.observe(fcArea, {childList:true, subtree:true, characterData:true});
+        }
+        // initial hero update
+        updateDashHero();
+        // heatmap labels on next tick after render
+        setTimeout(addHeatmapMonthLabels, 800);
+      }, 300);
+    });
+
+    // Toast with undo support
+    var _origToast = typeof toast === 'function' ? toast : null;
+    if (_origToast) {
+      toast = function(msg, dur, undoFn) {
+        dur = dur || 2500;
+        var t = document.getElementById('toast');
+        if (!t) { _origToast(msg, dur); return; }
+        if (undoFn) {
+          t.innerHTML = msg + ' <span id="toastUndo" style="margin-left:10px;text-decoration:underline;cursor:pointer;color:var(--gold2);font-weight:600;font-size:11px">Undo</span>';
+          var u = document.getElementById('toastUndo');
+          if (u) u.onclick = function() { undoFn(); t.style.opacity=0; };
+          dur = 4000;
+        } else {
+          t.textContent = msg;
+        }
+        t.style.opacity = 1;
+        clearTimeout(t._to);
+        t._to = setTimeout(function(){ t.style.opacity=0; }, dur);
+      };
+    }
+
+
         // ═══════════════════════════════════════════════
         // FIN. STATEMENTS — landing → detail navigation
         // ═══════════════════════════════════════════════
@@ -16130,7 +16844,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
     <div class="modal" style="max-width:580px">
       <div class="modal-head">
         <div class="modal-title">Edit Question</div>
-        <button class="modal-x" onclick="closeEditModal()">✕</button>
+        <button class="modal-x" onclick="closeEditModal()"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/></svg></button>
       </div>
       <div class="modal-body">
         <div class="form-group" style="margin-bottom:12px">
