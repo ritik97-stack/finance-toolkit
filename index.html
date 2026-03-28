@@ -235,7 +235,8 @@
       display: flex;
       flex-direction: column;
       height: 100vh;
-      overflow: hidden
+      overflow: hidden;
+      min-height: 0;
     }
 
     .topbar {
@@ -272,8 +273,7 @@
       position: relative;
       overflow-y: auto;
       overflow-x: hidden;
-      display: flex;
-      flex-direction: column;
+      min-height: 0;
     }
 
     .view {
@@ -4150,13 +4150,13 @@
       flex-direction: column;
     }
 
-    /* Macro: plain block, parent .content handles scroll */
+    /* Macro: scrolls naturally with parent .content */
     #view-macro.active {
       display: block !important;
-      height: auto !important;
-      min-height: 100% !important;
-      overflow: visible !important;
-      flex: 1 0 auto !important;
+      min-height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      height: 100%;
     }
 
     /* Landing grids inside full-height views get their own padding */
@@ -6399,6 +6399,7 @@
       margin-bottom: 2px;
       overflow: hidden;
     }
+
     .heatmap-month-lbl {
       font-size: 8px;
       color: var(--white3);
@@ -6776,6 +6777,7 @@
       border-left: 3px solid var(--gold);
       border-radius: 0 7px 7px 0;
     }
+
     .fc-a-formatted .fa-step-num {
       font-family: "IBM Plex Mono", monospace;
       font-size: 10px;
@@ -6785,11 +6787,13 @@
       flex-shrink: 0;
       margin-top: 2px;
     }
+
     .fc-a-formatted .fa-step-text {
       font-size: 13px;
       color: var(--white2);
       line-height: 1.6;
     }
+
     .fc-a-formatted .fa-formula {
       font-family: "IBM Plex Mono", monospace;
       font-size: 11px;
@@ -6802,13 +6806,18 @@
       margin: 5px 0;
       line-height: 1.7;
     }
+
     .fc-a-formatted .fa-para {
       font-size: 13.5px;
       color: var(--white2);
       line-height: 1.72;
       margin-bottom: 5px;
     }
-    .fc-a-formatted strong { font-weight: 700; color: var(--white); }
+
+    .fc-a-formatted strong {
+      font-weight: 700;
+      color: var(--white);
+    }
 
     /* ── Notes field on flashcard ── */
     .fc-notes-area {
@@ -7308,7 +7317,11 @@
   <div id="mobileMenu" role="dialog" aria-label="Navigation menu">
     <div class="mm-header">
       <div class="mm-logo">Finance <span>Analyst</span> Toolkit</div>
-      <button class="mm-close" onclick="closeMobileMenu()" aria-label="Close menu"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/></svg></button>
+      <button class="mm-close" onclick="closeMobileMenu()" aria-label="Close menu"><svg width="10" height="10"
+          viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <line x1="1" y1="1" x2="9" y2="9" />
+          <line x1="9" y1="1" x2="1" y2="9" />
+        </svg></button>
     </div>
 
     <div class="mm-sec">Interview Prep</div>
@@ -7379,7 +7392,11 @@
     <div id="cheatsheetBox">
       <div class="cs-head">
         <div class="cs-title">📄 Export Cheatsheet</div>
-        <button class="cs-close" onclick="csClose()"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/></svg></button>
+        <button class="cs-close" onclick="csClose()"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"
+            stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <line x1="1" y1="1" x2="9" y2="9" />
+            <line x1="9" y1="1" x2="1" y2="9" />
+          </svg></button>
       </div>
       <div class="cs-body">
 
@@ -7705,16 +7722,36 @@
       <div class="nav-item" onclick="nav(&#39;files&#39;)"><span>📁</span> My Files</div>
       <div class="nav-sep"></div>
       <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 18px 6px">
-        <span style="font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--white3)">Manage &amp; Support</span>
+        <span
+          style="font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--white3)">Manage
+          &amp; Support</span>
         <div style="display:flex;gap:5px">
-          <button onclick="nav('add')" title="Add Question" style="width:26px;height:26px;border-radius:6px;border:1.5px solid var(--border2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--white3);transition:all .14s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold2)';this.style.background='var(--gold-bg2)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--white3)';this.style.background='transparent'">
-            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 1v10M1 6h10"/></svg>
+          <button onclick="nav('add')" title="Add Question"
+            style="width:26px;height:26px;border-radius:6px;border:1.5px solid var(--border2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--white3);transition:all .14s"
+            onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold2)';this.style.background='var(--gold-bg2)'"
+            onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--white3)';this.style.background='transparent'">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 1v10M1 6h10" />
+            </svg>
           </button>
-          <button onclick="nav('import')" title="Bulk Import" style="width:26px;height:26px;border-radius:6px;border:1.5px solid var(--border2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--white3);transition:all .14s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold2)';this.style.background='var(--gold-bg2)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--white3)';this.style.background='transparent'">
-            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 1v7M3 5l3 3 3-3"/><path d="M1 10h10"/></svg>
+          <button onclick="nav('import')" title="Bulk Import"
+            style="width:26px;height:26px;border-radius:6px;border:1.5px solid var(--border2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--white3);transition:all .14s"
+            onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold2)';this.style.background='var(--gold-bg2)'"
+            onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--white3)';this.style.background='transparent'">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 1v7M3 5l3 3 3-3" />
+              <path d="M1 10h10" />
+            </svg>
           </button>
-          <button onclick="nav('support')" title="Feedback &amp; Support" style="width:26px;height:26px;border-radius:6px;border:1.5px solid var(--border2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--white3);transition:all .14s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold2)';this.style.background='var(--gold-bg2)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--white3)';this.style.background='transparent'">
-            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="5"/><path d="M6 5c0-1 1.5-1.3 1.5-.3C7.5 5.5 6 5.5 6 7"/><circle cx="6" cy="9" r=".5" fill="currentColor"/></svg>
+          <button onclick="nav('support')" title="Feedback &amp; Support"
+            style="width:26px;height:26px;border-radius:6px;border:1.5px solid var(--border2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--white3);transition:all .14s"
+            onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold2)';this.style.background='var(--gold-bg2)'"
+            onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--white3)';this.style.background='transparent'">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="6" cy="6" r="5" />
+              <path d="M6 5c0-1 1.5-1.3 1.5-.3C7.5 5.5 6 5.5 6 7" />
+              <circle cx="6" cy="9" r=".5" fill="currentColor" />
+            </svg>
           </button>
         </div>
       </div>
@@ -7728,25 +7765,40 @@
       <div class="topbar"><button id="topbarMenuBtn" onclick="openMobileMenu()" aria-label="Menu">☰</button><button
           id="sidebarToggleBtn" onclick="toggleSidebar()" title="Toggle sidebar">‹‹</button>
         <div class="tb-title">Finance <span>Analyst Toolkit</span></div><button id="gsTopbarBtn" onclick="gsOpen()"
-          title="Search (Cmd+K)">🔍<span class="gs-topbar-label"> Search questions, topics...</span><span style="flex:1"></span><span
-            class="gs-topbar-kbd">⌘K</span></button>
+          title="Search (Cmd+K)">🔍<span class="gs-topbar-label"> Search questions, topics...</span><span
+            style="flex:1"></span><span class="gs-topbar-kbd">⌘K</span></button>
         <div class="tb-btns">
           <button class="btn btn-o btn-print" onclick="csOpen()" style="gap:6px">
-            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 1v9M4 6l4 4 4-4"/><rect x="2" y="11" width="12" height="3" rx="1"/></svg>Export
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M8 1v9M4 6l4 4 4-4" />
+              <rect x="2" y="11" width="12" height="3" rx="1" />
+            </svg>Export
           </button>
           <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleBtn">
             <span id="themeIcon">☀️</span>
-            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+            <div class="toggle-track">
+              <div class="toggle-thumb"></div>
+            </div>
             <span id="themeLabel">Light</span>
           </button>
           <div style="position:relative" id="settingsDropWrap">
             <button class="btn btn-o" onclick="toggleSettingsMenu()" style="gap:5px;padding:7px 11px" title="Settings">
-              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="2.5"/><path d="M8 1.5v1M8 13.5v1M1.5 8h1M13.5 8h1M3.2 3.2l.7.7M12.1 12.1l.7.7M3.2 12.8l.7-.7M12.1 3.9l.7-.7"/></svg>
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+                <circle cx="8" cy="8" r="2.5" />
+                <path
+                  d="M8 1.5v1M8 13.5v1M1.5 8h1M13.5 8h1M3.2 3.2l.7.7M12.1 12.1l.7.7M3.2 12.8l.7-.7M12.1 3.9l.7-.7" />
+              </svg>
             </button>
-            <div id="settingsDropMenu" style="display:none;position:absolute;right:0;top:calc(100% + 6px);background:var(--navy2);border:1px solid var(--border);border-radius:10px;box-shadow:var(--sh3);min-width:190px;z-index:400;overflow:hidden">
+            <div id="settingsDropMenu"
+              style="display:none;position:absolute;right:0;top:calc(100% + 6px);background:var(--navy2);border:1px solid var(--border);border-radius:10px;box-shadow:var(--sh3);min-width:190px;z-index:400;overflow:hidden">
               <div style="padding:5px 0">
-                <div onclick="confirmResetProgress()" style="display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:12px;color:var(--red);cursor:pointer" onmouseover="this.style.background='var(--red-bg)'" onmouseout="this.style.background=''">
-                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 8a6 6 0 1 1 1 3.5"/><path d="M2 12V8h4"/></svg> Reset Progress
+                <div onclick="confirmResetProgress()"
+                  style="display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:12px;color:var(--red);cursor:pointer"
+                  onmouseover="this.style.background='var(--red-bg)'" onmouseout="this.style.background=''">
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M2 8a6 6 0 1 1 1 3.5" />
+                    <path d="M2 12V8h4" />
+                  </svg> Reset Progress
                 </div>
               </div>
             </div>
@@ -7758,22 +7810,46 @@
         <div id="skeletonOverlay"></div>
         <div class="view" id="view-dashboard">
           <div class="hero" id="dashHero">
-            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+            <div
+              style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
               <div>
-                <div id="heroDate" style="font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);margin-bottom:5px"></div>
-                <div style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--white)">Finance <span style="color:var(--gold)">Analyst Toolkit</span></div>
+                <div id="heroDate"
+                  style="font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);margin-bottom:5px">
+                </div>
+                <div style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--white)">Finance <span
+                    style="color:var(--gold)">Analyst Toolkit</span></div>
               </div>
               <button class="btn btn-p" onclick="startMockInterview()" style="flex-shrink:0;font-size:11px;gap:6px">
-                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6"/><path d="M8 4v4l2.5 2.5"/></svg>Mock Interview
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="8" cy="8" r="6" />
+                  <path d="M8 4v4l2.5 2.5" />
+                </svg>Mock Interview
               </button>
             </div>
-            <div id="heroBriefing" style="font-size:12px;color:var(--white2);line-height:1.6;margin-bottom:16px;padding:9px 14px;background:var(--gold-bg2);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;min-height:34px">Loading your session brief...</div>
+            <div id="heroBriefing"
+              style="font-size:12px;color:var(--white2);line-height:1.6;margin-bottom:16px;padding:9px 14px;background:var(--gold-bg2);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;min-height:34px">
+              Loading your session brief...</div>
             <div class="hero-stats" id="heroStats">
-              <div><div class="hs-val" id="hsTotalQA">220</div><div class="hs-lab">Total Q&amp;As</div></div>
-              <div><div class="hs-val" id="hsMastered">0</div><div class="hs-lab">Mastered</div></div>
-              <div><div class="hs-val" id="hsInProgress">0</div><div class="hs-lab">In Progress</div></div>
-              <div><div class="hs-val" id="hsUnseen">220</div><div class="hs-lab">Unseen</div></div>
-              <div><div class="hs-val" id="hsDue" style="color:var(--gold2)">0</div><div class="hs-lab">Due Today</div></div>
+              <div>
+                <div class="hs-val" id="hsTotalQA">220</div>
+                <div class="hs-lab">Total Q&amp;As</div>
+              </div>
+              <div>
+                <div class="hs-val" id="hsMastered">0</div>
+                <div class="hs-lab">Mastered</div>
+              </div>
+              <div>
+                <div class="hs-val" id="hsInProgress">0</div>
+                <div class="hs-lab">In Progress</div>
+              </div>
+              <div>
+                <div class="hs-val" id="hsUnseen">220</div>
+                <div class="hs-lab">Unseen</div>
+              </div>
+              <div>
+                <div class="hs-val" id="hsDue" style="color:var(--gold2)">0</div>
+                <div class="hs-lab">Due Today</div>
+              </div>
             </div>
           </div>
           <div class="dash-grid" id="catGrid">
@@ -7833,17 +7909,27 @@
             </div>
           </div>
           <div id="streakWidgetWrap" style="margin-bottom:16px"></div>
-          <div onclick="startMockInterview()" style="background:linear-gradient(135deg,var(--navy3) 0%,rgba(201,168,76,.08) 100%);border:1.5px solid var(--gold);border-radius:14px;padding:18px 22px;margin-bottom:16px;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 30px rgba(201,168,76,.2)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div onclick="startMockInterview()"
+            style="background:linear-gradient(135deg,var(--navy3) 0%,rgba(201,168,76,.08) 100%);border:1.5px solid var(--gold);border-radius:14px;padding:18px 22px;margin-bottom:16px;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap"
+            onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 30px rgba(201,168,76,.2)'"
+            onmouseout="this.style.transform='';this.style.boxShadow=''">
             <div style="display:flex;align-items:center;gap:14px">
-              <div style="width:44px;height:44px;border-radius:10px;background:var(--gold-bg);border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🎯</div>
+              <div
+                style="width:44px;height:44px;border-radius:10px;background:var(--gold-bg);border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">
+                🎯</div>
               <div>
-                <div style="font-size:13px;font-weight:700;color:var(--white);margin-bottom:3px">Mock Interview Mode</div>
-                <div style="font-size:11px;color:var(--white3);line-height:1.4">Timed · 20 questions · Simulates real interview pressure — 30 seconds per answer</div>
+                <div style="font-size:13px;font-weight:700;color:var(--white);margin-bottom:3px">Mock Interview Mode
+                </div>
+                <div style="font-size:11px;color:var(--white3);line-height:1.4">Timed · 20 questions · Simulates real
+                  interview pressure — 30 seconds per answer</div>
               </div>
             </div>
             <div style="display:flex;align-items:center;gap:8px">
-              <span style="font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:4px;background:var(--red-bg);color:var(--red);border:1px solid rgba(248,113,113,.25)">30s / Q</span>
-              <button class="btn btn-p" style="font-size:11px;padding:7px 16px" onclick="startMockInterview();event.stopPropagation()">Start →</button>
+              <span
+                style="font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:4px;background:var(--red-bg);color:var(--red);border:1px solid rgba(248,113,113,.25)">30s
+                / Q</span>
+              <button class="btn btn-p" style="font-size:11px;padding:7px 16px"
+                onclick="startMockInterview();event.stopPropagation()">Start →</button>
             </div>
           </div>
           <div class="dash-row">
@@ -7908,10 +7994,14 @@
               <div class="nav-sep" style="margin:8px 0"></div>
               <div class="rm-sidebar-label" style="padding:0 14px 6px">Difficulty</div>
               <div id="diffFilters">
-                <div class="fc-sidebar-tab active" data-diff="all" onclick="setDiffSidebar(this,'all')"><span class="rm-tab-icon">📚</span> All</div>
-                <div class="fc-sidebar-tab" data-diff="Easy" onclick="setDiffSidebar(this,'Easy')"><span class="rm-tab-icon">🟢</span> Easy</div>
-                <div class="fc-sidebar-tab" data-diff="Medium" onclick="setDiffSidebar(this,'Medium')"><span class="rm-tab-icon">🟡</span> Medium</div>
-                <div class="fc-sidebar-tab" data-diff="Hard" onclick="setDiffSidebar(this,'Hard')"><span class="rm-tab-icon">🔴</span> Hard</div>
+                <div class="fc-sidebar-tab active" data-diff="all" onclick="setDiffSidebar(this,'all')"><span
+                    class="rm-tab-icon">📚</span> All</div>
+                <div class="fc-sidebar-tab" data-diff="Easy" onclick="setDiffSidebar(this,'Easy')"><span
+                    class="rm-tab-icon">🟢</span> Easy</div>
+                <div class="fc-sidebar-tab" data-diff="Medium" onclick="setDiffSidebar(this,'Medium')"><span
+                    class="rm-tab-icon">🟡</span> Medium</div>
+                <div class="fc-sidebar-tab" data-diff="Hard" onclick="setDiffSidebar(this,'Hard')"><span
+                    class="rm-tab-icon">🔴</span> Hard</div>
               </div>
               <div class="nav-sep" style="margin:8px 0"></div>
               <div class="rm-sidebar-label" style="padding:0 14px 6px">Quick Start</div>
@@ -8001,23 +8091,45 @@
             <button class="btn btn-o" style="font-size:11px;padding:5px 12px;" onclick="exitMultiMode()">✕
               Cancel</button>
           </div>
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;padding:0">
-            <div style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--white)">Browse All &nbsp;<span id="browseCount" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--gold2)">–</span></div>
-            <button class="btn btn-o" style="font-size:11px;padding:5px 12px;" onclick="toggleMultiMode()" id="multiBtn">☑ Select</button>
+          <div
+            style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;padding:0">
+            <div style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--white)">Browse All &nbsp;<span
+                id="browseCount"
+                style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--gold2)">–</span></div>
+            <button class="btn btn-o" style="font-size:11px;padding:5px 12px;" onclick="toggleMultiMode()"
+              id="multiBtn">☑ Select</button>
           </div>
           <div class="browse-bar">
-            <div class="search-wrap"><span>🔍</span><input type="text" id="searchInput" placeholder="Search questions and answers..." oninput="debouncedRenderBrowse(this.value)"></div>
+            <div class="search-wrap"><span>🔍</span><input type="text" id="searchInput"
+                placeholder="Search questions and answers..." oninput="debouncedRenderBrowse(this.value)"></div>
             <select class="sel" id="catF" onchange="renderBrowse()">
-              <option value="all">All Categories</option><option value="Accounting">Accounting</option><option value="Valuation">Valuation / DCF / EV</option><option value="M&amp;A / LBO / IB">M&amp;A / LBO / IB</option><option value="General Finance">General Finance</option><option value="Equity Research">Equity Research</option><option value="Behavioral">Behavioral</option>
+              <option value="all">All Categories</option>
+              <option value="Accounting">Accounting</option>
+              <option value="Valuation">Valuation / DCF / EV</option>
+              <option value="M&amp;A / LBO / IB">M&amp;A / LBO / IB</option>
+              <option value="General Finance">General Finance</option>
+              <option value="Equity Research">Equity Research</option>
+              <option value="Behavioral">Behavioral</option>
             </select>
             <select class="sel" id="diffF" onchange="renderBrowse()">
-              <option value="all">All Difficulty</option><option value="Easy">Easy</option><option value="Medium">Medium</option><option value="Hard">Hard</option>
+              <option value="all">All Difficulty</option>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
             </select>
             <select class="sel" id="statF" onchange="renderBrowse()">
-              <option value="all">All Status</option><option value="unseen">Unseen</option><option value="learning">Learning</option><option value="mastered">Mastered</option><option value="missed">Missed</option>
+              <option value="all">All Status</option>
+              <option value="unseen">Unseen</option>
+              <option value="learning">Learning</option>
+              <option value="mastered">Mastered</option>
+              <option value="missed">Missed</option>
             </select>
             <select class="sel" id="sortF" onchange="renderBrowse()" title="Sort questions">
-              <option value="default">Sort: Default</option><option value="mostMissed">Most Missed</option><option value="neverSeen">Never Seen First</option><option value="recentlyAdded">Recently Added</option><option value="alpha">Alphabetical</option>
+              <option value="default">Sort: Default</option>
+              <option value="mostMissed">Most Missed</option>
+              <option value="neverSeen">Never Seen First</option>
+              <option value="recentlyAdded">Recently Added</option>
+              <option value="alpha">Alphabetical</option>
             </select>
           </div>
           <div class="q-list" id="qList">
@@ -11908,6 +12020,30 @@ A: WACC is the weighted average cost of capital."></textarea>
             </div>
           </div>
 
+          <!-- ══ AI REFRESH PANEL ══ -->
+          <div id="macroApiKeyBanner" style="background:var(--navy2);border:1.5px solid var(--border);border-radius:12px;padding:16px 20px;margin:24px 0 18px;display:flex;flex-wrap:wrap;align-items:center;gap:12px">
+            <div style="flex:1;min-width:220px">
+              <div style="font-size:11px;font-weight:700;color:var(--gold2);margin-bottom:5px">🤖 AI Auto-Refresh — update all 35 cards in one click</div>
+              <div style="font-size:10px;color:var(--white3);line-height:1.6">Paste your free <strong style="color:var(--white2)">Google Gemini API key</strong> → click Refresh All. Get one free at <a href="https://aistudio.google.com" target="_blank" style="color:var(--gold);text-decoration:none">aistudio.google.com</a></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <input id="macroApiKeyInput" type="password" placeholder="Paste Gemini API key (AIzaSy...)"
+                style="padding:8px 12px;background:var(--navy3);border:1.5px solid var(--border2);border-radius:8px;color:var(--white);font-size:11.5px;font-family:'Outfit',sans-serif;outline:none;width:260px;transition:border-color .15s"
+                onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor=''"
+                oninput="try{localStorage.setItem('macro_gemini_key',this.value.trim())}catch(e){}">
+              <button id="macroRefreshBtn" onclick="refreshMacroData()"
+                style="padding:8px 16px;border-radius:8px;border:none;background:var(--gold);color:var(--navy);font-size:12px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;display:flex;align-items:center;gap:6px;white-space:nowrap"
+                onmouseover="this.style.background='var(--gold2)'" onmouseout="this.style.background='var(--gold)'">
+                <span id="macroSpinIcon" style="display:inline-block">⟳</span> Refresh All
+              </button>
+            </div>
+            <div style="width:100%;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+              <span id="macroStatus" style="font-size:10.5px;color:var(--white3)"></span>
+              <span id="macroTimestamp" style="font-size:10px;color:var(--white3);margin-left:auto"></span>
+            </div>
+            <div id="macroError" style="display:none;width:100%;font-size:11px;color:var(--red);background:var(--red-bg);border-radius:7px;padding:8px 12px;line-height:1.6"></div>
+          </div>
+
           <!-- ══ EDIT MODAL ══ -->
           <div id="macroEditModal"
             style="display:none;position:fixed;inset:0;background:rgba(4,8,20,.72);z-index:300;align-items:center;justify-content:center;padding:20px">
@@ -12090,199 +12226,257 @@ A: WACC is the weighted average cost of capital."></textarea>
 
           <!-- ══ SECTION 4: FISCAL POLICY ══ -->
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:24px">
-            <div style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--white3)">🏛️ Fiscal Policy &amp; Government Finance</div>
+            <div
+              style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--white3)">
+              🏛️ Fiscal Policy &amp; Government Finance</div>
             <div style="flex:1;height:1px;background:var(--border2)"></div>
             <div style="font-size:9px;color:var(--white3)">Source: MoF · indiabudget.gov.in</div>
           </div>
           <div class="macro-grid-4">
             <div class="macro-kpi kpi-red" onclick="editMacroKpi('fiscaldef')" style="cursor:pointer">
-              <div class="macro-kpi-label">Fiscal Deficit (FY25) <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-label">Fiscal Deficit (FY25) <span
+                  style="float:right;font-size:9px;opacity:.4">✎</span></div>
               <div class="macro-kpi-val" id="mv-fiscaldef">4.8% of GDP</div>
               <div class="macro-kpi-sub" id="ms-fiscaldef">FY26 target: 4.4%. Capex ₹11.1L Cr in FY26 budget</div>
-              <div id="mt-fiscaldef" style="margin-top:6px"><span class="macro-kpi-trend trend-down">↓ Consolidating — glide path to 4.5% by FY26</span></div>
+              <div id="mt-fiscaldef" style="margin-top:6px"><span class="macro-kpi-trend trend-down">↓ Consolidating —
+                  glide path to 4.5% by FY26</span></div>
             </div>
             <div class="macro-kpi kpi-green" onclick="editMacroKpi('capex')" style="cursor:pointer">
-              <div class="macro-kpi-label">Govt Capex FY26 <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-label">Govt Capex FY26 <span style="float:right;font-size:9px;opacity:.4">✎</span>
+              </div>
               <div class="macro-kpi-val" id="mv-capex">₹11.1L Cr</div>
               <div class="macro-kpi-sub" id="ms-capex">Up ~17% YoY. Focus: roads, railways, defence</div>
-              <div id="mt-capex" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Crowding-in private investment</span></div>
+              <div id="mt-capex" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Crowding-in private
+                  investment</span></div>
             </div>
             <div class="macro-kpi kpi-blue" onclick="editMacroKpi('debtgdp')" style="cursor:pointer">
               <div class="macro-kpi-label">Debt / GDP <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
               <div class="macro-kpi-val" id="mv-debtgdp">~56%</div>
               <div class="macro-kpi-sub" id="ms-debtgdp">Central + state combined. EM peers avg ~65%</div>
-              <div id="mt-debtgdp" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ Manageable vs peers; trending down</span></div>
+              <div id="mt-debtgdp" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ Manageable vs
+                  peers; trending down</span></div>
             </div>
             <div class="macro-kpi kpi-orange" onclick="editMacroKpi('divestment')" style="cursor:pointer">
-              <div class="macro-kpi-label">Divestment Target FY26 <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-label">Divestment Target FY26 <span
+                  style="float:right;font-size:9px;opacity:.4">✎</span></div>
               <div class="macro-kpi-val" id="mv-divestment">₹47,000 Cr</div>
               <div class="macro-kpi-sub" id="ms-divestment">FY25 achieved only ~₹16,000 Cr vs ₹50,000 Cr target</div>
-              <div id="mt-divestment" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ Historically underachieved</span></div>
+              <div id="mt-divestment" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ Historically
+                  underachieved</span></div>
             </div>
           </div>
 
           <!-- ══ SECTION 5: BANKING SYSTEM HEALTH ══ -->
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:24px">
-            <div style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--white3)">🏦 Banking System Health</div>
+            <div
+              style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--white3)">🏦
+              Banking System Health</div>
             <div style="flex:1;height:1px;background:var(--border2)"></div>
             <div style="font-size:9px;color:var(--white3)">Source: RBI FSR · Dec 2024</div>
           </div>
           <div class="macro-grid-4">
             <div class="macro-kpi kpi-green" onclick="editMacroKpi('gnpa')" style="cursor:pointer">
-              <div class="macro-kpi-label">Gross NPA Ratio <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-label">Gross NPA Ratio <span style="float:right;font-size:9px;opacity:.4">✎</span>
+              </div>
               <div class="macro-kpi-val" id="mv-gnpa">2.6%</div>
               <div class="macro-kpi-sub" id="ms-gnpa">Sep 2024. 12-year low. Net NPA at ~0.6%</div>
-              <div id="mt-gnpa" style="margin-top:6px"><span class="macro-kpi-trend trend-down">↓ Best asset quality in a decade</span></div>
+              <div id="mt-gnpa" style="margin-top:6px"><span class="macro-kpi-trend trend-down">↓ Best asset quality in
+                  a decade</span></div>
             </div>
             <div class="macro-kpi kpi-green" onclick="editMacroKpi('crar')" style="cursor:pointer">
               <div class="macro-kpi-label">System CRAR <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
               <div class="macro-kpi-val" id="mv-crar">16.8%</div>
               <div class="macro-kpi-sub" id="ms-crar">Sep 2024. Well above RBI 11.5% minimum requirement</div>
-              <div id="mt-crar" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Banks well-capitalised</span></div>
+              <div id="mt-crar" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Banks
+                  well-capitalised</span></div>
             </div>
             <div class="macro-kpi kpi-blue" onclick="editMacroKpi('creditgrowth')" style="cursor:pointer">
-              <div class="macro-kpi-label">Bank Credit Growth <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-label">Bank Credit Growth <span
+                  style="float:right;font-size:9px;opacity:.4">✎</span></div>
               <div class="macro-kpi-val" id="mv-creditgrowth">11.5%</div>
               <div class="macro-kpi-sub" id="ms-creditgrowth">YoY as of Jan 2025. Retail &amp; MSME leading</div>
-              <div id="mt-creditgrowth" style="margin-top:6px"><span class="macro-kpi-trend trend-down">↓ Moderation from 15%+ in FY24</span></div>
+              <div id="mt-creditgrowth" style="margin-top:6px"><span class="macro-kpi-trend trend-down">↓ Moderation
+                  from 15%+ in FY24</span></div>
             </div>
             <div class="macro-kpi kpi-orange" onclick="editMacroKpi('cdrat')" style="cursor:pointer">
-              <div class="macro-kpi-label">Credit-Deposit Ratio <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-label">Credit-Deposit Ratio <span
+                  style="float:right;font-size:9px;opacity:.4">✎</span></div>
               <div class="macro-kpi-val" id="mv-cdrat">78%</div>
               <div class="macro-kpi-sub" id="ms-cdrat">RBI flagged it as elevated. Deposit growth lagging credit</div>
-              <div id="mt-cdrat" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ RBI watching — risk to liquidity</span></div>
+              <div id="mt-cdrat" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ RBI watching — risk
+                  to liquidity</span></div>
             </div>
           </div>
 
           <!-- ══ SECTION 6: CAPITAL MARKETS ══ -->
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:24px">
-            <div style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--white3)">📊 Capital Markets &amp; Flows</div>
+            <div
+              style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--white3)">📊
+              Capital Markets &amp; Flows</div>
             <div style="flex:1;height:1px;background:var(--border2)"></div>
             <div style="font-size:9px;color:var(--white3)">Source: NSE · SEBI · AMFI</div>
           </div>
           <div class="macro-grid-4">
             <div class="macro-kpi kpi-orange" onclick="editMacroKpi('nifty')" style="cursor:pointer">
-              <div class="macro-kpi-label">Nifty 50 (approx.) <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-label">Nifty 50 (approx.) <span
+                  style="float:right;font-size:9px;opacity:.4">✎</span></div>
               <div class="macro-kpi-val" id="mv-nifty">~22,500</div>
               <div class="macro-kpi-sub" id="ms-nifty">~15% below Sep 2024 peak of 26,277. P/E ~19x</div>
-              <div id="mt-nifty" style="margin-top:6px"><span class="macro-kpi-trend trend-down">↓ Corrected — valuations more reasonable</span></div>
+              <div id="mt-nifty" style="margin-top:6px"><span class="macro-kpi-trend trend-down">↓ Corrected —
+                  valuations more reasonable</span></div>
             </div>
             <div class="macro-kpi kpi-green" onclick="editMacroKpi('sip')" style="cursor:pointer">
-              <div class="macro-kpi-label">SIP Monthly Flows <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-label">SIP Monthly Flows <span style="float:right;font-size:9px;opacity:.4">✎</span>
+              </div>
               <div class="macro-kpi-val" id="mv-sip">₹26,400 Cr</div>
               <div class="macro-kpi-sub" id="ms-sip">Jan 2025. Record high. 10 Cr+ active SIP accounts</div>
-              <div id="mt-sip" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Retail financialisation structural trend</span></div>
+              <div id="mt-sip" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Retail financialisation
+                  structural trend</span></div>
             </div>
             <div class="macro-kpi kpi-purple" onclick="editMacroKpi('mfaum')" style="cursor:pointer">
-              <div class="macro-kpi-label">MF Industry AUM <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-label">MF Industry AUM <span style="float:right;font-size:9px;opacity:.4">✎</span>
+              </div>
               <div class="macro-kpi-val" id="mv-mfaum">₹67L Cr</div>
               <div class="macro-kpi-sub" id="ms-mfaum">Jan 2025. Crossed ₹50L Cr mark Nov 2023</div>
-              <div id="mt-mfaum" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Tripled in 5 years</span></div>
+              <div id="mt-mfaum" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Tripled in 5
+                  years</span></div>
             </div>
             <div class="macro-kpi kpi-gold" onclick="editMacroKpi('ipomarket')" style="cursor:pointer">
-              <div class="macro-kpi-label">IPO Market FY25 <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-label">IPO Market FY25 <span style="float:right;font-size:9px;opacity:.4">✎</span>
+              </div>
               <div class="macro-kpi-val" id="mv-ipomarket">₹1.6L Cr</div>
               <div class="macro-kpi-sub" id="ms-ipomarket">FY25 record issuance. 70+ mainboard IPOs</div>
-              <div id="mt-ipomarket" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Primary market boom</span></div>
+              <div id="mt-ipomarket" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Primary market
+                  boom</span></div>
             </div>
           </div>
 
           <!-- ══ SECTION 7: TRADE & CURRENT ACCOUNT ══ -->
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:24px">
-            <div style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--white3)">🌐 Trade, Current Account &amp; Remittances</div>
+            <div
+              style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--white3)">🌐
+              Trade, Current Account &amp; Remittances</div>
             <div style="flex:1;height:1px;background:var(--border2)"></div>
             <div style="font-size:9px;color:var(--white3)">Source: RBI · DGCI&amp;S · Ministry of Commerce</div>
           </div>
           <div class="macro-grid-4">
             <div class="macro-kpi kpi-red" onclick="editMacroKpi('cad')" style="cursor:pointer">
-              <div class="macro-kpi-label">Current Account Deficit <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-label">Current Account Deficit <span
+                  style="float:right;font-size:9px;opacity:.4">✎</span></div>
               <div class="macro-kpi-val" id="mv-cad">1.2% of GDP</div>
               <div class="macro-kpi-sub" id="ms-cad">Q2 FY25. Manageable. FY23 was -2.0% during energy crisis</div>
-              <div id="mt-cad" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ Contained — supported by services surplus</span></div>
+              <div id="mt-cad" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ Contained — supported
+                  by services surplus</span></div>
             </div>
             <div class="macro-kpi kpi-blue" onclick="editMacroKpi('tradedef')" style="cursor:pointer">
-              <div class="macro-kpi-label">Merch. Trade Deficit <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-label">Merch. Trade Deficit <span
+                  style="float:right;font-size:9px;opacity:.4">✎</span></div>
               <div class="macro-kpi-val" id="mv-tradedef">~$23 bn/mo</div>
               <div class="macro-kpi-sub" id="ms-tradedef">Jan 2025. Oil &amp; electronics dominate imports</div>
-              <div id="mt-tradedef" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ Structural — India is a net importer</span></div>
+              <div id="mt-tradedef" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ Structural — India
+                  is a net importer</span></div>
             </div>
             <div class="macro-kpi kpi-green" onclick="editMacroKpi('remit')" style="cursor:pointer">
-              <div class="macro-kpi-label">Remittances (FY25E) <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-label">Remittances (FY25E) <span
+                  style="float:right;font-size:9px;opacity:.4">✎</span></div>
               <div class="macro-kpi-val" id="mv-remit">~$125 bn</div>
               <div class="macro-kpi-sub" id="ms-remit">World's largest recipient. UAE, US, UK top sources</div>
-              <div id="mt-remit" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Key CAD buffer — ~3.5% of GDP</span></div>
+              <div id="mt-remit" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Key CAD buffer — ~3.5%
+                  of GDP</span></div>
             </div>
             <div class="macro-kpi kpi-purple" onclick="editMacroKpi('servexp')" style="cursor:pointer">
-              <div class="macro-kpi-label">Services Exports <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-label">Services Exports <span style="float:right;font-size:9px;opacity:.4">✎</span>
+              </div>
               <div class="macro-kpi-val" id="mv-servexp">~$340 bn</div>
               <div class="macro-kpi-sub" id="ms-servexp">FY25E. IT/BPO, travel, finance. Surplus ~$160 bn</div>
-              <div id="mt-servexp" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Structural strength — offsets merch. deficit</span></div>
+              <div id="mt-servexp" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Structural strength —
+                  offsets merch. deficit</span></div>
             </div>
           </div>
 
           <!-- ══ SECTION 8: EMPLOYMENT & CONSUMPTION ══ -->
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:24px">
-            <div style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--white3)">👥 Employment, Consumption &amp; Rural Economy</div>
+            <div
+              style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--white3)">👥
+              Employment, Consumption &amp; Rural Economy</div>
             <div style="flex:1;height:1px;background:var(--border2)"></div>
             <div style="font-size:9px;color:var(--white3)">Source: CMIE · MoRD · MoSPI</div>
           </div>
           <div class="macro-grid-4">
             <div class="macro-kpi kpi-orange" onclick="editMacroKpi('unemp')" style="cursor:pointer">
-              <div class="macro-kpi-label">Urban Unemployment <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-label">Urban Unemployment <span
+                  style="float:right;font-size:9px;opacity:.4">✎</span></div>
               <div class="macro-kpi-val" id="mv-unemp">7.8%</div>
               <div class="macro-kpi-sub" id="ms-unemp">CMIE Jan 2025. Rural unemployment ~6.0%</div>
-              <div id="mt-unemp" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ Elevated vs pre-COVID; services hiring picking up</span></div>
+              <div id="mt-unemp" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ Elevated vs
+                  pre-COVID; services hiring picking up</span></div>
             </div>
             <div class="macro-kpi kpi-green" onclick="editMacroKpi('mnrega')" style="cursor:pointer">
-              <div class="macro-kpi-label">MGNREGA Demand <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-label">MGNREGA Demand <span style="float:right;font-size:9px;opacity:.4">✎</span>
+              </div>
               <div class="macro-kpi-val" id="mv-mnrega">~22 Cr days/mo</div>
               <div class="macro-kpi-sub" id="ms-mnrega">Rural distress indicator. Budget FY26: ₹86,000 Cr</div>
-              <div id="mt-mnrega" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ Rural safety net — watch for demand spikes</span></div>
+              <div id="mt-mnrega" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ Rural safety net —
+                  watch for demand spikes</span></div>
             </div>
             <div class="macro-kpi kpi-blue" onclick="editMacroKpi('tractors')" style="cursor:pointer">
-              <div class="macro-kpi-label">Tractor Sales (Rural Proxy) <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-label">Tractor Sales (Rural Proxy) <span
+                  style="float:right;font-size:9px;opacity:.4">✎</span></div>
               <div class="macro-kpi-val" id="mv-tractors">+12% YoY</div>
               <div class="macro-kpi-sub" id="ms-tractors">Jan 2025. Strong rabi sowing + good kharif MSP</div>
-              <div id="mt-tractors" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Rural demand recovering</span></div>
+              <div id="mt-tractors" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Rural demand
+                  recovering</span></div>
             </div>
             <div class="macro-kpi kpi-gold" onclick="editMacroKpi('consindex')" style="cursor:pointer">
-              <div class="macro-kpi-label">FMCG Volume Growth <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-label">FMCG Volume Growth <span
+                  style="float:right;font-size:9px;opacity:.4">✎</span></div>
               <div class="macro-kpi-val" id="mv-consindex">~5-6% YoY</div>
-              <div class="macro-kpi-sub" id="ms-consindex">Urban outperforming rural. Premium segment outpacing mass</div>
-              <div id="mt-consindex" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ K-shaped recovery — urban premiumisation</span></div>
+              <div class="macro-kpi-sub" id="ms-consindex">Urban outperforming rural. Premium segment outpacing mass
+              </div>
+              <div id="mt-consindex" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ K-shaped recovery —
+                  urban premiumisation</span></div>
             </div>
           </div>
 
           <!-- ══ SECTION 9: GLOBAL LINKAGES ══ -->
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:24px">
-            <div style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--white3)">🌍 Global Macro Linkages</div>
+            <div
+              style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--white3)">🌍
+              Global Macro Linkages</div>
             <div style="flex:1;height:1px;background:var(--border2)"></div>
             <div style="font-size:9px;color:var(--white3)">Source: Fed · IMF · Bloomberg</div>
           </div>
           <div class="macro-grid-4">
             <div class="macro-kpi kpi-blue" onclick="editMacroKpi('fedrate')" style="cursor:pointer">
-              <div class="macro-kpi-label">US Fed Funds Rate <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-label">US Fed Funds Rate <span style="float:right;font-size:9px;opacity:.4">✎</span>
+              </div>
               <div class="macro-kpi-val" id="mv-fedrate">4.25–4.50%</div>
               <div class="macro-kpi-sub" id="ms-fedrate">Paused. Market pricing 1–2 cuts in 2025 post-inflation</div>
-              <div id="mt-fedrate" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ Higher-for-longer — DXY strength pressures INR</span></div>
+              <div id="mt-fedrate" style="margin-top:6px"><span class="macro-kpi-trend trend-flat">→ Higher-for-longer —
+                  DXY strength pressures INR</span></div>
             </div>
             <div class="macro-kpi kpi-orange" onclick="editMacroKpi('dxy')" style="cursor:pointer">
-              <div class="macro-kpi-label">DXY (USD Index) <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-label">DXY (USD Index) <span style="float:right;font-size:9px;opacity:.4">✎</span>
+              </div>
               <div class="macro-kpi-val" id="mv-dxy">~108</div>
               <div class="macro-kpi-sub" id="ms-dxy">Strong USD = FII outflows from EMs incl. India</div>
-              <div id="mt-dxy" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Strong USD — key headwind for India</span></div>
+              <div id="mt-dxy" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Strong USD — key headwind
+                  for India</span></div>
             </div>
             <div class="macro-kpi kpi-gold" onclick="editMacroKpi('gold')" style="cursor:pointer">
               <div class="macro-kpi-label">Gold Price <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
               <div class="macro-kpi-val" id="mv-gold">~$2,650/oz</div>
               <div class="macro-kpi-sub" id="ms-gold">India 2nd largest consumer. Import duty cut to 6% in Budget</div>
-              <div id="mt-gold" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Adds to CAD if demand surges</span></div>
+              <div id="mt-gold" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ Adds to CAD if demand
+                  surges</span></div>
             </div>
             <div class="macro-kpi kpi-purple" onclick="editMacroKpi('imfgdp')" style="cursor:pointer">
-              <div class="macro-kpi-label">IMF India GDP Forecast <span style="float:right;font-size:9px;opacity:.4">✎</span></div>
+              <div class="macro-kpi-label">IMF India GDP Forecast <span
+                  style="float:right;font-size:9px;opacity:.4">✎</span></div>
               <div class="macro-kpi-val" id="mv-imfgdp">6.5% FY26</div>
               <div class="macro-kpi-sub" id="ms-imfgdp">IMF WEO Jan 2025. Fastest growing major economy</div>
-              <div id="mt-imfgdp" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ India outpacing China (~4.5%) &amp; US (~2.7%)</span></div>
+              <div id="mt-imfgdp" style="margin-top:6px"><span class="macro-kpi-trend trend-up">↑ India outpacing China
+                  (~4.5%) &amp; US (~2.7%)</span></div>
             </div>
           </div>
 
@@ -12294,13 +12488,48 @@ A: WACC is the weighted average cost of capital."></textarea>
               <div class="macro-card-title">India GDP — Demand Side Decomposition (FY25E)</div>
               <table class="macro-table">
                 <tbody>
-                  <tr><th>Component</th><th>% of GDP</th><th>Growth YoY</th><th>Signal</th></tr>
-                  <tr><td>Private Consumption (PFCE)</td><td class="mnum">56%</td><td class="mgood">+7.3%</td><td>Urban recovery</td></tr>
-                  <tr><td>Govt Consumption (GFCE)</td><td class="mnum">11%</td><td class="mwarn">+4.1%</td><td>Restrained</td></tr>
-                  <tr><td>Gross Fixed Capital Formation</td><td class="mnum">33%</td><td class="mgood">+7.2%</td><td>Capex-led</td></tr>
-                  <tr><td>Exports (goods + services)</td><td class="mnum">23%</td><td class="mgood">+8.5%</td><td>Services strong</td></tr>
-                  <tr><td>Imports</td><td class="mnum">25%</td><td class="mbad">+9.0%</td><td>Oil &amp; electronics</td></tr>
-                  <tr><td><strong>GDP Growth (FY25E)</strong></td><td class="mnum">—</td><td class="mgood"><strong>6.4%</strong></td><td><strong>Capex-driven</strong></td></tr>
+                  <tr>
+                    <th>Component</th>
+                    <th>% of GDP</th>
+                    <th>Growth YoY</th>
+                    <th>Signal</th>
+                  </tr>
+                  <tr>
+                    <td>Private Consumption (PFCE)</td>
+                    <td class="mnum">56%</td>
+                    <td class="mgood">+7.3%</td>
+                    <td>Urban recovery</td>
+                  </tr>
+                  <tr>
+                    <td>Govt Consumption (GFCE)</td>
+                    <td class="mnum">11%</td>
+                    <td class="mwarn">+4.1%</td>
+                    <td>Restrained</td>
+                  </tr>
+                  <tr>
+                    <td>Gross Fixed Capital Formation</td>
+                    <td class="mnum">33%</td>
+                    <td class="mgood">+7.2%</td>
+                    <td>Capex-led</td>
+                  </tr>
+                  <tr>
+                    <td>Exports (goods + services)</td>
+                    <td class="mnum">23%</td>
+                    <td class="mgood">+8.5%</td>
+                    <td>Services strong</td>
+                  </tr>
+                  <tr>
+                    <td>Imports</td>
+                    <td class="mnum">25%</td>
+                    <td class="mbad">+9.0%</td>
+                    <td>Oil &amp; electronics</td>
+                  </tr>
+                  <tr>
+                    <td><strong>GDP Growth (FY25E)</strong></td>
+                    <td class="mnum">—</td>
+                    <td class="mgood"><strong>6.4%</strong></td>
+                    <td><strong>Capex-driven</strong></td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -12310,13 +12539,48 @@ A: WACC is the weighted average cost of capital."></textarea>
               <div class="macro-card-title">GVA by Sector — Supply Side (FY25E)</div>
               <table class="macro-table">
                 <tbody>
-                  <tr><th>Sector</th><th>% of GVA</th><th>Growth</th><th>Key Watch</th></tr>
-                  <tr><td>Agriculture &amp; Allied</td><td class="mnum">17%</td><td class="mgood">+3.8%</td><td>Rabi season</td></tr>
-                  <tr><td>Industry (Mfg + Mining)</td><td class="mnum">28%</td><td class="mwarn">+5.9%</td><td>IIP, PLI uptake</td></tr>
-                  <tr><td>Manufacturing</td><td class="mnum">17%</td><td class="mgood">+6.5%</td><td>PLI schemes</td></tr>
-                  <tr><td>Construction</td><td class="mnum">9%</td><td class="mgood">+8.2%</td><td>Infra push</td></tr>
-                  <tr><td>Services</td><td class="mnum">55%</td><td class="mgood">+7.1%</td><td>IT, BFSI, travel</td></tr>
-                  <tr><td>Finance &amp; Real Estate</td><td class="mnum">21%</td><td class="mgood">+7.9%</td><td>Credit growth</td></tr>
+                  <tr>
+                    <th>Sector</th>
+                    <th>% of GVA</th>
+                    <th>Growth</th>
+                    <th>Key Watch</th>
+                  </tr>
+                  <tr>
+                    <td>Agriculture &amp; Allied</td>
+                    <td class="mnum">17%</td>
+                    <td class="mgood">+3.8%</td>
+                    <td>Rabi season</td>
+                  </tr>
+                  <tr>
+                    <td>Industry (Mfg + Mining)</td>
+                    <td class="mnum">28%</td>
+                    <td class="mwarn">+5.9%</td>
+                    <td>IIP, PLI uptake</td>
+                  </tr>
+                  <tr>
+                    <td>Manufacturing</td>
+                    <td class="mnum">17%</td>
+                    <td class="mgood">+6.5%</td>
+                    <td>PLI schemes</td>
+                  </tr>
+                  <tr>
+                    <td>Construction</td>
+                    <td class="mnum">9%</td>
+                    <td class="mgood">+8.2%</td>
+                    <td>Infra push</td>
+                  </tr>
+                  <tr>
+                    <td>Services</td>
+                    <td class="mnum">55%</td>
+                    <td class="mgood">+7.1%</td>
+                    <td>IT, BFSI, travel</td>
+                  </tr>
+                  <tr>
+                    <td>Finance &amp; Real Estate</td>
+                    <td class="mnum">21%</td>
+                    <td class="mgood">+7.9%</td>
+                    <td>Credit growth</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -12326,13 +12590,48 @@ A: WACC is the weighted average cost of capital."></textarea>
               <div class="macro-card-title">RBI Monetary Policy — Key Rates &amp; Transmission</div>
               <table class="macro-table">
                 <tbody>
-                  <tr><th>Rate</th><th>Current</th><th>Direction</th><th>Purpose</th></tr>
-                  <tr><td>Repo Rate</td><td class="mgood">6.25%</td><td class="mgood">↓ Cutting</td><td>Lending rate floor</td></tr>
-                  <tr><td>SDF (Standing Deposit Facility)</td><td class="mnum">6.00%</td><td class="mgood">↓</td><td>Absorbs surplus liquidity</td></tr>
-                  <tr><td>MSF (Marginal Standing Facility)</td><td class="mnum">6.50%</td><td class="mgood">↓</td><td>Emergency bank borrowing</td></tr>
-                  <tr><td>CRR</td><td class="mgood">4.00%</td><td class="mgood">↓ Cut</td><td>Cash held with RBI</td></tr>
-                  <tr><td>SLR</td><td class="mnum">18.0%</td><td class="mwarn">→ Stable</td><td>G-Sec held by banks</td></tr>
-                  <tr><td>1-Yr MCLR (SBI)</td><td class="mnum">~8.75%</td><td class="mwarn">→</td><td>Actual lending rate benchmark</td></tr>
+                  <tr>
+                    <th>Rate</th>
+                    <th>Current</th>
+                    <th>Direction</th>
+                    <th>Purpose</th>
+                  </tr>
+                  <tr>
+                    <td>Repo Rate</td>
+                    <td class="mgood">6.25%</td>
+                    <td class="mgood">↓ Cutting</td>
+                    <td>Lending rate floor</td>
+                  </tr>
+                  <tr>
+                    <td>SDF (Standing Deposit Facility)</td>
+                    <td class="mnum">6.00%</td>
+                    <td class="mgood">↓</td>
+                    <td>Absorbs surplus liquidity</td>
+                  </tr>
+                  <tr>
+                    <td>MSF (Marginal Standing Facility)</td>
+                    <td class="mnum">6.50%</td>
+                    <td class="mgood">↓</td>
+                    <td>Emergency bank borrowing</td>
+                  </tr>
+                  <tr>
+                    <td>CRR</td>
+                    <td class="mgood">4.00%</td>
+                    <td class="mgood">↓ Cut</td>
+                    <td>Cash held with RBI</td>
+                  </tr>
+                  <tr>
+                    <td>SLR</td>
+                    <td class="mnum">18.0%</td>
+                    <td class="mwarn">→ Stable</td>
+                    <td>G-Sec held by banks</td>
+                  </tr>
+                  <tr>
+                    <td>1-Yr MCLR (SBI)</td>
+                    <td class="mnum">~8.75%</td>
+                    <td class="mwarn">→</td>
+                    <td>Actual lending rate benchmark</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -12342,72 +12641,192 @@ A: WACC is the weighted average cost of capital."></textarea>
               <div class="macro-card-title">India vs EM Peers — Key Macro Scorecard</div>
               <table class="macro-table">
                 <tbody>
-                  <tr><th>Metric</th><th>India</th><th>China</th><th>Brazil</th><th>Indonesia</th></tr>
-                  <tr><td>GDP Growth</td><td class="mgood">6.4%</td><td class="mwarn">4.5%</td><td class="mbad">2.2%</td><td class="mgood">5.2%</td></tr>
-                  <tr><td>Inflation (CPI)</td><td class="mgood">4.3%</td><td class="mgood">0.5%</td><td class="mbad">4.9%</td><td class="mgood">2.8%</td></tr>
-                  <tr><td>Policy Rate</td><td class="mnum">6.25%</td><td class="mgood">3.10%</td><td class="mbad">13.25%</td><td class="mwarn">6.00%</td></tr>
-                  <tr><td>Fiscal Deficit/GDP</td><td class="mwarn">4.8%</td><td class="mwarn">3.0%</td><td class="mbad">7.5%</td><td class="mgood">2.7%</td></tr>
-                  <tr><td>Debt/GDP</td><td class="mwarn">~56%</td><td class="mbad">~83%</td><td class="mbad">~88%</td><td class="mgood">~38%</td></tr>
-                  <tr><td>Forex Reserves</td><td class="mgood">$625bn</td><td class="mgood">$3.3tn</td><td class="mwarn">$345bn</td><td class="mwarn">$145bn</td></tr>
+                  <tr>
+                    <th>Metric</th>
+                    <th>India</th>
+                    <th>China</th>
+                    <th>Brazil</th>
+                    <th>Indonesia</th>
+                  </tr>
+                  <tr>
+                    <td>GDP Growth</td>
+                    <td class="mgood">6.4%</td>
+                    <td class="mwarn">4.5%</td>
+                    <td class="mbad">2.2%</td>
+                    <td class="mgood">5.2%</td>
+                  </tr>
+                  <tr>
+                    <td>Inflation (CPI)</td>
+                    <td class="mgood">4.3%</td>
+                    <td class="mgood">0.5%</td>
+                    <td class="mbad">4.9%</td>
+                    <td class="mgood">2.8%</td>
+                  </tr>
+                  <tr>
+                    <td>Policy Rate</td>
+                    <td class="mnum">6.25%</td>
+                    <td class="mgood">3.10%</td>
+                    <td class="mbad">13.25%</td>
+                    <td class="mwarn">6.00%</td>
+                  </tr>
+                  <tr>
+                    <td>Fiscal Deficit/GDP</td>
+                    <td class="mwarn">4.8%</td>
+                    <td class="mwarn">3.0%</td>
+                    <td class="mbad">7.5%</td>
+                    <td class="mgood">2.7%</td>
+                  </tr>
+                  <tr>
+                    <td>Debt/GDP</td>
+                    <td class="mwarn">~56%</td>
+                    <td class="mbad">~83%</td>
+                    <td class="mbad">~88%</td>
+                    <td class="mgood">~38%</td>
+                  </tr>
+                  <tr>
+                    <td>Forex Reserves</td>
+                    <td class="mgood">$625bn</td>
+                    <td class="mgood">$3.3tn</td>
+                    <td class="mwarn">$345bn</td>
+                    <td class="mwarn">$145bn</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
           </div>
 
           <!-- ══ EXTENDED INTERVIEW ANSWER TEMPLATES ══ -->
-          <div style="font-family:'DM Serif Display',serif;font-size:16px;color:var(--white);margin:0 0 14px;display:flex;align-items:center;gap:10px">
+          <div
+            style="font-family:'DM Serif Display',serif;font-size:16px;color:var(--white);margin:0 0 14px;display:flex;align-items:center;gap:10px">
             💬 More Interview Answer Templates
             <span style="flex:1;height:1px;background:var(--border2);display:block"></span>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
 
-            <div style="background:linear-gradient(135deg,var(--navy3),var(--navy4));border:1px solid var(--border);border-radius:12px;padding:16px 18px">
-              <div style="font-size:10px;font-weight:700;color:var(--gold2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px">Q: "What is the state of India's fiscal policy?"</div>
-              <div style="font-size:12px;color:var(--white2);line-height:1.8;font-style:italic">"India is on a fiscal consolidation path — the deficit narrows from 5.1% in FY24 to a target of 4.4% in FY26. The key feature of the current budget philosophy is <strong style="color:var(--white);font-style:normal">capex-led growth</strong> — ₹11.1L Cr in FY26 infrastructure spend is designed to crowd-in private investment. Revenue capex (roads, railways, urban infra) multipliers are estimated at 2.5–3x vs 1x for revenue expenditure. However, divestment has historically underdelivered, and interest payments now consume ~20% of government revenues — a structural constraint on fiscal flexibility."</div>
+            <div
+              style="background:linear-gradient(135deg,var(--navy3),var(--navy4));border:1px solid var(--border);border-radius:12px;padding:16px 18px">
+              <div
+                style="font-size:10px;font-weight:700;color:var(--gold2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px">
+                Q: "What is the state of India's fiscal policy?"</div>
+              <div style="font-size:12px;color:var(--white2);line-height:1.8;font-style:italic">"India is on a fiscal
+                consolidation path — the deficit narrows from 5.1% in FY24 to a target of 4.4% in FY26. The key feature
+                of the current budget philosophy is <strong style="color:var(--white);font-style:normal">capex-led
+                  growth</strong> — ₹11.1L Cr in FY26 infrastructure spend is designed to crowd-in private investment.
+                Revenue capex (roads, railways, urban infra) multipliers are estimated at 2.5–3x vs 1x for revenue
+                expenditure. However, divestment has historically underdelivered, and interest payments now consume ~20%
+                of government revenues — a structural constraint on fiscal flexibility."</div>
             </div>
 
-            <div style="background:linear-gradient(135deg,var(--navy3),var(--navy4));border:1px solid var(--border);border-radius:12px;padding:16px 18px">
-              <div style="font-size:10px;font-weight:700;color:var(--gold2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px">Q: "How healthy is India's banking system?"</div>
-              <div style="font-size:12px;color:var(--white2);line-height:1.8;font-style:italic">"India's banks are in the best shape in a decade. Gross NPAs have fallen to ~2.6% — a 12-year low — and capital adequacy (CRAR at 16.8%) is well above the regulatory minimum. The prior NPA crisis of 2015–2019 has been substantially resolved through IBC, bank recapitalisations, and write-offs. The current risk to watch is the <strong style="color:var(--white);font-style:normal">elevated credit-deposit ratio (~78%)</strong> — credit has grown faster than deposits, which RBI has flagged as a systemic liquidity risk. Unsecured retail lending growth is also being monitored after RBI raised risk weights in late 2023."</div>
+            <div
+              style="background:linear-gradient(135deg,var(--navy3),var(--navy4));border:1px solid var(--border);border-radius:12px;padding:16px 18px">
+              <div
+                style="font-size:10px;font-weight:700;color:var(--gold2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px">
+                Q: "How healthy is India's banking system?"</div>
+              <div style="font-size:12px;color:var(--white2);line-height:1.8;font-style:italic">"India's banks are in
+                the best shape in a decade. Gross NPAs have fallen to ~2.6% — a 12-year low — and capital adequacy (CRAR
+                at 16.8%) is well above the regulatory minimum. The prior NPA crisis of 2015–2019 has been substantially
+                resolved through IBC, bank recapitalisations, and write-offs. The current risk to watch is the <strong
+                  style="color:var(--white);font-style:normal">elevated credit-deposit ratio (~78%)</strong> — credit
+                has grown faster than deposits, which RBI has flagged as a systemic liquidity risk. Unsecured retail
+                lending growth is also being monitored after RBI raised risk weights in late 2023."</div>
             </div>
 
-            <div style="background:linear-gradient(135deg,var(--navy3),var(--navy4));border:1px solid var(--border);border-radius:12px;padding:16px 18px">
-              <div style="font-size:10px;font-weight:700;color:var(--gold2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px">Q: "What are the key risks to India's growth story?"</div>
-              <div style="font-size:12px;color:var(--white2);line-height:1.8;font-style:italic">"I'd highlight four: <strong style="color:var(--white);font-style:normal">(1) Geopolitical &amp; crude oil risk</strong> — India imports ~85% of oil; a supply shock to Brent significantly widens the CAD and INR. <strong style="color:var(--white);font-style:normal">(2) INR depreciation</strong> — at ₹86.5/$, further weakening raises import costs and triggers FII outflows. <strong style="color:var(--white);font-style:normal">(3) Private capex gap</strong> — government has been doing the heavy lifting; private sector investment has been sluggish due to capacity utilisation concerns. <strong style="color:var(--white);font-style:normal">(4) Rural consumption lag</strong> — despite urban recovery, rural demand remains uneven, making inflation in food (50% of CPI basket) a political and economic risk."</div>
+            <div
+              style="background:linear-gradient(135deg,var(--navy3),var(--navy4));border:1px solid var(--border);border-radius:12px;padding:16px 18px">
+              <div
+                style="font-size:10px;font-weight:700;color:var(--gold2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px">
+                Q: "What are the key risks to India's growth story?"</div>
+              <div style="font-size:12px;color:var(--white2);line-height:1.8;font-style:italic">"I'd highlight four:
+                <strong style="color:var(--white);font-style:normal">(1) Geopolitical &amp; crude oil risk</strong> —
+                India imports ~85% of oil; a supply shock to Brent significantly widens the CAD and INR. <strong
+                  style="color:var(--white);font-style:normal">(2) INR depreciation</strong> — at ₹86.5/$, further
+                weakening raises import costs and triggers FII outflows. <strong
+                  style="color:var(--white);font-style:normal">(3) Private capex gap</strong> — government has been
+                doing the heavy lifting; private sector investment has been sluggish due to capacity utilisation
+                concerns. <strong style="color:var(--white);font-style:normal">(4) Rural consumption lag</strong> —
+                despite urban recovery, rural demand remains uneven, making inflation in food (50% of CPI basket) a
+                political and economic risk."</div>
             </div>
 
-            <div style="background:linear-gradient(135deg,var(--navy3),var(--navy4));border:1px solid var(--border);border-radius:12px;padding:16px 18px">
-              <div style="font-size:10px;font-weight:700;color:var(--gold2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px">Q: "How do global factors affect Indian equities?"</div>
-              <div style="font-size:12px;color:var(--white2);line-height:1.8;font-style:italic">"Three global factors dominate Indian equity flows: <strong style="color:var(--white);font-style:normal">(1) US Fed policy</strong> — when the Fed holds rates high, the DXY strengthens (currently ~108), making EM assets less attractive and driving FII outflows from India (net -₹90,000 Cr in CY25 YTD). <strong style="color:var(--white);font-style:normal">(2) Crude oil</strong> — Brent at $74 is benign; above $90–95 it creates a stagflation risk for India via higher inflation and a wider CAD. <strong style="color:var(--white);font-style:normal">(3) US–China tensions</strong> — paradoxically a tailwind for India via supply chain diversification and China+1 manufacturing FDI."</div>
+            <div
+              style="background:linear-gradient(135deg,var(--navy3),var(--navy4));border:1px solid var(--border);border-radius:12px;padding:16px 18px">
+              <div
+                style="font-size:10px;font-weight:700;color:var(--gold2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px">
+                Q: "How do global factors affect Indian equities?"</div>
+              <div style="font-size:12px;color:var(--white2);line-height:1.8;font-style:italic">"Three global factors
+                dominate Indian equity flows: <strong style="color:var(--white);font-style:normal">(1) US Fed
+                  policy</strong> — when the Fed holds rates high, the DXY strengthens (currently ~108), making EM
+                assets less attractive and driving FII outflows from India (net -₹90,000 Cr in CY25 YTD). <strong
+                  style="color:var(--white);font-style:normal">(2) Crude oil</strong> — Brent at $74 is benign; above
+                $90–95 it creates a stagflation risk for India via higher inflation and a wider CAD. <strong
+                  style="color:var(--white);font-style:normal">(3) US–China tensions</strong> — paradoxically a tailwind
+                for India via supply chain diversification and China+1 manufacturing FDI."</div>
             </div>
 
-            <div style="background:linear-gradient(135deg,var(--navy3),var(--navy4));border:1px solid var(--border);border-radius:12px;padding:16px 18px">
-              <div style="font-size:10px;font-weight:700;color:var(--gold2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px">Q: "Explain India's Current Account and what defends the INR?"</div>
-              <div style="font-size:12px;color:var(--white2);line-height:1.8;font-style:italic">"India structurally runs a current account deficit — goods imports (oil, electronics, gold) exceed exports, creating a merchandise deficit of ~$23bn/month. This is partially offset by a services surplus (~$160bn annually from IT/BPO/travel) and remittances (~$125bn, world's largest). The CAD is currently manageable at ~1.2% of GDP. The INR is defended by <strong style="color:var(--white);font-style:normal">RBI's $625bn forex reserves</strong> (~11 months import cover) and active intervention — the RBI sold dollars aggressively when INR breached 87 to prevent overshooting. The risk is a sharp crude spike widening the CAD and forcing the RBI to choose between reserves and INR."</div>
+            <div
+              style="background:linear-gradient(135deg,var(--navy3),var(--navy4));border:1px solid var(--border);border-radius:12px;padding:16px 18px">
+              <div
+                style="font-size:10px;font-weight:700;color:var(--gold2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px">
+                Q: "Explain India's Current Account and what defends the INR?"</div>
+              <div style="font-size:12px;color:var(--white2);line-height:1.8;font-style:italic">"India structurally runs
+                a current account deficit — goods imports (oil, electronics, gold) exceed exports, creating a
+                merchandise deficit of ~$23bn/month. This is partially offset by a services surplus (~$160bn annually
+                from IT/BPO/travel) and remittances (~$125bn, world's largest). The CAD is currently manageable at ~1.2%
+                of GDP. The INR is defended by <strong style="color:var(--white);font-style:normal">RBI's $625bn forex
+                  reserves</strong> (~11 months import cover) and active intervention — the RBI sold dollars
+                aggressively when INR breached 87 to prevent overshooting. The risk is a sharp crude spike widening the
+                CAD and forcing the RBI to choose between reserves and INR."</div>
             </div>
 
-            <div style="background:linear-gradient(135deg,var(--navy3),var(--navy4));border:1px solid var(--border);border-radius:12px;padding:16px 18px">
-              <div style="font-size:10px;font-weight:700;color:var(--gold2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px">Q: "What does the SIP/MF data tell you about Indian markets?"</div>
-              <div style="font-size:12px;color:var(--white2);line-height:1.8;font-style:italic">"SIP inflows at ₹26,400 Cr/month (record) and MF AUM of ₹67L Cr are structural, not cyclical — they reflect the financialisation of household savings, with 10 Cr+ SIP accounts. This has two market implications: <strong style="color:var(--white);font-style:normal">(1) DII buying power</strong> absorbs FII selling (which is exactly what happened in CY25 when FIIs sold ₹90,000 Cr but markets didn't collapse). <strong style="color:var(--white);font-style:normal">(2) Valuation floor</strong> — consistent domestic demand has compressed the typical correction depth. Historically Nifty corrections were 25–30%; the CY25 correction to ~22,500 is only ~15%. The risk: if SIPs slow during a deep correction, the support mechanism weakens — a 'SIP shock absorber' hypothesis that hasn't been stress-tested in a prolonged bear market."</div>
+            <div
+              style="background:linear-gradient(135deg,var(--navy3),var(--navy4));border:1px solid var(--border);border-radius:12px;padding:16px 18px">
+              <div
+                style="font-size:10px;font-weight:700;color:var(--gold2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px">
+                Q: "What does the SIP/MF data tell you about Indian markets?"</div>
+              <div style="font-size:12px;color:var(--white2);line-height:1.8;font-style:italic">"SIP inflows at ₹26,400
+                Cr/month (record) and MF AUM of ₹67L Cr are structural, not cyclical — they reflect the financialisation
+                of household savings, with 10 Cr+ SIP accounts. This has two market implications: <strong
+                  style="color:var(--white);font-style:normal">(1) DII buying power</strong> absorbs FII selling (which
+                is exactly what happened in CY25 when FIIs sold ₹90,000 Cr but markets didn't collapse). <strong
+                  style="color:var(--white);font-style:normal">(2) Valuation floor</strong> — consistent domestic demand
+                has compressed the typical correction depth. Historically Nifty corrections were 25–30%; the CY25
+                correction to ~22,500 is only ~15%. The risk: if SIPs slow during a deep correction, the support
+                mechanism weakens — a 'SIP shock absorber' hypothesis that hasn't been stress-tested in a prolonged bear
+                market."</div>
             </div>
           </div>
 
           <!-- ══ QUICK CHEATSHEET ══ -->
-          <div style="background:var(--gold-bg2);border:1.5px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:10px">
-            <div style="font-family:'DM Serif Display',serif;font-size:15px;color:var(--white);margin-bottom:12px">⚡ Quick Cheat Sheet — Numbers to Know Cold</div>
-            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px 20px;font-size:11.5px;color:var(--white2);line-height:1.8">
-              <div><span style="color:var(--gold2);font-weight:600">India GDP size:</span> ~$3.7 trillion (FY25E) — 5th largest globally</div>
-              <div><span style="color:var(--gold2);font-weight:600">Nominal GDP growth:</span> ~10.5% (real 6.4% + ~4% deflator)</div>
-              <div><span style="color:var(--gold2);font-weight:600">Per capita GDP:</span> ~$2,600 (USD) — still EM, huge headroom</div>
-              <div><span style="color:var(--gold2);font-weight:600">RBI inflation target:</span> 4% ± 2% band (2–6% tolerance)</div>
-              <div><span style="color:var(--gold2);font-weight:600">Food weight in CPI:</span> ~46% — why monsoon drives inflation</div>
-              <div><span style="color:var(--gold2);font-weight:600">India's oil import bill:</span> ~$130–150bn/yr (~85% imported)</div>
-              <div><span style="color:var(--gold2);font-weight:600">Nifty 50 P/E (current):</span> ~19x — below 5-yr avg of ~22x</div>
-              <div><span style="color:var(--gold2);font-weight:600">India market cap/GDP:</span> ~130% — elevated but justified by growth</div>
-              <div><span style="color:var(--gold2);font-weight:600">NSE listed companies:</span> 2,200+ (market cap ~₹380L Cr)</div>
-              <div><span style="color:var(--gold2);font-weight:600">IBC resolution rate:</span> ~45% recovery vs 25% in old BIFR regime</div>
-              <div><span style="color:var(--gold2);font-weight:600">PLI scheme outlay:</span> ₹1.97L Cr across 14 sectors</div>
-              <div><span style="color:var(--gold2);font-weight:600">India FDI inflows FY25:</span> ~$45bn — manufacturing &amp; services</div>
+          <div
+            style="background:var(--gold-bg2);border:1.5px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:10px">
+            <div style="font-family:'DM Serif Display',serif;font-size:15px;color:var(--white);margin-bottom:12px">⚡
+              Quick Cheat Sheet — Numbers to Know Cold</div>
+            <div
+              style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px 20px;font-size:11.5px;color:var(--white2);line-height:1.8">
+              <div><span style="color:var(--gold2);font-weight:600">India GDP size:</span> ~$3.7 trillion (FY25E) — 5th
+                largest globally</div>
+              <div><span style="color:var(--gold2);font-weight:600">Nominal GDP growth:</span> ~10.5% (real 6.4% + ~4%
+                deflator)</div>
+              <div><span style="color:var(--gold2);font-weight:600">Per capita GDP:</span> ~$2,600 (USD) — still EM,
+                huge headroom</div>
+              <div><span style="color:var(--gold2);font-weight:600">RBI inflation target:</span> 4% ± 2% band (2–6%
+                tolerance)</div>
+              <div><span style="color:var(--gold2);font-weight:600">Food weight in CPI:</span> ~46% — why monsoon drives
+                inflation</div>
+              <div><span style="color:var(--gold2);font-weight:600">India's oil import bill:</span> ~$130–150bn/yr (~85%
+                imported)</div>
+              <div><span style="color:var(--gold2);font-weight:600">Nifty 50 P/E (current):</span> ~19x — below 5-yr avg
+                of ~22x</div>
+              <div><span style="color:var(--gold2);font-weight:600">India market cap/GDP:</span> ~130% — elevated but
+                justified by growth</div>
+              <div><span style="color:var(--gold2);font-weight:600">NSE listed companies:</span> 2,200+ (market cap
+                ~₹380L Cr)</div>
+              <div><span style="color:var(--gold2);font-weight:600">IBC resolution rate:</span> ~45% recovery vs 25% in
+                old BIFR regime</div>
+              <div><span style="color:var(--gold2);font-weight:600">PLI scheme outlay:</span> ₹1.97L Cr across 14
+                sectors</div>
+              <div><span style="color:var(--gold2);font-weight:600">India FDI inflows FY25:</span> ~$45bn —
+                manufacturing &amp; services</div>
             </div>
           </div>
 
@@ -14657,7 +15076,7 @@ A: WACC is the weighted average cost of capital."></textarea>
           var errEl = document.getElementById('macroError');
           var spinIcon = document.getElementById('macroSpinIcon');
           btn.disabled = true;
-          spinIcon.classList.add('spinning');
+          spinIcon.classList.add('macro-spinning');
           statusEl.textContent = 'Fetching live data...';
           errEl.style.display = 'none';
           var kpiIds = ['repo', 'gsec', 'cpi', 'gdp', 'inr', 'fii', 'nifty', 'wpi', 'crude', 'iip', 'gst', 'cad'];
@@ -14676,7 +15095,7 @@ A: WACC is the weighted average cost of capital."></textarea>
               errEl.textContent = '⚠ Please enter your Google Gemini API key above (get it free at aistudio.google.com), then click Refresh.';
               errEl.style.display = 'block';
               statusEl.textContent = 'API key required';
-              btn.disabled = false; spinIcon.classList.remove('spinning');
+              btn.disabled = false; spinIcon.classList.remove('macro-spinning');
               kpiIds.forEach(function (id) {
                 var v = document.getElementById('val-' + id); if (v) { v.textContent = '—'; v.className = 'macro-kpi-val'; }
                 var s = document.getElementById('sub-' + id); if (s) s.textContent = 'Enter Gemini API key above, then click Refresh';
@@ -14690,7 +15109,7 @@ A: WACC is the weighted average cost of capital."></textarea>
                 generationConfig: { temperature: 0.2, maxOutputTokens: 2000 }
               };
               if (useSearch) body.tools = tools;
-              var url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=' + apiKey;
+              var url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=' + apiKey;
               var resp = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -14705,56 +15124,76 @@ A: WACC is the weighted average cost of capital."></textarea>
               }
               return text;
             }
-            var rawText = await geminiAsk(`Search the web for the latest values of these India macro indicators as of today and return ONLY a valid JSON object with no other text, markdown backticks, or explanation. Use real current data:
+            var rawText = await geminiAsk(`Search the web for the latest available values of ALL these India macro indicators and return ONLY a valid JSON object with no markdown, backticks, or explanation. Use the most recent real data available for each:
 {
-"repo_rate": "X.XX%",
-"repo_trend": "cut/hike/hold",
-"repo_note": "brief note e.g. 'Cut 25bps in Feb 2025, cumulative 50bps of cuts'",
-"gsec_10yr": "X.XX%",
-"gsec_trend": "up/down/flat",
-"gsec_note": "brief note",
-"cpi": "X.X%",
-"cpi_trend": "up/down/flat",
-"cpi_month": "e.g. Nov 2024",
-"cpi_note": "brief note",
-"gdp_growth": "X.X%",
-"gdp_period": "e.g. Q2 FY25",
-"gdp_trend": "up/down/flat",
-"gdp_note": "brief note",
-"inr_usd": "XX.XX",
-"inr_trend": "up/down/flat",
-"inr_note": "brief note",
-"fii_mtd": "e.g. +₹8,420 Cr or -₹12,300 Cr",
-"fii_trend": "inflow/outflow",
-"fii_note": "brief note including month",
-"nifty": "XX,XXX",
-"nifty_trend": "up/down/flat",
-"nifty_ytd": "e.g. +8.2% YTD",
-"nifty_pe": "XX.X",
-"wpi": "X.X%",
-"wpi_trend": "up/down/flat",
-"wpi_note": "brief note",
-"crude_brent": "$XX.XX",
-"crude_trend": "up/down/flat",
-"crude_note": "brief note",
-"iip_growth": "X.X%",
-"iip_period": "e.g. Oct 2024",
-"iip_trend": "up/down/flat",
-"iip_note": "brief note",
-"gst_collections": "₹X.XX lakh cr",
-"gst_trend": "up/down/flat",
-"gst_note": "brief note including month",
-"current_account": "e.g. -$10.4bn or -1.2% of GDP",
-"cad_trend": "improving/worsening/stable",
-"cad_note": "brief note",
-"rbi_cuts_total": "e.g. 50bps total in this cycle",
-"rbi_cycle_context": "2-3 sentence summary of where RBI is in the cycle and likely next move",
-"last_updated": "approximate date of data"
+  "repo_rate": "X.XX%", "repo_trend": "cut/hike/hold", "repo_note": "e.g. Cut 25bps Feb 2025. Next MPC: Jun 2025",
+  "gsec_10yr": "X.XX%", "gsec_trend": "up/down/flat", "gsec_note": "e.g. Down ~40bps from Oct 2024 high",
+  "cpi": "X.X%", "cpi_trend": "up/down/flat", "cpi_month": "e.g. Feb 2025", "cpi_note": "e.g. Within RBI 4% band",
+  "crr": "X.XX%", "crr_trend": "up/down/flat", "crr_note": "e.g. Cut 50bps Dec 2024",
+  "gdp_growth": "X.X%", "gdp_period": "e.g. FY25E", "gdp_trend": "up/down/flat", "gdp_note": "e.g. FY24 was 8.2%",
+  "wpi": "X.X%", "wpi_trend": "up/down/flat", "wpi_note": "e.g. Mfg goods deflation persists",
+  "iip_growth": "X.X%", "iip_period": "e.g. Jan 2025", "iip_trend": "up/down/flat", "iip_note": "e.g. Manufacturing at 3.0%",
+  "gst_collections": "₹X.XXL Cr", "gst_trend": "up/down/flat", "gst_note": "e.g. Jan 2025. +12% YoY",
+  "inr_usd": "XX.XX", "inr_trend": "up/down/flat", "inr_note": "e.g. RBI intervening to prevent sharp fall",
+  "fii_mtd": "e.g. -₹82,000 Cr", "fii_trend": "inflow/outflow", "fii_note": "e.g. CY2025 YTD. DII absorbing",
+  "crude_brent": "$XX", "crude_trend": "up/down/flat", "crude_note": "e.g. India imports ~85% of crude",
+  "forex_reserves": "$XXX bn", "forex_trend": "up/down/flat", "forex_note": "e.g. ~11 months import cover",
+  "fiscal_deficit": "X.X% of GDP", "fiscaldef_trend": "up/down/flat", "fiscaldef_note": "e.g. FY26 target: 4.4%",
+  "capex": "₹XX.XL Cr", "capex_trend": "up/down/flat", "capex_note": "e.g. Focus: roads, railways, defence",
+  "debt_gdp": "~XX%", "debtgdp_trend": "up/down/flat", "debtgdp_note": "e.g. EM peers avg ~65%",
+  "divestment": "₹XX,XXX Cr", "divestment_trend": "up/down/flat", "divestment_note": "e.g. FY25 target vs achieved",
+  "gnpa": "X.X%", "gnpa_trend": "up/down/flat", "gnpa_note": "e.g. 12-year low. Net NPA ~0.6%",
+  "crar": "XX.X%", "crar_trend": "up/down/flat", "crar_note": "e.g. Well above RBI 11.5% minimum",
+  "credit_growth": "XX.X%", "creditgrowth_trend": "up/down/flat", "creditgrowth_note": "e.g. Retail & MSME leading",
+  "cd_ratio": "XX%", "cdrat_trend": "up/down/flat", "cdrat_note": "e.g. RBI flagged as elevated",
+  "nifty": "XX,XXX", "nifty_trend": "up/down/flat", "nifty_ytd": "e.g. -8% YTD", "nifty_pe": "XX.X",
+  "sip_flows": "₹XX,XXX Cr", "sip_trend": "up/down/flat", "sip_note": "e.g. Record high. 10Cr+ active accounts",
+  "mf_aum": "₹XXL Cr", "mfaum_trend": "up/down/flat", "mfaum_note": "e.g. Tripled in 5 years",
+  "ipo_market": "₹X.XL Cr", "ipomarket_trend": "up/down/flat", "ipomarket_note": "e.g. FY25 record issuance",
+  "current_account": "X.X% of GDP", "cad_trend": "improving/worsening/stable", "cad_note": "e.g. Supported by services surplus",
+  "trade_deficit": "~$XX bn/mo", "tradedef_trend": "up/down/flat", "tradedef_note": "e.g. Oil & electronics dominate",
+  "remittances": "~$XXX bn", "remit_trend": "up/down/flat", "remit_note": "e.g. World largest recipient",
+  "services_exports": "~$XXX bn", "servexp_trend": "up/down/flat", "servexp_note": "e.g. IT/BPO, travel, finance",
+  "unemployment": "X.X%", "unemp_trend": "up/down/flat", "unemp_note": "e.g. CMIE. Rural ~6.0%",
+  "mnrega_days": "~XX Cr days/mo", "mnrega_trend": "up/down/flat", "mnrega_note": "e.g. Budget FY26: ₹86,000 Cr",
+  "tractor_sales": "+X% YoY", "tractors_trend": "up/down/flat", "tractors_note": "e.g. Strong rabi sowing",
+  "cons_index": "X-X% YoY", "consindex_trend": "up/down/flat", "consindex_note": "e.g. Urban outperforming rural",
+  "fed_rate": "X.XX-X.XX%", "fedrate_trend": "up/down/flat", "fedrate_note": "e.g. Paused. 1-2 cuts expected 2025",
+  "dxy": "~XXX", "dxy_trend": "up/down/flat", "dxy_note": "e.g. Strong USD = FII outflows from EMs",
+  "gold_price": "~$X,XXX/oz", "gold_trend": "up/down/flat", "gold_note": "e.g. India 2nd largest consumer",
+  "imf_gdp": "X.X% FY26", "imfgdp_trend": "up/down/flat", "imfgdp_note": "e.g. Fastest growing major economy",
+  "rbi_cuts_total": "e.g. 50bps total in this cycle",
+  "rbi_cycle_context": "2-3 sentence summary of RBI rate cycle and likely next move",
+  "last_updated": "approximate date of data"
 }`, true);
+
             rawText = rawText.replace(/```json|```/g, '').trim();
             var jsonMatch = rawText.match(/\{[\s\S]+\}/);
             if (!jsonMatch) throw new Error('Could not parse macro data response');
             var macro = JSON.parse(jsonMatch[0]);
+
+            // Helper: maps trend string to CSS class
+            function trendCls(t) { return t === 'good' ? 'trend-up' : t === 'bad' ? 'trend-down' : 'trend-flat'; }
+            function trendArrow(t) { return t === 'good' ? '↑' : t === 'bad' ? '↓' : '→'; }
+
+            // Writes to the EDITABLE KPI cards (mv-*, ms-*, mt-*)
+            function setEditableKpi(key, val, note, trendType, trendLabel) {
+              var v = document.getElementById('mv-' + key);
+              var n = document.getElementById('ms-' + key);
+              var t = document.getElementById('mt-' + key);
+              var cls = trendCls(trendType);
+              if (v) v.textContent = val;
+              if (n) n.textContent = note;
+              if (t) t.innerHTML = '<span class="macro-kpi-trend ' + cls + '">' + trendArrow(trendType) + ' ' + trendLabel + '</span>';
+              // Also persist to localStorage so Save All works
+              try {
+                var s = JSON.parse(localStorage.getItem('macro_kpis_v2') || '{}');
+                s[key] = { val: val, note: note, trend: trendArrow(trendType) + ' ' + trendLabel, trendCls: cls };
+                localStorage.setItem('macro_kpis_v2', JSON.stringify(s));
+              } catch (e) { }
+            }
+
+            // Also keep the old val-/sub-/trend- IDs working (used in some table rows)
             function setKpi(id, val, note, trendType, trendLabel) {
               var v = document.getElementById('val-' + id);
               var s = document.getElementById('sub-' + id);
@@ -14762,26 +15201,162 @@ A: WACC is the weighted average cost of capital."></textarea>
               if (v) { v.textContent = val; v.className = 'macro-kpi-val'; }
               if (s) s.textContent = note;
               if (t && trendLabel) {
-                var cls = trendType === 'good' ? 'trend-up' : trendType === 'bad' ? 'trend-down' : 'trend-flat';
-                t.innerHTML = '<span class="macro-kpi-trend ' + cls + '">' + (trendType === 'good' ? '▲' : trendType === 'bad' ? '▼' : '→') + ' ' + trendLabel + '</span>';
+                var cls = trendCls(trendType);
+                t.innerHTML = '<span class="macro-kpi-trend ' + cls + '">' + trendArrow(trendType) + ' ' + trendLabel + '</span>';
               }
             }
-            var repoTrend = macro.repo_trend === 'cut' ? 'good' : macro.repo_trend === 'hike' ? 'bad' : 'flat';
-            setKpi('repo', macro.repo_rate || '—', macro.repo_note || '', repoTrend, macro.repo_trend || '');
-            setKpi('gsec', macro.gsec_10yr || '—', macro.gsec_note || '', macro.gsec_trend === 'down' ? 'good' : 'bad', macro.gsec_trend || '');
-            var cpiTrend = macro.cpi_trend === 'down' ? 'good' : macro.cpi_trend === 'up' ? 'bad' : 'flat';
-            setKpi('cpi', macro.cpi || '—', (macro.cpi_month || '') + ' ' + (macro.cpi_note || ''), cpiTrend, macro.cpi_trend || '');
-            setKpi('gdp', macro.gdp_growth || '—', (macro.gdp_period || '') + ' ' + (macro.gdp_note || ''), macro.gdp_trend === 'up' ? 'good' : macro.gdp_trend === 'down' ? 'bad' : 'flat', macro.gdp_trend || '');
-            setKpi('inr', '₹' + (macro.inr_usd || '—'), macro.inr_note || '', macro.inr_trend === 'up' ? 'bad' : 'good', macro.inr_trend === 'up' ? 'depreciating' : 'appreciating');
-            var fiiTrend = macro.fii_trend === 'inflow' ? 'good' : 'bad';
-            setKpi('fii', macro.fii_mtd || '—', macro.fii_note || '', fiiTrend, macro.fii_trend || '');
-            setKpi('nifty', macro.nifty || '—', (macro.nifty_ytd || '') + ' | P/E: ' + (macro.nifty_pe || '—'), macro.nifty_trend === 'up' ? 'good' : macro.nifty_trend === 'down' ? 'bad' : 'flat', macro.nifty_trend || '');
-            setKpi('wpi', macro.wpi || '—', macro.wpi_note || '', macro.wpi_trend === 'down' ? 'good' : macro.wpi_trend === 'up' ? 'bad' : 'flat', macro.wpi_trend || '');
-            setKpi('crude', macro.crude_brent || '—', macro.crude_note || '', macro.crude_trend === 'down' ? 'good' : macro.crude_trend === 'up' ? 'bad' : 'flat', macro.crude_trend || '');
-            setKpi('iip', macro.iip_growth || '—', (macro.iip_period || '') + ' ' + (macro.iip_note || ''), macro.iip_trend === 'up' ? 'good' : macro.iip_trend === 'down' ? 'bad' : 'flat', macro.iip_trend || '');
-            setKpi('gst', macro.gst_collections || '—', macro.gst_note || '', macro.gst_trend === 'up' ? 'good' : macro.gst_trend === 'down' ? 'bad' : 'flat', macro.gst_trend || '');
-            var cadTrend = macro.cad_trend === 'improving' ? 'good' : macro.cad_trend === 'worsening' ? 'bad' : 'flat';
-            setKpi('cad', macro.current_account || '—', macro.cad_note || '', cadTrend, macro.cad_trend || '');
+
+            // ── MONETARY POLICY ──
+            var repoType = macro.repo_trend === 'cut' ? 'good' : macro.repo_trend === 'hike' ? 'bad' : 'flat';
+            setEditableKpi('repo', macro.repo_rate || '—', macro.repo_note || '', repoType, macro.repo_trend || '');
+            setKpi('repo', macro.repo_rate || '—', macro.repo_note || '', repoType, macro.repo_trend || '');
+
+            var gsecType = macro.gsec_trend === 'down' ? 'good' : macro.gsec_trend === 'up' ? 'bad' : 'flat';
+            setEditableKpi('gsec', macro.gsec_10yr || '—', macro.gsec_note || '', gsecType, macro.gsec_trend || '');
+
+            var cpiType = macro.cpi_trend === 'down' ? 'good' : macro.cpi_trend === 'up' ? 'bad' : 'flat';
+            var cpiNote = (macro.cpi_month ? macro.cpi_month + '. ' : '') + (macro.cpi_note || '');
+            setEditableKpi('cpi', macro.cpi || '—', cpiNote, cpiType, macro.cpi_trend || '');
+            setKpi('cpi', macro.cpi || '—', cpiNote, cpiType, macro.cpi_trend || '');
+
+            var crrType = macro.crr_trend === 'down' ? 'good' : macro.crr_trend === 'up' ? 'bad' : 'flat';
+            setEditableKpi('crr', macro.crr || '—', macro.crr_note || '', crrType, macro.crr_trend || '');
+
+            // ── GROWTH & ACTIVITY ──
+            var gdpType = macro.gdp_trend === 'up' ? 'good' : macro.gdp_trend === 'down' ? 'bad' : 'flat';
+            var gdpNote = (macro.gdp_period ? macro.gdp_period + '. ' : '') + (macro.gdp_note || '');
+            setEditableKpi('gdp', macro.gdp_growth || '—', gdpNote, gdpType, macro.gdp_trend || '');
+
+            var wpiType = macro.wpi_trend === 'down' ? 'good' : macro.wpi_trend === 'up' ? 'bad' : 'flat';
+            setEditableKpi('wpi', macro.wpi || '—', macro.wpi_note || '', wpiType, macro.wpi_trend || '');
+
+            var iipType = macro.iip_trend === 'up' ? 'good' : macro.iip_trend === 'down' ? 'bad' : 'flat';
+            var iipNote = (macro.iip_period ? macro.iip_period + ' YoY. ' : '') + (macro.iip_note || '');
+            setEditableKpi('iip', macro.iip_growth || '—', iipNote, iipType, macro.iip_trend || '');
+
+            var gstType = macro.gst_trend === 'up' ? 'good' : macro.gst_trend === 'down' ? 'bad' : 'flat';
+            setEditableKpi('gst', macro.gst_collections || '—', macro.gst_note || '', gstType, macro.gst_trend || '');
+            setKpi('gst', macro.gst_collections || '—', macro.gst_note || '', gstType, macro.gst_trend || '');
+
+            // ── EXTERNAL SECTOR ──
+            var inrType = macro.inr_trend === 'down' ? 'bad' : macro.inr_trend === 'up' ? 'good' : 'flat';
+            setEditableKpi('inr', '₹' + (macro.inr_usd || '—'), macro.inr_note || '', inrType, macro.inr_trend === 'down' ? 'depreciating' : 'appreciating');
+            setKpi('inr', '₹' + (macro.inr_usd || '—'), macro.inr_note || '', inrType, macro.inr_trend === 'down' ? 'depreciating' : 'appreciating');
+
+            var fiiType = macro.fii_trend === 'inflow' ? 'good' : 'bad';
+            setEditableKpi('fii', macro.fii_mtd || '—', macro.fii_note || '', fiiType, macro.fii_trend || '');
+            setKpi('fii', macro.fii_mtd || '—', macro.fii_note || '', fiiType, macro.fii_trend || '');
+
+            var crudeType = macro.crude_trend === 'down' ? 'good' : macro.crude_trend === 'up' ? 'bad' : 'flat';
+            setEditableKpi('crude', macro.crude_brent || '—', macro.crude_note || '', crudeType, macro.crude_trend || '');
+            setKpi('crude', macro.crude_brent || '—', macro.crude_note || '', crudeType, macro.crude_trend || '');
+
+            var forexType = macro.forex_trend === 'up' ? 'good' : macro.forex_trend === 'down' ? 'bad' : 'flat';
+            setEditableKpi('forex', macro.forex_reserves || '—', macro.forex_note || '', forexType, macro.forex_trend || '');
+
+            // ── FISCAL POLICY ──
+            var fiscalType = macro.fiscaldef_trend === 'down' ? 'good' : macro.fiscaldef_trend === 'up' ? 'bad' : 'flat';
+            setEditableKpi('fiscaldef', macro.fiscal_deficit || '—', macro.fiscaldef_note || '', fiscalType, macro.fiscaldef_trend || '');
+
+            var capexType = macro.capex_trend === 'up' ? 'good' : macro.capex_trend === 'down' ? 'bad' : 'flat';
+            setEditableKpi('capex', macro.capex || '—', macro.capex_note || '', capexType, macro.capex_trend || '');
+
+            var debtType = macro.debtgdp_trend === 'down' ? 'good' : macro.debtgdp_trend === 'up' ? 'bad' : 'flat';
+            setEditableKpi('debtgdp', macro.debt_gdp || '—', macro.debtgdp_note || '', debtType, macro.debtgdp_trend || '');
+
+            var divestType = macro.divestment_trend === 'up' ? 'good' : macro.divestment_trend === 'down' ? 'bad' : 'flat';
+            setEditableKpi('divestment', macro.divestment || '—', macro.divestment_note || '', divestType, macro.divestment_trend || '');
+
+            // ── BANKING SYSTEM ──
+            var gnpaType = macro.gnpa_trend === 'down' ? 'good' : macro.gnpa_trend === 'up' ? 'bad' : 'flat';
+            setEditableKpi('gnpa', macro.gnpa || '—', macro.gnpa_note || '', gnpaType, macro.gnpa_trend || '');
+
+            var crarType = macro.crar_trend === 'up' ? 'good' : macro.crar_trend === 'down' ? 'bad' : 'flat';
+            setEditableKpi('crar', macro.crar || '—', macro.crar_note || '', crarType, macro.crar_trend || '');
+
+            var creditType = macro.creditgrowth_trend === 'up' ? 'good' : macro.creditgrowth_trend === 'down' ? 'bad' : 'flat';
+            setEditableKpi('creditgrowth', macro.credit_growth || '—', macro.creditgrowth_note || '', creditType, macro.creditgrowth_trend || '');
+
+            var cdType = macro.cdrat_trend === 'down' ? 'good' : macro.cdrat_trend === 'up' ? 'bad' : 'flat';
+            setEditableKpi('cdrat', macro.cd_ratio || '—', macro.cdrat_note || '', cdType, macro.cdrat_trend || '');
+
+            // ── CAPITAL MARKETS ──
+            var niftyType = macro.nifty_trend === 'up' ? 'good' : macro.nifty_trend === 'down' ? 'bad' : 'flat';
+            var niftyNote = (macro.nifty_ytd || '') + ' | P/E: ' + (macro.nifty_pe || '—');
+            setEditableKpi('nifty', macro.nifty || '—', niftyNote, niftyType, macro.nifty_trend || '');
+            setKpi('nifty', macro.nifty || '—', niftyNote, niftyType, macro.nifty_trend || '');
+
+            var sipType = macro.sip_trend === 'up' ? 'good' : macro.sip_trend === 'down' ? 'bad' : 'flat';
+            setEditableKpi('sip', macro.sip_flows || '—', macro.sip_note || '', sipType, macro.sip_trend || '');
+
+            var mfType = macro.mfaum_trend === 'up' ? 'good' : macro.mfaum_trend === 'down' ? 'bad' : 'flat';
+            setEditableKpi('mfaum', macro.mf_aum || '—', macro.mfaum_note || '', mfType, macro.mfaum_trend || '');
+
+            var ipoType = macro.ipomarket_trend === 'up' ? 'good' : macro.ipomarket_trend === 'down' ? 'bad' : 'flat';
+            setEditableKpi('ipomarket', macro.ipo_market || '—', macro.ipomarket_note || '', ipoType, macro.ipomarket_trend || '');
+
+            // ── TRADE & BALANCE OF PAYMENTS ──
+            var cadType = macro.cad_trend === 'improving' ? 'good' : macro.cad_trend === 'worsening' ? 'bad' : 'flat';
+            setEditableKpi('cad', macro.current_account || '—', macro.cad_note || '', cadType, macro.cad_trend || '');
+            setKpi('cad', macro.current_account || '—', macro.cad_note || '', cadType, macro.cad_trend || '');
+
+            var tradeType = macro.tradedef_trend === 'down' ? 'good' : macro.tradedef_trend === 'up' ? 'bad' : 'flat';
+            setEditableKpi('tradedef', macro.trade_deficit || '—', macro.tradedef_note || '', tradeType, macro.tradedef_trend || '');
+
+            var remitType = macro.remit_trend === 'up' ? 'good' : macro.remit_trend === 'down' ? 'bad' : 'flat';
+            setEditableKpi('remit', macro.remittances || '—', macro.remit_note || '', remitType, macro.remit_trend || '');
+
+            var servType = macro.servexp_trend === 'up' ? 'good' : macro.servexp_trend === 'down' ? 'bad' : 'flat';
+            setEditableKpi('servexp', macro.services_exports || '—', macro.servexp_note || '', servType, macro.servexp_trend || '');
+
+            // ── EMPLOYMENT & RURAL ──
+            var unempType = macro.unemp_trend === 'down' ? 'good' : macro.unemp_trend === 'up' ? 'bad' : 'flat';
+            setEditableKpi('unemp', macro.unemployment || '—', macro.unemp_note || '', unempType, macro.unemp_trend || '');
+
+            var mnregaType = macro.mnrega_trend === 'down' ? 'good' : macro.mnrega_trend === 'up' ? 'bad' : 'flat';
+            setEditableKpi('mnrega', macro.mnrega_days || '—', macro.mnrega_note || '', mnregaType, macro.mnrega_trend || '');
+
+            var tractorType = macro.tractors_trend === 'up' ? 'good' : macro.tractors_trend === 'down' ? 'bad' : 'flat';
+            setEditableKpi('tractors', macro.tractor_sales || '—', macro.tractors_note || '', tractorType, macro.tractors_trend || '');
+
+            var consType = macro.consindex_trend === 'up' ? 'good' : macro.consindex_trend === 'down' ? 'bad' : 'flat';
+            setEditableKpi('consindex', macro.cons_index || '—', macro.consindex_note || '', consType, macro.consindex_trend || '');
+
+            // ── GLOBAL FACTORS ──
+            var fedType = macro.fedrate_trend === 'down' ? 'good' : macro.fedrate_trend === 'up' ? 'bad' : 'flat';
+            setEditableKpi('fedrate', macro.fed_rate || '—', macro.fedrate_note || '', fedType, macro.fedrate_trend || '');
+
+            var dxyType = macro.dxy_trend === 'down' ? 'good' : macro.dxy_trend === 'up' ? 'bad' : 'flat';
+            setEditableKpi('dxy', macro.dxy || '—', macro.dxy_note || '', dxyType, macro.dxy_trend || '');
+
+            var goldType = macro.gold_trend === 'up' ? 'good' : macro.gold_trend === 'down' ? 'bad' : 'flat';
+            setEditableKpi('gold', macro.gold_price || '—', macro.gold_note || '', goldType, macro.gold_trend || '');
+
+            var imfType = macro.imfgdp_trend === 'up' ? 'good' : macro.imfgdp_trend === 'down' ? 'bad' : 'flat';
+            setEditableKpi('imfgdp', macro.imf_gdp || '—', macro.imfgdp_note || '', imfType, macro.imfgdp_trend || '');
+
+            // ── TABLE + CONTEXT rows (unchanged) ──
+            if (macro.repo_rate) {
+              var tr = document.getElementById('table-repo'); if (tr) tr.textContent = macro.repo_rate;
+              var cuts = document.getElementById('table-cuts'); if (cuts) cuts.textContent = macro.rbi_cuts_total || '—';
+            }
+            var ctx = document.getElementById('rbi-cycle-context');
+            if (ctx && macro.rbi_cycle_context) ctx.textContent = macro.rbi_cycle_context;
+
+            // ── Also update the sector impact table ──
+            var stRepo = document.getElementById('st-repo'); if (stRepo && macro.repo_rate) stRepo.textContent = macro.repo_rate + ' ' + (macro.repo_trend || '');
+            var stCpi = document.getElementById('st-cpi'); if (stCpi && macro.cpi) stCpi.textContent = macro.cpi + ' ' + (macro.cpi_note || '');
+            var stInr = document.getElementById('st-inr'); if (stInr && macro.inr_usd) stInr.textContent = '₹' + macro.inr_usd + ' ' + (macro.inr_trend || '');
+            var stCrude = document.getElementById('st-crude'); if (stCrude && macro.crude_brent) stCrude.textContent = macro.crude_brent + ' ' + (macro.crude_trend || '');
+            var stFii = document.getElementById('st-fii'); if (stFii && macro.fii_mtd) stFii.textContent = macro.fii_mtd;
+            var stGst = document.getElementById('st-gst'); if (stGst && macro.gst_collections) stGst.textContent = macro.gst_collections;
+
+            // Auto-save timestamp so "Save All" reflects the refresh
+            try { localStorage.setItem('macro_kpis_ts', Date.now()); } catch (e) { }
+            var savedEl = document.getElementById('macroLastSaved');
+            if (savedEl) savedEl.textContent = 'Last updated: ' + new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+
+            updateMacroAnswers();
             if (macro.repo_rate) {
               var tr = document.getElementById('table-repo'); if (tr) tr.textContent = macro.repo_rate;
               var cuts = document.getElementById('table-cuts'); if (cuts) cuts.textContent = macro.rbi_cuts_total || '—';
@@ -14829,10 +15404,21 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
             });
           } finally {
             btn.disabled = false;
-            spinIcon.classList.remove('spinning');
+            spinIcon.classList.remove('macro-spinning');
           }
         }
         document.addEventListener('DOMContentLoaded', function () {
+          // Inject spin keyframe
+          if (!document.getElementById('macroSpinStyle')) {
+            var st = document.createElement('style');
+            st.id = 'macroSpinStyle';
+            st.textContent = '@keyframes macroSpin{to{transform:rotate(360deg)}}.macro-spinning{animation:macroSpin .7s linear infinite;display:inline-block}';
+            document.head.appendChild(st);
+          }
+          // Restore saved API key into input on page load
+          var saved = localStorage.getItem('macro_gemini_key');
+          var inp = document.getElementById('macroApiKeyInput');
+          if (saved && inp) inp.value = saved;
           var _navOrig = nav;
           nav = function (id) {
             _navOrig(id);
@@ -14855,13 +15441,15 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
           openFsTab(panelId, ids.indexOf(panelId));
         }
 
-        var MACRO_DEFAULTS = { repo: { val: "6.25%", note: "Cut 25bps Feb 2025. Next MPC: Apr 2025", trend: "\u2193 Easing cycle started", trendCls: "trend-down" }, gsec: { val: "6.68%", note: "Down ~40bps from Oct 2024 high of ~7.1%", trend: "\u2193 Falling on rate cut expectations", trendCls: "trend-down" }, cpi: { val: "4.31%", note: "Jan 2025. Back within RBI 4% target band", trend: "\u2193 Easing \u2014 veg prices normalising", trendCls: "trend-down" }, crr: { val: "4.00%", note: "Cut 50bps Dec 2024. Injects \u20b91.16L Cr liquidity", trend: "\u2193 Cut to ease system liquidity", trendCls: "trend-down" }, gdp: { val: "6.4%", note: "FY25 advance estimate. FY24 was 8.2%", trend: "\u2193 Moderation from FY24 peak", trendCls: "trend-down" }, wpi: { val: "2.31%", note: "Jan 2025. Mfg goods deflation persists", trend: "\u2192 Low \u2014 input cost benign", trendCls: "trend-flat" }, iip: { val: "3.2%", note: "Dec 2024 YoY. Manufacturing at 3.0%", trend: "\u2192 Modest industrial recovery", trendCls: "trend-flat" }, gst: { val: "\u20b91.96L Cr", note: "Jan 2025. 2nd highest ever. +12.3% YoY", trend: "\u2191 Strong consumption signal", trendCls: "trend-up" }, inr: { val: "\u20b986.5", note: "Weakened ~5% in FY25. RBI intervening", trend: "\u2193 INR under pressure vs USD", trendCls: "trend-down" }, fii: { val: "-\u20b982,000 Cr", note: "CY2025 YTD. DII buying offsetting outflows", trend: "\u2193 FII net sellers \u2014 USD strength", trendCls: "trend-down" }, crude: { val: "$74", note: "Per barrel. India imports ~85% of oil", trend: "\u2192 Range-bound \u2014 benign for India", trendCls: "trend-flat" }, forex: { val: "$625 bn", note: "Feb 2025. ~11 months import cover", trend: "\u2193 Fell from $700bn peak \u2014 RBI intervention", trendCls: "trend-down" },
-fiscaldef: { val: "4.8% of GDP", note: "FY26 target: 4.4%. Capex \u20b911.1L Cr in FY26 budget", trend: "\u2193 Consolidating \u2014 glide path to 4.5% by FY26", trendCls: "trend-down" }, capex: { val: "\u20b911.1L Cr", note: "Up ~17% YoY. Focus: roads, railways, defence", trend: "\u2191 Crowding-in private investment", trendCls: "trend-up" }, debtgdp: { val: "~56%", note: "Central + state combined. EM peers avg ~65%", trend: "\u2192 Manageable vs peers; trending down", trendCls: "trend-flat" }, divestment: { val: "\u20b947,000 Cr", note: "FY25 achieved only ~\u20b916,000 Cr vs \u20b950,000 Cr target", trend: "\u2192 Historically underachieved", trendCls: "trend-flat" },
-gnpa: { val: "2.6%", note: "Sep 2024. 12-year low. Net NPA at ~0.6%", trend: "\u2193 Best asset quality in a decade", trendCls: "trend-down" }, crar: { val: "16.8%", note: "Sep 2024. Well above RBI 11.5% minimum requirement", trend: "\u2191 Banks well-capitalised", trendCls: "trend-up" }, creditgrowth: { val: "11.5%", note: "YoY as of Jan 2025. Retail & MSME leading", trend: "\u2193 Moderation from 15%+ in FY24", trendCls: "trend-down" }, cdrat: { val: "78%", note: "RBI flagged it as elevated. Deposit growth lagging credit", trend: "\u2192 RBI watching \u2014 risk to liquidity", trendCls: "trend-flat" },
-nifty: { val: "~22,500", note: "~15% below Sep 2024 peak of 26,277. P/E ~19x", trend: "\u2193 Corrected \u2014 valuations more reasonable", trendCls: "trend-down" }, sip: { val: "\u20b926,400 Cr", note: "Jan 2025. Record high. 10 Cr+ active SIP accounts", trend: "\u2191 Retail financialisation structural trend", trendCls: "trend-up" }, mfaum: { val: "\u20b967L Cr", note: "Jan 2025. Crossed \u20b950L Cr mark Nov 2023", trend: "\u2191 Tripled in 5 years", trendCls: "trend-up" }, ipomarket: { val: "\u20b91.6L Cr", note: "FY25 record issuance. 70+ mainboard IPOs", trend: "\u2191 Primary market boom", trendCls: "trend-up" },
-cad: { val: "1.2% of GDP", note: "Q2 FY25. Manageable. FY23 was -2.0% during energy crisis", trend: "\u2192 Contained \u2014 supported by services surplus", trendCls: "trend-flat" }, tradedef: { val: "~$23 bn/mo", note: "Jan 2025. Oil & electronics dominate imports", trend: "\u2192 Structural \u2014 India is a net importer", trendCls: "trend-flat" }, remit: { val: "~$125 bn", note: "World's largest recipient. UAE, US, UK top sources", trend: "\u2191 Key CAD buffer \u2014 ~3.5% of GDP", trendCls: "trend-up" }, servexp: { val: "~$340 bn", note: "FY25E. IT/BPO, travel, finance. Surplus ~$160 bn", trend: "\u2191 Structural strength \u2014 offsets merch. deficit", trendCls: "trend-up" },
-unemp: { val: "7.8%", note: "CMIE Jan 2025. Rural unemployment ~6.0%", trend: "\u2192 Elevated vs pre-COVID; services hiring picking up", trendCls: "trend-flat" }, mnrega: { val: "~22 Cr days/mo", note: "Rural distress indicator. Budget FY26: \u20b986,000 Cr", trend: "\u2192 Rural safety net \u2014 watch for demand spikes", trendCls: "trend-flat" }, tractors: { val: "+12% YoY", note: "Jan 2025. Strong rabi sowing + good kharif MSP", trend: "\u2191 Rural demand recovering", trendCls: "trend-up" }, consindex: { val: "~5-6% YoY", note: "Urban outperforming rural. Premium segment outpacing mass", trend: "\u2191 K-shaped recovery \u2014 urban premiumisation", trendCls: "trend-up" },
-fedrate: { val: "4.25\u20134.50%", note: "Paused. Market pricing 1\u20132 cuts in 2025 post-inflation", trend: "\u2192 Higher-for-longer \u2014 DXY strength pressures INR", trendCls: "trend-flat" }, dxy: { val: "~108", note: "Strong USD = FII outflows from EMs incl. India", trend: "\u2191 Strong USD \u2014 key headwind for India", trendCls: "trend-up" }, gold: { val: "~$2,650/oz", note: "India 2nd largest consumer. Import duty cut to 6% in Budget", trend: "\u2191 Adds to CAD if demand surges", trendCls: "trend-up" }, imfgdp: { val: "6.5% FY26", note: "IMF WEO Jan 2025. Fastest growing major economy", trend: "\u2191 India outpacing China (~4.5%) & US (~2.7%)", trendCls: "trend-up" } };
+        var MACRO_DEFAULTS = {
+          repo: { val: "6.25%", note: "Cut 25bps Feb 2025. Next MPC: Apr 2025", trend: "\u2193 Easing cycle started", trendCls: "trend-down" }, gsec: { val: "6.68%", note: "Down ~40bps from Oct 2024 high of ~7.1%", trend: "\u2193 Falling on rate cut expectations", trendCls: "trend-down" }, cpi: { val: "4.31%", note: "Jan 2025. Back within RBI 4% target band", trend: "\u2193 Easing \u2014 veg prices normalising", trendCls: "trend-down" }, crr: { val: "4.00%", note: "Cut 50bps Dec 2024. Injects \u20b91.16L Cr liquidity", trend: "\u2193 Cut to ease system liquidity", trendCls: "trend-down" }, gdp: { val: "6.4%", note: "FY25 advance estimate. FY24 was 8.2%", trend: "\u2193 Moderation from FY24 peak", trendCls: "trend-down" }, wpi: { val: "2.31%", note: "Jan 2025. Mfg goods deflation persists", trend: "\u2192 Low \u2014 input cost benign", trendCls: "trend-flat" }, iip: { val: "3.2%", note: "Dec 2024 YoY. Manufacturing at 3.0%", trend: "\u2192 Modest industrial recovery", trendCls: "trend-flat" }, gst: { val: "\u20b91.96L Cr", note: "Jan 2025. 2nd highest ever. +12.3% YoY", trend: "\u2191 Strong consumption signal", trendCls: "trend-up" }, inr: { val: "\u20b986.5", note: "Weakened ~5% in FY25. RBI intervening", trend: "\u2193 INR under pressure vs USD", trendCls: "trend-down" }, fii: { val: "-\u20b982,000 Cr", note: "CY2025 YTD. DII buying offsetting outflows", trend: "\u2193 FII net sellers \u2014 USD strength", trendCls: "trend-down" }, crude: { val: "$74", note: "Per barrel. India imports ~85% of oil", trend: "\u2192 Range-bound \u2014 benign for India", trendCls: "trend-flat" }, forex: { val: "$625 bn", note: "Feb 2025. ~11 months import cover", trend: "\u2193 Fell from $700bn peak \u2014 RBI intervention", trendCls: "trend-down" },
+          fiscaldef: { val: "4.8% of GDP", note: "FY26 target: 4.4%. Capex \u20b911.1L Cr in FY26 budget", trend: "\u2193 Consolidating \u2014 glide path to 4.5% by FY26", trendCls: "trend-down" }, capex: { val: "\u20b911.1L Cr", note: "Up ~17% YoY. Focus: roads, railways, defence", trend: "\u2191 Crowding-in private investment", trendCls: "trend-up" }, debtgdp: { val: "~56%", note: "Central + state combined. EM peers avg ~65%", trend: "\u2192 Manageable vs peers; trending down", trendCls: "trend-flat" }, divestment: { val: "\u20b947,000 Cr", note: "FY25 achieved only ~\u20b916,000 Cr vs \u20b950,000 Cr target", trend: "\u2192 Historically underachieved", trendCls: "trend-flat" },
+          gnpa: { val: "2.6%", note: "Sep 2024. 12-year low. Net NPA at ~0.6%", trend: "\u2193 Best asset quality in a decade", trendCls: "trend-down" }, crar: { val: "16.8%", note: "Sep 2024. Well above RBI 11.5% minimum requirement", trend: "\u2191 Banks well-capitalised", trendCls: "trend-up" }, creditgrowth: { val: "11.5%", note: "YoY as of Jan 2025. Retail & MSME leading", trend: "\u2193 Moderation from 15%+ in FY24", trendCls: "trend-down" }, cdrat: { val: "78%", note: "RBI flagged it as elevated. Deposit growth lagging credit", trend: "\u2192 RBI watching \u2014 risk to liquidity", trendCls: "trend-flat" },
+          nifty: { val: "~22,500", note: "~15% below Sep 2024 peak of 26,277. P/E ~19x", trend: "\u2193 Corrected \u2014 valuations more reasonable", trendCls: "trend-down" }, sip: { val: "\u20b926,400 Cr", note: "Jan 2025. Record high. 10 Cr+ active SIP accounts", trend: "\u2191 Retail financialisation structural trend", trendCls: "trend-up" }, mfaum: { val: "\u20b967L Cr", note: "Jan 2025. Crossed \u20b950L Cr mark Nov 2023", trend: "\u2191 Tripled in 5 years", trendCls: "trend-up" }, ipomarket: { val: "\u20b91.6L Cr", note: "FY25 record issuance. 70+ mainboard IPOs", trend: "\u2191 Primary market boom", trendCls: "trend-up" },
+          cad: { val: "1.2% of GDP", note: "Q2 FY25. Manageable. FY23 was -2.0% during energy crisis", trend: "\u2192 Contained \u2014 supported by services surplus", trendCls: "trend-flat" }, tradedef: { val: "~$23 bn/mo", note: "Jan 2025. Oil & electronics dominate imports", trend: "\u2192 Structural \u2014 India is a net importer", trendCls: "trend-flat" }, remit: { val: "~$125 bn", note: "World's largest recipient. UAE, US, UK top sources", trend: "\u2191 Key CAD buffer \u2014 ~3.5% of GDP", trendCls: "trend-up" }, servexp: { val: "~$340 bn", note: "FY25E. IT/BPO, travel, finance. Surplus ~$160 bn", trend: "\u2191 Structural strength \u2014 offsets merch. deficit", trendCls: "trend-up" },
+          unemp: { val: "7.8%", note: "CMIE Jan 2025. Rural unemployment ~6.0%", trend: "\u2192 Elevated vs pre-COVID; services hiring picking up", trendCls: "trend-flat" }, mnrega: { val: "~22 Cr days/mo", note: "Rural distress indicator. Budget FY26: \u20b986,000 Cr", trend: "\u2192 Rural safety net \u2014 watch for demand spikes", trendCls: "trend-flat" }, tractors: { val: "+12% YoY", note: "Jan 2025. Strong rabi sowing + good kharif MSP", trend: "\u2191 Rural demand recovering", trendCls: "trend-up" }, consindex: { val: "~5-6% YoY", note: "Urban outperforming rural. Premium segment outpacing mass", trend: "\u2191 K-shaped recovery \u2014 urban premiumisation", trendCls: "trend-up" },
+          fedrate: { val: "4.25\u20134.50%", note: "Paused. Market pricing 1\u20132 cuts in 2025 post-inflation", trend: "\u2192 Higher-for-longer \u2014 DXY strength pressures INR", trendCls: "trend-flat" }, dxy: { val: "~108", note: "Strong USD = FII outflows from EMs incl. India", trend: "\u2191 Strong USD \u2014 key headwind for India", trendCls: "trend-up" }, gold: { val: "~$2,650/oz", note: "India 2nd largest consumer. Import duty cut to 6% in Budget", trend: "\u2191 Adds to CAD if demand surges", trendCls: "trend-up" }, imfgdp: { val: "6.5% FY26", note: "IMF WEO Jan 2025. Fastest growing major economy", trend: "\u2191 India outpacing China (~4.5%) & US (~2.7%)", trendCls: "trend-up" }
+        };
         var _mKey = "";
         function loadMacroKpis() { try { var s = JSON.parse(localStorage.getItem("macro_kpis_v2") || "{}"); Object.keys(MACRO_DEFAULTS).forEach(function (k) { var d = s[k] || MACRO_DEFAULTS[k]; var v = document.getElementById("mv-" + k), n = document.getElementById("ms-" + k), t = document.getElementById("mt-" + k); if (v) v.textContent = d.val; if (n) n.textContent = d.note; if (t) t.innerHTML = '<span class="macro-kpi-trend ' + d.trendCls + '">' + d.trend + "</span>"; }); var ts = localStorage.getItem("macro_kpis_ts"); if (ts) { var el = document.getElementById("macroLastSaved"); if (el) el.textContent = "Last updated: " + new Date(parseInt(ts)).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }); } updateMacroAnswers(); } catch (e) { } }
         function editMacroKpi(key) { var s = {}; try { s = JSON.parse(localStorage.getItem("macro_kpis_v2") || "{}"); } catch (e) { } var d = s[key] || MACRO_DEFAULTS[key]; _mKey = key; document.getElementById("macroEditVal").value = d.val; document.getElementById("macroEditTrend").value = d.trend; document.getElementById("macroEditNote").value = d.note; var tt = { repo: "Repo Rate", gsec: "10-Yr G-Sec", cpi: "CPI Inflation", crr: "CRR", gdp: "GDP Growth", wpi: "WPI Inflation", iip: "IIP Growth", gst: "GST Collections", inr: "INR / USD", fii: "FII Flows", crude: "Brent Crude", forex: "Forex Reserves", fiscaldef: "Fiscal Deficit", capex: "Govt Capex FY26", debtgdp: "Debt / GDP", divestment: "Divestment Target", gnpa: "Gross NPA Ratio", crar: "System CRAR", creditgrowth: "Bank Credit Growth", cdrat: "Credit-Deposit Ratio", nifty: "Nifty 50", sip: "SIP Monthly Flows", mfaum: "MF Industry AUM", ipomarket: "IPO Market FY25", cad: "Current Account Deficit", tradedef: "Merch. Trade Deficit", remit: "Remittances", servexp: "Services Exports", unemp: "Urban Unemployment", mnrega: "MGNREGA Demand", tractors: "Tractor Sales", consindex: "FMCG Volume Growth", fedrate: "US Fed Funds Rate", dxy: "DXY USD Index", gold: "Gold Price", imfgdp: "IMF India GDP Forecast" }; document.getElementById("macroEditTitle").textContent = "Edit: " + (tt[key] || key); document.getElementById("macroEditModal").style.display = "flex"; setTimeout(function () { document.getElementById("macroEditVal").focus(); }, 50); }
@@ -15518,7 +16106,7 @@ fedrate: { val: "4.25\u20134.50%", note: "Paused. Market pricing 1\u20132 cuts i
         // ── Fast search index — rebuild when questions change ──
         var _searchIndex = null;
         function buildSearchIndex() {
-          _searchIndex = questions.map(function(q) {
+          _searchIndex = questions.map(function (q) {
             return {
               id: q.id,
               ql: (q.q || '').toLowerCase(),
@@ -15533,7 +16121,7 @@ fedrate: { val: "4.25\u20134.50%", note: "Paused. Market pricing 1\u20132 cuts i
           clearTimeout(_browseDebounceTimer);
           // If short query, render immediately (fast); longer queries debounce
           var delay = (val && val.length > 0) ? 120 : 0;
-          _browseDebounceTimer = setTimeout(function() {
+          _browseDebounceTimer = setTimeout(function () {
             renderBrowse();
           }, delay);
         }
@@ -16513,246 +17101,246 @@ fedrate: { val: "4.25\u20134.50%", note: "Paused. Market pricing 1\u20132 cuts i
         });
 
 
-    // ════════════════════════════════════════════════════
-    //  ENHANCEMENT PACK — all UX/UI improvements
-    // ════════════════════════════════════════════════════
+        // ════════════════════════════════════════════════════
+        //  ENHANCEMENT PACK — all UX/UI improvements
+        // ════════════════════════════════════════════════════
 
-    // Settings dropdown
-    function toggleSettingsMenu() {
-      var m = document.getElementById('settingsDropMenu');
-      if (!m) return;
-      var isOpen = m.style.display === 'block';
-      m.style.display = isOpen ? 'none' : 'block';
-      if (!isOpen) {
-        setTimeout(function() {
-          document.addEventListener('click', function _close(e) {
-            var wrap = document.getElementById('settingsDropWrap');
-            if (wrap && !wrap.contains(e.target)) { m.style.display = 'none'; }
-            document.removeEventListener('click', _close);
-          });
-        }, 50);
-      }
-    }
-
-    function confirmResetProgress() {
-      if (document.getElementById('settingsDropMenu')) document.getElementById('settingsDropMenu').style.display='none';
-      if (confirm('Reset ALL progress? This cannot be undone.')) { resetProgress(); }
-    }
-
-    // ── Hero date + mission briefing ──
-    function updateDashHero() {
-      var dateEl = document.getElementById('heroDate');
-      var briefEl = document.getElementById('heroBriefing');
-      if (dateEl) {
-        var d = new Date();
-        dateEl.textContent = d.toLocaleDateString('en-IN', {weekday:'long',year:'numeric',month:'long',day:'numeric'});
-      }
-      var qs = window.QUESTIONS || [];
-      var total = qs.length;
-      var mastered = 0, inProg = 0, unseen = 0, due = 0;
-      var catMissed = {};
-      var now = Date.now();
-      qs.forEach(function(q) {
-        var s = getProgress ? getProgress(q.id) : null;
-        if (!s || !s.status || s.status === 'unseen') { unseen++; }
-        else if (s.status === 'mastered') { mastered++; }
-        else { inProg++; }
-        if (s && s.nextReview && s.nextReview <= now) due++;
-        if (s && s.missed > 0) { catMissed[q.category] = (catMissed[q.category]||0) + s.missed; }
-      });
-      // update hero stats
-      var el;
-      if ((el=document.getElementById('hsTotalQA'))) el.textContent = total;
-      if ((el=document.getElementById('hsMastered'))) el.textContent = mastered;
-      if ((el=document.getElementById('hsInProgress'))) el.textContent = inProg;
-      if ((el=document.getElementById('hsUnseen'))) el.textContent = unseen;
-      if ((el=document.getElementById('hsDue'))) el.textContent = due;
-      // mission briefing
-      if (briefEl) {
-        var weak = Object.entries(catMissed).sort(function(a,b){return b[1]-a[1]}).slice(0,2).map(function(x){return x[0]});
-        var parts = [];
-        if (due > 0) parts.push('<strong style="color:var(--gold2)">' + due + ' card' + (due!==1?'s':'') + ' due for review</strong>');
-        if (weak.length > 0) parts.push('Weak areas: <strong style="color:var(--white)">' + weak.join(', ') + '</strong>');
-        if (mastered > 0 && total > 0) parts.push(mastered + ' / ' + total + ' mastered');
-        if (parts.length === 0) parts.push('Welcome back! Start with <strong style="color:var(--gold2)">Quick 20</strong> to assess your current level.');
-        briefEl.innerHTML = parts.join(' &nbsp;·&nbsp; ');
-      }
-      // cat-pct "Start →" vs percentage
-      document.querySelectorAll('[data-cat-pct="true"]').forEach(function(el) {
-        var cc = el.closest('.cat-card'); if (!cc) return;
-        var cn = cc.querySelector('.cat-name'); if (!cn) return;
-        var cat = cn.textContent.trim();
-        var cqs = qs.filter(function(q){ return q.category && (q.category===cat || q.category.includes(cat.split('/')[0].trim()) || cat.includes(q.category.split('/')[0].trim())); });
-        var started = cqs.some(function(q){ var s=getProgress?getProgress(q.id):null; return s&&s.status&&s.status!=='unseen'; });
-        if (!started) {
-          el.textContent = 'Start →';
-          el.style.color = 'var(--gold)';
-          el.style.fontWeight = '600';
-        } else {
-          var m2 = cqs.filter(function(q){var s=getProgress?getProgress(q.id):null;return s&&s.status==='mastered';}).length;
-          var pct = cqs.length > 0 ? Math.round((m2/cqs.length)*100) : 0;
-          el.textContent = pct + '% complete';
-          el.style.color = '';
-          el.style.fontWeight = '';
-        }
-      });
-    }
-
-    // ── Answer formatter for fc-back ──
-    function formatFcAnswer(rawText) {
-      if (!rawText || rawText.trim().length < 10) return rawText;
-      var lines = rawText.split('\n');
-      var html = '<div class="fc-a-formatted">';
-      lines.forEach(function(line) {
-        var t = line.trim();
-        if (!t) { html += '<div style="height:5px"></div>'; return; }
-        var sm = t.match(/^(\d+)[.)\s]\s+(.+)/);
-        var isFormula = t.includes('=') && t.length < 100 && /[A-Z]{2,}/.test(t) && !/[a-z]{5,}/.test(t);
-        var fmt = t.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-        if (sm) {
-          html += '<div class="fa-step"><span class="fa-step-num">' + sm[1] + '.</span><span class="fa-step-text">' + fmt + '</span></div>';
-        } else if (isFormula) {
-          html += '<div class="fa-formula">' + t + '</div>';
-        } else {
-          html += '<div class="fa-para">' + fmt + '</div>';
-        }
-      });
-      html += '</div>';
-      return html;
-    }
-
-    // ── Heatmap month labels ──
-    function addHeatmapMonthLabels() {
-      var hg = document.querySelector('.heatmap-grid');
-      if (!hg) return;
-      var cells = hg.querySelectorAll('.heatmap-cell');
-      if (!cells.length) return;
-      var mrow = document.createElement('div');
-      mrow.className = 'heatmap-months-row';
-      var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-      var today = new Date();
-      var labels = [];
-      // 70 cells = 70 days
-      for (var i = 69; i >= 0; i--) {
-        var d = new Date(today);
-        d.setDate(d.getDate() - i);
-        if (d.getDate() === 1 || i === 69) {
-          labels.push({idx: 69-i, text: MONTHS[d.getMonth()]});
-        }
-      }
-      var prevIdx = -1;
-      labels.forEach(function(lbl) {
-        if (prevIdx >= 0) {
-          var gap = lbl.idx - prevIdx;
-          var spacer = document.createElement('div');
-          spacer.style.cssText = 'min-width:' + (gap * 16) + 'px;flex-shrink:0';
-          mrow.appendChild(spacer);
-        }
-        var span = document.createElement('div');
-        span.className = 'heatmap-month-lbl';
-        span.textContent = lbl.text;
-        mrow.appendChild(span);
-        prevIdx = lbl.idx;
-      });
-      var wrap = hg.closest('.heatmap-wrap');
-      if (wrap && !wrap.querySelector('.heatmap-months-row')) {
-        wrap.insertBefore(mrow, hg);
-      }
-    }
-
-    // ── Session complete weakness recommendation ──
-    var _scSessionCats = {};
-    var _origLogCardResult = typeof logCardResult === 'function' ? logCardResult : null;
-
-    // ── Sort By wiring ──
-    var _origRenderBrowse = typeof renderBrowse === 'function' ? renderBrowse : null;
-    if (_origRenderBrowse) {
-      renderBrowse = function() {
-        _origRenderBrowse.apply(this, arguments);
-        var sortF = document.getElementById('sortF');
-        if (!sortF || sortF.value === 'default') return;
-        var list = document.getElementById('qList');
-        if (!list) return;
-        var items = Array.from(list.querySelectorAll('.q-item'));
-        if (items.length < 2) return;
-        var sv = sortF.value;
-        items.sort(function(a,b) {
-          var idA = parseInt(a.dataset.qid||a.dataset.id||0);
-          var idB = parseInt(b.dataset.qid||b.dataset.id||0);
-          if (sv === 'mostMissed') {
-            var sA=getProgress?getProgress(idA):{}, sB=getProgress?getProgress(idB):{};
-            return ((sB&&sB.missed)||0) - ((sA&&sA.missed)||0);
-          } else if (sv === 'neverSeen') {
-            var sA=getProgress?getProgress(idA):{}, sB=getProgress?getProgress(idB):{};
-            var aU=(!sA||!sA.status||sA.status==='unseen')?0:1;
-            var bU=(!sB||!sB.status||sB.status==='unseen')?0:1;
-            return aU-bU;
-          } else if (sv === 'alpha') {
-            var tA=(a.querySelector('.q-q')||{}).textContent||'';
-            var tB=(b.querySelector('.q-q')||{}).textContent||'';
-            return tA.localeCompare(tB);
-          } else if (sv === 'recentlyAdded') {
-            return idB - idA;
+        // Settings dropdown
+        function toggleSettingsMenu() {
+          var m = document.getElementById('settingsDropMenu');
+          if (!m) return;
+          var isOpen = m.style.display === 'block';
+          m.style.display = isOpen ? 'none' : 'block';
+          if (!isOpen) {
+            setTimeout(function () {
+              document.addEventListener('click', function _close(e) {
+                var wrap = document.getElementById('settingsDropWrap');
+                if (wrap && !wrap.contains(e.target)) { m.style.display = 'none'; }
+                document.removeEventListener('click', _close);
+              });
+            }, 50);
           }
-          return 0;
-        });
-        items.forEach(function(item){ list.appendChild(item); });
-      };
-    }
+        }
 
-    // ── Nav hook to run hero update ──
-    var _origNav = typeof nav === 'function' ? nav : null;
-    if (_origNav) {
-      nav = function(view) {
-        _origNav.apply(this, arguments);
-        if (view === 'dashboard') { setTimeout(updateDashHero, 150); }
-      };
-    }
+        function confirmResetProgress() {
+          if (document.getElementById('settingsDropMenu')) document.getElementById('settingsDropMenu').style.display = 'none';
+          if (confirm('Reset ALL progress? This cannot be undone.')) { resetProgress(); }
+        }
 
-    // ── Answer format hook via MutationObserver ──
-    document.addEventListener('DOMContentLoaded', function() {
-      setTimeout(function() {
-        buildSearchIndex(); // pre-build on load
-        var fcArea = document.getElementById('fcArea');
-        if (fcArea) {
-          var mo = new MutationObserver(function() {
-            var fcAs = fcArea.querySelectorAll('.fc-back .fc-a:not([data-fmt])');
-            fcAs.forEach(function(el) {
-              if (el.textContent.trim().length > 0) {
-                el.setAttribute('data-fmt','1');
-                el.innerHTML = formatFcAnswer(el.textContent);
-              }
-            });
+        // ── Hero date + mission briefing ──
+        function updateDashHero() {
+          var dateEl = document.getElementById('heroDate');
+          var briefEl = document.getElementById('heroBriefing');
+          if (dateEl) {
+            var d = new Date();
+            dateEl.textContent = d.toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+          }
+          var qs = window.QUESTIONS || [];
+          var total = qs.length;
+          var mastered = 0, inProg = 0, unseen = 0, due = 0;
+          var catMissed = {};
+          var now = Date.now();
+          qs.forEach(function (q) {
+            var s = getProgress ? getProgress(q.id) : null;
+            if (!s || !s.status || s.status === 'unseen') { unseen++; }
+            else if (s.status === 'mastered') { mastered++; }
+            else { inProg++; }
+            if (s && s.nextReview && s.nextReview <= now) due++;
+            if (s && s.missed > 0) { catMissed[q.category] = (catMissed[q.category] || 0) + s.missed; }
           });
-          mo.observe(fcArea, {childList:true, subtree:true, characterData:true});
+          // update hero stats
+          var el;
+          if ((el = document.getElementById('hsTotalQA'))) el.textContent = total;
+          if ((el = document.getElementById('hsMastered'))) el.textContent = mastered;
+          if ((el = document.getElementById('hsInProgress'))) el.textContent = inProg;
+          if ((el = document.getElementById('hsUnseen'))) el.textContent = unseen;
+          if ((el = document.getElementById('hsDue'))) el.textContent = due;
+          // mission briefing
+          if (briefEl) {
+            var weak = Object.entries(catMissed).sort(function (a, b) { return b[1] - a[1] }).slice(0, 2).map(function (x) { return x[0] });
+            var parts = [];
+            if (due > 0) parts.push('<strong style="color:var(--gold2)">' + due + ' card' + (due !== 1 ? 's' : '') + ' due for review</strong>');
+            if (weak.length > 0) parts.push('Weak areas: <strong style="color:var(--white)">' + weak.join(', ') + '</strong>');
+            if (mastered > 0 && total > 0) parts.push(mastered + ' / ' + total + ' mastered');
+            if (parts.length === 0) parts.push('Welcome back! Start with <strong style="color:var(--gold2)">Quick 20</strong> to assess your current level.');
+            briefEl.innerHTML = parts.join(' &nbsp;·&nbsp; ');
+          }
+          // cat-pct "Start →" vs percentage
+          document.querySelectorAll('[data-cat-pct="true"]').forEach(function (el) {
+            var cc = el.closest('.cat-card'); if (!cc) return;
+            var cn = cc.querySelector('.cat-name'); if (!cn) return;
+            var cat = cn.textContent.trim();
+            var cqs = qs.filter(function (q) { return q.category && (q.category === cat || q.category.includes(cat.split('/')[0].trim()) || cat.includes(q.category.split('/')[0].trim())); });
+            var started = cqs.some(function (q) { var s = getProgress ? getProgress(q.id) : null; return s && s.status && s.status !== 'unseen'; });
+            if (!started) {
+              el.textContent = 'Start →';
+              el.style.color = 'var(--gold)';
+              el.style.fontWeight = '600';
+            } else {
+              var m2 = cqs.filter(function (q) { var s = getProgress ? getProgress(q.id) : null; return s && s.status === 'mastered'; }).length;
+              var pct = cqs.length > 0 ? Math.round((m2 / cqs.length) * 100) : 0;
+              el.textContent = pct + '% complete';
+              el.style.color = '';
+              el.style.fontWeight = '';
+            }
+          });
         }
-        // initial hero update
-        updateDashHero();
-        // heatmap labels on next tick after render
-        setTimeout(addHeatmapMonthLabels, 800);
-      }, 300);
-    });
 
-    // Toast with undo support
-    var _origToast = typeof toast === 'function' ? toast : null;
-    if (_origToast) {
-      toast = function(msg, dur, undoFn) {
-        dur = dur || 2500;
-        var t = document.getElementById('toast');
-        if (!t) { _origToast(msg, dur); return; }
-        if (undoFn) {
-          t.innerHTML = msg + ' <span id="toastUndo" style="margin-left:10px;text-decoration:underline;cursor:pointer;color:var(--gold2);font-weight:600;font-size:11px">Undo</span>';
-          var u = document.getElementById('toastUndo');
-          if (u) u.onclick = function() { undoFn(); t.style.opacity=0; };
-          dur = 4000;
-        } else {
-          t.textContent = msg;
+        // ── Answer formatter for fc-back ──
+        function formatFcAnswer(rawText) {
+          if (!rawText || rawText.trim().length < 10) return rawText;
+          var lines = rawText.split('\n');
+          var html = '<div class="fc-a-formatted">';
+          lines.forEach(function (line) {
+            var t = line.trim();
+            if (!t) { html += '<div style="height:5px"></div>'; return; }
+            var sm = t.match(/^(\d+)[.)\s]\s+(.+)/);
+            var isFormula = t.includes('=') && t.length < 100 && /[A-Z]{2,}/.test(t) && !/[a-z]{5,}/.test(t);
+            var fmt = t.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+            if (sm) {
+              html += '<div class="fa-step"><span class="fa-step-num">' + sm[1] + '.</span><span class="fa-step-text">' + fmt + '</span></div>';
+            } else if (isFormula) {
+              html += '<div class="fa-formula">' + t + '</div>';
+            } else {
+              html += '<div class="fa-para">' + fmt + '</div>';
+            }
+          });
+          html += '</div>';
+          return html;
         }
-        t.style.opacity = 1;
-        clearTimeout(t._to);
-        t._to = setTimeout(function(){ t.style.opacity=0; }, dur);
-      };
-    }
+
+        // ── Heatmap month labels ──
+        function addHeatmapMonthLabels() {
+          var hg = document.querySelector('.heatmap-grid');
+          if (!hg) return;
+          var cells = hg.querySelectorAll('.heatmap-cell');
+          if (!cells.length) return;
+          var mrow = document.createElement('div');
+          mrow.className = 'heatmap-months-row';
+          var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+          var today = new Date();
+          var labels = [];
+          // 70 cells = 70 days
+          for (var i = 69; i >= 0; i--) {
+            var d = new Date(today);
+            d.setDate(d.getDate() - i);
+            if (d.getDate() === 1 || i === 69) {
+              labels.push({ idx: 69 - i, text: MONTHS[d.getMonth()] });
+            }
+          }
+          var prevIdx = -1;
+          labels.forEach(function (lbl) {
+            if (prevIdx >= 0) {
+              var gap = lbl.idx - prevIdx;
+              var spacer = document.createElement('div');
+              spacer.style.cssText = 'min-width:' + (gap * 16) + 'px;flex-shrink:0';
+              mrow.appendChild(spacer);
+            }
+            var span = document.createElement('div');
+            span.className = 'heatmap-month-lbl';
+            span.textContent = lbl.text;
+            mrow.appendChild(span);
+            prevIdx = lbl.idx;
+          });
+          var wrap = hg.closest('.heatmap-wrap');
+          if (wrap && !wrap.querySelector('.heatmap-months-row')) {
+            wrap.insertBefore(mrow, hg);
+          }
+        }
+
+        // ── Session complete weakness recommendation ──
+        var _scSessionCats = {};
+        var _origLogCardResult = typeof logCardResult === 'function' ? logCardResult : null;
+
+        // ── Sort By wiring ──
+        var _origRenderBrowse = typeof renderBrowse === 'function' ? renderBrowse : null;
+        if (_origRenderBrowse) {
+          renderBrowse = function () {
+            _origRenderBrowse.apply(this, arguments);
+            var sortF = document.getElementById('sortF');
+            if (!sortF || sortF.value === 'default') return;
+            var list = document.getElementById('qList');
+            if (!list) return;
+            var items = Array.from(list.querySelectorAll('.q-item'));
+            if (items.length < 2) return;
+            var sv = sortF.value;
+            items.sort(function (a, b) {
+              var idA = parseInt(a.dataset.qid || a.dataset.id || 0);
+              var idB = parseInt(b.dataset.qid || b.dataset.id || 0);
+              if (sv === 'mostMissed') {
+                var sA = getProgress ? getProgress(idA) : {}, sB = getProgress ? getProgress(idB) : {};
+                return ((sB && sB.missed) || 0) - ((sA && sA.missed) || 0);
+              } else if (sv === 'neverSeen') {
+                var sA = getProgress ? getProgress(idA) : {}, sB = getProgress ? getProgress(idB) : {};
+                var aU = (!sA || !sA.status || sA.status === 'unseen') ? 0 : 1;
+                var bU = (!sB || !sB.status || sB.status === 'unseen') ? 0 : 1;
+                return aU - bU;
+              } else if (sv === 'alpha') {
+                var tA = (a.querySelector('.q-q') || {}).textContent || '';
+                var tB = (b.querySelector('.q-q') || {}).textContent || '';
+                return tA.localeCompare(tB);
+              } else if (sv === 'recentlyAdded') {
+                return idB - idA;
+              }
+              return 0;
+            });
+            items.forEach(function (item) { list.appendChild(item); });
+          };
+        }
+
+        // ── Nav hook to run hero update ──
+        var _origNav = typeof nav === 'function' ? nav : null;
+        if (_origNav) {
+          nav = function (view) {
+            _origNav.apply(this, arguments);
+            if (view === 'dashboard') { setTimeout(updateDashHero, 150); }
+          };
+        }
+
+        // ── Answer format hook via MutationObserver ──
+        document.addEventListener('DOMContentLoaded', function () {
+          setTimeout(function () {
+            buildSearchIndex(); // pre-build on load
+            var fcArea = document.getElementById('fcArea');
+            if (fcArea) {
+              var mo = new MutationObserver(function () {
+                var fcAs = fcArea.querySelectorAll('.fc-back .fc-a:not([data-fmt])');
+                fcAs.forEach(function (el) {
+                  if (el.textContent.trim().length > 0) {
+                    el.setAttribute('data-fmt', '1');
+                    el.innerHTML = formatFcAnswer(el.textContent);
+                  }
+                });
+              });
+              mo.observe(fcArea, { childList: true, subtree: true, characterData: true });
+            }
+            // initial hero update
+            updateDashHero();
+            // heatmap labels on next tick after render
+            setTimeout(addHeatmapMonthLabels, 800);
+          }, 300);
+        });
+
+        // Toast with undo support
+        var _origToast = typeof toast === 'function' ? toast : null;
+        if (_origToast) {
+          toast = function (msg, dur, undoFn) {
+            dur = dur || 2500;
+            var t = document.getElementById('toast');
+            if (!t) { _origToast(msg, dur); return; }
+            if (undoFn) {
+              t.innerHTML = msg + ' <span id="toastUndo" style="margin-left:10px;text-decoration:underline;cursor:pointer;color:var(--gold2);font-weight:600;font-size:11px">Undo</span>';
+              var u = document.getElementById('toastUndo');
+              if (u) u.onclick = function () { undoFn(); t.style.opacity = 0; };
+              dur = 4000;
+            } else {
+              t.textContent = msg;
+            }
+            t.style.opacity = 1;
+            clearTimeout(t._to);
+            t._to = setTimeout(function () { t.style.opacity = 0; }, dur);
+          };
+        }
 
 
         // ═══════════════════════════════════════════════
@@ -16844,7 +17432,11 @@ fedrate: { val: "4.25\u20134.50%", note: "Paused. Market pricing 1\u20132 cuts i
     <div class="modal" style="max-width:580px">
       <div class="modal-head">
         <div class="modal-title">Edit Question</div>
-        <button class="modal-x" onclick="closeEditModal()"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/></svg></button>
+        <button class="modal-x" onclick="closeEditModal()"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"
+            stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <line x1="1" y1="1" x2="9" y2="9" />
+            <line x1="9" y1="1" x2="1" y2="9" />
+          </svg></button>
       </div>
       <div class="modal-body">
         <div class="form-group" style="margin-bottom:12px">
