@@ -12024,13 +12024,13 @@ A: WACC is the weighted average cost of capital."></textarea>
           <div id="macroApiKeyBanner" style="background:var(--navy2);border:1.5px solid var(--border);border-radius:12px;padding:16px 20px;margin:24px 0 18px;display:flex;flex-wrap:wrap;align-items:center;gap:12px">
             <div style="flex:1;min-width:220px">
               <div style="font-size:11px;font-weight:700;color:var(--gold2);margin-bottom:5px">🤖 AI Auto-Refresh — update all 35 cards in one click</div>
-              <div style="font-size:10px;color:var(--white3);line-height:1.6">Paste your free <strong style="color:var(--white2)">Google Gemini API key</strong> → click Refresh All. Get one free at <a href="https://aistudio.google.com" target="_blank" style="color:var(--gold);text-decoration:none">aistudio.google.com</a></div>
+              <div style="font-size:10px;color:var(--white3);line-height:1.6">Paste your <strong style="color:var(--white2)">Together AI key</strong> → click Refresh All. 100% free, no card needed at <a href="https://api.together.ai" target="_blank" style="color:var(--gold);text-decoration:none">api.together.ai</a></div>
             </div>
             <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-              <input id="macroApiKeyInput" type="password" placeholder="Paste Gemini API key (AIzaSy...)"
+              <input id="macroApiKeyInput" type="password" placeholder="Paste Together AI key (starts with a long string...)"
                 style="padding:8px 12px;background:var(--navy3);border:1.5px solid var(--border2);border-radius:8px;color:var(--white);font-size:11.5px;font-family:'Outfit',sans-serif;outline:none;width:260px;transition:border-color .15s"
                 onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor=''"
-                oninput="try{localStorage.setItem('macro_gemini_key',this.value.trim())}catch(e){}">
+                oninput="try{localStorage.setItem('macro_together_key',this.value.trim())}catch(e){}">
               <button id="macroRefreshBtn" onclick="refreshMacroData()"
                 style="padding:8px 16px;border-radius:8px;border:none;background:var(--gold);color:var(--navy);font-size:12px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;display:flex;align-items:center;gap:6px;white-space:nowrap"
                 onmouseover="this.style.background='var(--gold2)'" onmouseout="this.style.background='var(--gold)'">
@@ -15090,39 +15090,35 @@ A: WACC is the weighted average cost of capital."></textarea>
           });
           try {
             statusEl.textContent = 'Searching for latest India macro data...';
-            var apiKey = (document.getElementById('macroApiKeyInput').value || localStorage.getItem('macro_gemini_key') || '').trim();
+            var apiKey = (document.getElementById('macroApiKeyInput').value || localStorage.getItem('macro_together_key') || '').trim();
             if (!apiKey) {
-              errEl.textContent = '⚠ Please enter your Google Gemini API key above (get it free at aistudio.google.com), then click Refresh.';
+              errEl.textContent = '⚠ Please enter your Together AI key above (free at api.together.ai), then click Refresh.';
               errEl.style.display = 'block';
               statusEl.textContent = 'API key required';
               btn.disabled = false; spinIcon.classList.remove('macro-spinning');
               kpiIds.forEach(function (id) {
                 var v = document.getElementById('val-' + id); if (v) { v.textContent = '—'; v.className = 'macro-kpi-val'; }
-                var s = document.getElementById('sub-' + id); if (s) s.textContent = 'Enter Gemini API key above, then click Refresh';
+                var s = document.getElementById('sub-' + id); if (s) s.textContent = 'Enter Together AI key above, then click Refresh';
               });
               return;
             }
             async function geminiAsk(prompt, useSearch) {
-              var tools = useSearch ? [{ "google_search": {} }] : [];
               var body = {
-                contents: [{ role: 'user', parts: [{ text: prompt }] }],
-                generationConfig: { temperature: 0.2, maxOutputTokens: 2000 }
+                model: 'meta-llama/Llama-3.3-70B-Instruct-Turbo-Free',
+                max_tokens: 2000,
+                messages: [{ role: 'user', content: prompt }]
               };
-              if (useSearch) body.tools = tools;
-              var url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=' + apiKey;
-              var resp = await fetch(url, {
+              var resp = await fetch('https://api.together.xyz/v1/chat/completions', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Bearer ' + apiKey
+                },
                 body: JSON.stringify(body)
               });
               var json = await resp.json();
-              if (json.error) throw new Error(json.error.message || 'Gemini API error');
-              var text = '';
-              var cands = json.candidates || [];
-              if (cands[0] && cands[0].content && cands[0].content.parts) {
-                cands[0].content.parts.forEach(function (p) { if (p.text) text += p.text; });
-              }
-              return text;
+              if (json.error) throw new Error(json.error.message || 'Together AI error');
+              return (json.choices && json.choices[0] && json.choices[0].message && json.choices[0].message.content) || '';
             }
             var rawText = await geminiAsk(`Search the web for the latest available values of ALL these India macro indicators and return ONLY a valid JSON object with no markdown, backticks, or explanation. Use the most recent real data available for each:
 {
@@ -15416,14 +15412,14 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
             document.head.appendChild(st);
           }
           // Restore saved API key into input on page load
-          var saved = localStorage.getItem('macro_gemini_key');
+          var saved = localStorage.getItem('macro_together_key');
           var inp = document.getElementById('macroApiKeyInput');
           if (saved && inp) inp.value = saved;
           var _navOrig = nav;
           nav = function (id) {
             _navOrig(id);
             if (id === 'macro' && !_macroLoaded) {
-              var saved = localStorage.getItem('macro_gemini_key');
+              var saved = localStorage.getItem('macro_together_key');
               var inp = document.getElementById('macroApiKeyInput');
               if (saved && inp && !inp.value) inp.value = saved;
               if (saved) setTimeout(refreshMacroData, 300);
@@ -16515,7 +16511,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
           setTimeout(function () { nav('browse'); }, 1600);
         }
         (function () {
-          var saved = localStorage.getItem('macro_gemini_key');
+          var saved = localStorage.getItem('macro_together_key');
           if (saved) {
             var inp = document.getElementById('macroApiKeyInput');
             if (inp) inp.value = saved;
