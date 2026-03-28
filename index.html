@@ -7003,15 +7003,12 @@
 
   <style id="mobile-sidebar-fix">
     /* ═══════════════════════════════════════════
-   MOBILE FULL-SCREEN MENU
-   ═══════════════════════════════════════════ */
+       FULL-SCREEN MOBILE MENU — base styles (all screen sizes)
+    ═══════════════════════════════════════════ */
 
-    /* Hide the old floating hamburger */
-    .mob-menu-btn {
-      display: none !important;
-    }
+    /* Suppress the old floating hamburger — topbar button handles it */
+    .mob-menu-btn { display: none !important; }
 
-    /* Full-screen menu overlay — hidden by default */
     #mobileMenu {
       display: none;
       position: fixed;
@@ -7021,12 +7018,8 @@
       overflow-y: auto;
       flex-direction: column;
     }
+    #mobileMenu.open { display: flex; }
 
-    #mobileMenu.open {
-      display: flex;
-    }
-
-    /* Menu header */
     .mm-header {
       display: flex;
       align-items: center;
@@ -7039,206 +7032,537 @@
       z-index: 2;
       backdrop-filter: blur(12px);
     }
-
-    .mm-logo {
-      font-family: "DM Serif Display", serif;
-      font-size: 18px;
-      color: var(--white);
-      line-height: 1.2;
-    }
-
-    .mm-logo span {
-      color: var(--gold);
-    }
+    .mm-logo { font-family: "DM Serif Display", serif; font-size: 18px; color: var(--white); line-height: 1.2; }
+    .mm-logo span { color: var(--gold); }
 
     .mm-close {
-      width: 36px;
-      height: 36px;
+      width: 44px; height: 44px;
       border-radius: 9px;
       border: 1.5px solid var(--border2);
       background: var(--white4);
       color: var(--white);
       font-size: 18px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       transition: all .15s;
+      -webkit-tap-highlight-color: transparent;
     }
+    .mm-close:active { background: var(--gold-bg); border-color: var(--gold); color: var(--gold2); }
 
-    .mm-close:hover {
-      background: var(--gold-bg);
-      border-color: var(--gold);
-      color: var(--gold2);
-    }
+    .mm-sec { font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--white3); padding: 18px 20px 6px; }
 
-    /* Section label */
-    .mm-sec {
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--white3);
-      padding: 18px 20px 6px;
-    }
-
-    /* Nav item rows — big tap targets */
     .mm-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
+      display: flex; align-items: center; gap: 14px;
       padding: 15px 20px;
-      font-size: 15px;
-      font-weight: 500;
+      font-size: 15px; font-weight: 500;
       color: var(--white2);
       cursor: pointer;
       border-left: 3px solid transparent;
       border-bottom: 1px solid var(--border2);
-      transition: all .15s;
-      text-decoration: none;
+      min-height: 52px;
       -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
+    .mm-item:active { background: var(--white4); color: var(--white); }
+    .mm-item.active { color: var(--gold2); font-weight: 600; border-left-color: var(--gold); background: var(--gold-bg); }
+    .mm-item-icon { font-size: 20px; width: 28px; text-align: center; flex-shrink: 0; }
+    .mm-item-label { flex: 1; }
+    .mm-item-arrow { font-size: 13px; color: var(--white3); opacity: .5; }
+    .mm-sep { height: 1px; background: var(--border2); margin: 4px 0; }
 
-    .mm-item:hover,
-    .mm-item:active {
-      color: var(--white);
-      background: var(--white4);
-    }
-
-    .mm-item.active {
-      color: var(--gold2);
-      font-weight: 600;
-      border-left-color: var(--gold);
-      background: var(--gold-bg);
-    }
-
-    .mm-item-icon {
-      font-size: 20px;
-      width: 28px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    .mm-item-label {
-      flex: 1;
-    }
-
-    .mm-item-arrow {
-      font-size: 13px;
-      color: var(--white3);
-      opacity: .5;
-    }
-
-    /* Separator line */
-    .mm-sep {
-      height: 1px;
-      background: var(--border2);
-      margin: 4px 0;
-    }
-
-    /* Stats bar at bottom */
     .mm-stats {
       margin: auto 0 0;
       padding: 16px 20px;
       border-top: 1px solid var(--border2);
       background: var(--navy2);
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
+      display: flex; gap: 20px; flex-wrap: wrap;
     }
+    .mm-stat { display: flex; flex-direction: column; gap: 2px; }
+    .mm-stat-val { font-family: "IBM Plex Mono", monospace; font-size: 16px; font-weight: 600; color: var(--gold2); }
+    .mm-stat-lab { font-size: 9px; color: var(--white3); text-transform: uppercase; letter-spacing: .07em; }
 
-    .mm-stat {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .mm-stat-val {
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--gold2);
-    }
-
-    .mm-stat-lab {
-      font-size: 9px;
-      color: var(--white3);
-      text-transform: uppercase;
-      letter-spacing: .07em;
-    }
-
-    /* ── Topbar on mobile: replace floating hamburger with inline menu button ── */
-    @media (max-width: 768px) {
-
-      /* Hide the original sidebar on mobile entirely */
-      .sidebar {
-        display: none !important;
-      }
-
-      .main {
-        margin-left: 0 !important;
-        height: 100vh;
-      }
-
-      /* Topbar layout: menu btn | title | actions */
-      .topbar {
-        padding: 10px 12px !important;
-        gap: 8px;
-      }
-
-      /* Show the inline menu button in topbar */
-      #topbarMenuBtn {
-        display: flex !important;
-      }
-
-      /* Shrink title */
-      .tb-title {
-        font-size: 14px !important;
-        flex: 1;
-      }
-
-      /* Hide some topbar buttons */
-      .tb-btns .btn-o {
-        display: none !important;
-      }
-
-      .tb-btns .btn-print {
-        display: none !important;
-      }
-
-      .tb-btns {
-        gap: 6px;
-      }
-    }
-
-    /* The inline topbar menu button — hidden on desktop */
+    /* Topbar inline menu button — hidden on desktop */
     #topbarMenuBtn {
       display: none;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
+      align-items: center; justify-content: center;
+      width: 40px; height: 40px;
       border-radius: 8px;
       border: 1.5px solid var(--border2);
       background: var(--white4);
       color: var(--white);
-      font-size: 16px;
+      font-size: 18px;
       cursor: pointer;
       flex-shrink: 0;
       transition: all .15s;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
+    #topbarMenuBtn:active { background: var(--gold-bg); border-color: var(--gold); color: var(--gold2); }
 
-    #topbarMenuBtn:hover {
-      background: var(--gold-bg);
-      border-color: var(--gold);
-      color: var(--gold2);
-    }
+    /* ═══════════════════════════════════════════
+       MOBILE OVERRIDES  ≤ 768 px
+    ═══════════════════════════════════════════ */
+    @media (max-width: 768px) {
 
-    @media (max-width: 420px) {
-      .mm-item {
-        font-size: 14px;
-        padding: 14px 18px;
+      /* ── 1. PREVENT BODY/APP FROM CLIPPING THE PAGE ── */
+      body {
+        overflow: auto !important;
+        height: auto !important;
       }
+      .app {
+        overflow: visible !important;
+        height: auto !important;
+        min-height: 100vh;
+        flex-direction: column;
+      }
+
+      /* ── 2. HIDE LEFT SIDEBAR — replaced by full-screen menu ── */
+      .sidebar { display: none !important; }
+
+      /* ── 3. MAIN AREA — full width, natural height, scrollable ── */
+      .main {
+        margin-left: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: 100vh;
+        overflow: visible !important;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* ── 4. CONTENT AREA — scrollable, full height ── */
+      .content {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch;
+        height: auto !important;
+        min-height: 0;
+        flex: 1;
+      }
+
+      /* ── 5. VIEWS — block layout, natural scroll ── */
+      .view.active {
+        display: block !important;
+        height: auto !important;
+        overflow: visible !important;
+        padding: 14px 12px;
+        min-height: 0;
+      }
+
+      /* Views that normally use full-height flex — let them scroll naturally */
+      #view-dcf.active,
+      #view-finstatements.active,
+      #view-revenue.active,
+      #view-files.active,
+      #view-flashcard.active {
+        padding: 0 !important;
+        height: auto !important;
+        overflow: visible !important;
+        display: flex !important;
+        flex-direction: column !important;
+      }
+
+      #view-macro.active {
+        display: block !important;
+        height: auto !important;
+        overflow: visible !important;
+        padding: 14px 12px !important;
+      }
+
+      /* ── 6. TOPBAR ── */
+      .topbar {
+        padding: 8px 12px !important;
+        gap: 8px;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+      }
+      #topbarMenuBtn { display: flex !important; }
+      .tb-title { font-size: 13px !important; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .tb-btns .btn-o,
+      .tb-btns .btn-print { display: none !important; }
+      .tb-btns { gap: 6px; flex-shrink: 0; }
+      .theme-toggle span:last-child { display: none; }
+      #gsTopbarBtn .gs-topbar-label,
+      #gsTopbarBtn .gs-topbar-kbd { display: none; }
+      #gsTopbarBtn { padding: 7px 10px; min-width: unset; }
+
+      /* ── 7. FLASHCARD / INTERVIEW PREP ──
+         THE MAIN FIX: fc-layout-wrap was overflow:hidden + flex
+         On mobile: stack vertically, scroll naturally */
+      .fc-layout-wrap {
+        flex-direction: column !important;
+        height: auto !important;
+        overflow: visible !important;
+        flex: none !important;
+        min-height: 0;
+      }
+
+      /* fc-sidebar: replace horizontal pill-bar with a styled dropdown via JS.
+         Hide the sidebar itself — .mob-fc-select takes over */
+      .fc-sidebar {
+        display: none !important;
+      }
+
+      /* Mobile category selector for flashcard — injected by JS */
+      .mob-fc-select {
+        display: block;
+        width: 100%;
+        padding: 10px 14px;
+        font-size: 13px;
+        font-family: "Outfit", sans-serif;
+        font-weight: 500;
+        color: var(--white);
+        background: var(--navy3);
+        border: none;
+        border-bottom: 1px solid var(--border2);
+        border-left: 3px solid var(--gold);
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16' fill='none' stroke='%23C9A84C' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        padding-right: 36px;
+        position: sticky;
+        top: 52px;
+        z-index: 10;
+        box-shadow: 0 2px 6px rgba(0,0,0,.15);
+      }
+      .mob-fc-select option { background: var(--navy2); color: var(--white); }
+
+      .fc-main-area {
+        overflow: visible !important;
+        height: auto !important;
+        padding: 14px 12px !important;
+        flex: none !important;
+      }
+      .fc-main-area .fc-scene {
+        height: 260px !important;
+        max-width: 100% !important;
+      }
+      .fc-scene { height: 240px; }
+      .fc-face { padding: 16px; }
+      .fc-q { font-size: 13px; }
+      .fc-a { font-size: 13px; line-height: 1.6; }
+
+      /* Rate buttons — full width row, big touch targets */
+      .fc-rate {
+        flex-wrap: nowrap !important;
+        gap: 6px;
+      }
+      .rate-btn {
+        flex: 1;
+        min-height: 48px;
+        padding: 10px 6px;
+        font-size: 11px;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .rate-emoji { font-size: 18px; }
+      .rate-key { display: none; }  /* hide review interval text on mobile */
+      .fc-acts { flex-wrap: wrap; gap: 6px; }
+      .fc-acts .btn { flex: 1; min-width: 80px; justify-content: center; }
+
+      /* ── 8. INNER SIDEBAR FOR DCF/FS/REVENUE (rm-sidebar) ──
+         Hidden; replaced by .mob-rm-select dropdown injected by JS */
+      .rm-wrap {
+        flex-direction: column !important;
+        height: auto !important;
+        overflow: visible !important;
+        flex: none !important;
+      }
+      .rm-sidebar { display: none !important; }
+
+      /* Dropdown injected by JS for rm-sidebar panels */
+      .mob-rm-select {
+        display: block;
+        width: 100%;
+        padding: 10px 14px;
+        font-size: 13px;
+        font-family: "Outfit", sans-serif;
+        font-weight: 500;
+        color: var(--white);
+        background: var(--navy3);
+        border: none;
+        border-bottom: 1px solid var(--border2);
+        border-left: 3px solid var(--gold);
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16' fill='none' stroke='%23C9A84C' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        padding-right: 36px;
+        position: sticky;
+        top: 52px;
+        z-index: 10;
+        box-shadow: 0 2px 6px rgba(0,0,0,.15);
+      }
+      .mob-rm-select option,
+      .mob-rm-select optgroup { background: var(--navy2); color: var(--white); }
+
+      .mob-back-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--white3);
+        background: var(--navy2);
+        border-bottom: 1px solid var(--border2);
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        position: sticky;
+        top: 52px;
+        z-index: 11;
+      }
+
+      .rm-panel {
+        flex: none !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+        padding: 14px 12px !important;
+      }
+
+      /* Landing grids — own padding, natural scroll */
+      #dcf-landing,
+      #fs-landing,
+      #rm-sector-grid {
+        padding: 14px 12px !important;
+        overflow: visible !important;
+      }
+
+      /* ── 9. GRIDS → single column ── */
+      .dcf-grid,
+      .dcf-grid-3,
+      .mod-grid,
+      .mod-grid-3,
+      .fs-grid,
+      .fs-grid-3 {
+        grid-template-columns: 1fr !important;
+        gap: 10px;
+      }
+      .fs-kpi-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .dash-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .dash-row { grid-template-columns: 1fr; gap: 10px; }
+      .macro-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .macro-grid-2 { grid-template-columns: 1fr; }
+
+      /* ── 10. TABLES — horizontal scroll ── */
+      .dcf-table,
+      .mod-table,
+      .sens-table,
+      .ratio-table,
+      .macro-table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        font-size: 10px;
+      }
+
+      /* ── 11. DCF FORMULA — horizontal scroll ── */
+      .dcf-formula,
+      .mod-formula {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        font-size: 10px !important;
+        line-height: 1.8;
+        white-space: pre;
+      }
+
+      /* ── 12. FOOTBALL FIELD — vertical stack ── */
+      .football-bar { flex-direction: column; align-items: flex-start; gap: 4px; margin-bottom: 12px; }
+      .football-label { min-width: unset !important; text-align: left !important; font-size: 11px; }
+      .football-track { width: 100%; height: 26px; }
+
+      /* ── 13. MODALS — bottom sheet ── */
+      .modal {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        border-radius: 18px 18px 0 0 !important;
+        max-height: 88vh;
+        overflow-y: auto;
+      }
+      .modal-foot { flex-direction: column; gap: 8px; }
+      .modal-foot .btn { width: 100%; justify-content: center; }
+      #cheatsheetBox {
+        width: 100% !important; max-width: 100% !important;
+        margin: 0 !important; border-radius: 18px 18px 0 0 !important;
+        max-height: 90vh; overflow-y: auto;
+      }
+      #gsBox {
+        width: 100% !important; max-width: 100% !important;
+        margin: 0 !important; top: auto !important; bottom: 0 !important;
+        border-radius: 18px 18px 0 0 !important; max-height: 80vh;
+      }
+
+      /* ── 14. BROWSE / SEARCH ── */
+      .browse-bar { flex-direction: column; align-items: stretch; gap: 8px; }
+      .search-wrap { min-width: unset; width: 100%; }
+      .sel { width: 100%; font-size: 12px; }
+
+      /* ── 15. MACRO ── */
+      #view-macro { padding: 14px 12px !important; overflow-x: hidden; }
+      #macroApiKeyBanner { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .macro-kpi { padding: 12px 13px; }
+      .macro-kpi-val { font-size: 18px; }
+      .macro-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+      /* ── 16. FORMS ── */
+      .form-grid { grid-template-columns: 1fr !important; }
+
+      /* ── 17. CARDS ── */
+      .dcf-card, .mod-card { padding: 14px 13px; }
+      .dcf-step-num { width: 22px; height: 22px; font-size: 10px; flex-shrink: 0; }
+      .dcf-step-title { font-size: 12px; }
+      .dcf-step-desc { font-size: 11px; }
+
+      /* ── 18. HERO / DASHBOARD ── */
+      .hero { padding: 16px 14px; }
+      .hero h2 { font-size: 16px; }
+      .hs-val { font-size: 18px; }
+
+      /* ── 19. GATE ── */
+      .gate-box { padding: 28px 20px; max-width: calc(100vw - 32px); }
+      .gate-title { font-size: 22px; }
+
+      /* ── 20. SCROLL HELPERS ── */
+      .hm-wrap, .files-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .files-tab { flex-shrink: 0; }
+      .fs-link-row { flex-direction: column; gap: 4px; }
+
+      /* ── 21. EXCEL SHORTCUTS ── */
+      .mod-shortcut-row { flex-wrap: wrap; gap: 6px; }
+      .mod-shortcut-keys { min-width: 100px; }
+
+      /* ── 22. SENSITIVITY TABLE ── */
+      .sens-table { font-size: 9px; }
+      .sens-table th, .sens-table td { padding: 5px 6px; }
+    }
+
+      /* ── 23. INLINE GRID OVERRIDES (macro/support hardcoded styles) ── */
+      .mob-grid-2col {
+        grid-template-columns: 1fr !important;
+      }
+      .mob-grid-3col {
+        grid-template-columns: 1fr 1fr !important;
+      }
+
+      /* ── 24. QUESTION ITEMS — better touch spacing ── */
+      .q-item {
+        padding: 14px 14px;
+        min-height: 52px;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+      }
+      .q-q { font-size: 13px; line-height: 1.5; }
+      .q-meta { font-size: 10px; flex-wrap: wrap; gap: 4px; }
+      .q-acts { flex-wrap: wrap; gap: 6px; }
+      .q-acts .btn { min-height: 36px; }
+
+      /* ── 25. BULK ACTION BAR (browse view) ── */
+      .bulk-bar {
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 10px 12px;
+      }
+
+      /* ── 26. SUPPORT VIEW — contact form ── */
+      #view-support .widget {
+        padding: 14px 13px;
+      }
+
+      /* ── 27. FC-ACTS BUTTONS — wrap nicely ── */
+      .fc-acts {
+        flex-wrap: wrap;
+        gap: 6px;
+        justify-content: center;
+      }
+      .fc-acts .btn {
+        flex: 1;
+        min-width: 80px;
+        justify-content: center;
+        min-height: 40px;
+      }
+
+      /* ── 28. DECK BAR (progress bar in flashcard) ── */
+      .deck-wrap { padding: 0 12px; }
+
+      /* ── 29. MOCK TIMER BAR ── */
+      #mockTimerBar {
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 8px 12px;
+        font-size: 11px;
+      }
+
+      /* ── 30. ONBOARDING OVERLAY ── */
+      .onb-box {
+        width: calc(100vw - 24px) !important;
+        max-width: 100% !important;
+        margin: 12px !important;
+        max-height: 90vh;
+        overflow-y: auto;
+        border-radius: 16px !important;
+      }
+
+      /* ── 31. CHEATSHEET EXPORT — cs-grid ── */
+      .cs-grid {
+        grid-template-columns: 1fr !important;
+      }
+
+      /* ── 32. FILES VIEW ── */
+      #view-files .rm-panel,
+      #files-panel-content {
+        padding: 12px !important;
+      }
+
+      /* ── 33. MACRO INTERVIEW CARDS ── */
+      .macro-interview-card {
+        padding: 13px 12px;
+      }
+      .macro-interview-a {
+        font-size: 11px;
+      }
+
+      /* ── 34. RATIO TABLE WRAPPER ── */
+      .ratio-table-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .ratio-table {
+        font-size: 10px;
+        white-space: nowrap;
+      }
+
+      /* ── 35. DCF/FS SECTOR CARDS — 2 col min ── */
+      .rm-sector-card {
+        padding: 13px 12px 11px;
+      }
+      .rsc-icon { font-size: 22px; }
+      .rsc-name { font-size: 13px; }
+      .rsc-meta { font-size: 9.5px; }
+
+
+    /* ═══════════════════════════════════════════
+       VERY SMALL SCREENS  ≤ 420 px
+    ═══════════════════════════════════════════ */
+    @media (max-width: 420px) {
+      .mm-item { font-size: 14px; padding: 14px 16px; }
+      .dash-grid,
+      .macro-grid,
+      .fs-kpi-grid { grid-template-columns: 1fr !important; }
+      .tb-title { font-size: 12px !important; }
+      .hero { padding: 12px 10px; }
+      .fc-main-area .fc-scene { height: 220px !important; }
+      .gate-box { padding: 22px 14px; }
+      .dcf-section-desc, .mod-section-desc { font-size: 12px; }
+      .rate-btn { font-size: 10px; }
     }
   </style>
 </head>
@@ -12100,7 +12424,7 @@ A: WACC is the weighted average cost of capital."></textarea>
               style="font-size:9px;font-weight:400;color:var(--white3);font-family:&#39;Outfit&#39;,sans-serif">auto-fills
               from your latest data above</span>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
+          <div class="mob-grid-2col" class="mob-grid-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
             <div
               style="background:linear-gradient(135deg,var(--navy3),var(--navy4));border:1px solid var(--border);border-radius:12px;padding:16px 18px">
               <div
@@ -12145,7 +12469,7 @@ A: WACC is the weighted average cost of capital."></textarea>
           </div>
 
           <!-- ══ RATE CYCLE + SECTOR TABLE ══ -->
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:10px">
+          <div class="mob-grid-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:10px">
             <div class="macro-card">
               <div data-macro-anchor="4" style="display:none"></div>
               <div class="macro-card-title">RBI Rate Cycle — Where Are We?</div>
@@ -12481,7 +12805,7 @@ A: WACC is the weighted average cost of capital."></textarea>
           </div>
 
           <!-- ══ DEEP DIVE TABLES ══ -->
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:24px;margin-bottom:24px">
+          <div class="mob-grid-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:24px;margin-bottom:24px">
 
             <!-- GDP Decomposition Table -->
             <div class="macro-card">
@@ -12802,7 +13126,7 @@ A: WACC is the weighted average cost of capital."></textarea>
             <div style="font-family:'DM Serif Display',serif;font-size:15px;color:var(--white);margin-bottom:12px">⚡
               Quick Cheat Sheet — Numbers to Know Cold</div>
             <div
-              style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px 20px;font-size:11.5px;color:var(--white2);line-height:1.8">
+              class="mob-grid-3col" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px 20px;font-size:11.5px;color:var(--white2);line-height:1.8">
               <div><span style="color:var(--gold2);font-weight:600">India GDP size:</span> ~$3.7 trillion (FY25E) — 5th
                 largest globally</div>
               <div><span style="color:var(--gold2);font-weight:600">Nominal GDP growth:</span> ~10.5% (real 6.4% + ~4%
@@ -13068,7 +13392,7 @@ A: WACC is the weighted average cost of capital."></textarea>
               help.</p>
           </div>
 
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+          <div class="mob-grid-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
 
             <!-- LEFT: Feedback -->
             <div class="widget">
@@ -13122,7 +13446,7 @@ A: WACC is the weighted average cost of capital."></textarea>
               <div class="widget">
                 <div class="wt">Reach Out</div>
                 <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:12px">
-                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                  <div class="mob-grid-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
                     <div class="form-group">
                       <label class="form-label">Your Name</label>
                       <input class="form-input" id="ctName" placeholder="Rahul Sharma">
@@ -17461,6 +17785,231 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
       </div>
     </div>
   </div>
+
+  <!-- ═══════════════════════════════════════════
+       MOBILE ENHANCEMENTS JS
+       - Dropdown for fc-sidebar (interview prep categories)
+       - Dropdown for rm-sidebar (DCF/FS topic panels)
+       - Scroll-to-top on view navigation
+  ═══════════════════════════════════════════ -->
+  <script id="mobile-enhancements-js">
+  (function () {
+    var BP = 768;
+    function mob() { return window.innerWidth <= BP; }
+
+    /* ── FLASHCARD CATEGORY DROPDOWN ────────────────────────────────── */
+    function buildFcSelect() {
+      if (!mob()) return;
+      var wrap = document.querySelector('.fc-layout-wrap');
+      if (!wrap || wrap.querySelector('.mob-fc-select')) return;
+      var sidebar = wrap.querySelector('.fc-sidebar');
+      if (!sidebar) return;
+
+      var sel = document.createElement('select');
+      sel.className = 'mob-fc-select';
+      sel.setAttribute('aria-label', 'Select category');
+
+      // Build options from sidebar tabs
+      var currentGroup = null;
+      sidebar.childNodes.forEach(function (node) {
+        if (node.nodeType !== 1) return;
+        if (node.classList.contains('rm-sidebar-label')) {
+          currentGroup = document.createElement('optgroup');
+          currentGroup.label = node.textContent.trim();
+          sel.appendChild(currentGroup);
+          return;
+        }
+        if (node.classList.contains('fc-sidebar-tab')) {
+          var opt = document.createElement('option');
+          var icon = node.querySelector('.rm-tab-icon');
+          var label = node.textContent.replace(icon ? icon.textContent : '', '').trim();
+          opt.textContent = (icon ? icon.textContent + ' ' : '') + label;
+          opt.dataset.oc = node.getAttribute('onclick') || '';
+          if (node.classList.contains('active')) opt.selected = true;
+          (currentGroup || sel).appendChild(opt);
+        }
+        // nav-sep between groups — handled by optgroup already
+      });
+
+      // Change → fire the original onclick of the real tab
+      sel.addEventListener('change', function () {
+        var opt = sel.options[sel.selectedIndex];
+        if (!opt.dataset.oc) return;
+        try { new Function(opt.dataset.oc)(); } catch(e) {}
+        // Scroll flashcard into view
+        var fcArea = document.getElementById('fcArea');
+        if (fcArea) setTimeout(function () { fcArea.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+      });
+
+      // Keep select in sync when tabs are clicked programmatically
+      function syncFc() {
+        var active = sidebar.querySelector('.fc-sidebar-tab.active');
+        if (!active) return;
+        var oc = active.getAttribute('onclick') || '';
+        for (var i = 0; i < sel.options.length; i++) {
+          if (sel.options[i].dataset.oc === oc) { sel.selectedIndex = i; break; }
+        }
+      }
+      var obs = new MutationObserver(syncFc);
+      sidebar.querySelectorAll('.fc-sidebar-tab').forEach(function (t) {
+        obs.observe(t, { attributes: true, attributeFilter: ['class'] });
+      });
+
+      // Insert before fc-main-area
+      var main = wrap.querySelector('.fc-main-area');
+      wrap.insertBefore(sel, main);
+    }
+
+    /* ── RM-SIDEBAR DROPDOWN (DCF / FinStatements / Revenue) ──────── */
+    function buildRmSelects() {
+      if (!mob()) return;
+      document.querySelectorAll('.rm-wrap').forEach(function (wrap) {
+        if (wrap.querySelector('.mob-rm-select')) return;
+        var sidebar = wrap.querySelector('.rm-sidebar');
+        if (!sidebar) return;
+        var tabs = sidebar.querySelectorAll('.rm-tab');
+        if (!tabs.length) return;
+
+        var sel = document.createElement('select');
+        sel.className = 'mob-rm-select';
+        sel.setAttribute('aria-label', 'Select topic');
+
+        var currentGroup = null;
+        sidebar.childNodes.forEach(function (node) {
+          if (node.nodeType !== 1) return;
+          if (node.classList.contains('rm-sidebar-label')) {
+            currentGroup = document.createElement('optgroup');
+            currentGroup.label = node.textContent.trim();
+            sel.appendChild(currentGroup);
+            return;
+          }
+          if (node.classList.contains('rm-tab')) {
+            var opt = document.createElement('option');
+            var icon = node.querySelector('.rm-tab-icon');
+            var label = node.textContent.replace(icon ? icon.textContent : '', '').trim();
+            opt.textContent = (icon ? icon.textContent + ' ' : '') + label;
+            opt.dataset.oc = node.getAttribute('onclick') || '';
+            if (node.classList.contains('active')) opt.selected = true;
+            (currentGroup || sel).appendChild(opt);
+          }
+        });
+
+        sel.addEventListener('change', function () {
+          var opt = sel.options[sel.selectedIndex];
+          if (!opt.dataset.oc) return;
+          try { new Function(opt.dataset.oc)(); } catch(e) {}
+          // Scroll panel content into view
+          var panel = wrap.querySelector('.rm-panel');
+          if (panel) setTimeout(function () { panel.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 80);
+        });
+
+        // Sync select when tab classes change
+        function syncRm() {
+          var active = sidebar.querySelector('.rm-tab.active');
+          if (!active) return;
+          var oc = active.getAttribute('onclick') || '';
+          for (var i = 0; i < sel.options.length; i++) {
+            if (sel.options[i].dataset.oc === oc) { sel.selectedIndex = i; break; }
+          }
+        }
+        var obs2 = new MutationObserver(syncRm);
+        tabs.forEach(function (t) { obs2.observe(t, { attributes: true, attributeFilter: ['class'] }); });
+
+        // Back button (for detail views like DCF detail)
+        var backEl = sidebar.querySelector('[onclick*="backTo"]');
+        if (backEl) {
+          var backBtn = document.createElement('div');
+          backBtn.className = 'mob-back-btn';
+          backBtn.innerHTML = '&#8592; All Topics';
+          var backOc = backEl.getAttribute('onclick');
+          backBtn.addEventListener('click', function () {
+            try { new Function(backOc)(); } catch(e) {}
+          });
+          wrap.insertBefore(backBtn, wrap.firstChild);
+        }
+
+        // Insert select (after back btn if present, otherwise at top)
+        var existBack = wrap.querySelector('.mob-back-btn');
+        if (existBack) existBack.insertAdjacentElement('afterend', sel);
+        else wrap.insertBefore(sel, wrap.firstChild);
+      });
+    }
+
+    /* ── SCROLL-TO-TOP ON NAVIGATION ───────────────────────────────── */
+    function hookNav() {
+      if (!window.nav || window.nav._mobHooked) return;
+      var orig = window.nav;
+      window.nav = function () {
+        orig.apply(this, arguments);
+        if (mob()) {
+          setTimeout(function () {
+            var c = document.querySelector('.content');
+            if (c) c.scrollTop = 0;
+            window.scrollTo(0, 0);
+          }, 60);
+        }
+      };
+      window.nav._mobHooked = true;
+    }
+
+    /* ── OBSERVE for dynamic panels (detail views rendered on click) ── */
+    function startObserver() {
+      var root = document.querySelector('.content') || document.body;
+      // Debounce to avoid rebuilding on every attribute change
+      var debTimer;
+      var mo = new MutationObserver(function () {
+        clearTimeout(debTimer);
+        debTimer = setTimeout(function () {
+          buildFcSelect();
+          buildRmSelects();
+        }, 150);
+      });
+      mo.observe(root, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] });
+    }
+
+    /* ── FIX fc-main-area: remove height constraint on mobile ─────────── */
+    function fixFcMainArea() {
+      if (!mob()) return;
+      var fma = document.querySelector('.fc-main-area');
+      if (fma) {
+        fma.style.overflow = 'visible';
+        fma.style.height = 'auto';
+        fma.style.flex = 'none';
+      }
+      // Also ensure fc-layout-wrap doesn't clip
+      var flw = document.querySelector('.fc-layout-wrap');
+      if (flw) {
+        flw.style.overflow = 'visible';
+        flw.style.height = 'auto';
+        flw.style.flex = 'none';
+      }
+    }
+
+    /* ── RESIZE: rebuild if crossing breakpoint ─────────────────────── */
+    var rt;
+    window.addEventListener('resize', function () {
+      clearTimeout(rt);
+      rt = setTimeout(function () { buildFcSelect(); buildRmSelects(); }, 250);
+    });
+
+    /* ── INIT ─────────────────────────────────────────────────────── */
+    function init() {
+      hookNav();
+      fixFcMainArea();
+      buildFcSelect();
+      buildRmSelects();
+      startObserver();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      setTimeout(init, 400);
+    }
+
+  })();
+  </script>
+
 </body>
 
 </html>
