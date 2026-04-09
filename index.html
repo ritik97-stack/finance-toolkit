@@ -9,12 +9,12 @@
   <meta name="description"
     content="Comprehensive finance interview preparation toolkit with 500+ Q&amp;As, flashcards, DCF walkthroughs, revenue models, financial statement references, and India macro dashboard.">
   <title>Finance Analyst Toolkit</title>
-  <link href="./Finance Analyst Toolkit 5_files/css2" rel="stylesheet">
-  <script src="./Finance Analyst Toolkit 5_files/pdf.min.js"></script>
-  <script src="./Finance Analyst Toolkit 5_files/firebase-app-compat.js"></script>
-  <script src="./Finance Analyst Toolkit 5_files/firebase-firestore-compat.js"></script>
-  <script src="./Finance Analyst Toolkit 5_files/firebase-auth-compat.js"></script>
-  <script src="./Finance Analyst Toolkit 5_files/firebase-storage-compat.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
   <script>
     firebase.initializeApp({
       apiKey: "AIzaSyC8VfCd1BLNW0pq-IhzxdjedrIfafiI_5s",
@@ -8326,7 +8326,7 @@
 </head>
 
 <body>
-  <div id="gate-overlay" class="gate-unlocking" style="display: none;">
+  <div id="gate-overlay" style="display: none;">
     <div class="gate-box">
       <div class="gate-logo">🎯</div>
       <div class="gate-title">Finance <span>Analyst</span></div>
@@ -8474,6 +8474,10 @@
         }
         // Automatically start if already authenticated and verified
         loadDataAndStartApp();
+      } else {
+        // No user logged in — enable the sign-in button
+        var btn = document.getElementById('gateBtn');
+        if (btn) { btn.textContent = '🔓 Sign In'; btn.disabled = false; }
       }
     });
 
@@ -8518,21 +8522,28 @@
         // loadDataAndStartApp will be triggered by onAuthStateChanged directly if verified
       } catch (e) {
         console.error(e);
+        var isWrongPassword = e.code === 'auth/invalid-credential' || e.code === 'auth/wrong-password' || e.code === 'auth/user-not-found' || e.code === 'auth/invalid-login-credentials' || (e.message && e.message.indexOf('INVALID_LOGIN_CREDENTIALS') !== -1);
         var friendlyMsg = e.message;
-        if (e.code === 'auth/invalid-credential' || e.code === 'auth/wrong-password' || e.code === 'auth/user-not-found') {
-          friendlyMsg = 'Invalid email or password. Please try again.';
+        if (isWrongPassword) {
+          friendlyMsg = '❌ Incorrect email or password. Please try again.';
         } else if (e.code === 'auth/email-already-in-use') {
           friendlyMsg = 'An account already exists with this email address.';
         } else if (e.code === 'auth/weak-password') {
           friendlyMsg = 'Password is too weak. Please use at least 6 characters.';
+        } else if (e.code === 'auth/invalid-email') {
+          friendlyMsg = 'Please enter a valid email address.';
+        } else if (e.code === 'auth/too-many-requests') {
+          friendlyMsg = 'Too many failed attempts. Please try again later or reset your password.';
+        } else {
+          friendlyMsg = 'Something went wrong. Please try again.';
         }
         errEl.textContent = friendlyMsg;
         btn.textContent = gateMode === 'signup' ? 'Sign Up' : '🔓 Sign In';
         btn.disabled = false;
         passInp.classList.add('error');
 
-        // Show forgot password link if error is wrong password or invalid credential
-        if (gateMode === 'signin' && (e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential' || e.code === 'auth/user-not-found')) {
+        // Show forgot password link on any sign-in failure
+        if (gateMode === 'signin') {
           var forgotToggle = document.getElementById('gateForgotToggle');
           if (forgotToggle) forgotToggle.style.display = 'inline';
         }
@@ -18511,7 +18522,8 @@ A: WACC is the weighted average cost of capital."></textarea>
               <div class="rm-tab" onclick="switchDcfTab(&#39;dcf-comps&#39;,6)"><span class="rm-tab-icon">📊</span>
                 Trading
                 Comps</div>
-              <div class="rm-tab" onclick="switchDcfTab(&#39;dcf-precedent&#39;,7)"><span class="rm-tab-icon">🤝</span> Precedent
+              <div class="rm-tab" onclick="switchDcfTab(&#39;dcf-precedent&#39;,7)"><span class="rm-tab-icon">🤝</span>
+                Precedent
                 Txns</div>
               <div class="rm-tab" onclick="switchDcfTab(&#39;dcf-build&#39;,8)"><span class="rm-tab-icon">🔨</span> DCF
                 Build</div>
