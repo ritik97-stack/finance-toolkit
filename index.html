@@ -807,9 +807,9 @@
 
     .fc-q {
       font-family: "DM Serif Display", serif;
-      font-size: 22px;
+      font-size: 26px;
       color: var(--white);
-      line-height: 1.45;
+      line-height: 1.4;
       flex: 1;
       display: flex;
       align-items: center
@@ -851,15 +851,15 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
-      padding: 11px 22px;
-      border-radius: 10px;
+      gap: 2px;
+      padding: 6px 14px;
+      border-radius: 8px;
       border: 1.5px solid;
       cursor: pointer;
       transition: all .18s;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
-      min-width: 100px;
+      min-width: 80px;
       background: transparent;
       font-family: "Outfit", sans-serif
     }
@@ -885,7 +885,7 @@
     }
 
     .rate-emoji {
-      font-size: 18px
+      font-size: 16px
     }
 
     .rate-key {
@@ -3428,25 +3428,58 @@
 
       /* Flashcard */
       .fc-scene {
-        height: 260px;
+        height: 60vh;
+        min-height: 400px;
       }
 
       .fc-face {
-        padding: 18px;
+        padding: 16px;
       }
 
       .fc-q {
-        font-size: 13px;
+        font-size: 24px;
       }
 
       .fc-a {
         font-size: 14px;
       }
 
+      .fc-acts {
+        margin-bottom: 4px;
+        gap: 4px;
+      }
+
+      .fc-rate {
+        gap: 4px;
+      }
+
       .rate-btn {
-        padding: 9px 14px;
-        min-width: 80px;
+        padding: 2px 4px;
+        min-width: 46px;
+        font-size: 9px;
+        border-width: 1px;
+      }
+
+      .rate-emoji {
+        font-size: 12px;
+      }
+
+      .fc-notes-area {
+        min-height: 28px;
+        padding: 4px 6px;
+        margin-top: 4px;
         font-size: 11px;
+        line-height: 1.2;
+      }
+
+      .fc-notes-label {
+        margin-top: 6px;
+      }
+
+      .btn {
+        padding: 5px 8px;
+        font-size: 10px;
+        gap: 3px;
       }
 
       .fc-bar {
@@ -3724,11 +3757,12 @@
       }
 
       .fc-scene {
-        height: 240px;
+        height: 65vh;
+        min-height: 380px;
       }
 
       .fc-q {
-        font-size: 14px;
+        font-size: 23px;
       }
 
       .gate-box {
@@ -6769,13 +6803,13 @@
       background: rgba(201, 168, 76, .06);
       border: 1px dashed rgba(201, 168, 76, .3);
       border-radius: 8px;
-      padding: 8px 11px;
+      padding: 6px 10px;
       font-size: 12px;
       color: var(--white2);
       font-family: "Outfit", sans-serif;
       resize: none;
-      line-height: 1.5;
-      min-height: 56px;
+      line-height: 1.4;
+      min-height: 38px;
       transition: border-color .15s, background .15s;
     }
 
@@ -8573,14 +8607,8 @@
     <div class="mm-item" onclick="mmNav(&#39;browse&#39;)"><span class="mm-item-icon">📋</span><span
         class="mm-item-label">Browse All</span><span class="mm-item-arrow">›</span></div>
     <div class="mm-sep"></div>
-    <div class="mm-item" onclick="mmAction(&#39;quickfire&#39;)"><span class="mm-item-icon">⚡</span><span
-        class="mm-item-label">Quick 20</span><span class="mm-item-arrow">›</span></div>
     <div class="mm-item" onclick="mmAction(&#39;bookmarks&#39;)"><span class="mm-item-icon">🔖</span><span
         class="mm-item-label">Bookmarked</span><span class="mm-item-arrow">›</span></div>
-    <div class="mm-item" onclick="mmAction(&#39;missed&#39;)"><span class="mm-item-icon">🔄</span><span
-        class="mm-item-label">Redo Missed</span><span class="mm-item-arrow">›</span></div>
-    <div class="mm-item" onclick="startSmartReview();closeDrawerMenu()"><span class="mm-item-icon">📅</span><span
-        class="mm-item-label">Due Today</span><span class="mm-item-arrow">›</span></div>
     <div class="mm-item" onclick="startMockInterview();closeDrawerMenu()"><span class="mm-item-icon">🎯</span><span
         class="mm-item-label">Mock Interview</span><span class="mm-item-arrow">›</span></div>
 
@@ -8960,10 +8988,7 @@
       <div class="nav-item" onclick="nav(&#39;dashboard&#39;)"><span>🏠</span> Dashboard</div>
       <div class="nav-item active" onclick="nav(&#39;flashcard&#39;)"><span>🃏</span> Flashcards</div>
       <div class="nav-item" onclick="nav(&#39;browse&#39;)"><span>📋</span> Browse All</div>
-      <div class="nav-item" onclick="startQuickFire()"><span>⚡</span> Quick 20</div>
       <div class="nav-item" onclick="startBookmarks()"><span>🔖</span> Bookmarked</div>
-      <div class="nav-item" onclick="startMissed()"><span>🔄</span> Redo Missed</div>
-      <div class="nav-item" onclick="startSmartReview()"><span>📅</span> Due Today</div>
       <div class="nav-item" onclick="startMockInterview()"><span>🎯</span> Mock Interview</div>
       <div class="nav-sep"></div>
       <div class="sb-sec">Reference</div>
@@ -9436,10 +9461,7 @@
               </div>
               <div class="nav-sep" style="margin:8px 0"></div>
               <div class="rm-sidebar-label" style="padding:0 14px 6px">Quick Start</div>
-              <div class="fc-sidebar-tab" onclick="startQuickFire()"><span class="rm-tab-icon">⚡</span> Quick 20</div>
-              <div class="fc-sidebar-tab" onclick="startBookmarks()"><span class="rm-tab-icon">🔖</span> Bookmarked
-              </div>
-              <div class="fc-sidebar-tab" onclick="startMissed()"><span class="rm-tab-icon">🔄</span> Redo Missed</div>
+              <div class="fc-sidebar-tab" onclick="startBookmarks()"><span class="rm-tab-icon">🔖</span> Bookmarked</div>
               <div
                 style="margin-top:auto;padding:12px 14px;border-top:1px solid var(--border2);display:flex;flex-direction:column;gap:4px">
                 <div class="fc-prog" id="fcProg"
@@ -9534,6 +9556,7 @@
               <option value="learning">Learning</option>
               <option value="mastered">Mastered</option>
               <option value="missed">Missed</option>
+              <option value="bookmarked">Bookmarked</option>
             </select>
             <select class="sel" id="sortF" onchange="renderBrowse()" title="Sort questions">
               <option value="default">Sort: Default</option>
@@ -24930,9 +24953,13 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
           _skipSession = true; nav('flashcard'); renderCard(); showToast('⚡ Quick 20 — your weakest questions loaded');
         }
         function startBookmarks() {
-          deck = questions.filter(function (q) { return q.bookmarked; }).sort(function () { return Math.random() - .5; });
-          deckPos = 0; results = { got: 0, almost: 0, missed: 0 }; flipped = false;
-          _skipSession = true; nav('flashcard'); renderCard(); showToast('🔖 Bookmarked questions loaded');
+          nav('browse');
+          document.getElementById('statF').value = 'bookmarked';
+          document.getElementById('searchInput').value = '';
+          document.getElementById('catF').value = 'all';
+          document.getElementById('diffF').value = 'all';
+          renderBrowse();
+          showToast('🔖 Bookmarked questions loaded');
         }
         function startMissed() {
           deck = questions.filter(function (q) { return q.status === 'missed' || q.status === 'learning'; }).sort(function () { return Math.random() - .5; });
@@ -25091,7 +25118,11 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
           var filtered = questions.filter(function (q, i) {
             if (cat !== 'all' && q.cat !== cat) return false;
             if (diff !== 'all' && q.diff !== diff) return false;
-            if (stat !== 'all' && q.status !== stat) return false;
+            if (stat === 'bookmarked') {
+              if (!q.bookmarked) return false;
+            } else if (stat !== 'all' && q.status !== stat) {
+              return false;
+            }
             if (search) {
               var idx = _searchIndex[i];
               if (!idx || (idx.ql.indexOf(search) === -1 && idx.al.indexOf(search) === -1)) return false;
