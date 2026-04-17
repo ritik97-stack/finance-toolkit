@@ -3815,7 +3815,9 @@
 
     .file-card-icon {
       font-size: 28px;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 14px 0 6px
     }
 
@@ -4124,6 +4126,11 @@
       display: flex;
       flex-direction: column;
     }
+
+    /* Files tab panels */
+    #files-tab-downloads { flex: 1; overflow-y: auto; padding: 26px; }
+    #files-tab-uploads { flex: 1; min-height: 0; }
+    #files-tab-uploads.active-uploads { display: flex !important; flex-direction: column; }
 
     /* Macro: scrolls naturally with parent .content */
     #view-macro.active {
@@ -8691,11 +8698,9 @@
 
     <div class="mm-sep"></div>
     <div class="mm-sec">Documents &amp; Files</div>
-    <div class="mm-item" onclick="mmNav(&#39;resources&#39;)"><span class="mm-item-icon">🗂️</span><span
-        class="mm-item-label">Download and Resources</span><span class="mm-item-arrow">›</span></div>
-    <div class="mm-item" onclick="mmNav(&#39;files&#39;)"><span class="mm-item-icon">📁</span><span
-        class="mm-item-label">My
-        Files</span><span class="mm-item-arrow">›</span></div>
+    <div class="mm-item" onclick="mmNav(&#39;files&#39;)"><span class="mm-item-icon">🗂️</span><span
+        class="mm-item-label">Files &amp; Resources</span><span class="mm-item-arrow">›</span></div>
+
 
     <div class="mm-sep"></div>
     <div class="mm-sec">Manage</div>
@@ -9049,8 +9054,8 @@
         <div class="sb-logo-s">Interview Prep + Reference</div>
       </div>
       <div class="sb-sec">Interview Prep</div>
-      <div class="nav-item" onclick="nav(&#39;dashboard&#39;)"><span>🏠</span> Dashboard</div>
-      <div class="nav-item active" onclick="nav(&#39;flashcard&#39;)"><span>🃏</span> Flashcards</div>
+      <div class="nav-item active" onclick="nav(&#39;dashboard&#39;)"><span>🏠</span> Dashboard</div>
+      <div class="nav-item" onclick="nav(&#39;flashcard&#39;)"><span>🃏</span> Flashcards</div>
       <div class="nav-item" onclick="startBrowseAll()"><span>📋</span> Browse All</div>
       <div class="nav-item" onclick="startBookmarks()"><span>🔖</span> Bookmarked</div>
       <div class="nav-item" onclick="startMockInterview()"><span>🎯</span> Mock Interview</div>
@@ -9062,8 +9067,7 @@
       <div class="nav-item" onclick="nav(&#39;macro&#39;)" id="macroNavItem"><span>🌐</span> India Macro</div>
       <div class="nav-sep"></div>
       <div class="sb-sec">Documents &amp; Files</div>
-      <div class="nav-item" onclick="nav(&#39;resources&#39;)"><span>🗂️</span> Download and Resources</div>
-      <div class="nav-item" onclick="nav(&#39;files&#39;)"><span>📁</span> My Files</div>
+      <div class="nav-item" onclick="nav(&#39;files&#39;)"><span>🗂️</span> Files &amp; Resources</div>
       <div class="nav-sep"></div>
       <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 18px 6px">
         <span
@@ -9174,7 +9178,7 @@
             </div>
           </div>
         </div>
-        <div class="view" id="view-dashboard">
+        <div class="view active" id="view-dashboard">
           <div class="hero" id="dashHero">
             <div
               style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
@@ -9488,7 +9492,7 @@
             </div>
           </div>
         </div>
-        <div class="view active" id="view-flashcard">
+        <div class="view" id="view-flashcard">
           <div class="fc-layout-wrap">
             <div class="fc-sidebar">
               <div class="rm-sidebar-label" style="margin-top:14px;padding:0 14px 6px">Category</div>
@@ -14976,44 +14980,7 @@
             </div>
           </div>
         </div>
-        <div class="view" id="view-resources">
-          <div style="max-width:960px; margin: 0 auto;">
-            <div
-              style="font-family:&#39;DM Serif Display&#39;,serif;font-size:32px;color:var(--white);margin-bottom:8px">
-              Download
-              <span style="color:var(--gold)">and Resources</span>
-            </div>
-            <div style="color:var(--white3);font-size:15px;margin-bottom:32px;">Download official templates, PDFs, and
-              Excel models curated for this toolkit.</div>
-
-            <div id="resourcesGrid"
-              style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;">
-              <div
-                style="background:var(--navy3); border:1px solid var(--border); border-radius:12px; padding:20px; display:flex; flex-direction:column; justify-content:space-between; transition:transform 0.2s, box-shadow 0.2s;"
-                onmouseover="this.style.transform=&#39;translateY(-2px)&#39;;this.style.boxShadow=&#39;var(--sh3)&#39;"
-                onmouseout="this.style.transform=&#39;translateY(0)&#39;;this.style.boxShadow=&#39;none&#39;">
-                <div>
-                  <div style="margin-bottom:12px;"><svg width="36" height="36" viewBox="0 0 36 36" fill="none"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <rect width="36" height="36" rx="8" fill="#107C41"></rect>
-                      <path d="M12 11L16 18L12 25H15.5L17.5 20.5L19.5 25H23L19 18L23 11H19.5L17.5 15.5L15.5 11H12Z"
-                        fill="white"></path>
-                    </svg></div>
-                  <div style="font-weight:600; font-size:16px; color:var(--white); margin-bottom:6px;">Financial Model
-                  </div>
-                  <div style="font-size:13px; color:var(--text-2); line-height:1.4; margin-bottom:20px;">A clean, model
-                    to practice.</div>
-                </div> <a
-                  href="https://docs.google.com/spreadsheets/d/15Sm7ZKx-TTwUgx0KCLH0Bk7PqQYYDRxK/edit?usp=sharing&amp;ouid=113994095557836996396&amp;rtpof=true&amp;sd=true"
-                  target="_blank"
-                  style="display:inline-block; text-align:center; padding:10px 16px; background:var(--gold-bg); color:var(--gold); border:1px solid var(--gold); border-radius:8px; font-size:14px; font-weight:600; text-decoration:none; transition:all 0.2s;"
-                  onmouseover="this.style.background=&#39;var(--gold)&#39;;this.style.color=&#39;var(--navy)&#39;"
-                  onmouseout="this.style.background=&#39;var(--gold-bg)&#39;;this.style.color=&#39;var(--gold)&#39;">Download
-                  File ⬇</a>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div class="view" id="view-resources"></div>
         <div class="view" id="view-import">
           <div style="max-width:740px">
             <div class="widget" style="margin-bottom:16px;border:1.5px solid var(--gold-bg)">
@@ -22359,233 +22326,272 @@ A: WACC is the weighted average cost of capital."></textarea>
       </div>
 
       <div class="view" id="view-files">
-        <div class="rm-wrap">
-          <div class="rm-sidebar">
-            <div class="rm-sidebar-label">My Files</div>
-            <div class="rm-tab active" onclick="filesSidebarFolder(this,&#39;all&#39;)"><span
-                class="rm-tab-icon">📂</span> All
-              Files</div>
-            <div class="rm-tab" onclick="filesSidebarFolder(this,&#39;Resume&#39;)"><span class="rm-tab-icon">📄</span>
-              Resume
-            </div>
-            <div class="rm-tab" onclick="filesSidebarFolder(this,&#39;Models&#39;)"><span class="rm-tab-icon">📊</span>
-              Models
-            </div>
-            <div class="rm-tab" onclick="filesSidebarFolder(this,&#39;Research&#39;)"><span
-                class="rm-tab-icon">🔬</span>
-              Research</div>
-            <div class="rm-tab" onclick="filesSidebarFolder(this,&#39;Certificates&#39;)"><span
-                class="rm-tab-icon">🏆</span>
-              Certificates</div>
-            <div class="rm-tab" onclick="filesSidebarFolder(this,&#39;Other&#39;)"><span class="rm-tab-icon">📁</span>
-              Other
+        <!-- FILES MAIN TAB BAR -->
+        <div style="padding:20px 26px 0;border-bottom:1px solid var(--border2);flex-shrink:0;display:flex;align-items:flex-end;gap:0">
+          <div style="flex:1">
+            <div style="font-family:&#39;DM Serif Display&#39;,serif;font-size:20px;color:var(--white);margin-bottom:12px">Files <span style="color:var(--gold)">&amp; Resources</span></div>
+          </div>
+          <div style="display:flex;gap:0">
+            <button id="fmtDownloads" onclick="switchFilesMainTab(&#39;downloads&#39;)"
+              style="padding:8px 20px;font-size:12px;font-weight:600;border:none;border-bottom:2px solid var(--gold);background:transparent;cursor:pointer;color:var(--gold2);font-family:&#39;Outfit&#39;,sans-serif;transition:all .15s;margin-bottom:-1px">
+              ⬇ Downloads
+            </button>
+            <button id="fmtUploads" onclick="switchFilesMainTab(&#39;uploads&#39;)"
+              style="padding:8px 20px;font-size:12px;font-weight:600;border:none;border-bottom:2px solid transparent;background:transparent;cursor:pointer;color:var(--white3);font-family:&#39;Outfit&#39;,sans-serif;transition:all .15s;margin-bottom:-1px">
+              📁 My Uploads
+            </button>
+          </div>
+        </div>
+
+        <!-- DOWNLOADS TAB PANEL -->
+        <div id="files-tab-downloads" style="flex:1;overflow-y:auto;padding:26px">
+          <div style="max-width:960px;margin:0 auto">
+            <div style="color:var(--white3);font-size:14px;margin-bottom:24px">Official templates, PDFs, and Excel models curated for this toolkit.</div>
+            <div id="resourcesGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;">
+              <div class="file-card">
+                <div class="file-card-icon"><svg width="28" height="28" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="36" rx="8" fill="#107C41"/><path d="M12 11L16 18L12 25H15.5L17.5 20.5L19.5 25H23L19 18L23 11H19.5L17.5 15.5L15.5 11H12Z" fill="white"/></svg></div>
+                <div class="file-card-name">Financial Model</div>
+                <div class="file-card-meta"><span class="file-card-type-badge">XLSX</span></div>
+                <div class="file-card-note">A clean model to practice.</div>
+                <div class="file-card-actions">
+                  <a href="https://docs.google.com/spreadsheets/d/15Sm7ZKx-TTwUgx0KCLH0Bk7PqQYYDRxK/edit?usp=sharing&amp;ouid=113994095557836996396&amp;rtpof=true&amp;sd=true"
+                    target="_blank" class="file-card-btn"
+                    style="text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;gap:4px">⬇ Download</a>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="rm-panel">
-            <div id="files-panel-content">
+        </div>
 
-              <!-- HEADER -->
-              <div
-                style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:6px">
-                <div>
-                  <div style="font-family:&#39;DM Serif Display&#39;,serif;font-size:20px;color:var(--white)">My <span
-                      style="color:var(--gold)">Files</span></div>
-                  <div
-                    style="font-size:11px;color:var(--white3);text-transform:uppercase;letter-spacing:.07em;margin-top:3px">
-                    Resume · Financial Models · Research · Images · Cloud Links</div>
-                </div>
-                <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-                  <button onclick="filesShowUpload()" class="btn btn-p" style="font-size:12px;padding:8px 16px;">⬆
-                    Upload File</button>
-                  <button onclick="filesShowLink()" class="btn btn-o" style="font-size:12px;padding:8px 16px;">🔗 Add
-                    Cloud Link</button>
-                </div>
+        <!-- MY UPLOADS TAB PANEL -->
+        <div id="files-tab-uploads" style="display:none;flex:1;min-height:0;flex-direction:column">
+          <div class="rm-wrap">
+            <div class="rm-sidebar">
+              <div class="rm-sidebar-label">My Files</div>
+              <div class="rm-tab active" onclick="filesSidebarFolder(this,&#39;all&#39;)"><span
+                  class="rm-tab-icon">📂</span> All
+                Files</div>
+              <div class="rm-tab" onclick="filesSidebarFolder(this,&#39;Resume&#39;)"><span class="rm-tab-icon">📄</span>
+                Resume
               </div>
-
-              <div
-                style="font-size:11px;color:var(--white3);margin-bottom:18px;padding:8px 14px;background:var(--navy2);border-radius:7px;border:1px solid var(--border2)">
-                ⚠ Files are stored in your browser (IndexedDB). They persist between sessions but will be lost if you
-                clear browser data. For important files, also keep copies in Google Drive or your computer.
+              <div class="rm-tab" onclick="filesSidebarFolder(this,&#39;Models&#39;)"><span class="rm-tab-icon">📊</span>
+                Models
               </div>
+              <div class="rm-tab" onclick="filesSidebarFolder(this,&#39;Research&#39;)"><span
+                  class="rm-tab-icon">🔬</span>
+                Research</div>
+              <div class="rm-tab" onclick="filesSidebarFolder(this,&#39;Certificates&#39;)"><span
+                  class="rm-tab-icon">🏆</span>
+                Certificates</div>
+              <div class="rm-tab" onclick="filesSidebarFolder(this,&#39;Other&#39;)"><span class="rm-tab-icon">📁</span>
+                Other
+              </div>
+            </div>
+            <div class="rm-panel">
+              <div id="files-panel-content">
 
-              <!-- UPLOAD MODAL -->
-              <div id="filesUploadModal"
-                style="display: none; position: fixed; inset: 0px; background: rgba(4, 8, 20, 0.75); z-index: 300; align-items: center; justify-content: center; padding: 20px;">
+                <!-- HEADER -->
                 <div
-                  style="background:var(--navy2);border:1px solid var(--border);border-radius:14px;width:100%;max-width:480px;padding:26px;box-shadow:var(--sh3)">
+                  style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:6px">
+                  <div>
+                    <div style="font-family:&#39;DM Serif Display&#39;,serif;font-size:20px;color:var(--white)">My <span
+                        style="color:var(--gold)">Files</span></div>
+                    <div
+                      style="font-size:11px;color:var(--white3);text-transform:uppercase;letter-spacing:.07em;margin-top:3px">
+                      Resume · Financial Models · Research · Images · Cloud Links</div>
+                  </div>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+                    <button onclick="filesShowUpload()" class="btn btn-p" style="font-size:12px;padding:8px 16px;">⬆
+                      Upload File</button>
+                    <button onclick="filesShowLink()" class="btn btn-o" style="font-size:12px;padding:8px 16px;">🔗 Add
+                      Cloud Link</button>
+                  </div>
+                </div>
+
+                <div
+                  style="font-size:11px;color:var(--white3);margin-bottom:18px;padding:8px 14px;background:var(--navy2);border-radius:7px;border:1px solid var(--border2)">
+                  ⚠ Files are stored in your browser (IndexedDB). They persist between sessions but will be lost if you
+                  clear browser data. For important files, also keep copies in Google Drive or your computer.
+                </div>
+
+                <!-- UPLOAD MODAL -->
+                <div id="filesUploadModal"
+                  style="display: none; position: fixed; inset: 0px; background: rgba(4, 8, 20, 0.75); z-index: 300; align-items: center; justify-content: center; padding: 20px;">
                   <div
-                    style="font-family:&#39;DM Serif Display&#39;,serif;font-size:17px;color:var(--white);margin-bottom:18px">
-                    Upload a File</div>
-                  <div id="filesDropZone"
-                    style="border:2px dashed var(--border);border-radius:10px;padding:30px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:14px"
-                    onclick="document.getElementById(&#39;filesInput&#39;).click()"
-                    ondragover="event.preventDefault();this.style.borderColor=&#39;var(--gold)&#39;;this.style.background=&#39;var(--gold-bg2)&#39;"
-                    ondragleave="this.style.borderColor=&#39;&#39;;this.style.background=&#39;&#39;"
-                    ondrop="filesHandleDrop(event)">
-                    <div style="font-size:32px;margin-bottom:8px">📎</div>
-                    <div style="font-size:13px;font-weight:600;color:var(--white)">Click or drag &amp; drop file here
+                    style="background:var(--navy2);border:1px solid var(--border);border-radius:14px;width:100%;max-width:480px;padding:26px;box-shadow:var(--sh3)">
+                    <div
+                      style="font-family:&#39;DM Serif Display&#39;,serif;font-size:17px;color:var(--white);margin-bottom:18px">
+                      Upload a File</div>
+                    <div id="filesDropZone"
+                      style="border:2px dashed var(--border);border-radius:10px;padding:30px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:14px"
+                      onclick="document.getElementById(&#39;filesInput&#39;).click()"
+                      ondragover="event.preventDefault();this.style.borderColor=&#39;var(--gold)&#39;;this.style.background=&#39;var(--gold-bg2)&#39;"
+                      ondragleave="this.style.borderColor=&#39;&#39;;this.style.background=&#39;&#39;"
+                      ondrop="filesHandleDrop(event)">
+                      <div style="font-size:32px;margin-bottom:8px">📎</div>
+                      <div style="font-size:13px;font-weight:600;color:var(--white)">Click or drag &amp; drop file here
+                      </div>
+                      <div style="font-size:11px;color:var(--white3);margin-top:4px">PDF, DOC, XLSX, JPG, PNG, any format
+                        · Max 10MB</div>
                     </div>
-                    <div style="font-size:11px;color:var(--white3);margin-top:4px">PDF, DOC, XLSX, JPG, PNG, any format
-                      · Max 10MB</div>
-                  </div>
-                  <input type="file" id="filesInput" style="display:none" onchange="filesHandleInput(this)">
-                  <div id="filesUploadInfo"
-                    style="display: block; margin-bottom: 12px; padding: 10px 13px; background: var(--navy3); border-radius: 8px; border: 1px solid var(--border2);">
-                    <div style="font-size:12px;font-weight:600;color:var(--white)" id="filesUploadName">2. V2 Retail
-                      Financial Model v5.xlsx</div>
-                    <div style="font-size:11px;color:var(--white3);margin-top:2px" id="filesUploadSize">457.9 KB</div>
-                  </div>
-                  <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
-                    <div>
-                      <div
-                        style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--white3);margin-bottom:5px">
-                        Folder</div>
-                      <select id="filesUploadFolder"
-                        style="width:100%;padding:9px 12px;background:var(--navy3);border:1.5px solid var(--border2);border-radius:8px;color:var(--white);font-size:12px;font-family:&#39;Outfit&#39;,sans-serif;outline:none">
-                        <option value="Resume">📄 Resume</option>
-                        <option value="Models">📊 Financial Models</option>
-                        <option value="Research">🔬 Research &amp; Notes</option>
-                        <option value="Certificates">🏆 Certificates</option>
-                        <option value="Other">📁 Other</option>
-                      </select>
+                    <input type="file" id="filesInput" style="display:none" onchange="filesHandleInput(this)">
+                    <div id="filesUploadInfo"
+                      style="display: block; margin-bottom: 12px; padding: 10px 13px; background: var(--navy3); border-radius: 8px; border: 1px solid var(--border2);">
+                      <div style="font-size:12px;font-weight:600;color:var(--white)" id="filesUploadName">2. V2 Retail
+                        Financial Model v5.xlsx</div>
+                      <div style="font-size:11px;color:var(--white3);margin-top:2px" id="filesUploadSize">457.9 KB</div>
                     </div>
-                    <div>
-                      <div
-                        style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--white3);margin-bottom:5px">
-                        Note (optional)</div>
-                      <input id="filesUploadNote" placeholder="e.g. Latest version — Jan 2025"
-                        style="width:100%;padding:9px 12px;background:var(--navy3);border:1.5px solid var(--border2);border-radius:8px;color:var(--white);font-size:12px;outline:none;font-family:&#39;Outfit&#39;,sans-serif">
-                    </div>
-                  </div>
-                  <div style="display:flex;gap:8px">
-                    <button onclick="filesSaveUpload()"
-                      style="flex:1;padding:10px;border-radius:8px;border:none;background:var(--gold);color:var(--navy);font-size:13px;font-weight:700;cursor:pointer;font-family:&#39;Outfit&#39;,sans-serif">Save
-                      File</button>
-                    <button
-                      onclick="document.getElementById(&#39;filesUploadModal&#39;).style.display=&#39;none&#39;;filesCurrentFile=null;"
-                      style="padding:10px 18px;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--white2);font-size:12px;cursor:pointer;font-family:&#39;Outfit&#39;,sans-serif">Cancel</button>
-                  </div>
-                  <div id="filesUploadProgress" style="display: none; margin-top: 12px;">
-                    <div style="height:3px;background:var(--white4);border-radius:3px;overflow:hidden">
-                      <div id="filesUploadBar"
-                        style="height: 100%; background: var(--gold); border-radius: 3px; width: 0%; transition: width 0.3s;">
+                    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+                      <div>
+                        <div
+                          style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--white3);margin-bottom:5px">
+                          Folder</div>
+                        <select id="filesUploadFolder"
+                          style="width:100%;padding:9px 12px;background:var(--navy3);border:1.5px solid var(--border2);border-radius:8px;color:var(--white);font-size:12px;font-family:&#39;Outfit&#39;,sans-serif;outline:none">
+                          <option value="Resume">📄 Resume</option>
+                          <option value="Models">📊 Financial Models</option>
+                          <option value="Research">🔬 Research &amp; Notes</option>
+                          <option value="Certificates">🏆 Certificates</option>
+                          <option value="Other">📁 Other</option>
+                        </select>
+                      </div>
+                      <div>
+                        <div
+                          style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--white3);margin-bottom:5px">
+                          Note (optional)</div>
+                        <input id="filesUploadNote" placeholder="e.g. Latest version — Jan 2025"
+                          style="width:100%;padding:9px 12px;background:var(--navy3);border:1.5px solid var(--border2);border-radius:8px;color:var(--white);font-size:12px;outline:none;font-family:&#39;Outfit&#39;,sans-serif">
                       </div>
                     </div>
-                    <div style="font-size:11px;color:var(--white3);margin-top:5px" id="filesUploadStatus">Saved!</div>
+                    <div style="display:flex;gap:8px">
+                      <button onclick="filesSaveUpload()"
+                        style="flex:1;padding:10px;border-radius:8px;border:none;background:var(--gold);color:var(--navy);font-size:13px;font-weight:700;cursor:pointer;font-family:&#39;Outfit&#39;,sans-serif">Save
+                        File</button>
+                      <button
+                        onclick="document.getElementById(&#39;filesUploadModal&#39;).style.display=&#39;none&#39;;filesCurrentFile=null;"
+                        style="padding:10px 18px;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--white2);font-size:12px;cursor:pointer;font-family:&#39;Outfit&#39;,sans-serif">Cancel</button>
+                    </div>
+                    <div id="filesUploadProgress" style="display: none; margin-top: 12px;">
+                      <div style="height:3px;background:var(--white4);border-radius:3px;overflow:hidden">
+                        <div id="filesUploadBar"
+                          style="height: 100%; background: var(--gold); border-radius: 3px; width: 0%; transition: width 0.3s;">
+                        </div>
+                      </div>
+                      <div style="font-size:11px;color:var(--white3);margin-top:5px" id="filesUploadStatus">Saved!</div>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <!-- CLOUD LINK MODAL -->
-              <div id="filesLinkModal"
-                style="display:none;position:fixed;inset:0;background:rgba(4,8,20,.75);z-index:300;align-items:center;justify-content:center;padding:20px">
-                <div
-                  style="background:var(--navy2);border:1px solid var(--border);border-radius:14px;width:100%;max-width:460px;padding:26px;box-shadow:var(--sh3)">
+                <!-- CLOUD LINK MODAL -->
+                <div id="filesLinkModal"
+                  style="display:none;position:fixed;inset:0;background:rgba(4,8,20,.75);z-index:300;align-items:center;justify-content:center;padding:20px">
                   <div
-                    style="font-family:&#39;DM Serif Display&#39;,serif;font-size:17px;color:var(--white);margin-bottom:18px">
-                    Add Cloud Link</div>
-                  <div style="display:flex;flex-direction:column;gap:11px;margin-bottom:16px">
-                    <div>
-                      <div
-                        style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--white3);margin-bottom:5px">
-                        Link Name</div>
-                      <input id="filesLinkName" placeholder="e.g. Resume v4 — Google Drive"
-                        style="width:100%;padding:9px 12px;background:var(--navy3);border:1.5px solid var(--border2);border-radius:8px;color:var(--white);font-size:12px;outline:none;font-family:&#39;Outfit&#39;,sans-serif">
+                    style="background:var(--navy2);border:1px solid var(--border);border-radius:14px;width:100%;max-width:460px;padding:26px;box-shadow:var(--sh3)">
+                    <div
+                      style="font-family:&#39;DM Serif Display&#39;,serif;font-size:17px;color:var(--white);margin-bottom:18px">
+                      Add Cloud Link</div>
+                    <div style="display:flex;flex-direction:column;gap:11px;margin-bottom:16px">
+                      <div>
+                        <div
+                          style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--white3);margin-bottom:5px">
+                          Link Name</div>
+                        <input id="filesLinkName" placeholder="e.g. Resume v4 — Google Drive"
+                          style="width:100%;padding:9px 12px;background:var(--navy3);border:1.5px solid var(--border2);border-radius:8px;color:var(--white);font-size:12px;outline:none;font-family:&#39;Outfit&#39;,sans-serif">
+                      </div>
+                      <div>
+                        <div
+                          style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--white3);margin-bottom:5px">
+                          URL</div>
+                        <input id="filesLinkUrl" placeholder="https://drive.google.com/..."
+                          style="width:100%;padding:9px 12px;background:var(--navy3);border:1.5px solid var(--border2);border-radius:8px;color:var(--white);font-size:12px;outline:none;font-family:&#39;Outfit&#39;,sans-serif">
+                      </div>
+                      <div>
+                        <div
+                          style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--white3);margin-bottom:5px">
+                          Folder</div>
+                        <select id="filesLinkFolder"
+                          style="width:100%;padding:9px 12px;background:var(--navy3);border:1.5px solid var(--border2);border-radius:8px;color:var(--white);font-size:12px;font-family:&#39;Outfit&#39;,sans-serif;outline:none">
+                          <option value="Resume">📄 Resume</option>
+                          <option value="Models">📊 Financial Models</option>
+                          <option value="Research">🔬 Research &amp; Notes</option>
+                          <option value="Certificates">🏆 Certificates</option>
+                          <option value="Other">📁 Other</option>
+                        </select>
+                      </div>
+                      <div>
+                        <div
+                          style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--white3);margin-bottom:5px">
+                          Note (optional)</div>
+                        <input id="filesLinkNote" placeholder="e.g. Shared with recruiter — HDFC Securities"
+                          style="width:100%;padding:9px 12px;background:var(--navy3);border:1.5px solid var(--border2);border-radius:8px;color:var(--white);font-size:12px;outline:none;font-family:&#39;Outfit&#39;,sans-serif">
+                      </div>
                     </div>
-                    <div>
-                      <div
-                        style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--white3);margin-bottom:5px">
-                        URL</div>
-                      <input id="filesLinkUrl" placeholder="https://drive.google.com/..."
-                        style="width:100%;padding:9px 12px;background:var(--navy3);border:1.5px solid var(--border2);border-radius:8px;color:var(--white);font-size:12px;outline:none;font-family:&#39;Outfit&#39;,sans-serif">
-                    </div>
-                    <div>
-                      <div
-                        style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--white3);margin-bottom:5px">
-                        Folder</div>
-                      <select id="filesLinkFolder"
-                        style="width:100%;padding:9px 12px;background:var(--navy3);border:1.5px solid var(--border2);border-radius:8px;color:var(--white);font-size:12px;font-family:&#39;Outfit&#39;,sans-serif;outline:none">
-                        <option value="Resume">📄 Resume</option>
-                        <option value="Models">📊 Financial Models</option>
-                        <option value="Research">🔬 Research &amp; Notes</option>
-                        <option value="Certificates">🏆 Certificates</option>
-                        <option value="Other">📁 Other</option>
-                      </select>
-                    </div>
-                    <div>
-                      <div
-                        style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--white3);margin-bottom:5px">
-                        Note (optional)</div>
-                      <input id="filesLinkNote" placeholder="e.g. Shared with recruiter — HDFC Securities"
-                        style="width:100%;padding:9px 12px;background:var(--navy3);border:1.5px solid var(--border2);border-radius:8px;color:var(--white);font-size:12px;outline:none;font-family:&#39;Outfit&#39;,sans-serif">
+                    <div style="display:flex;gap:8px">
+                      <button onclick="filesSaveLink()"
+                        style="flex:1;padding:10px;border-radius:8px;border:none;background:var(--gold);color:var(--navy);font-size:13px;font-weight:700;cursor:pointer;font-family:&#39;Outfit&#39;,sans-serif">Save
+                        Link</button>
+                      <button onclick="document.getElementById(&#39;filesLinkModal&#39;).style.display=&#39;none&#39;"
+                        style="padding:10px 18px;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--white2);font-size:12px;cursor:pointer;font-family:&#39;Outfit&#39;,sans-serif">Cancel</button>
                     </div>
                   </div>
-                  <div style="display:flex;gap:8px">
-                    <button onclick="filesSaveLink()"
-                      style="flex:1;padding:10px;border-radius:8px;border:none;background:var(--gold);color:var(--navy);font-size:13px;font-weight:700;cursor:pointer;font-family:&#39;Outfit&#39;,sans-serif">Save
-                      Link</button>
-                    <button onclick="document.getElementById(&#39;filesLinkModal&#39;).style.display=&#39;none&#39;"
-                      style="padding:10px 18px;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--white2);font-size:12px;cursor:pointer;font-family:&#39;Outfit&#39;,sans-serif">Cancel</button>
+                </div>
+
+                <!-- PREVIEW MODAL -->
+                <div id="filesPreviewModal"
+                  style="display:none;position:fixed;inset:0;background:rgba(4,8,20,.9);z-index:400;align-items:center;justify-content:center;padding:20px;flex-direction:column">
+                  <div
+                    style="width:100%;max-width:860px;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+                    <div style="font-size:14px;font-weight:600;color:var(--white)" id="filesPreviewTitle">Preview</div>
+                    <div style="display:flex;gap:8px">
+                      <button onclick="filesDownloadCurrent()"
+                        style="font-size:11px;padding:6px 14px;border-radius:6px;border:1.5px solid var(--border);background:transparent;color:var(--white2);cursor:pointer;font-family:&#39;Outfit&#39;,sans-serif">⬇
+                        Download</button>
+                      <button onclick="document.getElementById(&#39;filesPreviewModal&#39;).style.display=&#39;none&#39;"
+                        style="font-size:11px;padding:6px 14px;border-radius:6px;border:none;background:var(--gold);color:var(--navy);font-weight:600;cursor:pointer;font-family:&#39;Outfit&#39;,sans-serif">✕
+                        Close</button>
+                    </div>
+                  </div>
+                  <div
+                    style="width:100%;max-width:860px;flex:1;background:var(--navy2);border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:300px;max-height:75vh"
+                    id="filesPreviewContainer">
+                    <div id="filesPreviewContent" style="width:100%;height:100%;overflow:auto"></div>
                   </div>
                 </div>
-              </div>
 
-              <!-- PREVIEW MODAL -->
-              <div id="filesPreviewModal"
-                style="display:none;position:fixed;inset:0;background:rgba(4,8,20,.9);z-index:400;align-items:center;justify-content:center;padding:20px;flex-direction:column">
-                <div
-                  style="width:100%;max-width:860px;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-                  <div style="font-size:14px;font-weight:600;color:var(--white)" id="filesPreviewTitle">Preview</div>
-                  <div style="display:flex;gap:8px">
-                    <button onclick="filesDownloadCurrent()"
-                      style="font-size:11px;padding:6px 14px;border-radius:6px;border:1.5px solid var(--border);background:transparent;color:var(--white2);cursor:pointer;font-family:&#39;Outfit&#39;,sans-serif">⬇
-                      Download</button>
-                    <button onclick="document.getElementById(&#39;filesPreviewModal&#39;).style.display=&#39;none&#39;"
-                      style="font-size:11px;padding:6px 14px;border-radius:6px;border:none;background:var(--gold);color:var(--navy);font-weight:600;cursor:pointer;font-family:&#39;Outfit&#39;,sans-serif">✕
-                      Close</button>
+                <!-- FOLDER TABS (hidden, sidebar handles navigation) -->
+                <div id="filesFolderTabs" style="display:none">
+                  <button class="files-tab active" onclick="filesSetFolder(this,&#39;all&#39;)">All Files</button>
+                  <button class="files-tab" onclick="filesSetFolder(this,&#39;Resume&#39;)">📄 Resume</button>
+                  <button class="files-tab" onclick="filesSetFolder(this,&#39;Models&#39;)">📊 Models</button>
+                  <button class="files-tab" onclick="filesSetFolder(this,&#39;Research&#39;)">🔬 Research</button>
+                  <button class="files-tab" onclick="filesSetFolder(this,&#39;Certificates&#39;)">🏆 Certificates</button>
+                  <button class="files-tab" onclick="filesSetFolder(this,&#39;Other&#39;)">📁 Other</button>
+                </div>
+
+                <!-- STORAGE BAR -->
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+                  <div style="font-size:10px;color:var(--white3)">Storage used:</div>
+                  <div style="flex:1;height:4px;background:var(--white4);border-radius:4px;overflow:hidden">
+                    <div id="filesStorageBar"
+                      style="height: 100%; background: var(--gold); border-radius: 4px; width: 0%; transition: width 0.4s;">
+                    </div>
                   </div>
+                  <div style="font-size:10px;color:var(--white3)" id="filesStorageLabel">0 B / ~50 MB</div>
                 </div>
-                <div
-                  style="width:100%;max-width:860px;flex:1;background:var(--navy2);border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:300px;max-height:75vh"
-                  id="filesPreviewContainer">
-                  <div id="filesPreviewContent" style="width:100%;height:100%;overflow:auto"></div>
+
+                <!-- EMPTY STATE -->
+                <div id="filesEmptyState"
+                  style="display: block; text-align: center; padding: 60px 20px; color: var(--white3);">
+                  <div style="font-size:40px;margin-bottom:12px">📂</div>
+                  <div style="font-size:14px;font-weight:600;color:var(--white2);margin-bottom:6px">No files yet</div>
+                  <div style="font-size:12px">Upload your resume, financial model, or add cloud links to keep everything
+                    in one place.</div>
                 </div>
+
+                <!-- FILES GRID -->
+                <div id="filesGrid"></div>
+
               </div>
-
-              <!-- FOLDER TABS -->
-              <!-- FOLDER FILTER BAR — hidden, sidebar handles navigation -->
-              <div id="filesFolderTabs" style="display:none">
-                <button class="files-tab active" onclick="filesSetFolder(this,&#39;all&#39;)">All Files</button>
-                <button class="files-tab" onclick="filesSetFolder(this,&#39;Resume&#39;)">📄 Resume</button>
-                <button class="files-tab" onclick="filesSetFolder(this,&#39;Models&#39;)">📊 Models</button>
-                <button class="files-tab" onclick="filesSetFolder(this,&#39;Research&#39;)">🔬 Research</button>
-                <button class="files-tab" onclick="filesSetFolder(this,&#39;Certificates&#39;)">🏆 Certificates</button>
-                <button class="files-tab" onclick="filesSetFolder(this,&#39;Other&#39;)">📁 Other</button>
-              </div>
-
-              <!-- STORAGE BAR -->
-              <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
-                <div style="font-size:10px;color:var(--white3)">Storage used:</div>
-                <div style="flex:1;height:4px;background:var(--white4);border-radius:4px;overflow:hidden">
-                  <div id="filesStorageBar"
-                    style="height: 100%; background: var(--gold); border-radius: 4px; width: 0%; transition: width 0.4s;">
-                  </div>
-                </div>
-                <div style="font-size:10px;color:var(--white3)" id="filesStorageLabel">0 B / ~50 MB</div>
-              </div>
-
-              <!-- EMPTY STATE (outside grid so innerHTML doesn't destroy it) -->
-              <div id="filesEmptyState"
-                style="display: block; text-align: center; padding: 60px 20px; color: var(--white3);">
-                <div style="font-size:40px;margin-bottom:12px">📂</div>
-                <div style="font-size:14px;font-weight:600;color:var(--white2);margin-bottom:6px">No files yet</div>
-                <div style="font-size:12px">Upload your resume, financial model, or add cloud links to keep everything
-                  in one place.</div>
-              </div>
-
-              <!-- FILES GRID -->
-              <div id="filesGrid"></div>
-
             </div>
           </div>
         </div>
@@ -23068,7 +23074,7 @@ A: WACC is the weighted average cost of capital."></textarea>
             { title: 'Bookmarked Questions', icon: '🔖', action: function () { startBookmarks(); } },
             { title: 'Add Question', icon: '➕', action: function () { nav('add'); } },
             { title: 'Bulk Import', icon: '📥', action: function () { nav('import'); } },
-            { title: 'My Files', icon: '📁', action: function () { nav('files'); } },
+            { title: 'Files & Resources', icon: '🗂️', action: function () { nav('files'); } },
             { title: 'India Macro Dashboard', icon: '🌐', action: function () { nav('macro'); } },
             { title: 'Feedback & Contact', icon: '💬', action: function () { nav('support'); } },
           ];
@@ -24683,11 +24689,21 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
           });
         }
 
-        function filesGetIcon(name, type) {
+        function filesGetIcon(name, type, size) {
           if (!name && !type) return '📄';
           var ext = (name || '').split('.').pop().toLowerCase();
+          var sz = size || 28;
+          if (ext === 'pdf' || type === 'application/pdf') {
+            return '<svg width="' + sz + '" height="' + sz + '" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="36" rx="8" fill="#E81123"/><path d="M12 11H19C21.2 11 23 12.8 23 15C23 17.2 21.2 19 19 19H15V24H12V11ZM15 16H18C18.6 16 19 15.6 19 15C19 14.4 18.6 14 18 14H15V16Z" fill="white"/></svg>';
+          }
+          if (ext === 'doc' || ext === 'docx') {
+            return '<svg width="' + sz + '" height="' + sz + '" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="36" rx="8" fill="#185ABD"/><path d="M11 11H15L16.5 19L18.5 11H21L17.5 25H14.5L12.5 17L10.5 25H7.5L4 11H7.5L9 19L11 11Z" fill="white"/></svg>';
+          }
+          if (ext === 'xls' || ext === 'xlsx') {
+            return '<svg width="' + sz + '" height="' + sz + '" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="36" rx="8" fill="#107C41"/><path d="M12 11L16 18L12 25H15.5L17.5 20.5L19.5 25H23L19 18L23 11H19.5L17.5 15.5L15.5 11H12Z" fill="white"/></svg>';
+          }
           var icons = {
-            pdf: '📕', doc: '📝', docx: '📝', xls: '📗', xlsx: '📗', ppt: '📙', pptx: '📙',
+            ppt: '📙', pptx: '📙',
             jpg: '🖼', jpeg: '🖼', png: '🖼', gif: '🖼', webp: '🖼', mp4: '🎬', mp3: '🎵',
             zip: '🗜', rar: '🗜', txt: '📄', csv: '📊', py: '🐍', js: '📜', html: '🌐'
           };
@@ -24725,7 +24741,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
             } else if (f.type === 'application/pdf') {
               container.innerHTML = '<iframe src="' + f.data + '" style="width:100%;height:70vh;border:none"></iframe>';
             } else {
-              container.innerHTML = '<div style="padding:40px;text-align:center;color:var(--white3)"><div style="font-size:48px;margin-bottom:12px">' + filesGetIcon(f.name, f.type) + '</div><div style="font-size:14px;color:var(--white2);margin-bottom:6px">' + escH(f.name) + '</div><div style="font-size:12px">Preview not available for this file type</div><button onclick="filesDownload(' + id + ')" style="margin-top:16px;padding:9px 20px;border-radius:7px;border:none;background:var(--gold);color:var(--navy);font-weight:600;cursor:pointer;font-family:Outfit,sans-serif">⬇ Download instead</button></div>';
+              container.innerHTML = '<div style="padding:40px;text-align:center;color:var(--white3)"><div style="display:flex;align-items:center;justify-content:center;margin-bottom:12px">' + filesGetIcon(f.name, f.type, 48) + '</div><div style="font-size:14px;color:var(--white2);margin-bottom:6px">' + escH(f.name) + '</div><div style="font-size:12px">Preview not available for this file type</div><button onclick="filesDownload(' + id + ')" style="margin-top:16px;padding:9px 20px;border-radius:7px;border:none;background:var(--gold);color:var(--navy);font-weight:600;cursor:pointer;font-family:Outfit,sans-serif">⬇ Download instead</button></div>';
             }
             modal.style.display = 'flex';
           };
@@ -24822,6 +24838,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
           try { localStorage.setItem('finToolkit_v2', JSON.stringify({ questions: questions, savedAt: new Date().toISOString() })); } catch (e) { }
         }
         function nav(view) {
+          if (view === 'resources') { view = 'files'; }
           currentView = view;
 
           // Show skeleton immediately before switching
@@ -24832,7 +24849,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
             var vs = document.querySelectorAll('.view');
             for (var i = 0; i < vs.length; i++) vs[i].classList.remove('active');
             document.getElementById('view-' + view).classList.add('active');
-            var nmap = { dashboard: 'Dashboard', flashcard: 'Flashcards', browse: 'Browse All', add: 'Add Question', import: 'Bulk Import', resources: 'Download and Resources', revenue: 'Revenue Models', finstatements: 'Fin. Statements & Ratios', dcf: 'DCF & Valuation', macro: 'India Macro', files: 'My Files', support: 'Feedback & Contact' };
+            var nmap = { dashboard: 'Dashboard', flashcard: 'Flashcards', browse: 'Browse All', add: 'Add Question', import: 'Bulk Import', files: 'Files & Resources', revenue: 'Revenue Models', finstatements: 'Fin. Statements & Ratios', dcf: 'DCF & Valuation', macro: 'India Macro', support: 'Feedback & Contact' };
             var activeLabel = nmap[view];
             if (view === 'browse' && document.getElementById('statF') && document.getElementById('statF').value === 'bookmarked') activeLabel = 'Bookmarked';
             var ns = document.querySelectorAll('.nav-item');
@@ -24848,13 +24865,15 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
               'dashboard': 'bn-dashboard',
               'flashcard': 'bn-flashcard',
               'browse': 'bn-browse',
-              'resources': 'bn-resources'
+              'resources': 'bn-resources',
+              'files': 'bn-resources'
             };
             if (bnMap[view]) {
               var actBn = document.getElementById(bnMap[view]);
               if (actBn) actBn.classList.add('active');
             }
             if (view === 'dashboard') renderDashboard();
+            if (view === 'files') { switchFilesMainTab('downloads'); }
             if (view === 'flashcard' && !_skipSession) { startSession(activeCat, activeDiff); } _skipSession = false;
             if (view === 'revenue') { var _rg = document.getElementById('rm-sector-grid'); var _rd = document.getElementById('rm-sector-detail'); if (_rg) _rg.style.display = ''; if (_rd) _rd.style.display = 'none'; }
             if (view === 'browse') { buildSearchIndex(); renderBrowse(); }
@@ -24883,23 +24902,70 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
             container.innerHTML = '<div style="grid-column: 1/-1; padding: 40px; text-align: center; background: var(--navy2); border-radius: 12px; border: 1px dashed var(--border2); color: var(--text-2);">No resources have been added yet.<br><span style="font-size:12px;opacity:0.7">Add documents to the "resources" collection in Firebase to see them here.</span></div>';
             return;
           }
+          function getResIcon(r, sz) {
+            var s = sz || 36;
+            var type = (r.type || '').toLowerCase();
+            var ext = ((r.url || r.filename || r.title || '').split('?')[0].split('.').pop() || '').toLowerCase();
+            if (type === 'excel' || type === 'xlsx' || type === 'xls' || ext === 'xlsx' || ext === 'xls') {
+              return '<svg width="' + s + '" height="' + s + '" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="36" rx="8" fill="#107C41"/><path d="M12 11L16 18L12 25H15.5L17.5 20.5L19.5 25H23L19 18L23 11H19.5L17.5 15.5L15.5 11H12Z" fill="white"/></svg>';
+            }
+            if (type === 'word' || type === 'doc' || type === 'docx' || ext === 'doc' || ext === 'docx') {
+              return '<svg width="' + s + '" height="' + s + '" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="36" rx="8" fill="#185ABD"/><path d="M11 11H15L16.5 19L18.5 11H21L17.5 25H14.5L12.5 17L10.5 25H7.5L4 11H7.5L9 19L11 11Z" fill="white"/></svg>';
+            }
+            if (type === 'pdf' || ext === 'pdf') {
+              return '<svg width="' + s + '" height="' + s + '" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="36" rx="8" fill="#E81123"/><path d="M12 11H19C21.2 11 23 12.8 23 15C23 17.2 21.2 19 19 19H15V24H12V11ZM15 16H18C18.6 16 19 15.6 19 15C19 14.4 18.6 14 18 14H15V16Z" fill="white"/></svg>';
+            }
+            return '<svg width="' + s + '" height="' + s + '" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="36" rx="8" fill="#4B5563"/><path d="M12 10H20L24 14V26H12V10ZM19 10V15H24" stroke="white" stroke-width="1.5" stroke-linejoin="round" fill="none"/></svg>';
+          }
+          function getResTypeLabel(r) {
+            var type = (r.type || '').toLowerCase();
+            var ext = ((r.url || r.filename || r.title || '').split('?')[0].split('.').pop() || '').toUpperCase();
+            if (type === 'excel' || type === 'xlsx' || type === 'xls') return 'XLSX';
+            if (type === 'word' || type === 'doc' || type === 'docx') return 'DOCX';
+            if (type === 'pdf') return 'PDF';
+            return ext || type.toUpperCase() || 'FILE';
+          }
+          container.style.display = 'grid';
+          container.style.gridTemplateColumns = 'repeat(auto-fill,minmax(220px,1fr))';
+          container.style.gap = '16px';
           var html = '';
           window.resources.forEach(function (r) {
-            var icon = '<div style="font-size:32px;">📄</div>';
-            if (r.type === 'excel') icon = '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="36" rx="8" fill="#107C41"/><path d="M12 11L16 18L12 25H15.5L17.5 20.5L19.5 25H23L19 18L23 11H19.5L17.5 15.5L15.5 11H12Z" fill="white"/></svg>';
-            else if (r.type === 'word') icon = '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="36" rx="8" fill="#185ABD"/><path d="M11 11H15L16.5 19L18.5 11H21L17.5 25H14.5L12.5 17L10.5 25H7.5L4 11H7.5L9 19L11 11Z" fill="white"/></svg>';
-            else if (r.type === 'pdf') icon = '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="36" rx="8" fill="#E81123"/><path d="M12 11H19C21.2 11 23 12.8 23 15C23 17.2 21.2 19 19 19H15V24H12V11ZM15 16H18C18.6 16 19 15.6 19 15C19 14.4 18.6 14 18 14H15V16Z" fill="white"/></svg>';
-
-            html += `<div style="background:var(--navy3); border:1px solid var(--border); border-radius:12px; padding:20px; display:flex; flex-direction:column; justify-content:space-between; transition:transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='var(--sh3)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">`;
-            html += '  <div>';
-            html += '    <div style="margin-bottom:12px;">' + icon + '</div>';
-            html += '    <div style="font-weight:600; font-size:16px; color:var(--white); margin-bottom:6px;">' + (r.title || 'Untitled Resource') + '</div>';
-            html += '    <div style="font-size:13px; color:var(--text-2); line-height:1.4; margin-bottom:20px;">' + (r.description || '') + '</div>';
-            html += '  </div>';
-            html += `  <a href="${r.url || '#'}" target="_blank" style="display:inline-block; text-align:center; padding:10px 16px; background:var(--gold-bg); color:var(--gold); border:1px solid var(--gold); border-radius:8px; font-size:14px; font-weight:600; text-decoration:none; transition:all 0.2s;" onmouseover="this.style.background='var(--gold)';this.style.color='var(--navy)'" onmouseout="this.style.background='var(--gold-bg)';this.style.color='var(--gold)'">Download File ⬇</a>`;
-            html += '</div>';
+            var icon = getResIcon(r, 28);
+            var typeLabel = getResTypeLabel(r);
+            html += '<div class="file-card">' +
+              '<div class="file-card-icon">' + icon + '</div>' +
+              '<div class="file-card-name">' + escH(r.title || 'Untitled Resource') + '</div>' +
+              '<div class="file-card-meta">' +
+              '<span class="file-card-type-badge">' + typeLabel + '</span>' +
+              '</div>' +
+              (r.description ? '<div class="file-card-note">' + escH(r.description) + '</div>' : '') +
+              '<div class="file-card-actions">' +
+              '<a href="' + escH(r.url || '#') + '" target="_blank" class="file-card-btn" style="text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;gap:4px">⬇ Download</a>' +
+              '</div>' +
+              '</div>';
           });
           container.innerHTML = html;
+        }
+
+        function switchFilesMainTab(tab) {
+          var dlTab = document.getElementById('files-tab-downloads');
+          var upTab = document.getElementById('files-tab-uploads');
+          var btnDl = document.getElementById('fmtDownloads');
+          var btnUp = document.getElementById('fmtUploads');
+          if (!dlTab || !upTab || !btnDl || !btnUp) return;
+          var isDownloads = (tab === 'downloads');
+          dlTab.style.display = isDownloads ? 'block' : 'none';
+          upTab.style.display = isDownloads ? 'none' : 'flex';
+          // Active tab styling
+          btnDl.style.borderBottomColor = isDownloads ? 'var(--gold)' : 'transparent';
+          btnDl.style.color = isDownloads ? 'var(--gold2)' : 'var(--white3)';
+          btnUp.style.borderBottomColor = isDownloads ? 'transparent' : 'var(--gold)';
+          btnUp.style.color = isDownloads ? 'var(--white3)' : 'var(--gold2)';
+          if (!isDownloads) {
+            filesRender();
+          } else {
+            renderResources();
+          }
         }
 
 
@@ -25606,7 +25672,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
           var items = menu.querySelectorAll('.mm-item');
           for (var i = 0; i < items.length; i++) items[i].classList.remove('active');
           if (typeof currentView !== 'undefined' && currentView) {
-            var nmap = { dashboard: 'Dashboard', flashcard: 'Flashcards', browse: 'Browse All', add: 'Add Question', import: 'Bulk Import', resources: 'Download and Resources', revenue: 'Revenue Models', finstatements: 'Fin. Statements', dcf: 'DCF, Val', macro: 'India', files: 'My Files', support: 'Feedback' };
+            var nmap = { dashboard: 'Dashboard', flashcard: 'Flashcards', browse: 'Browse All', add: 'Add Question', import: 'Bulk Import', files: 'Files & Resources', revenue: 'Revenue Models', finstatements: 'Fin. Statements', dcf: 'DCF, Val', macro: 'India', support: 'Feedback' };
             for (var j = 0; j < items.length; j++) {
               if (nmap[currentView] && items[j].textContent.indexOf(nmap[currentView]) !== -1) {
                 items[j].classList.add('active');
@@ -26944,7 +27010,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
       <span class="bn-icon">📚</span>
       <span class="bn-label">Learn</span>
     </div>
-    <div class="bn-item" onclick="nav(&#39;resources&#39;)" id="bn-resources">
+    <div class="bn-item" onclick="nav(&#39;files&#39;)" id="bn-resources">
       <span class="bn-icon">🗂️</span>
       <span class="bn-label">Files</span>
     </div>
