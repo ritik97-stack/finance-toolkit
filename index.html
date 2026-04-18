@@ -27200,6 +27200,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
     <div class="adm-tabs">
       <button class="adm-tab active" onclick="admTab('add')">➕ Add Question</button>
       <button class="adm-tab" onclick="admTab('bulk')">📥 Bulk Import</button>
+      <button class="adm-tab" onclick="admTab('edit')">✏️ Edit Questions</button>
       <button class="adm-tab" onclick="admTab('feedback')">💬 Feedback</button>
       <button class="adm-tab" onclick="admTab('contact')">✉️ Contact</button>
       <button class="adm-tab" onclick="admTab('ratings')">⭐ Ratings</button>
@@ -27259,6 +27260,74 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
         </div>
         <div class="adm-msg" id="admBulkMsg"></div>
         <div id="admBulkPreview" style="margin-top:16px"></div>
+      </div>
+    </div>
+
+    <!-- EDIT QUESTIONS -->
+    <div class="adm-panel" id="admPanel-edit">
+      <div class="adm-widget">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+          <div class="adm-section-title" style="margin-bottom:0">Edit Existing Questions</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <input class="adm-input" id="admEditSearch" placeholder="Search questions..." style="width:220px;padding:7px 12px" oninput="admFilterQuestions()">
+            <select class="adm-select" id="admEditCatFilter" style="width:150px;padding:7px 12px" onchange="admFilterQuestions()">
+              <option value="">All Categories</option>
+              <option>Accounting</option>
+              <option>Valuation</option>
+              <option>M&A / LBO / IB</option>
+              <option>General Finance</option>
+              <option>Equity Research</option>
+              <option>Behavioral</option>
+            </select>
+            <button class="adm-btn adm-btn-o" onclick="admLoadQuestions()" style="padding:7px 14px">🔄 Refresh</button>
+          </div>
+        </div>
+        <div id="admQuestionsList"><div class="adm-empty">Loading...</div></div>
+      </div>
+    </div>
+
+    <!-- EDIT MODAL -->
+    <div id="admEditModal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;padding:20px">
+      <div style="background:var(--modal-bg);border:1px solid var(--border2);border-radius:14px;width:100%;max-width:620px;max-height:90vh;overflow-y:auto;padding:24px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+          <div style="font-size:15px;font-weight:700;color:var(--white)">✏️ Edit Question</div>
+          <button onclick="admCloseEditModal()" style="background:transparent;border:none;color:var(--white3);font-size:18px;cursor:pointer">✕</button>
+        </div>
+        <input type="hidden" id="admEditDocId">
+        <div style="margin-bottom:12px">
+          <label class="adm-label">Question *</label>
+          <textarea class="adm-textarea" id="admEditQ" style="min-height:80px"></textarea>
+        </div>
+        <div style="margin-bottom:12px">
+          <label class="adm-label">Answer *</label>
+          <textarea class="adm-textarea" id="admEditA" style="min-height:130px"></textarea>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+          <div>
+            <label class="adm-label">Category</label>
+            <select class="adm-select" id="admEditCat">
+              <option>Accounting</option>
+              <option>Valuation</option>
+              <option>M&A / LBO / IB</option>
+              <option>General Finance</option>
+              <option>Equity Research</option>
+              <option>Behavioral</option>
+            </select>
+          </div>
+          <div>
+            <label class="adm-label">Difficulty</label>
+            <select class="adm-select" id="admEditDiff">
+              <option>Easy</option>
+              <option>Medium</option>
+              <option>Hard</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="adm-btn adm-btn-p" onclick="admSaveEdit()">💾 Save Changes</button>
+          <button class="adm-btn" onclick="admCloseEditModal()" style="background:transparent;color:var(--white2);border:1.5px solid var(--border)">Cancel</button>
+        </div>
+        <div class="adm-msg" id="admEditMsg"></div>
       </div>
     </div>
 
@@ -27467,6 +27536,140 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
       msg.className = 'adm-msg err';
     });
   }
+
+  // ── EDIT QUESTIONS ───────────────────────────────────
+  var _admAllQuestions = []; // cache: [{docId, q, a, cat, diff}]
+
+  function admLoadQuestions() {
+    var el = document.getElementById('admQuestionsList');
+    el.innerHTML = '<div class="adm-empty">Loading...</div>';
+    db.collection('questions').orderBy('addedAt', 'desc').get().then(function (snap) {
+      _admAllQuestions = [];
+      snap.forEach(function (doc) {
+        var d = doc.data();
+        _admAllQuestions.push({ docId: doc.id, q: d.q || '', a: d.a || '', cat: d.cat || 'General Finance', diff: d.diff || 'Medium' });
+      });
+      admRenderQuestions(_admAllQuestions);
+    }).catch(function (e) {
+      // Firestore might not have addedAt on old docs, retry without orderBy
+      db.collection('questions').get().then(function (snap) {
+        _admAllQuestions = [];
+        snap.forEach(function (doc) {
+          var d = doc.data();
+          _admAllQuestions.push({ docId: doc.id, q: d.q || '', a: d.a || '', cat: d.cat || 'General Finance', diff: d.diff || 'Medium' });
+        });
+        admRenderQuestions(_admAllQuestions);
+      }).catch(function (e2) {
+        el.innerHTML = '<div class="adm-empty" style="color:var(--red)">Error: ' + e2.message + '</div>';
+      });
+    });
+  }
+
+  function admFilterQuestions() {
+    var search = (document.getElementById('admEditSearch').value || '').toLowerCase();
+    var cat = document.getElementById('admEditCatFilter').value;
+    var filtered = _admAllQuestions.filter(function (q) {
+      var matchSearch = !search || q.q.toLowerCase().includes(search) || q.a.toLowerCase().includes(search);
+      var matchCat = !cat || q.cat === cat;
+      return matchSearch && matchCat;
+    });
+    admRenderQuestions(filtered);
+  }
+
+  function admRenderQuestions(list) {
+    var el = document.getElementById('admQuestionsList');
+    if (!list.length) { el.innerHTML = '<div class="adm-empty">No questions found.</div>'; return; }
+    var diffColors = { Easy: 'var(--green)', Medium: 'var(--orange)', Hard: 'var(--red)' };
+    var html = '<div style="font-size:11px;color:var(--white3);margin-bottom:10px">' + list.length + ' questions</div>';
+    for (var i = 0; i < list.length; i++) {
+      var q = list[i];
+      html += '<div style="padding:12px 14px;background:var(--navy3);border-radius:10px;margin-bottom:8px;border:1px solid var(--border2)">';
+      html += '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">';
+      html += '<div style="flex:1;min-width:0">';
+      html += '<div style="font-size:12px;font-weight:600;color:var(--white);margin-bottom:4px;line-height:1.5">' + admEsc(q.q.slice(0, 120)) + (q.q.length > 120 ? '...' : '') + '</div>';
+      html += '<div style="display:flex;gap:6px;flex-wrap:wrap">';
+      html += '<span style="font-size:10px;color:var(--gold2);background:var(--gold-bg2);padding:2px 8px;border-radius:6px">' + admEsc(q.cat) + '</span>';
+      html += '<span style="font-size:10px;color:' + (diffColors[q.diff] || 'var(--white3)') + ';background:var(--navy4);padding:2px 8px;border-radius:6px">' + admEsc(q.diff) + '</span>';
+      html += '</div></div>';
+      html += '<div style="display:flex;gap:6px;flex-shrink:0">';
+      html += '<button class="adm-btn adm-btn-o" style="padding:5px 12px;font-size:11px" onclick="admOpenEdit('' + q.docId + '')">✏️ Edit</button>';
+      html += '<button class="adm-btn" style="padding:5px 12px;font-size:11px;background:var(--red-bg);color:var(--red);border:1.5px solid rgba(239,68,68,.3)" onclick="admDeleteQuestion('' + q.docId + '', this)">🗑</button>';
+      html += '</div></div></div>';
+    }
+    el.innerHTML = html;
+  }
+
+  function admOpenEdit(docId) {
+    var q = _admAllQuestions.find(function (x) { return x.docId === docId; });
+    if (!q) return;
+    document.getElementById('admEditDocId').value = docId;
+    document.getElementById('admEditQ').value = q.q;
+    document.getElementById('admEditA').value = q.a;
+    document.getElementById('admEditCat').value = q.cat;
+    document.getElementById('admEditDiff').value = q.diff;
+    document.getElementById('admEditMsg').className = 'adm-msg';
+    document.getElementById('admEditMsg').textContent = '';
+    document.getElementById('admEditModal').style.display = 'flex';
+  }
+
+  function admCloseEditModal() {
+    document.getElementById('admEditModal').style.display = 'none';
+  }
+
+  function admSaveEdit() {
+    var docId = document.getElementById('admEditDocId').value;
+    var q = document.getElementById('admEditQ').value.trim();
+    var a = document.getElementById('admEditA').value.trim();
+    var cat = document.getElementById('admEditCat').value;
+    var diff = document.getElementById('admEditDiff').value;
+    var msg = document.getElementById('admEditMsg');
+    if (!q || !a) { msg.textContent = '⚠ Question and answer are required.'; msg.className = 'adm-msg err'; return; }
+
+    db.collection('questions').doc(docId).update({
+      q: q, a: a, cat: cat, diff: diff,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(function () {
+      msg.textContent = '✅ Saved successfully.';
+      msg.className = 'adm-msg ok';
+      // Update local cache
+      var idx = _admAllQuestions.findIndex(function (x) { return x.docId === docId; });
+      if (idx !== -1) _admAllQuestions[idx] = { docId: docId, q: q, a: a, cat: cat, diff: diff };
+      admFilterQuestions();
+      setTimeout(function () { admCloseEditModal(); }, 800);
+    }).catch(function (e) {
+      msg.textContent = '❌ Error: ' + e.message;
+      msg.className = 'adm-msg err';
+    });
+  }
+
+  function admDeleteQuestion(docId, btn) {
+    if (!confirm('Delete this question from Firestore? This cannot be undone.')) return;
+    btn.textContent = '...';
+    btn.disabled = true;
+    db.collection('questions').doc(docId).delete().then(function () {
+      _admAllQuestions = _admAllQuestions.filter(function (x) { return x.docId !== docId; });
+      admFilterQuestions();
+      admLoadStats();
+    }).catch(function (e) {
+      btn.textContent = '🗑';
+      btn.disabled = false;
+      alert('Error: ' + e.message);
+    });
+  }
+
+  function admEsc(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // Also load questions when edit tab is clicked — patch admTab
+  var _admTabOrig = null;
+  (function(){
+    var origAdmTab = window.admTab;
+    window.admTab = function(name) {
+      if (typeof origAdmTab === 'function') origAdmTab.call(this, name);
+      if (name === 'edit' && _admAllQuestions.length === 0) admLoadQuestions();
+    };
+  })();
 
   // ── FEEDBACK VIEWER ───────────────────────────────────
   function admLoadFeedback() {
