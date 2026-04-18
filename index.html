@@ -9069,40 +9069,10 @@
       <div class="sb-sec">Documents &amp; Files</div>
       <div class="nav-item" onclick="nav(&#39;files&#39;)"><span>🗂️</span> Files &amp; Resources</div>
       <div class="nav-sep"></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 18px 6px">
-        <span
-          style="font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--white3)">Manage
-          &amp; Support</span>
-        <div style="display:flex;gap:5px">
-          <button onclick="nav(&#39;add&#39;)" title="Add Question" aria-label="Add Question"
-            style="width:26px;height:26px;border-radius:6px;border:1.5px solid var(--border2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--white3);transition:all .14s"
-            onmouseover="this.style.borderColor=&#39;var(--gold)&#39;;this.style.color=&#39;var(--gold2)&#39;;this.style.background=&#39;var(--gold-bg2)&#39;"
-            onmouseout="this.style.borderColor=&#39;var(--border2)&#39;;this.style.color=&#39;var(--white3)&#39;;this.style.background=&#39;transparent&#39;">
-            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M6 1v10M1 6h10"></path>
-            </svg>
-          </button>
-          <button onclick="nav(&#39;import&#39;)" title="Bulk Import" aria-label="Bulk Import"
-            style="width:26px;height:26px;border-radius:6px;border:1.5px solid var(--border2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--white3);transition:all .14s"
-            onmouseover="this.style.borderColor=&#39;var(--gold)&#39;;this.style.color=&#39;var(--gold2)&#39;;this.style.background=&#39;var(--gold-bg2)&#39;"
-            onmouseout="this.style.borderColor=&#39;var(--border2)&#39;;this.style.color=&#39;var(--white3)&#39;;this.style.background=&#39;transparent&#39;">
-            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M6 1v7M3 5l3 3 3-3"></path>
-              <path d="M1 10h10"></path>
-            </svg>
-          </button>
-          <button onclick="nav(&#39;support&#39;)" title="Feedback &amp; Support" aria-label="Feedback and Support"
-            style="width:26px;height:26px;border-radius:6px;border:1.5px solid var(--border2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--white3);transition:all .14s"
-            onmouseover="this.style.borderColor=&#39;var(--gold)&#39;;this.style.color=&#39;var(--gold2)&#39;;this.style.background=&#39;var(--gold-bg2)&#39;"
-            onmouseout="this.style.borderColor=&#39;var(--border2)&#39;;this.style.color=&#39;var(--white3)&#39;;this.style.background=&#39;transparent&#39;">
-            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="6" cy="6" r="5"></circle>
-              <path d="M6 5c0-1 1.5-1.3 1.5-.3C7.5 5.5 6 5.5 6 7"></path>
-              <circle cx="6" cy="9" r=".5" fill="currentColor"></circle>
-            </svg>
-          </button>
-        </div>
-      </div>
+      <div class="sb-sec">Manage &amp; Support</div>
+      <div class="nav-item" onclick="nav('add')"><span>➕</span> Add Question</div>
+      <div class="nav-item" onclick="nav('import')"><span>📥</span> Bulk Import</div>
+      <div class="nav-item" onclick="nav('support')"><span>💬</span> Feedback &amp; Contact</div>
       <div class="sb-stats" id="sbStats">
         <div class="sb-stat">Total Q&amp;As <b>399</b></div>
         <div class="sb-stat">Mastered <b>0 (0%)</b></div>
@@ -22845,11 +22815,34 @@ A: WACC is the weighted average cost of capital."></textarea>
           document.getElementById('fbGood').value = '';
           document.getElementById('fbImprove').value = '';
           document.getElementById('fbFeature').value = '';
-          showToast('✅ Feedback saved locally');
+          // Save to Firestore
+          try {
+            db.collection('feedback').add({
+              good: good,
+              improve: improve,
+              feature: feature,
+              date: new Date().toISOString(),
+              timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+          } catch (e) { console.warn('Firestore feedback save failed:', e); }
+
+          showToast('\u2705 Feedback submitted');
           setTimeout(function () { document.getElementById('fbThanks').style.display = 'none'; }, 3000);
         }
         function setRating(r) {
           try { localStorage.setItem('finToolkit_rating', r); } catch (e) { }
+
+          // Save rating to Firestore
+          try {
+            var ratingLabels = { 1: 'Needs Work', 2: 'Pretty Good', 3: 'Love It!' };
+            db.collection('ratings').add({
+              rating: r,
+              label: ratingLabels[r] || r,
+              date: new Date().toISOString(),
+              timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+          } catch (e) { console.warn('Firestore rating save failed:', e); }
+
           document.getElementById('ratingThanks').style.display = 'block';
           document.querySelectorAll('#ratingBtns .rate-btn').forEach(function (b) { b.style.opacity = '0.4'; });
         }
@@ -22871,7 +22864,19 @@ A: WACC is the weighted average cost of capital."></textarea>
           document.getElementById('ctName').value = '';
           document.getElementById('ctEmail').value = '';
           document.getElementById('ctMessage').value = '';
-          showToast('✅ Message saved locally');
+          // Save to Firestore
+          try {
+            db.collection('contact').add({
+              name: name,
+              email: senderEmail,
+              subject: subject,
+              message: msg,
+              date: new Date().toISOString(),
+              timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+          } catch (e) { console.warn('Firestore contact save failed:', e); }
+
+          showToast('\u2705 Message sent');
           setTimeout(function () { document.getElementById('ctThanks').style.display = 'none'; }, 4000);
         }
 
@@ -27135,7 +27140,416 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
     })();
   </script>
 
+<!-- ═══════════════════════════════════════════════════
+     ADMIN PANEL — only visible at #admin, only for UID
+     ═══════════════════════════════════════════════════ -->
+<div id="adminOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:var(--body-bg);overflow-y:auto;font-family:'Outfit',sans-serif;">
+  <style>
+    .adm-topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid var(--border2);background:var(--topbar-bg-val);backdrop-filter:blur(10px);position:sticky;top:0;z-index:10}
+    .adm-title{font-family:'DM Serif Display',serif;font-size:20px;color:var(--white)}.adm-title span{color:var(--gold)}
+    .adm-close{background:var(--red-bg);color:var(--red);border:1.5px solid rgba(239,68,68,.3);border-radius:8px;padding:7px 16px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif}
+    .adm-body{max-width:900px;margin:0 auto;padding:28px 24px}
+    .adm-tabs{display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap}
+    .adm-tab{padding:8px 18px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid var(--border2);background:transparent;color:var(--white2);font-family:'Outfit',sans-serif;transition:all .15s}
+    .adm-tab.active{background:var(--gold-bg);color:var(--gold2);border-color:var(--gold)}
+    .adm-panel{display:none}.adm-panel.active{display:block}
+    .adm-widget{background:var(--widget-bg);border:1px solid var(--border2);border-radius:12px;padding:20px;margin-bottom:16px}
+    .adm-label{font-size:11px;font-weight:600;color:var(--white3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;display:block}
+    .adm-input,.adm-textarea,.adm-select{width:100%;background:var(--input-bg);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--white);font-size:13px;font-family:'Outfit',sans-serif;outline:none;transition:border .15s;box-sizing:border-box}
+    .adm-input:focus,.adm-textarea:focus,.adm-select:focus{border-color:var(--gold)}
+    .adm-textarea{min-height:100px;resize:vertical}
+    .adm-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+    .adm-full{grid-column:1/-1}
+    .adm-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:8px;border:none;font-size:12px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .15s}
+    .adm-btn-p{background:var(--gold);color:var(--navy)}.adm-btn-p:hover{background:var(--gold2)}
+    .adm-btn-o{background:transparent;color:var(--white2);border:1.5px solid var(--border)}.adm-btn-o:hover{border-color:var(--gold);color:var(--gold2)}
+    .adm-msg{font-size:12px;margin-top:10px;padding:8px 12px;border-radius:6px;display:none}
+    .adm-msg.ok{background:var(--green-bg);color:var(--green);display:block}
+    .adm-msg.err{background:var(--red-bg);color:var(--red);display:block}
+    .adm-table{width:100%;border-collapse:collapse;font-size:12px}
+    .adm-table th{text-align:left;padding:8px 10px;color:var(--white3);font-size:10px;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--border2)}
+    .adm-table td{padding:10px;color:var(--white2);border-bottom:1px solid var(--border2);vertical-align:top;word-break:break-word}
+    .adm-table tr:hover td{background:var(--white4)}
+    .adm-badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 8px;border-radius:8px;text-transform:uppercase}
+    .adm-empty{text-align:center;padding:40px;color:var(--white3);font-size:13px}
+    .adm-stat-row{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+    .adm-stat{flex:1;min-width:120px;background:var(--widget-bg);border:1px solid var(--border2);border-radius:10px;padding:14px 16px}
+    .adm-stat-val{font-size:24px;font-weight:700;color:var(--gold2);font-family:'IBM Plex Mono',monospace}
+    .adm-stat-lab{font-size:10px;color:var(--white3);text-transform:uppercase;letter-spacing:.07em;margin-top:3px}
+    .adm-bulk-area{width:100%;background:var(--input-bg);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;color:var(--white);font-size:12px;font-family:'IBM Plex Mono',monospace;min-height:160px;resize:vertical;outline:none;box-sizing:border-box}
+    .adm-bulk-area:focus{border-color:var(--gold)}
+    .adm-section-title{font-size:14px;font-weight:700;color:var(--white);margin-bottom:14px}
+    .adm-divider{height:1px;background:var(--border2);margin:20px 0}
+  </style>
 
+  <div class="adm-topbar">
+    <div class="adm-title">🔐 Admin <span>Panel</span></div>
+    <button class="adm-close" onclick="closeAdmin()">✕ Exit Admin</button>
+  </div>
+
+  <div class="adm-body">
+    <!-- Stats Row -->
+    <div class="adm-stat-row" id="admStatRow">
+      <div class="adm-stat"><div class="adm-stat-val" id="admStatQ">—</div><div class="adm-stat-lab">Questions in DB</div></div>
+      <div class="adm-stat"><div class="adm-stat-val" id="admStatF">—</div><div class="adm-stat-lab">Feedback Received</div></div>
+      <div class="adm-stat"><div class="adm-stat-val" id="admStatC">—</div><div class="adm-stat-lab">Contact Messages</div></div>
+      <div class="adm-stat"><div class="adm-stat-val" id="admStatR">—</div><div class="adm-stat-lab">Ratings</div></div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="adm-tabs">
+      <button class="adm-tab active" onclick="admTab('add')">➕ Add Question</button>
+      <button class="adm-tab" onclick="admTab('bulk')">📥 Bulk Import</button>
+      <button class="adm-tab" onclick="admTab('feedback')">💬 Feedback</button>
+      <button class="adm-tab" onclick="admTab('contact')">✉️ Contact</button>
+      <button class="adm-tab" onclick="admTab('ratings')">⭐ Ratings</button>
+    </div>
+
+    <!-- ADD QUESTION -->
+    <div class="adm-panel active" id="admPanel-add">
+      <div class="adm-widget">
+        <div class="adm-section-title">Add Question to Firestore</div>
+        <div class="adm-grid">
+          <div class="adm-full">
+            <label class="adm-label">Question *</label>
+            <textarea class="adm-textarea" id="admQ" placeholder="e.g. Walk me through a DCF analysis."></textarea>
+          </div>
+          <div class="adm-full">
+            <label class="adm-label">Answer *</label>
+            <textarea class="adm-textarea" id="admA" style="min-height:130px" placeholder="Full answer..."></textarea>
+          </div>
+          <div>
+            <label class="adm-label">Category</label>
+            <select class="adm-select" id="admCat">
+              <option>Accounting</option>
+              <option>Valuation</option>
+              <option>M&A / LBO / IB</option>
+              <option>General Finance</option>
+              <option>Equity Research</option>
+              <option>Behavioral</option>
+            </select>
+          </div>
+          <div>
+            <label class="adm-label">Difficulty</label>
+            <select class="adm-select" id="admDiff">
+              <option>Easy</option>
+              <option selected>Medium</option>
+              <option>Hard</option>
+            </select>
+          </div>
+        </div>
+        <button class="adm-btn adm-btn-p" onclick="admAddQuestion()">➕ Save to Firestore</button>
+        <div class="adm-msg" id="admAddMsg"></div>
+      </div>
+    </div>
+
+    <!-- BULK IMPORT -->
+    <div class="adm-panel" id="admPanel-bulk">
+      <div class="adm-widget">
+        <div class="adm-section-title">Bulk Import to Firestore</div>
+        <div style="font-size:12px;color:var(--white3);margin-bottom:12px;line-height:1.7">
+          Paste questions in this format:<br>
+          <code style="color:var(--gold2)">Q: Question here<br>A: Answer here<br>Category: Valuation<br>Difficulty: Hard</code>
+        </div>
+        <label class="adm-label">Paste Q&A Text</label>
+        <textarea class="adm-bulk-area" id="admBulkText" placeholder="Q: What is a DCF?&#10;A: A DCF values a company by...&#10;&#10;Q: Walk me through the 3 statements...&#10;A: The 3 financial statements are..."></textarea>
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+          <button class="adm-btn adm-btn-o" onclick="admPreviewBulk()">👁 Preview</button>
+          <button class="adm-btn adm-btn-p" onclick="admImportBulk()">📥 Import All to Firestore</button>
+        </div>
+        <div class="adm-msg" id="admBulkMsg"></div>
+        <div id="admBulkPreview" style="margin-top:16px"></div>
+      </div>
+    </div>
+
+    <!-- FEEDBACK -->
+    <div class="adm-panel" id="admPanel-feedback">
+      <div class="adm-widget">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div class="adm-section-title" style="margin-bottom:0">Feedback Submissions</div>
+          <button class="adm-btn adm-btn-o" onclick="admLoadFeedback()" style="padding:6px 14px">🔄 Refresh</button>
+        </div>
+        <div id="admFeedbackList"><div class="adm-empty">Loading...</div></div>
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="adm-panel" id="admPanel-contact">
+      <div class="adm-widget">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div class="adm-section-title" style="margin-bottom:0">Contact Messages</div>
+          <button class="adm-btn adm-btn-o" onclick="admLoadContact()" style="padding:6px 14px">🔄 Refresh</button>
+        </div>
+        <div id="admContactList"><div class="adm-empty">Loading...</div></div>
+      </div>
+    </div>
+
+    <!-- RATINGS -->
+    <div class="adm-panel" id="admPanel-ratings">
+      <div class="adm-widget">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div class="adm-section-title" style="margin-bottom:0">Ratings</div>
+          <button class="adm-btn adm-btn-o" onclick="admLoadRatings()" style="padding:6px 14px">🔄 Refresh</button>
+        </div>
+        <div id="admRatingsList"><div class="adm-empty">Loading...</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── ADMIN UID ─────────────────────────────────────────
+  var ADMIN_UID = 'YrboLZfJ5HPHWbmrGA5rYtZCz4y1';
+
+  // ── CHECK HASH ON LOAD & AFTER AUTH ───────────────────
+  function checkAdminRoute() {
+    if (window.location.hash !== '#admin') return;
+    var user = firebase.auth().currentUser;
+    if (!user || user.uid !== ADMIN_UID) {
+      window.location.hash = '';
+      return;
+    }
+    openAdmin();
+  }
+
+  window.addEventListener('hashchange', function () {
+    if (window.location.hash === '#admin') {
+      checkAdminRoute();
+    } else {
+      document.getElementById('adminOverlay').style.display = 'none';
+    }
+  });
+
+  // Also check after app loads (auth might not be ready immediately)
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (user && user.uid === ADMIN_UID && window.location.hash === '#admin') {
+      openAdmin();
+    }
+  });
+
+  function openAdmin() {
+    document.getElementById('adminOverlay').style.display = 'block';
+    admLoadStats();
+    admLoadFeedback();
+    admLoadContact();
+    admLoadRatings();
+  }
+
+  function closeAdmin() {
+    document.getElementById('adminOverlay').style.display = 'none';
+    window.location.hash = '';
+  }
+
+  // ── TABS ──────────────────────────────────────────────
+  function admTab(name) {
+    document.querySelectorAll('.adm-panel').forEach(function (p) { p.classList.remove('active'); });
+    document.querySelectorAll('.adm-tab').forEach(function (t) { t.classList.remove('active'); });
+    document.getElementById('admPanel-' + name).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  // ── STATS ─────────────────────────────────────────────
+  function admLoadStats() {
+    db.collection('questions').get().then(function (s) {
+      document.getElementById('admStatQ').textContent = s.size;
+    }).catch(function () { document.getElementById('admStatQ').textContent = 'Err'; });
+
+    db.collection('feedback').get().then(function (s) {
+      document.getElementById('admStatF').textContent = s.size;
+    }).catch(function () { document.getElementById('admStatF').textContent = 'Err'; });
+
+    db.collection('contact').get().then(function (s) {
+      document.getElementById('admStatC').textContent = s.size;
+    }).catch(function () { document.getElementById('admStatC').textContent = 'Err'; });
+
+    db.collection('ratings').get().then(function (s) {
+      document.getElementById('admStatR').textContent = s.size;
+    }).catch(function () { document.getElementById('admStatR').textContent = 'Err'; });
+  }
+
+  // ── ADD SINGLE QUESTION ───────────────────────────────
+  function admAddQuestion() {
+    var q = document.getElementById('admQ').value.trim();
+    var a = document.getElementById('admA').value.trim();
+    var msg = document.getElementById('admAddMsg');
+    if (!q || !a) { msg.textContent = '⚠ Question and answer are required.'; msg.className = 'adm-msg err'; return; }
+
+    db.collection('questions').add({
+      q: q,
+      a: a,
+      cat: document.getElementById('admCat').value,
+      diff: document.getElementById('admDiff').value,
+      source: 'admin',
+      addedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(function () {
+      msg.textContent = '✅ Question saved to Firestore successfully.';
+      msg.className = 'adm-msg ok';
+      document.getElementById('admQ').value = '';
+      document.getElementById('admA').value = '';
+      admLoadStats();
+    }).catch(function (e) {
+      msg.textContent = '❌ Error: ' + e.message;
+      msg.className = 'adm-msg err';
+    });
+  }
+
+  // ── BULK IMPORT ───────────────────────────────────────
+  function admParseBulk(text) {
+    var parsed = [];
+    text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+    var chunks = text.split(/(?=^\s*Q\s*[:：.]\s*)/im).filter(function (c) { return c.trim(); });
+    for (var ci = 0; ci < chunks.length; ci++) {
+      var lines = chunks[ci].split('\n').map(function (l) { return l.trim(); }).filter(Boolean);
+      var q = '', a = '', cat = 'General Finance', diff = 'Medium', inA = false;
+      for (var li = 0; li < lines.length; li++) {
+        var line = lines[li];
+        if (/^Q\s*[:：.]\s*/i.test(line)) { q = line.replace(/^Q\s*[:：.]\s*/i, '').trim(); inA = false; }
+        else if (/^A\s*[:：.]\s*/i.test(line)) { a = line.replace(/^A\s*[:：.]\s*/i, '').trim(); inA = true; }
+        else if (/^Category\s*[:：.]\s*/i.test(line)) { cat = line.replace(/^Category\s*[:：.]\s*/i, '').trim(); }
+        else if (/^Difficulty\s*[:：.]\s*/i.test(line)) { diff = line.replace(/^Difficulty\s*[:：.]\s*/i, '').trim(); }
+        else if (inA) { a += '\n' + line; }
+        else if (q && !inA) { q += ' ' + line; }
+      }
+      if (q && a) parsed.push({ q: q.trim(), a: a.trim(), cat: cat, diff: diff });
+    }
+    return parsed;
+  }
+
+  function admPreviewBulk() {
+    var parsed = admParseBulk(document.getElementById('admBulkText').value);
+    var prev = document.getElementById('admBulkPreview');
+    var msg = document.getElementById('admBulkMsg');
+    if (!parsed.length) {
+      msg.textContent = '⚠ No Q&A pairs detected. Use Q: and A: prefixes.';
+      msg.className = 'adm-msg err';
+      prev.innerHTML = '';
+      return;
+    }
+    msg.textContent = '👁 Preview: ' + parsed.length + ' questions detected.';
+    msg.className = 'adm-msg ok';
+    var html = '<div style="margin-top:4px">';
+    for (var i = 0; i < Math.min(3, parsed.length); i++) {
+      html += '<div style="padding:10px;background:var(--navy3);border-radius:8px;margin-bottom:8px;font-size:12px">';
+      html += '<strong style="color:var(--white)">' + (i + 1) + '. ' + parsed[i].q.slice(0, 100) + '</strong>';
+      html += '<div style="color:var(--white3);margin-top:4px">' + parsed[i].cat + ' · ' + parsed[i].diff + '</div></div>';
+    }
+    if (parsed.length > 3) html += '<div style="font-size:11px;color:var(--white3);padding:4px 0">...and ' + (parsed.length - 3) + ' more</div>';
+    html += '</div>';
+    prev.innerHTML = html;
+  }
+
+  function admImportBulk() {
+    var parsed = admParseBulk(document.getElementById('admBulkText').value);
+    var msg = document.getElementById('admBulkMsg');
+    if (!parsed.length) { msg.textContent = '⚠ Nothing to import.'; msg.className = 'adm-msg err'; return; }
+    msg.textContent = '⏳ Importing ' + parsed.length + ' questions...';
+    msg.className = 'adm-msg ok';
+
+    var batch = db.batch();
+    for (var i = 0; i < parsed.length; i++) {
+      var ref = db.collection('questions').doc();
+      batch.set(ref, {
+        q: parsed[i].q, a: parsed[i].a,
+        cat: parsed[i].cat, diff: parsed[i].diff,
+        source: 'admin-bulk',
+        addedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }
+
+    batch.commit().then(function () {
+      msg.textContent = '✅ ' + parsed.length + ' questions imported to Firestore.';
+      msg.className = 'adm-msg ok';
+      document.getElementById('admBulkText').value = '';
+      document.getElementById('admBulkPreview').innerHTML = '';
+      admLoadStats();
+    }).catch(function (e) {
+      msg.textContent = '❌ Error: ' + e.message;
+      msg.className = 'adm-msg err';
+    });
+  }
+
+  // ── FEEDBACK VIEWER ───────────────────────────────────
+  function admLoadFeedback() {
+    var el = document.getElementById('admFeedbackList');
+    el.innerHTML = '<div class="adm-empty">Loading...</div>';
+    db.collection('feedback').orderBy('timestamp', 'desc').get().then(function (snap) {
+      if (snap.empty) { el.innerHTML = '<div class="adm-empty">No feedback yet.</div>'; return; }
+      var html = '<table class="adm-table"><thead><tr><th>Date</th><th>What went well</th><th>Improve</th><th>Feature request</th></tr></thead><tbody>';
+      snap.forEach(function (doc) {
+        var d = doc.data();
+        var date = d.timestamp ? d.timestamp.toDate().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : d.date ? d.date.slice(0, 10) : '—';
+        html += '<tr><td style="white-space:nowrap;color:var(--white3)">' + date + '</td>';
+        html += '<td>' + (d.good || '—') + '</td>';
+        html += '<td>' + (d.improve || '—') + '</td>';
+        html += '<td>' + (d.feature || '—') + '</td></tr>';
+      });
+      html += '</tbody></table>';
+      el.innerHTML = html;
+    }).catch(function (e) {
+      el.innerHTML = '<div class="adm-empty" style="color:var(--red)">Error: ' + e.message + '</div>';
+    });
+  }
+
+  // ── CONTACT VIEWER ────────────────────────────────────
+  function admLoadContact() {
+    var el = document.getElementById('admContactList');
+    el.innerHTML = '<div class="adm-empty">Loading...</div>';
+    db.collection('contact').orderBy('timestamp', 'desc').get().then(function (snap) {
+      if (snap.empty) { el.innerHTML = '<div class="adm-empty">No messages yet.</div>'; return; }
+      var html = '<table class="adm-table"><thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Subject</th><th>Message</th></tr></thead><tbody>';
+      snap.forEach(function (doc) {
+        var d = doc.data();
+        var date = d.timestamp ? d.timestamp.toDate().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : d.date ? d.date.slice(0, 10) : '—';
+        html += '<tr><td style="white-space:nowrap;color:var(--white3)">' + date + '</td>';
+        html += '<td>' + (d.name || '—') + '</td>';
+        html += '<td style="color:var(--gold2)">' + (d.email || '—') + '</td>';
+        html += '<td>' + (d.subject || '—') + '</td>';
+        html += '<td>' + (d.message || '—') + '</td></tr>';
+      });
+      html += '</tbody></table>';
+      el.innerHTML = html;
+    }).catch(function (e) {
+      el.innerHTML = '<div class="adm-empty" style="color:var(--red)">Error: ' + e.message + '</div>';
+    });
+  }
+
+  // ── RATINGS VIEWER ────────────────────────────────────
+  function admLoadRatings() {
+    var el = document.getElementById('admRatingsList');
+    el.innerHTML = '<div class="adm-empty">Loading...</div>';
+    db.collection('ratings').orderBy('timestamp', 'desc').get().then(function (snap) {
+      if (snap.empty) { el.innerHTML = '<div class="adm-empty">No ratings yet.</div>'; return; }
+      var counts = { 1: 0, 2: 0, 3: 0 };
+      snap.forEach(function (doc) { var r = doc.data().rating; if (counts[r] !== undefined) counts[r]++; });
+      var total = snap.size;
+      var summary = '<div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">';
+      var labels = { 1: '😕 Needs Work', 2: '🙂 Pretty Good', 3: '🤩 Love It!' };
+      var colors = { 1: 'var(--red)', 2: 'var(--orange)', 3: 'var(--green)' };
+      for (var r = 1; r <= 3; r++) {
+        var pct = total ? Math.round(counts[r] / total * 100) : 0;
+        summary += '<div style="flex:1;min-width:120px;background:var(--navy3);border-radius:10px;padding:12px 14px">';
+        summary += '<div style="font-size:18px;margin-bottom:4px">' + labels[r].split(' ')[0] + '</div>';
+        summary += '<div style="font-size:20px;font-weight:700;color:' + colors[r] + '">' + counts[r] + '</div>';
+        summary += '<div style="font-size:10px;color:var(--white3)">' + labels[r].slice(3) + ' · ' + pct + '%</div></div>';
+      }
+      summary += '</div>';
+
+      var html = summary + '<table class="adm-table"><thead><tr><th>Date</th><th>Rating</th><th>Label</th></tr></thead><tbody>';
+      snap.forEach(function (doc) {
+        var d = doc.data();
+        var date = d.timestamp ? d.timestamp.toDate().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—';
+        var emoji = { 1: '😕', 2: '🙂', 3: '🤩' }[d.rating] || '';
+        html += '<tr><td style="white-space:nowrap;color:var(--white3)">' + date + '</td>';
+        html += '<td>' + emoji + ' ' + (d.rating || '—') + '</td>';
+        html += '<td>' + (d.label || '—') + '</td></tr>';
+      });
+      html += '</tbody></table>';
+      el.innerHTML = html;
+    }).catch(function (e) {
+      el.innerHTML = '<div class="adm-empty" style="color:var(--red)">Error: ' + e.message + '</div>';
+    });
+  }
+</script>
 
 </body>
 
