@@ -27196,6 +27196,15 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
       <div class="adm-stat"><div class="adm-stat-val" id="admStatR">—</div><div class="adm-stat-lab">Ratings</div></div>
     </div>
 
+    <!-- Danger Zone -->
+    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--red-bg);border:1px solid rgba(239,68,68,.2);border-radius:10px;padding:12px 16px;margin-bottom:20px">
+      <div>
+        <div style="font-size:12px;font-weight:600;color:var(--red)">🗑 Clear Toolkit Cache</div>
+        <div style="font-size:11px;color:var(--white3);margin-top:2px">Removes all locally stored progress, notes, study data and settings from this browser.</div>
+      </div>
+      <button class="adm-btn" onclick="admClearCache()" style="background:var(--red-bg);color:var(--red);border:1.5px solid rgba(239,68,68,.4);flex-shrink:0;margin-left:16px">🗑 Clear Cache</button>
+    </div>
+
     <!-- Tabs -->
     <div class="adm-tabs">
       <button class="adm-tab active" onclick="admTab('add')">➕ Add Question</button>
@@ -27655,6 +27664,27 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
       btn.disabled = false;
       alert('Error: ' + e.message);
     });
+  }
+
+  // ── CLEAR CACHE ──────────────────────────────────────
+  function admClearCache() {
+    if (!confirm('Clear all locally stored toolkit data from this browser?\nThis includes progress, notes, study data and settings.\n\nFirestore data (questions, feedback) is NOT affected.')) return;
+    [
+      'finToolkit_v2',
+      'finToolkit_feedback',
+      'finToolkit_messages',
+      'finToolkit_rating',
+      'ft_profile',
+      'ft_studydata',
+      'ft_notes',
+      'ft_diffvotes',
+      'finTheme',
+      'sidebarCollapsed',
+      'macro_kpis_v2',
+      'macro_kpis_ts',
+      'macro_groq_key'
+    ].forEach(function(key) { localStorage.removeItem(key); });
+    alert('✅ Cache cleared successfully. Reload the page to see the effect.');
   }
 
   function admEsc(str) {
