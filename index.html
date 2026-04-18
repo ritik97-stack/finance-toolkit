@@ -8558,14 +8558,7 @@
             window.ftInitUI();
             if (typeof renderResources === 'function') renderResources();
           }
-          // Show admin button in settings if current user is admin
-          try {
-            var _cu = firebase.auth().currentUser;
-            if (_cu && _cu.uid === 'YrboLZfJ5HPHWbmrGA5rYtZCz4y1') {
-              var _ab = document.getElementById('adminNavBtn');
-              if (_ab) _ab.style.display = 'flex';
-            }
-          } catch(e) {}
+          // Admin button is always visible; UID check happens inside openAdmin()
           // Check for admin route after app is fully visible
           if (typeof checkAdminRoute === 'function') checkAdminRoute();
         }, 400);
@@ -9127,13 +9120,15 @@
             <div id="settingsDropMenu"
               style="display:none;position:absolute;right:0;top:calc(100% + 6px);background:var(--navy2);border:1px solid var(--border);border-radius:10px;box-shadow:var(--sh3);min-width:190px;z-index:400;overflow:hidden">
               <div style="padding:5px 0">
-                <div id="adminNavBtn" onclick="openAdmin()" style="display:none;align-items:center;gap:10px;padding:10px 16px;font-size:12px;color:var(--gold2);cursor:pointer;border-bottom:1px solid var(--border2)"
-                  onmouseover="this.style.background='var(--gold-bg2)'"
-                  onmouseout="this.style.background=''">
+                <div id="adminNavBtn" onclick="openAdmin()" style="display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:12px;color:var(--gold2);cursor:pointer;border-bottom:1px solid var(--border2);background:var(--gold-bg2)"
+                  onmouseover="this.style.background='var(--gold-bg)'"
+                  onmouseout="this.style.background='var(--gold-bg2)'">
                   <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
-                    <rect x="2" y="2" width="12" height="12" rx="2"></rect>
-                    <path d="M8 6v4M6 8h4"></path>
-                  </svg> Admin Panel
+                    <circle cx="8" cy="5" r="2.5"></circle>
+                    <path d="M3 13c0-2.76 2.24-5 5-5s5 2.24 5 5"></path>
+                  </svg>
+                  <span style="flex:1">Admin Panel</span>
+                  <span style="font-size:9px;font-weight:700;background:var(--gold);color:var(--navy);padding:2px 7px;border-radius:6px;letter-spacing:.04em">ADMIN</span>
                 </div>
                 <div onclick="confirmResetProgress()"
                   style="display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:12px;color:var(--red);cursor:pointer"
@@ -27469,7 +27464,10 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
   function openAdmin() {
     // Verify UID before showing
     var user = firebase.auth().currentUser;
-    if (!user || user.uid !== ADMIN_UID) return;
+    if (!user || user.uid !== ADMIN_UID) {
+      alert('🔒 Access Denied\n\nThe Admin Panel is restricted to authorised users only.');
+      return;
+    }
     // Close settings dropdown if open
     var sm = document.getElementById('settingsDropMenu');
     if (sm) sm.style.display = 'none';
@@ -27672,8 +27670,8 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
       html += '<span style="font-size:10px;color:' + (diffColors[q.diff] || 'var(--white3)') + ';background:var(--navy4);padding:2px 8px;border-radius:6px">' + admEsc(q.diff) + '</span>';
       html += '</div></div>';
       html += '<div style="display:flex;gap:6px;flex-shrink:0">';
-      html += '<button class="adm-btn adm-btn-o" style="padding:5px 12px;font-size:11px" onclick="admOpenEdit('' + q.docId + '')">✏️ Edit</button>';
-      html += '<button class="adm-btn" style="padding:5px 12px;font-size:11px;background:var(--red-bg);color:var(--red);border:1.5px solid rgba(239,68,68,.3)" onclick="admDeleteQuestion('' + q.docId + '', this)">🗑</button>';
+      html += '<button class="adm-btn adm-btn-o" style="padding:5px 12px;font-size:11px" onclick="admOpenEdit(\'' + q.docId + '\')">✏️ Edit</button>';
+      html += '<button class="adm-btn" style="padding:5px 12px;font-size:11px;background:var(--red-bg);color:var(--red);border:1.5px solid rgba(239,68,68,.3)" onclick="admDeleteQuestion(\'' + q.docId + '\', this)">🗑</button>';
       html += '</div></div></div>';
     }
     el.innerHTML = html;
@@ -27762,13 +27760,15 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
     return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
-  // Also load questions when edit tab is clicked — patch admTab
-  var _admTabOrig = null;
+  // Auto-load data when each tab is clicked
   (function(){
     var origAdmTab = window.admTab;
     window.admTab = function(name, el) {
       if (typeof origAdmTab === 'function') origAdmTab.call(this, name, el);
       if (name === 'edit' && _admAllQuestions.length === 0) admLoadQuestions();
+      if (name === 'feedback') admLoadFeedback();
+      if (name === 'contact') admLoadContact();
+      if (name === 'ratings') admLoadRatings();
     };
   })();
 
