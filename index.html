@@ -27276,12 +27276,12 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
 
     <!-- Tabs -->
     <div class="adm-tabs">
-      <button class="adm-tab active" onclick="admTab('add')">➕ Add Question</button>
-      <button class="adm-tab" onclick="admTab('bulk')">📥 Bulk Import</button>
-      <button class="adm-tab" onclick="admTab('edit')">✏️ Edit Questions</button>
-      <button class="adm-tab" onclick="admTab('feedback')">💬 Feedback</button>
-      <button class="adm-tab" onclick="admTab('contact')">✉️ Contact</button>
-      <button class="adm-tab" onclick="admTab('ratings')">⭐ Ratings</button>
+      <button class="adm-tab active" onclick="admTab('add',this)">➕ Add Question</button>
+      <button class="adm-tab" onclick="admTab('bulk',this)">📥 Bulk Import</button>
+      <button class="adm-tab" onclick="admTab('edit',this)">✏️ Edit Questions</button>
+      <button class="adm-tab" onclick="admTab('feedback',this)">💬 Feedback</button>
+      <button class="adm-tab" onclick="admTab('contact',this)">✉️ Contact</button>
+      <button class="adm-tab" onclick="admTab('ratings',this)">⭐ Ratings</button>
     </div>
 
     <!-- ADD QUESTION -->
@@ -27467,7 +27467,16 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
   // Admin route is checked inside loadDataAndStartApp after app is fully visible
 
   function openAdmin() {
-    document.getElementById('adminOverlay').style.display = 'block';
+    // Verify UID before showing
+    var user = firebase.auth().currentUser;
+    if (!user || user.uid !== ADMIN_UID) return;
+    // Close settings dropdown if open
+    var sm = document.getElementById('settingsDropMenu');
+    if (sm) sm.style.display = 'none';
+    // Show overlay
+    var overlay = document.getElementById('adminOverlay');
+    overlay.style.cssText = 'display:block !important;position:fixed;inset:0;z-index:9999;background:var(--body-bg);overflow-y:auto;font-family:Outfit,sans-serif';
+    // Load data
     admLoadStats();
     admLoadFeedback();
     admLoadContact();
@@ -27480,11 +27489,12 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
   }
 
   // ── TABS ──────────────────────────────────────────────
-  function admTab(name) {
+  function admTab(name, el) {
     document.querySelectorAll('.adm-panel').forEach(function (p) { p.classList.remove('active'); });
     document.querySelectorAll('.adm-tab').forEach(function (t) { t.classList.remove('active'); });
-    document.getElementById('admPanel-' + name).classList.add('active');
-    event.target.classList.add('active');
+    var panel = document.getElementById('admPanel-' + name);
+    if (panel) panel.classList.add('active');
+    if (el) el.classList.add('active');
   }
 
   // ── STATS ─────────────────────────────────────────────
@@ -27756,8 +27766,8 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
   var _admTabOrig = null;
   (function(){
     var origAdmTab = window.admTab;
-    window.admTab = function(name) {
-      if (typeof origAdmTab === 'function') origAdmTab.call(this, name);
+    window.admTab = function(name, el) {
+      if (typeof origAdmTab === 'function') origAdmTab.call(this, name, el);
       if (name === 'edit' && _admAllQuestions.length === 0) admLoadQuestions();
     };
   })();
