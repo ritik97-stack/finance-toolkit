@@ -8558,6 +8558,16 @@
             window.ftInitUI();
             if (typeof renderResources === 'function') renderResources();
           }
+          // Show admin button in settings if current user is admin
+          try {
+            var _cu = firebase.auth().currentUser;
+            if (_cu && _cu.uid === 'YrboLZfJ5HPHWbmrGA5rYtZCz4y1') {
+              var _ab = document.getElementById('adminNavBtn');
+              if (_ab) _ab.style.display = 'flex';
+            }
+          } catch(e) {}
+          // Check for admin route after app is fully visible
+          if (typeof checkAdminRoute === 'function') checkAdminRoute();
         }, 400);
       } catch (e) {
         console.error(e);
@@ -9092,6 +9102,13 @@
               <rect x="2" y="11" width="12" height="3" rx="1"></rect>
             </svg>Export
           </button>
+          <button class="btn btn-o" onclick="userClearCache()" title="Clear my local data" style="gap:5px;padding:7px 11px;color:var(--red);border-color:rgba(239,68,68,.3)">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+              <polyline points="3,6 4,14 12,14 13,6"></polyline>
+              <line x1="1" y1="6" x2="15" y2="6"></line>
+              <path d="M6 6V4a2 2 0 0 1 4 0v2"></path>
+            </svg>Clear Cache
+          </button>
           <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleBtn">
             <span id="themeIcon">☀️</span>
             <div class="toggle-track">
@@ -9110,6 +9127,14 @@
             <div id="settingsDropMenu"
               style="display:none;position:absolute;right:0;top:calc(100% + 6px);background:var(--navy2);border:1px solid var(--border);border-radius:10px;box-shadow:var(--sh3);min-width:190px;z-index:400;overflow:hidden">
               <div style="padding:5px 0">
+                <div id="adminNavBtn" onclick="openAdmin()" style="display:none;align-items:center;gap:10px;padding:10px 16px;font-size:12px;color:var(--gold2);cursor:pointer;border-bottom:1px solid var(--border2)"
+                  onmouseover="this.style.background='var(--gold-bg2)'"
+                  onmouseout="this.style.background=''">
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <rect x="2" y="2" width="12" height="12" rx="2"></rect>
+                    <path d="M8 6v4M6 8h4"></path>
+                  </svg> Admin Panel
+                </div>
                 <div onclick="confirmResetProgress()"
                   style="display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:12px;color:var(--red);cursor:pointer"
                   onmouseover="this.style.background=&#39;var(--red-bg)&#39;"
@@ -9118,6 +9143,17 @@
                     <path d="M2 8a6 6 0 1 1 1 3.5"></path>
                     <path d="M2 12V8h4"></path>
                   </svg> Reset Progress
+                </div>
+                <div style="height:1px;background:var(--border2);margin:4px 0"></div>
+                <div onclick="signOutUser()"
+                  style="display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:12px;color:var(--white2);cursor:pointer"
+                  onmouseover="this.style.background='var(--white4)'"
+                  onmouseout="this.style.background=''">
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M6 2H3a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"></path>
+                    <path d="M11 11l3-3-3-3"></path>
+                    <path d="M14 8H6"></path>
+                  </svg> Sign Out
                 </div>
               </div>
             </div>
@@ -22690,6 +22726,9 @@ A: WACC is the weighted average cost of capital."></textarea>
             </div>
 
           </div>
+
+
+
         </div>
       </div>
 
@@ -22878,6 +22917,36 @@ A: WACC is the weighted average cost of capital."></textarea>
 
           showToast('\u2705 Message sent');
           setTimeout(function () { document.getElementById('ctThanks').style.display = 'none'; }, 4000);
+        }
+
+        function userClearCache() {
+          if (!confirm('This will reset all your progress, notes, bookmarks and settings on this device.\n\nYour account and Firestore data are NOT affected.\n\nContinue?')) return;
+          [
+            'finToolkit_v2',
+            'finToolkit_feedback',
+            'finToolkit_messages',
+            'finToolkit_rating',
+            'ft_profile',
+            'ft_studydata',
+            'ft_notes',
+            'ft_diffvotes',
+            'finTheme',
+            'sidebarCollapsed',
+            'macro_kpis_v2',
+            'macro_kpis_ts',
+            'macro_groq_key'
+          ].forEach(function(key) { localStorage.removeItem(key); });
+          showToast('✅ Cache cleared. Reloading...');
+          setTimeout(function() { window.location.reload(); }, 1200);
+        }
+
+        function signOutUser() {
+          if (!confirm('Sign out of Finance Analyst Toolkit?')) return;
+          firebase.auth().signOut().then(function () {
+            window.location.reload();
+          }).catch(function (e) {
+            showToast('Error signing out: ' + e.message);
+          });
         }
 
         function toggleSidebar() {
@@ -27383,10 +27452,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
   function checkAdminRoute() {
     if (window.location.hash !== '#admin') return;
     var user = firebase.auth().currentUser;
-    if (!user || user.uid !== ADMIN_UID) {
-      window.location.hash = '';
-      return;
-    }
+    if (!user || user.uid !== ADMIN_UID) return; // silently do nothing
     openAdmin();
   }
 
@@ -27398,12 +27464,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
     }
   });
 
-  // Also check after app loads (auth might not be ready immediately)
-  firebase.auth().onAuthStateChanged(function (user) {
-    if (user && user.uid === ADMIN_UID && window.location.hash === '#admin') {
-      openAdmin();
-    }
-  });
+  // Admin route is checked inside loadDataAndStartApp after app is fully visible
 
   function openAdmin() {
     document.getElementById('adminOverlay').style.display = 'block';
