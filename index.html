@@ -27620,26 +27620,26 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
 
   function admLoadQuestions() {
     var el = document.getElementById('admQuestionsList');
-    el.innerHTML = '<div class="adm-empty">Loading...</div>';
-    db.collection('questions').orderBy('addedAt', 'desc').get().then(function (snap) {
+    el.innerHTML = '<div class="adm-empty">Loading all questions from Firestore...</div>';
+    // Fetch ALL questions without orderBy so no document is silently excluded
+    // (orderBy on a missing field causes Firestore to skip those docs entirely)
+    db.collection('questions').get().then(function (snap) {
       _admAllQuestions = [];
       snap.forEach(function (doc) {
         var d = doc.data();
-        _admAllQuestions.push({ docId: doc.id, q: d.q || '', a: d.a || '', cat: d.cat || 'General Finance', diff: d.diff || 'Medium' });
+        _admAllQuestions.push({
+          docId: doc.id,
+          q:    d.q    || '',
+          a:    d.a    || '',
+          cat:  d.cat  || 'General Finance',
+          diff: d.diff || 'Medium'
+        });
       });
+      // Sort alphabetically by question text client-side
+      _admAllQuestions.sort(function(a, b) { return a.q.localeCompare(b.q); });
       admRenderQuestions(_admAllQuestions);
     }).catch(function (e) {
-      // Firestore might not have addedAt on old docs, retry without orderBy
-      db.collection('questions').get().then(function (snap) {
-        _admAllQuestions = [];
-        snap.forEach(function (doc) {
-          var d = doc.data();
-          _admAllQuestions.push({ docId: doc.id, q: d.q || '', a: d.a || '', cat: d.cat || 'General Finance', diff: d.diff || 'Medium' });
-        });
-        admRenderQuestions(_admAllQuestions);
-      }).catch(function (e2) {
-        el.innerHTML = '<div class="adm-empty" style="color:var(--red)">Error: ' + e2.message + '</div>';
-      });
+      el.innerHTML = '<div class="adm-empty" style="color:var(--red)">Error loading questions: ' + e.message + '</div>';
     });
   }
 
@@ -27658,20 +27658,21 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
     var el = document.getElementById('admQuestionsList');
     if (!list.length) { el.innerHTML = '<div class="adm-empty">No questions found.</div>'; return; }
     var diffColors = { Easy: 'var(--green)', Medium: 'var(--orange)', Hard: 'var(--red)' };
-    var html = '<div style="font-size:11px;color:var(--white3);margin-bottom:10px">' + list.length + ' questions</div>';
+    var diffBg = { Easy: 'var(--green-bg)', Medium: 'var(--ora-bg)', Hard: 'var(--red-bg)' };
+    var html = '<div style="font-size:11px;color:var(--white3);margin-bottom:12px;font-weight:600">' + list.length + ' questions loaded</div>';
     for (var i = 0; i < list.length; i++) {
       var q = list[i];
-      html += '<div style="padding:12px 14px;background:var(--navy3);border-radius:10px;margin-bottom:8px;border:1px solid var(--border2)">';
-      html += '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">';
+      html += '<div style="padding:14px 16px;background:var(--navy3);border-radius:10px;margin-bottom:8px;border:1px solid var(--border2);transition:border-color .15s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border2)'">';
+      html += '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">';
       html += '<div style="flex:1;min-width:0">';
-      html += '<div style="font-size:12px;font-weight:600;color:var(--white);margin-bottom:4px;line-height:1.5">' + admEsc(q.q.slice(0, 120)) + (q.q.length > 120 ? '...' : '') + '</div>';
-      html += '<div style="display:flex;gap:6px;flex-wrap:wrap">';
-      html += '<span style="font-size:10px;color:var(--gold2);background:var(--gold-bg2);padding:2px 8px;border-radius:6px">' + admEsc(q.cat) + '</span>';
-      html += '<span style="font-size:10px;color:' + (diffColors[q.diff] || 'var(--white3)') + ';background:var(--navy4);padding:2px 8px;border-radius:6px">' + admEsc(q.diff) + '</span>';
+      html += '<div style="font-size:12.5px;font-weight:600;color:var(--white);margin-bottom:6px;line-height:1.55">' + admEsc(q.q) + '</div>';
+      html += '<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">';
+      html += '<span style="font-size:10px;font-weight:600;color:var(--gold2);background:var(--gold-bg2);padding:3px 9px;border-radius:6px">' + admEsc(q.cat) + '</span>';
+      html += '<span style="font-size:10px;font-weight:600;color:' + (diffColors[q.diff] || 'var(--white3)') + ';background:' + (diffBg[q.diff] || 'var(--navy4)') + ';padding:3px 9px;border-radius:6px">' + admEsc(q.diff) + '</span>';
       html += '</div></div>';
-      html += '<div style="display:flex;gap:6px;flex-shrink:0">';
-      html += '<button class="adm-btn adm-btn-o" style="padding:5px 12px;font-size:11px" onclick="admOpenEdit(\'' + q.docId + '\')">✏️ Edit</button>';
-      html += '<button class="adm-btn" style="padding:5px 12px;font-size:11px;background:var(--red-bg);color:var(--red);border:1.5px solid rgba(239,68,68,.3)" onclick="admDeleteQuestion(\'' + q.docId + '\', this)">🗑</button>';
+      html += '<div style="display:flex;gap:6px;flex-shrink:0;align-items:flex-start">';
+      html += '<button class="adm-btn adm-btn-o" style="padding:6px 14px;font-size:11px;white-space:nowrap" onclick="admOpenEdit(\'' + q.docId + '\')">✏️ Edit</button>';
+      html += '<button class="adm-btn" style="padding:6px 10px;font-size:11px;background:var(--red-bg);color:var(--red);border:1.5px solid rgba(239,68,68,.3)" onclick="admDeleteQuestion(\'' + q.docId + '\', this)" title="Delete">🗑</button>';
       html += '</div></div></div>';
     }
     el.innerHTML = html;
@@ -27765,7 +27766,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
     var origAdmTab = window.admTab;
     window.admTab = function(name, el) {
       if (typeof origAdmTab === 'function') origAdmTab.call(this, name, el);
-      if (name === 'edit' && _admAllQuestions.length === 0) admLoadQuestions();
+      if (name === 'edit') admLoadQuestions();
       if (name === 'feedback') admLoadFeedback();
       if (name === 'contact') admLoadContact();
       if (name === 'ratings') admLoadRatings();
