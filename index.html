@@ -8569,6 +8569,8 @@
     }
 
     firebase.auth().onAuthStateChanged(function (user) {
+      // Store UID globally so openAdmin() can reliably access it without currentUser timing issues
+      window._currentUserUID = user ? user.uid : null;
       if (user) {
         var isGoogleUser = user.providerData && user.providerData.some(function(p){ return p.providerId === 'google.com'; });
         if (!isGoogleUser && !user.emailVerified) {
@@ -27446,8 +27448,8 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
   // ── CHECK HASH ON LOAD & AFTER AUTH ───────────────────
   function checkAdminRoute() {
     if (window.location.hash !== '#admin') return;
-    var user = firebase.auth().currentUser;
-    if (!user || user.uid !== ADMIN_UID) return; // silently do nothing
+    var uid = window._currentUserUID || (firebase.auth().currentUser ? firebase.auth().currentUser.uid : null);
+    if (!uid || uid !== ADMIN_UID) return;
     openAdmin();
   }
 
@@ -27455,26 +27457,41 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
     if (window.location.hash === '#admin') {
       checkAdminRoute();
     } else {
-      document.getElementById('adminOverlay').style.display = 'none';
+      var _ov = document.getElementById('adminOverlay'); if (_ov) _ov.style.display = 'none';
     }
   });
 
   // Admin route is checked inside loadDataAndStartApp after app is fully visible
 
   function openAdmin() {
-    // Verify UID before showing
-    var user = firebase.auth().currentUser;
-    if (!user || user.uid !== ADMIN_UID) {
-      alert('🔒 Access Denied\n\nThe Admin Panel is restricted to authorised users only.');
-      return;
-    }
-    // Close settings dropdown if open
+    var overlay = document.getElementById('adminOverlay');
+    if (!overlay) { alert('Admin panel element not found.'); return; }
+
+    // Close settings dropdown
     var sm = document.getElementById('settingsDropMenu');
     if (sm) sm.style.display = 'none';
-    // Show overlay
-    var overlay = document.getElementById('adminOverlay');
-    overlay.style.cssText = 'display:block !important;position:fixed;inset:0;z-index:9999;background:var(--body-bg);overflow-y:auto;font-family:Outfit,sans-serif';
-    // Load data
+
+    // UID check — uses stored value set by onAuthStateChanged, falls back to currentUser
+    var uid = window._currentUserUID;
+    if (!uid) {
+      var cu = firebase.auth().currentUser;
+      uid = cu ? cu.uid : null;
+    }
+
+    if (uid !== ADMIN_UID) {
+      alert('Access Denied. The Admin Panel is restricted to authorised users only.');
+      return;
+    }
+
+    // Open the panel
+    overlay.style.display = 'block';
+    overlay.style.position = 'fixed';
+    overlay.style.inset = '0';
+    overlay.style.zIndex = '9999';
+    overlay.style.background = 'var(--body-bg)';
+    overlay.style.overflowY = 'auto';
+
+    // Load all data
     admLoadStats();
     admLoadFeedback();
     admLoadContact();
@@ -27482,8 +27499,9 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
   }
 
   function closeAdmin() {
-    document.getElementById('adminOverlay').style.display = 'none';
-    window.location.hash = '';
+    var overlay = document.getElementById('adminOverlay');
+    if (overlay) overlay.style.display = 'none';
+    if (window.location.hash === '#admin') window.location.hash = '';
   }
 
   // ── TABS ──────────────────────────────────────────────
