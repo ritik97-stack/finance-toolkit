@@ -149,23 +149,6 @@
     .spinner { display:inline-block; width:16px; height:16px; border:2px solid var(--border); border-top-color:var(--gold); border-radius:50%; animation:spin .7s linear infinite; }
     @keyframes spin { to { transform:rotate(360deg); } }
 
-    /* ── RESOURCE ITEMS ── */
-    .res-item { padding:14px 16px; background:var(--navy3); border:1px solid var(--border2); border-radius:10px; margin-bottom:8px; display:flex; align-items:center; gap:14px; transition:border-color .15s; }
-    .res-item:hover { border-color:var(--border); }
-    .res-icon { width:40px; height:40px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
-    .res-icon-word  { background:rgba(59,130,246,0.15); }
-    .res-icon-excel { background:rgba(16,185,129,0.15); }
-    .res-icon-pdf   { background:rgba(239,68,68,0.12); }
-    .res-body { flex:1; min-width:0; }
-    .res-title { font-size:13px; font-weight:600; color:var(--white); margin-bottom:4px; }
-    .res-desc  { font-size:11px; color:var(--white3); margin-bottom:5px; line-height:1.5; }
-    .res-meta  { display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
-    .res-type-badge { font-size:9px; font-weight:700; padding:2px 8px; border-radius:6px; text-transform:uppercase; letter-spacing:.04em; }
-    .res-type-word  { background:var(--blue-bg);  color:var(--blue); }
-    .res-type-excel { background:var(--green-bg); color:var(--green); }
-    .res-type-pdf   { background:var(--red-bg);   color:var(--red); }
-    .res-actions { display:flex; gap:6px; flex-shrink:0; }
-
     /* ── RESPONSIVE ── */
     @media(max-width:600px) {
       .topbar { padding:12px 16px; }
@@ -198,6 +181,9 @@
         <svg width="16" height="16" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.2l6.7-6.7C35.7 2.5 30.2 0 24 0 14.7 0 6.7 5.4 2.7 13.3l7.8 6C12.4 13 17.8 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4 7.1-10 7.1-17z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.8-6A23.9 23.9 0 0 0 0 24c0 3.9.9 7.5 2.7 10.7l7.8-6z"/><path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.5l-7.5-5.8c-2 1.4-4.6 2.2-7.7 2.2-6.2 0-11.5-4.2-13.4-9.8l-7.8 6C6.7 42.6 14.7 48 24 48z"/></svg>
         Continue with Google
       </button>
+      <div style="font-size:11px;color:var(--white3);text-align:center;margin-top:8px">
+        You will be redirected to Google to sign in, then brought back here automatically.
+      </div>
       <div class="gate-err" id="gErr"></div>
     </div>
     <div id="gateDenied" style="display:none">
@@ -229,7 +215,6 @@
   <!-- Stats -->
   <div class="stats-row">
     <div class="stat-card"><div class="stat-val" id="statQ">—</div><div class="stat-lab">Questions</div></div>
-    <div class="stat-card"><div class="stat-val" id="statRes">—</div><div class="stat-lab">Resources</div></div>
     <div class="stat-card"><div class="stat-val" id="statF">—</div><div class="stat-lab">Feedback</div></div>
     <div class="stat-card"><div class="stat-val" id="statC">—</div><div class="stat-lab">Messages</div></div>
     <div class="stat-card"><div class="stat-val" id="statR">—</div><div class="stat-lab">Ratings</div></div>
@@ -240,7 +225,6 @@
     <button class="tab active" onclick="switchTab('questions',this)">📋 Questions</button>
     <button class="tab" onclick="switchTab('add',this)">➕ Add Question</button>
     <button class="tab" onclick="switchTab('bulk',this)">📥 Bulk Import</button>
-    <button class="tab" onclick="switchTab('resources',this)">📁 Resources</button>
     <button class="tab" onclick="switchTab('feedback',this)">💬 Feedback</button>
     <button class="tab" onclick="switchTab('contact',this)">✉️ Contact</button>
     <button class="tab" onclick="switchTab('ratings',this)">⭐ Ratings</button>
@@ -365,97 +349,7 @@
     </div>
   </div>
 
-
-  <!-- ── RESOURCES PANEL ── -->
-  <div class="panel" id="panel-resources">
-
-    <!-- Add Resource -->
-    <div class="widget" style="max-width:720px;margin-bottom:20px">
-      <div class="wt">Add New Resource</div>
-      <div class="form-grid">
-        <div class="form-full">
-          <label class="form-label">Title *</label>
-          <input class="form-input" id="resTitle" placeholder="e.g. DCF Model Template">
-        </div>
-        <div class="form-full">
-          <label class="form-label">Description</label>
-          <textarea class="form-textarea" id="resDesc" placeholder="Short description of what this resource covers..." style="min-height:70px"></textarea>
-        </div>
-        <div>
-          <label class="form-label">File Type *</label>
-          <select class="form-select" id="resCat">
-            <option value="Word">📄 Word (.docx)</option>
-            <option value="Excel">📊 Excel (.xlsx)</option>
-            <option value="PDF">📕 PDF (.pdf)</option>
-          </select>
-        </div>
-        <div>
-          <label class="form-label">File URL * <span style="font-size:10px;color:var(--white3);font-weight:400">(Google Drive, Dropbox, direct link)</span></label>
-          <input class="form-input" id="resUrl" placeholder="https://drive.google.com/file/d/...">
-        </div>
-      </div>
-      <button class="btn btn-p" onclick="addResource()">📁 Save Resource to Firestore</button>
-      <div class="msg" id="resMsg"></div>
-    </div>
-
-    <!-- Resources List -->
-    <div class="widget">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-        <div class="wt" style="margin-bottom:0">All Resources</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-          <select class="form-select" id="resCatFilter" style="max-width:160px" onchange="filterResources()">
-            <option value="">All Types</option>
-            <option value="Word">📄 Word</option>
-            <option value="Excel">📊 Excel</option>
-            <option value="PDF">📕 PDF</option>
-          </select>
-          <button class="btn btn-o" onclick="loadResources()" style="padding:7px 14px">🔄 Refresh</button>
-        </div>
-      </div>
-      <div id="resList"><div class="q-empty"><div class="spinner"></div></div></div>
-    </div>
-  </div>
-
 </div><!-- end #app -->
-
-
-<!-- ── EDIT RESOURCE MODAL ── -->
-<div class="modal-overlay" id="editResModal">
-  <div class="modal">
-    <div class="modal-head">
-      <div class="modal-title">✏️ Edit Resource</div>
-      <button class="modal-x" onclick="closeEditRes()">✕</button>
-    </div>
-    <input type="hidden" id="editResId">
-    <div style="margin-bottom:12px">
-      <label class="form-label">Title *</label>
-      <input class="form-input" id="editResTitle" placeholder="Resource title">
-    </div>
-    <div style="margin-bottom:12px">
-      <label class="form-label">Description</label>
-      <textarea class="form-textarea" id="editResDesc" style="min-height:70px" placeholder="Short description..."></textarea>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
-      <div>
-        <label class="form-label">File Type</label>
-        <select class="form-select" id="editResCat">
-          <option value="Word">📄 Word (.docx)</option>
-          <option value="Excel">📊 Excel (.xlsx)</option>
-          <option value="PDF">📕 PDF (.pdf)</option>
-        </select>
-      </div>
-      <div>
-        <label class="form-label">File URL *</label>
-        <input class="form-input" id="editResUrl" placeholder="https://...">
-      </div>
-    </div>
-    <div style="display:flex;gap:8px">
-      <button class="btn btn-p" onclick="saveEditRes()">💾 Save Changes</button>
-      <button class="btn btn-o" onclick="closeEditRes()">Cancel</button>
-    </div>
-    <div class="msg" id="editResMsg"></div>
-  </div>
-</div>
 
 <!-- ── EDIT MODAL ── -->
 <div class="modal-overlay" id="editModal">
@@ -507,26 +401,42 @@
   var allQuestions = [];
 
   // ── AUTH ─────────────────────────────────────────────
-  function gGoogleLogin() {
-    var err = document.getElementById('gErr');
-    var btn = document.getElementById('gGoogleBtn');
-    btn.textContent = 'Signing in...'; btn.disabled = true; err.textContent = '';
-    var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider)
-      .then(function(cred) {
-        if (cred.user.uid !== ADMIN_UID) {
-          firebase.auth().signOut();
-          document.getElementById('gateForm').style.display = 'none';
-          document.getElementById('gateDenied').style.display = 'block';
-        }
-      })
-      .catch(function(e) {
-        err.textContent = e.message;
-        btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.2l6.7-6.7C35.7 2.5 30.2 0 24 0 14.7 0 6.7 5.4 2.7 13.3l7.8 6C12.4 13 17.8 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4 7.1-10 7.1-17z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.8-6A23.9 23.9 0 0 0 0 24c0 3.9.9 7.5 2.7 10.7l7.8-6z"/><path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.5l-7.5-5.8c-2 1.4-4.6 2.2-7.7 2.2-6.2 0-11.5-4.2-13.4-9.8l-7.8 6C6.7 42.6 14.7 48 24 48z"/></svg> Continue with Google';
-        btn.disabled = false;
-      });
+  var GOOGLE_SVG = '<svg width="16" height="16" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.2l6.7-6.7C35.7 2.5 30.2 0 24 0 14.7 0 6.7 5.4 2.7 13.3l7.8 6C12.4 13 17.8 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4 7.1-10 7.1-17z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.8-6A23.9 23.9 0 0 0 0 24c0 3.9.9 7.5 2.7 10.7l7.8-6z"/><path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.5l-7.5-5.8c-2 1.4-4.6 2.2-7.7 2.2-6.2 0-11.5-4.2-13.4-9.8l-7.8 6C6.7 42.6 14.7 48 24 48z"/></svg> Continue with Google';
+
+  function showGate() {
+    document.getElementById('gate').style.display = 'flex';
+    var btn = document.getElementById('gBtn');
+    if (btn) { btn.textContent = 'Sign In'; btn.disabled = false; }
+    var gbtn = document.getElementById('gGoogleBtn');
+    if (gbtn) { gbtn.innerHTML = GOOGLE_SVG; gbtn.disabled = false; }
   }
 
+  function showApp(user) {
+    document.getElementById('gate').style.display = 'none';
+    var app = document.getElementById('app');
+    app.style.display = 'flex';
+    app.style.flexDirection = 'column';
+    document.getElementById('tbUser').textContent = user.email || user.displayName || '';
+    initApp();
+  }
+
+  function showDenied() {
+    firebase.auth().signOut();
+    document.getElementById('gateForm').style.display = 'none';
+    document.getElementById('gateDenied').style.display = 'block';
+  }
+
+  // ── Google Sign-In via Redirect (popup-blocked proof) ──
+  function gGoogleLogin() {
+    var err  = document.getElementById('gErr');
+    var gbtn = document.getElementById('gGoogleBtn');
+    gbtn.innerHTML = 'Redirecting to Google...'; gbtn.disabled = true; err.textContent = '';
+    var provider = new firebase.auth.GoogleAuthProvider();
+    // signInWithRedirect never gets blocked by browsers unlike signInWithPopup
+    firebase.auth().signInWithRedirect(provider);
+  }
+
+  // ── Email/Password Sign-In ────────────────────────────
   function gLogin() {
     var email = document.getElementById('gEmail').value.trim();
     var pass  = document.getElementById('gPass').value;
@@ -536,12 +446,8 @@
     btn.textContent = 'Signing in...'; btn.disabled = true; err.textContent = '';
     firebase.auth().signInWithEmailAndPassword(email, pass)
       .then(function(cred) {
-        if (cred.user.uid !== ADMIN_UID) {
-          firebase.auth().signOut();
-          document.getElementById('gateForm').style.display = 'none';
-          document.getElementById('gateDenied').style.display = 'block';
-        }
-        // onAuthStateChanged handles the rest
+        if (cred.user.uid !== ADMIN_UID) { showDenied(); }
+        // onAuthStateChanged handles showing the app for valid admin
       })
       .catch(function(e) {
         err.textContent = e.message;
@@ -553,24 +459,38 @@
     firebase.auth().signOut().then(function() { window.location.reload(); });
   }
 
-  firebase.auth().onAuthStateChanged(function(user) {
-    var btn = document.getElementById('gBtn');
-    if (btn) { btn.textContent = 'Sign In'; btn.disabled = false; }
+  // ── Handle redirect result first (fires after Google redirects back) ──
+  firebase.auth().getRedirectResult()
+    .then(function(result) {
+      if (result && result.user) {
+        if (result.user.uid !== ADMIN_UID) { showDenied(); }
+        // onAuthStateChanged will fire next and show the app
+      }
+    })
+    .catch(function(e) {
+      var err = document.getElementById('gErr');
+      if (err) err.textContent = 'Google sign-in failed: ' + e.message;
+      showGate();
+    });
 
+  // ── Auth state observer — auto-detects existing session ──
+  // If the user is already logged in on the main toolkit (same Firebase project + domain),
+  // this fires immediately with their session and skips the login gate entirely.
+  firebase.auth().onAuthStateChanged(function(user) {
     if (user && user.uid === ADMIN_UID) {
-      document.getElementById('gate').style.display = 'none';
-      document.getElementById('app').style.display = 'flex';
-      document.getElementById('app').style.flexDirection = 'column';
-      var email = user.email || '';
-      document.getElementById('tbUser').textContent = email;
-      initApp();
+      showApp(user);
+    } else if (user && user.uid !== ADMIN_UID) {
+      // Logged in but not admin
+      showDenied();
+    } else {
+      // Not logged in — show gate
+      showGate();
     }
   });
 
   function initApp() {
     loadStats();
     loadQuestions();
-    loadResources();
     loadFeedback();
     loadContact();
     loadRatings();
@@ -582,173 +502,15 @@
     document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
     document.getElementById('panel-' + name).classList.add('active');
     if (el) el.classList.add('active');
-    if (name === 'resources') loadResources();
-    if (name === 'feedback')  loadFeedback();
-    if (name === 'contact')   loadContact();
-    if (name === 'ratings')   loadRatings();
   }
 
   // ── STATS ─────────────────────────────────────────────
   function loadStats() {
-    [['questions','statQ'],['resources','statRes'],['feedback','statF'],['contact','statC'],['ratings','statR']].forEach(function(pair){
+    [['questions','statQ'],['feedback','statF'],['contact','statC'],['ratings','statR']].forEach(function(pair){
       db.collection(pair[0]).get()
         .then(function(s){ document.getElementById(pair[1]).textContent = s.size; })
         .catch(function(){ document.getElementById(pair[1]).textContent = '?'; });
     });
-  }
-
-  // ── RESOURCES ─────────────────────────────────────────
-  var allResources = [];
-
-  var RES_META = {
-    'Word':  { icon: '📄', iconClass: 'res-icon-word',  badgeClass: 'res-type-word',  label: 'Word' },
-    'Excel': { icon: '📊', iconClass: 'res-icon-excel', badgeClass: 'res-type-excel', label: 'Excel' },
-    'PDF':   { icon: '📕', iconClass: 'res-icon-pdf',   badgeClass: 'res-type-pdf',   label: 'PDF' }
-  };
-
-  function addResource() {
-    var title = document.getElementById('resTitle').value.trim();
-    var desc  = document.getElementById('resDesc').value.trim();
-    var cat   = document.getElementById('resCat').value;
-    var url   = document.getElementById('resUrl').value.trim();
-    var msg   = document.getElementById('resMsg');
-
-    if (!title) { msg.textContent = '⚠ Title is required.'; msg.className = 'msg err'; return; }
-    if (!url)   { msg.textContent = '⚠ File URL is required.'; msg.className = 'msg err'; return; }
-    if (!url.startsWith('http')) { msg.textContent = '⚠ Please enter a valid URL starting with http.'; msg.className = 'msg err'; return; }
-
-    msg.textContent = 'Saving...'; msg.className = 'msg ok';
-
-    db.collection('resources').add({
-      title:   title,
-      desc:    desc,
-      cat:     cat,
-      url:     url,
-      addedAt: firebase.firestore.FieldValue.serverTimestamp()
-    }).then(function() {
-      msg.textContent = '✅ Resource saved to Firestore.';
-      document.getElementById('resTitle').value = '';
-      document.getElementById('resDesc').value  = '';
-      document.getElementById('resUrl').value   = '';
-      loadResources();
-      loadStats();
-    }).catch(function(e) {
-      msg.textContent = '❌ ' + e.message; msg.className = 'msg err';
-    });
-  }
-
-  function loadResources() {
-    var el = document.getElementById('resList');
-    if (!el) return;
-    el.innerHTML = '<div class="q-empty"><div class="spinner"></div></div>';
-    db.collection('resources').orderBy('addedAt', 'desc').get()
-      .then(function(snap) {
-        allResources = [];
-        snap.forEach(function(doc) {
-          var d = doc.data();
-          allResources.push({ id: doc.id, title: d.title||'', desc: d.desc||'', cat: d.cat||'PDF', url: d.url||'' });
-        });
-        filterResources();
-      })
-      .catch(function(e) {
-        // Retry without orderBy in case some docs missing addedAt
-        db.collection('resources').get().then(function(snap) {
-          allResources = [];
-          snap.forEach(function(doc) {
-            var d = doc.data();
-            allResources.push({ id: doc.id, title: d.title||'', desc: d.desc||'', cat: d.cat||'PDF', url: d.url||'' });
-          });
-          filterResources();
-        }).catch(function(e2) {
-          el.innerHTML = '<div class="q-empty" style="color:var(--red)">Error: ' + e2.message + '</div>';
-        });
-      });
-  }
-
-  function filterResources() {
-    var cat  = document.getElementById('resCatFilter') ? document.getElementById('resCatFilter').value : '';
-    var list = allResources.filter(function(r) { return !cat || r.cat === cat; });
-    renderResources(list);
-  }
-
-  function renderResources(list) {
-    var el = document.getElementById('resList');
-    if (!list.length) {
-      el.innerHTML = '<div class="q-empty">No resources yet. Add one above.</div>';
-      return;
-    }
-    var html = '<div style="font-size:11px;color:var(--white3);margin-bottom:12px;font-weight:600">' + list.length + ' resource' + (list.length !== 1 ? 's' : '') + '</div>';
-    list.forEach(function(r) {
-      var m = RES_META[r.cat] || RES_META['PDF'];
-      html += '<div class="res-item">'
-        + '<div class="res-icon ' + m.iconClass + '">' + m.icon + '</div>'
-        + '<div class="res-body">'
-        + '<div class="res-title">' + esc(r.title) + '</div>'
-        + (r.desc ? '<div class="res-desc">' + esc(r.desc) + '</div>' : '')
-        + '<div class="res-meta">'
-        + '<span class="res-type-badge ' + m.badgeClass + '">' + m.label + '</span>'
-        + '<a href="' + esc(r.url) + '" target="_blank" rel="noopener" style="font-size:10px;color:var(--gold2);text-decoration:none;display:inline-flex;align-items:center;gap:3px">🔗 Open File</a>'
-        + '</div>'
-        + '</div>'
-        + '<div class="res-actions">'
-        + '<button class="btn btn-o" style="padding:5px 12px;font-size:11px" onclick="openEditRes('' + r.id + '')">✏️ Edit</button>'
-        + '<button class="btn btn-r" style="padding:5px 10px;font-size:11px" onclick="deleteRes('' + r.id + '',this)" title="Delete">🗑</button>'
-        + '</div>'
-        + '</div>';
-    });
-    el.innerHTML = html;
-  }
-
-  function deleteRes(id, btn) {
-    if (!confirm('Delete this resource from Firestore? This cannot be undone.')) return;
-    btn.textContent = '…'; btn.disabled = true;
-    db.collection('resources').doc(id).delete()
-      .then(function() {
-        allResources = allResources.filter(function(r) { return r.id !== id; });
-        filterResources();
-        loadStats();
-      })
-      .catch(function(e) { alert('Error: ' + e.message); btn.textContent = '🗑'; btn.disabled = false; });
-  }
-
-  function openEditRes(id) {
-    var r = allResources.find(function(x) { return x.id === id; });
-    if (!r) return;
-    document.getElementById('editResId').value    = id;
-    document.getElementById('editResTitle').value = r.title;
-    document.getElementById('editResDesc').value  = r.desc;
-    document.getElementById('editResCat').value   = r.cat;
-    document.getElementById('editResUrl').value   = r.url;
-    document.getElementById('editResMsg').className   = 'msg';
-    document.getElementById('editResMsg').textContent = '';
-    document.getElementById('editResModal').classList.add('open');
-  }
-
-  function closeEditRes() {
-    document.getElementById('editResModal').classList.remove('open');
-  }
-
-  function saveEditRes() {
-    var id    = document.getElementById('editResId').value;
-    var title = document.getElementById('editResTitle').value.trim();
-    var desc  = document.getElementById('editResDesc').value.trim();
-    var cat   = document.getElementById('editResCat').value;
-    var url   = document.getElementById('editResUrl').value.trim();
-    var msg   = document.getElementById('editResMsg');
-
-    if (!title) { msg.textContent = '⚠ Title is required.'; msg.className = 'msg err'; return; }
-    if (!url)   { msg.textContent = '⚠ URL is required.';   msg.className = 'msg err'; return; }
-
-    msg.textContent = 'Saving...'; msg.className = 'msg ok';
-    db.collection('resources').doc(id).update({ title:title, desc:desc, cat:cat, url:url, updatedAt: firebase.firestore.FieldValue.serverTimestamp() })
-      .then(function() {
-        msg.textContent = '✅ Updated successfully.';
-        var idx = allResources.findIndex(function(x) { return x.id === id; });
-        if (idx !== -1) allResources[idx] = { id:id, title:title, desc:desc, cat:cat, url:url };
-        filterResources();
-        setTimeout(closeEditRes, 700);
-      })
-      .catch(function(e) { msg.textContent = '❌ ' + e.message; msg.className = 'msg err'; });
   }
 
   // ── QUESTIONS ─────────────────────────────────────────
@@ -1008,10 +770,6 @@
   // Close edit modal on overlay click
   document.getElementById('editModal').addEventListener('click', function(e){
     if (e.target === this) closeEdit();
-  });
-
-  document.getElementById('editResModal').addEventListener('click', function(e){
-    if (e.target === this) closeEditRes();
   });
 </script>
 </body>
