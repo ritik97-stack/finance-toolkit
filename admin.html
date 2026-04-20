@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,202 +21,212 @@
   </script>
   <style>
     :root {
-      --gold: #F59E0B; --gold2: #FBBF24; --gold-bg: rgba(245,158,11,0.15); --gold-bg2: rgba(245,158,11,0.08);
-      --white: #F9FAFB; --white2: rgba(249,250,251,0.7); --white3: rgba(249,250,251,0.4); --white4: rgba(249,250,251,0.1);
-      --green: #10B981; --green-bg: rgba(16,185,129,0.12);
-      --red: #EF4444; --red-bg: rgba(239,68,68,0.1);
-      --blue: #3B82F6; --blue-bg: rgba(59,130,246,0.1);
-      --orange: #F97316; --ora-bg: rgba(249,115,22,0.1);
-      --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.05);
-      --body-bg: #030712; --navy: #030712; --navy2: rgba(255,255,255,0.02); --navy3: rgba(255,255,255,0.04); --navy4: rgba(255,255,255,0.08);
-      --widget-bg: rgba(255,255,255,0.02); --input-bg: rgba(255,255,255,0.04);
-      --topbar-bg: rgba(11,15,25,0.95); --sh2: 0 10px 15px -3px rgba(0,0,0,0.5); --sh3: 0 20px 25px -5px rgba(0,0,0,0.6);
+      --gold:#F59E0B; --gold2:#FBBF24; --gold-bg:rgba(245,158,11,0.15); --gold-bg2:rgba(245,158,11,0.08);
+      --white:#F9FAFB; --white2:rgba(249,250,251,0.7); --white3:rgba(249,250,251,0.4); --white4:rgba(249,250,251,0.1);
+      --green:#10B981; --green-bg:rgba(16,185,129,0.12);
+      --red:#EF4444; --red-bg:rgba(239,68,68,0.1);
+      --blue:#3B82F6; --blue-bg:rgba(59,130,246,0.1);
+      --orange:#F97316; --ora-bg:rgba(249,115,22,0.1);
+      --border:rgba(255,255,255,0.08); --border2:rgba(255,255,255,0.05);
+      --body-bg:#030712; --navy:#030712; --navy3:rgba(255,255,255,0.04); --navy4:rgba(255,255,255,0.08);
+      --widget-bg:rgba(255,255,255,0.02); --input-bg:rgba(255,255,255,0.04);
+      --topbar-bg:rgba(11,15,25,0.95);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', sans-serif; background: var(--body-bg); color: var(--white); min-height: 100vh; }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter',sans-serif;background:var(--body-bg);color:var(--white);min-height:100vh;}
 
-    /* ── LOGIN GATE ── */
-    #gate { display:flex; align-items:center; justify-content:center; min-height:100vh; padding:20px; }
-    .gate-card { background:var(--navy3); border:1px solid var(--border); border-radius:16px; padding:36px 32px; width:100%; max-width:400px; }
-    .gate-title { font-family:'DM Serif Display',serif; font-size:24px; color:var(--white); margin-bottom:4px; }
-    .gate-title span { color:var(--gold); }
-    .gate-sub { font-size:12px; color:var(--white3); margin-bottom:28px; }
-    .gate-label { font-size:11px; font-weight:600; color:var(--white3); text-transform:uppercase; letter-spacing:.08em; margin-bottom:6px; display:block; }
-    .gate-input { width:100%; background:var(--input-bg); border:1px solid var(--border); border-radius:8px; padding:10px 14px; color:var(--white); font-size:13px; font-family:'Inter',sans-serif; outline:none; margin-bottom:14px; transition:border .15s; }
-    .gate-input:focus { border-color:var(--gold); }
-    .gate-btn { width:100%; background:var(--gold); color:var(--navy); border:none; border-radius:8px; padding:11px; font-size:13px; font-weight:700; cursor:pointer; font-family:'Inter',sans-serif; transition:background .15s; margin-top:4px; }
-    .gate-btn:hover { background:var(--gold2); }
-    .gate-err { font-size:12px; color:var(--red); margin-top:10px; min-height:18px; }
-    .gate-denied { text-align:center; padding:40px 0 10px; }
-    .gate-denied-icon { font-size:48px; margin-bottom:12px; }
-    .gate-denied-title { font-size:16px; font-weight:700; color:var(--red); margin-bottom:8px; }
-    .gate-denied-sub { font-size:12px; color:var(--white3); }
+    /* LOGIN */
+    #gate{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
+    .gate-card{background:var(--navy3);border:1px solid var(--border);border-radius:16px;padding:40px 32px;width:100%;max-width:380px;}
+    .gate-title{font-family:'DM Serif Display',serif;font-size:26px;color:var(--white);margin-bottom:4px;}
+    .gate-title span{color:var(--gold);}
+    .gate-sub{font-size:12px;color:var(--white3);margin-bottom:32px;}
+    .gate-err{font-size:12px;color:var(--red);margin-top:14px;min-height:18px;line-height:1.5;padding:8px 10px;background:var(--red-bg);border-radius:6px;display:none;}
+    .gate-err.show{display:block;}
+    .gate-info{font-size:12px;color:var(--gold2);margin-top:12px;text-align:center;display:none;}
+    .gate-info.show{display:block;}
 
-    /* ── APP ── */
-    #app { display:none; min-height:100vh; flex-direction:column; }
+    .gbtn{width:100%;display:flex;align-items:center;justify-content:center;gap:12px;padding:13px 16px;border-radius:10px;border:1.5px solid var(--border);background:transparent;color:var(--white2);font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;}
+    .gbtn:hover{border-color:var(--gold);color:var(--white);background:rgba(245,158,11,0.06);}
+    .gbtn:disabled{opacity:0.5;cursor:not-allowed;}
 
-    /* ── TOPBAR ── */
-    .topbar { background:var(--topbar-bg); border-bottom:1px solid var(--border2); padding:14px 28px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; backdrop-filter:blur(12px); }
-    .tb-left { display:flex; align-items:center; gap:14px; }
-    .tb-title { font-family:'DM Serif Display',serif; font-size:18px; color:var(--white); }
-    .tb-title span { color:var(--gold); }
-    .tb-badge { font-size:9px; font-weight:700; background:var(--red-bg); color:var(--red); border:1px solid rgba(239,68,68,.3); border-radius:6px; padding:3px 8px; text-transform:uppercase; letter-spacing:.08em; }
-    .tb-right { display:flex; align-items:center; gap:10px; }
-    .tb-user { font-size:11px; color:var(--white3); }
-    .btn { display:inline-flex; align-items:center; gap:6px; padding:7px 16px; border-radius:7px; border:none; font-size:12px; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; transition:all .15s; }
-    .btn-o { background:transparent; color:var(--white2); border:1.5px solid var(--border); }
-    .btn-o:hover { border-color:var(--gold); color:var(--gold2); }
-    .btn-r { background:var(--red-bg); color:var(--red); border:1.5px solid rgba(239,68,68,.3); }
-    .btn-r:hover { background:rgba(239,68,68,.2); }
-    .btn-p { background:var(--gold); color:var(--navy); }
-    .btn-p:hover { background:var(--gold2); }
+    .divider{display:flex;align-items:center;gap:10px;margin:20px 0;}
+    .divider-line{flex:1;height:1px;background:var(--border);}
+    .divider-txt{font-size:11px;color:var(--white3);}
 
-    /* ── STATS ROW ── */
-    .stats-row { display:flex; gap:12px; padding:20px 28px 0; flex-wrap:wrap; }
-    .stat-card { flex:1; min-width:130px; background:var(--widget-bg); border:1px solid var(--border2); border-radius:10px; padding:14px 18px; }
-    .stat-val { font-family:'IBM Plex Mono',monospace; font-size:26px; font-weight:700; color:var(--gold2); line-height:1; }
-    .stat-lab { font-size:10px; color:var(--white3); text-transform:uppercase; letter-spacing:.07em; margin-top:4px; }
+    .gate-label{font-size:11px;font-weight:600;color:var(--white3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;display:block;}
+    .gate-input{width:100%;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--white);font-size:13px;font-family:'Inter',sans-serif;outline:none;margin-bottom:12px;transition:border .15s;}
+    .gate-input:focus{border-color:var(--gold);}
+    .gate-btn-primary{width:100%;background:var(--gold);color:var(--navy);border:none;border-radius:8px;padding:11px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s;margin-top:4px;}
+    .gate-btn-primary:hover{background:var(--gold2);}
+    .gate-btn-primary:disabled{opacity:0.5;cursor:not-allowed;}
 
-    /* ── TABS ── */
-    .tabs { display:flex; gap:4px; padding:20px 28px 0; border-bottom:1px solid var(--border2); flex-wrap:wrap; }
-    .tab { padding:9px 18px; font-size:12px; font-weight:600; cursor:pointer; border:none; background:transparent; color:var(--white3); font-family:'Inter',sans-serif; border-bottom:2px solid transparent; margin-bottom:-1px; transition:all .15s; }
-    .tab:hover { color:var(--white2); }
-    .tab.active { color:var(--gold2); border-bottom-color:var(--gold); }
+    .denied-box{text-align:center;padding:20px 0;}
+    .denied-icon{font-size:52px;margin-bottom:14px;}
+    .denied-title{font-size:16px;font-weight:700;color:var(--red);margin-bottom:8px;}
+    .denied-sub{font-size:12px;color:var(--white3);margin-bottom:20px;line-height:1.6;}
+    .denied-uid{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--white3);background:var(--navy4);padding:6px 10px;border-radius:6px;word-break:break-all;margin-bottom:16px;}
 
-    /* ── PANEL ── */
-    .panel { display:none; padding:24px 28px; }
-    .panel.active { display:block; }
+    /* APP */
+    #app{display:none;min-height:100vh;flex-direction:column;}
+    .topbar{background:var(--topbar-bg);border-bottom:1px solid var(--border2);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);}
+    .tb-left{display:flex;align-items:center;gap:14px;}
+    .tb-title{font-family:'DM Serif Display',serif;font-size:18px;color:var(--white);}
+    .tb-title span{color:var(--gold);}
+    .tb-badge{font-size:9px;font-weight:700;background:var(--red-bg);color:var(--red);border:1px solid rgba(239,68,68,.3);border-radius:6px;padding:3px 8px;text-transform:uppercase;letter-spacing:.08em;}
+    .tb-right{display:flex;align-items:center;gap:10px;}
+    .tb-user{font-size:11px;color:var(--white3);}
 
-    /* ── WIDGETS ── */
-    .widget { background:var(--widget-bg); border:1px solid var(--border2); border-radius:12px; padding:20px; margin-bottom:16px; }
-    .wt { font-size:13px; font-weight:700; color:var(--white); margin-bottom:16px; }
-    .form-label { font-size:11px; font-weight:600; color:var(--white3); text-transform:uppercase; letter-spacing:.08em; margin-bottom:6px; display:block; }
-    .form-input, .form-textarea, .form-select { width:100%; background:var(--input-bg); border:1px solid var(--border2); border-radius:8px; padding:9px 12px; color:var(--white); font-size:13px; font-family:'Inter',sans-serif; outline:none; transition:border .15s; box-sizing:border-box; }
-    .form-input:focus, .form-textarea:focus, .form-select:focus { border-color:var(--gold); }
-    .form-textarea { min-height:90px; resize:vertical; }
-    .form-select option { background:#1a1f2e; }
-    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; }
-    .form-full { grid-column:1/-1; }
-    .msg { font-size:12px; padding:8px 12px; border-radius:6px; display:none; margin-top:10px; }
-    .msg.ok { background:var(--green-bg); color:var(--green); display:block; }
-    .msg.err { background:var(--red-bg); color:var(--red); display:block; }
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:7px;border:none;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;}
+    .btn-o{background:transparent;color:var(--white2);border:1.5px solid var(--border);}
+    .btn-o:hover{border-color:var(--gold);color:var(--gold2);}
+    .btn-r{background:var(--red-bg);color:var(--red);border:1.5px solid rgba(239,68,68,.3);}
+    .btn-r:hover{background:rgba(239,68,68,.2);}
+    .btn-p{background:var(--gold);color:var(--navy);}
+    .btn-p:hover{background:var(--gold2);}
+    .btn:disabled{opacity:0.5;cursor:not-allowed;}
 
-    /* ── QUESTION LIST ── */
-    .q-filters { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; align-items:center; }
-    .q-count { font-size:11px; color:var(--white3); margin-left:auto; }
-    .q-item { padding:13px 16px; background:var(--navy3); border:1px solid var(--border2); border-radius:10px; margin-bottom:8px; display:flex; align-items:flex-start; justify-content:space-between; gap:12px; transition:border-color .15s; }
-    .q-item:hover { border-color:var(--border); }
-    .q-text { font-size:12px; font-weight:600; color:var(--white); margin-bottom:6px; line-height:1.5; }
-    .q-meta { display:flex; gap:6px; flex-wrap:wrap; }
-    .chip { display:inline-block; font-size:9px; font-weight:700; padding:2px 8px; border-radius:6px; text-transform:uppercase; letter-spacing:.04em; }
-    .chip-cat { background:var(--gold-bg2); color:var(--gold2); }
-    .chip-easy { background:var(--green-bg); color:var(--green); }
-    .chip-medium { background:var(--ora-bg); color:var(--orange); }
-    .chip-hard { background:var(--red-bg); color:var(--red); }
-    .q-actions { display:flex; gap:6px; flex-shrink:0; }
-    .q-empty { text-align:center; padding:48px; color:var(--white3); font-size:13px; }
+    .stats-row{display:flex;gap:12px;padding:20px 28px 0;flex-wrap:wrap;}
+    .stat-card{flex:1;min-width:120px;background:var(--widget-bg);border:1px solid var(--border2);border-radius:10px;padding:14px 18px;}
+    .stat-val{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:700;color:var(--gold2);line-height:1;}
+    .stat-lab{font-size:10px;color:var(--white3);text-transform:uppercase;letter-spacing:.07em;margin-top:4px;}
 
-    /* ── EDIT MODAL ── */
-    .modal-overlay { display:none; position:fixed; inset:0; z-index:1000; background:rgba(0,0,0,0.75); align-items:center; justify-content:center; padding:20px; }
-    .modal-overlay.open { display:flex; }
-    .modal { background:#0d1117; border:1px solid var(--border); border-radius:14px; width:100%; max-width:640px; max-height:90vh; overflow-y:auto; padding:26px; }
-    .modal-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
-    .modal-title { font-size:15px; font-weight:700; color:var(--white); }
-    .modal-x { background:transparent; border:none; color:var(--white3); font-size:20px; cursor:pointer; line-height:1; padding:2px 6px; }
-    .modal-x:hover { color:var(--white); }
+    .tabs{display:flex;gap:4px;padding:20px 28px 0;border-bottom:1px solid var(--border2);flex-wrap:wrap;}
+    .tab{padding:9px 18px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--white3);font-family:'Inter',sans-serif;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;}
+    .tab:hover{color:var(--white2);}
+    .tab.active{color:var(--gold2);border-bottom-color:var(--gold);}
 
-    /* ── TABLES ── */
-    .tbl { width:100%; border-collapse:collapse; font-size:12px; }
-    .tbl th { text-align:left; padding:8px 12px; color:var(--white3); font-size:10px; text-transform:uppercase; letter-spacing:.08em; border-bottom:1px solid var(--border2); font-weight:600; }
-    .tbl td { padding:11px 12px; color:var(--white2); border-bottom:1px solid var(--border2); vertical-align:top; word-break:break-word; line-height:1.5; }
-    .tbl tr:hover td { background:var(--white4); }
-    .tbl-empty { text-align:center; padding:48px; color:var(--white3); font-size:13px; }
+    .panel{display:none;padding:24px 28px;}
+    .panel.active{display:block;}
 
-    /* ── RATINGS SUMMARY ── */
-    .rating-summary { display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; }
-    .rating-card { flex:1; min-width:120px; background:var(--navy3); border-radius:10px; padding:14px; text-align:center; }
-    .rating-emoji { font-size:24px; margin-bottom:6px; }
-    .rating-count { font-size:22px; font-weight:700; font-family:'IBM Plex Mono',monospace; }
-    .rating-label { font-size:10px; color:var(--white3); margin-top:3px; }
+    .widget{background:var(--widget-bg);border:1px solid var(--border2);border-radius:12px;padding:20px;margin-bottom:16px;}
+    .wt{font-size:13px;font-weight:700;color:var(--white);margin-bottom:16px;}
+    .form-label{font-size:11px;font-weight:600;color:var(--white3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;display:block;}
+    .form-input,.form-textarea,.form-select{width:100%;background:var(--input-bg);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--white);font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:border .15s;box-sizing:border-box;}
+    .form-input:focus,.form-textarea:focus,.form-select:focus{border-color:var(--gold);}
+    .form-textarea{min-height:90px;resize:vertical;}
+    .form-select option{background:#1a1f2e;}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+    .form-full{grid-column:1/-1;}
+    .msg{font-size:12px;padding:8px 12px;border-radius:6px;display:none;margin-top:10px;}
+    .msg.ok{background:var(--green-bg);color:var(--green);display:block;}
+    .msg.err{background:var(--red-bg);color:var(--red);display:block;}
 
-    /* ── BULK IMPORT ── */
-    .bulk-area { width:100%; background:var(--input-bg); border:1px solid var(--border2); border-radius:8px; padding:12px; color:var(--white); font-size:12px; font-family:'IBM Plex Mono',monospace; min-height:180px; resize:vertical; outline:none; box-sizing:border-box; }
-    .bulk-area:focus { border-color:var(--gold); }
-    .preview-item { padding:10px 14px; background:var(--navy4); border-radius:8px; margin-bottom:8px; font-size:12px; }
-    .preview-item strong { color:var(--white); }
+    /* QUESTION LIST */
+    .q-filters{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center;}
+    .q-count{font-size:11px;color:var(--white3);margin-left:auto;}
+    .q-item{padding:13px 16px;background:var(--navy3);border:1px solid var(--border2);border-radius:10px;margin-bottom:8px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;transition:border-color .15s;}
+    .q-item:hover{border-color:var(--border);}
+    .q-text{font-size:12px;font-weight:600;color:var(--white);margin-bottom:6px;line-height:1.5;}
+    .q-meta{display:flex;gap:6px;flex-wrap:wrap;}
+    .chip{display:inline-block;font-size:9px;font-weight:700;padding:2px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:.04em;}
+    .chip-cat{background:var(--gold-bg2);color:var(--gold2);}
+    .chip-easy{background:var(--green-bg);color:var(--green);}
+    .chip-medium{background:var(--ora-bg);color:var(--orange);}
+    .chip-hard{background:var(--red-bg);color:var(--red);}
+    .q-actions{display:flex;gap:6px;flex-shrink:0;}
+    .q-empty{text-align:center;padding:48px;color:var(--white3);font-size:13px;}
 
-    /* ── LOADING SPINNER ── */
-    .spinner { display:inline-block; width:16px; height:16px; border:2px solid var(--border); border-top-color:var(--gold); border-radius:50%; animation:spin .7s linear infinite; }
-    @keyframes spin { to { transform:rotate(360deg); } }
+    /* MODAL */
+    .modal-overlay{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.8);align-items:center;justify-content:center;padding:20px;}
+    .modal-overlay.open{display:flex;}
+    .modal{background:#0d1117;border:1px solid var(--border);border-radius:14px;width:100%;max-width:640px;max-height:90vh;overflow-y:auto;padding:26px;}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+    .modal-title{font-size:15px;font-weight:700;color:var(--white);}
+    .modal-x{background:transparent;border:none;color:var(--white3);font-size:20px;cursor:pointer;line-height:1;padding:2px 6px;}
+    .modal-x:hover{color:var(--white);}
 
-    /* ── RESOURCE ITEMS ── */
-    .res-item { padding:14px 16px; background:var(--navy3); border:1px solid var(--border2); border-radius:10px; margin-bottom:8px; display:flex; align-items:center; gap:14px; transition:border-color .15s; }
-    .res-item:hover { border-color:var(--gold); }
-    .res-icon { width:42px; height:42px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }
-    .res-icon-word  { background:rgba(59,130,246,0.15); }
-    .res-icon-excel { background:rgba(16,185,129,0.15); }
-    .res-icon-pdf   { background:rgba(239,68,68,0.12);  }
-    .res-body { flex:1; min-width:0; }
-    .res-title { font-size:13px; font-weight:600; color:var(--white); margin-bottom:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .res-desc  { font-size:11px; color:var(--white3); margin-bottom:6px; line-height:1.5; }
-    .res-meta  { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-    .res-badge { font-size:9px; font-weight:700; padding:2px 8px; border-radius:6px; text-transform:uppercase; letter-spacing:.04em; }
-    .res-badge-word  { background:var(--blue-bg);  color:var(--blue);   }
-    .res-badge-excel { background:var(--green-bg); color:var(--green);  }
-    .res-badge-pdf   { background:var(--red-bg);   color:var(--red);    }
-    .res-link { font-size:10px; color:var(--gold2); text-decoration:none; display:inline-flex; align-items:center; gap:3px; }
-    .res-link:hover { text-decoration:underline; }
-    .res-actions { display:flex; gap:6px; flex-shrink:0; }
+    /* TABLES */
+    .tbl{width:100%;border-collapse:collapse;font-size:12px;}
+    .tbl th{text-align:left;padding:8px 12px;color:var(--white3);font-size:10px;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--border2);font-weight:600;}
+    .tbl td{padding:11px 12px;color:var(--white2);border-bottom:1px solid var(--border2);vertical-align:top;word-break:break-word;line-height:1.5;}
+    .tbl tr:hover td{background:var(--white4);}
+    .tbl-empty{text-align:center;padding:48px;color:var(--white3);font-size:13px;}
+    .tbl-wrap{overflow-x:auto;}
 
-    /* ── RESPONSIVE ── */
-    @media(max-width:600px) {
-      .topbar { padding:12px 16px; }
-      .stats-row, .tabs, .panel { padding-left:16px; padding-right:16px; }
-      .form-grid { grid-template-columns:1fr; }
-      .q-filters { flex-direction:column; align-items:stretch; }
-      .q-count { margin-left:0; }
+    /* RATINGS */
+    .rating-summary{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+    .rating-card{flex:1;min-width:120px;background:var(--navy3);border-radius:10px;padding:14px;text-align:center;}
+    .rating-emoji{font-size:24px;margin-bottom:6px;}
+    .rating-count{font-size:22px;font-weight:700;font-family:'IBM Plex Mono',monospace;}
+    .rating-label{font-size:10px;color:var(--white3);margin-top:3px;}
+
+    /* BULK */
+    .bulk-area{width:100%;background:var(--input-bg);border:1px solid var(--border2);border-radius:8px;padding:12px;color:var(--white);font-size:12px;font-family:'IBM Plex Mono',monospace;min-height:180px;resize:vertical;outline:none;box-sizing:border-box;}
+    .bulk-area:focus{border-color:var(--gold);}
+    .preview-item{padding:10px 14px;background:var(--navy4);border-radius:8px;margin-bottom:8px;font-size:12px;}
+
+    /* RESOURCES */
+    .res-item{padding:14px 16px;background:var(--navy3);border:1px solid var(--border2);border-radius:10px;margin-bottom:8px;display:flex;align-items:center;gap:14px;transition:border-color .15s;}
+    .res-item:hover{border-color:var(--gold);}
+    .res-icon{width:42px;height:42px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+    .res-icon-word{background:rgba(59,130,246,0.15);}
+    .res-icon-excel{background:rgba(16,185,129,0.15);}
+    .res-icon-pdf{background:rgba(239,68,68,0.12);}
+    .res-body{flex:1;min-width:0;}
+    .res-title{font-size:13px;font-weight:600;color:var(--white);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .res-desc{font-size:11px;color:var(--white3);margin-bottom:6px;line-height:1.5;}
+    .res-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+    .res-badge{font-size:9px;font-weight:700;padding:2px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:.04em;}
+    .res-badge-word{background:var(--blue-bg);color:var(--blue);}
+    .res-badge-excel{background:var(--green-bg);color:var(--green);}
+    .res-badge-pdf{background:var(--red-bg);color:var(--red);}
+    .res-link{font-size:10px;color:var(--gold2);text-decoration:none;display:inline-flex;align-items:center;gap:3px;}
+    .res-link:hover{text-decoration:underline;}
+    .res-actions{display:flex;gap:6px;flex-shrink:0;}
+
+    /* SPINNER */
+    .spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+
+    @media(max-width:600px){
+      .topbar{padding:12px 16px;}
+      .stats-row,.tabs,.panel{padding-left:16px;padding-right:16px;}
+      .form-grid{grid-template-columns:1fr;}
     }
   </style>
 </head>
 <body>
 
-<!-- ── LOGIN GATE ── -->
+<!-- LOGIN GATE -->
 <div id="gate">
   <div class="gate-card">
     <div class="gate-title">Finance <span>Admin</span></div>
     <div class="gate-sub">Restricted access — authorised personnel only</div>
-    <div id="gateForm">
-      <label class="gate-label">Email</label>
-      <input class="gate-input" id="gEmail" type="email" placeholder="your@email.com" onkeydown="if(event.key==='Enter')gLogin()">
-      <label class="gate-label">Password</label>
-      <input class="gate-input" id="gPass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')gLogin()">
-      <button class="gate-btn" id="gBtn" onclick="gLogin()">Sign In</button>
-      <div style="display:flex;align-items:center;gap:10px;margin:14px 0">
-        <div style="flex:1;height:1px;background:var(--border)"></div>
-        <span style="font-size:11px;color:var(--white3)">or</span>
-        <div style="flex:1;height:1px;background:var(--border)"></div>
-      </div>
-      <button class="gate-btn" id="gGoogleBtn" onclick="gGoogleLogin()" style="background:transparent;color:var(--white2);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;gap:10px">
-        <svg width="16" height="16" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.2l6.7-6.7C35.7 2.5 30.2 0 24 0 14.7 0 6.7 5.4 2.7 13.3l7.8 6C12.4 13 17.8 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4 7.1-10 7.1-17z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.8-6A23.9 23.9 0 0 0 0 24c0 3.9.9 7.5 2.7 10.7l7.8-6z"/><path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.5l-7.5-5.8c-2 1.4-4.6 2.2-7.7 2.2-6.2 0-11.5-4.2-13.4-9.8l-7.8 6C6.7 42.6 14.7 48 24 48z"/></svg>
+
+    <!-- Google Sign-In (primary, recommended) -->
+    <div id="gateGoogle">
+      <button class="gbtn" id="gGoogleBtn" onclick="gGoogleLogin()">
+        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.2l6.7-6.7C35.7 2.5 30.2 0 24 0 14.7 0 6.7 5.4 2.7 13.3l7.8 6C12.4 13 17.8 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4 7.1-10 7.1-17z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.8-6A23.9 23.9 0 0 0 0 24c0 3.9.9 7.5 2.7 10.7l7.8-6z"/><path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.5l-7.5-5.8c-2 1.4-4.6 2.2-7.7 2.2-6.2 0-11.5-4.2-13.4-9.8l-7.8 6C6.7 42.6 14.7 48 24 48z"/></svg>
         Continue with Google
       </button>
+      <div class="gate-info" id="gateInfo">Redirecting to Google… please wait</div>
       <div class="gate-err" id="gErr"></div>
+
+      <div class="divider"><div class="divider-line"></div><span class="divider-txt">or use email & password</span><div class="divider-line"></div></div>
+
+      <label class="gate-label">Email</label>
+      <input class="gate-input" id="gEmail" type="email" placeholder="your@email.com" onkeydown="if(event.key==='Enter')gEmailLogin()">
+      <label class="gate-label">Password</label>
+      <input class="gate-input" id="gPass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')gEmailLogin()">
+      <button class="gate-btn-primary" id="gEmailBtn" onclick="gEmailLogin()">Sign In with Email</button>
     </div>
+
+    <!-- Access Denied -->
     <div id="gateDenied" style="display:none">
-      <div class="gate-denied">
-        <div class="gate-denied-icon">🚫</div>
-        <div class="gate-denied-title">Access Denied</div>
-        <div class="gate-denied-sub">This account does not have admin privileges.</div>
+      <div class="denied-box">
+        <div class="denied-icon">🚫</div>
+        <div class="denied-title">Access Denied</div>
+        <div class="denied-sub">This Google account is not authorised as admin.<br>Make sure you're signing in with the correct account.</div>
+        <div class="denied-uid" id="deniedUid"></div>
+        <button class="gbtn" onclick="gSignOut()" style="border-color:rgba(239,68,68,.4);color:var(--red);">Sign Out &amp; Try Again</button>
       </div>
-      <button class="gate-btn" style="margin-top:16px;background:var(--red-bg);color:var(--red);border:1.5px solid rgba(239,68,68,.3)" onclick="gSignOut()">Sign Out</button>
     </div>
   </div>
 </div>
 
-<!-- ── MAIN APP ── -->
-<div id="app" style="display:none">
-
-  <!-- Topbar -->
+<!-- MAIN APP -->
+<div id="app">
   <div class="topbar">
     <div class="tb-left">
       <div class="tb-title">Finance <span>Toolkit</span></div>
@@ -228,7 +238,6 @@
     </div>
   </div>
 
-  <!-- Stats -->
   <div class="stats-row">
     <div class="stat-card"><div class="stat-val" id="statQ">—</div><div class="stat-lab">Questions</div></div>
     <div class="stat-card"><div class="stat-val" id="statRes">—</div><div class="stat-lab">Resources</div></div>
@@ -237,7 +246,6 @@
     <div class="stat-card"><div class="stat-val" id="statR">—</div><div class="stat-lab">Ratings</div></div>
   </div>
 
-  <!-- Tabs -->
   <div class="tabs">
     <button class="tab active" onclick="switchTab('questions',this)">📋 Questions</button>
     <button class="tab" onclick="switchTab('add',this)">➕ Add Question</button>
@@ -248,17 +256,17 @@
     <button class="tab" onclick="switchTab('ratings',this)">⭐ Ratings</button>
   </div>
 
-  <!-- ── QUESTIONS PANEL ── -->
+  <!-- QUESTIONS PANEL -->
   <div class="panel active" id="panel-questions">
     <div class="widget">
       <div class="wt">All Questions</div>
       <div class="q-filters">
-        <input class="form-input" id="qSearch" placeholder="🔍 Search question or answer..." style="max-width:280px" oninput="filterQuestions()">
+        <input class="form-input" id="qSearch" placeholder="🔍 Search question or answer…" style="max-width:280px" oninput="filterQuestions()">
         <select class="form-select" id="qCatFilter" style="max-width:180px" onchange="filterQuestions()">
           <option value="">All Categories</option>
           <option>Accounting</option>
           <option>Valuation</option>
-          <option>M&A / LBO / IB</option>
+          <option>M&amp;A / LBO / IB</option>
           <option>General Finance</option>
           <option>Equity Research</option>
           <option>Behavioral</option>
@@ -276,10 +284,10 @@
     </div>
   </div>
 
-  <!-- ── ADD QUESTION PANEL ── -->
+  <!-- ADD QUESTION PANEL -->
   <div class="panel" id="panel-add">
     <div class="widget" style="max-width:680px">
-      <div class="wt">Add New Question to Firestore</div>
+      <div class="wt">Add New Question</div>
       <div class="form-grid">
         <div class="form-full">
           <label class="form-label">Question *</label>
@@ -287,14 +295,14 @@
         </div>
         <div class="form-full">
           <label class="form-label">Answer *</label>
-          <textarea class="form-textarea" id="addA" placeholder="Full answer here..." style="min-height:140px"></textarea>
+          <textarea class="form-textarea" id="addA" placeholder="Full answer here…" style="min-height:140px"></textarea>
         </div>
         <div>
           <label class="form-label">Category</label>
           <select class="form-select" id="addCat">
             <option>Accounting</option>
             <option>Valuation</option>
-            <option>M&A / LBO / IB</option>
+            <option>M&amp;A / LBO / IB</option>
             <option>General Finance</option>
             <option>Equity Research</option>
             <option>Behavioral</option>
@@ -314,7 +322,7 @@
     </div>
   </div>
 
-  <!-- ── BULK IMPORT PANEL ── -->
+  <!-- BULK IMPORT PANEL -->
   <div class="panel" id="panel-bulk">
     <div class="widget" style="max-width:740px">
       <div class="wt">Bulk Import Questions</div>
@@ -323,55 +331,19 @@
         <code style="color:var(--gold2)">Q: Your question here<br>A: Your answer here<br>Category: Valuation<br>Difficulty: Hard</code><br>
         Separate multiple questions with a blank line.
       </div>
-      <label class="form-label">Paste Q&A Text</label>
-      <textarea class="bulk-area" id="bulkText" placeholder="Q: What is a DCF?&#10;A: A DCF values a company...&#10;Category: Valuation&#10;Difficulty: Medium&#10;&#10;Q: Walk me through the 3 financial statements...&#10;A: The three statements are..."></textarea>
+      <label class="form-label">Paste Q&amp;A Text</label>
+      <textarea class="bulk-area" id="bulkText" placeholder="Q: What is a DCF?&#10;A: A DCF values a company...&#10;Category: Valuation&#10;Difficulty: Medium"></textarea>
       <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
         <button class="btn btn-o" onclick="previewBulk()">👁 Preview</button>
-        <button class="btn btn-p" onclick="importBulk()">📥 Import All to Firestore</button>
+        <button class="btn btn-p" onclick="importBulk()">📥 Import All</button>
       </div>
       <div class="msg" id="bulkMsg"></div>
       <div id="bulkPreview" style="margin-top:16px"></div>
     </div>
   </div>
 
-  <!-- ── FEEDBACK PANEL ── -->
-  <div class="panel" id="panel-feedback">
-    <div class="widget">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-        <div class="wt" style="margin-bottom:0">Feedback Submissions</div>
-        <button class="btn btn-o" onclick="loadFeedback()" style="padding:7px 14px">🔄 Refresh</button>
-      </div>
-      <div id="feedbackList"><div class="q-empty"><div class="spinner"></div></div></div>
-    </div>
-  </div>
-
-  <!-- ── CONTACT PANEL ── -->
-  <div class="panel" id="panel-contact">
-    <div class="widget">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-        <div class="wt" style="margin-bottom:0">Contact Messages</div>
-        <button class="btn btn-o" onclick="loadContact()" style="padding:7px 14px">🔄 Refresh</button>
-      </div>
-      <div id="contactList"><div class="q-empty"><div class="spinner"></div></div></div>
-    </div>
-  </div>
-
-  <!-- ── RATINGS PANEL ── -->
-  <div class="panel" id="panel-ratings">
-    <div class="widget">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-        <div class="wt" style="margin-bottom:0">Ratings</div>
-        <button class="btn btn-o" onclick="loadRatings()" style="padding:7px 14px">🔄 Refresh</button>
-      </div>
-      <div id="ratingsList"><div class="q-empty"><div class="spinner"></div></div></div>
-    </div>
-  </div>
-
-
-  <!-- ── RESOURCES PANEL ── -->
+  <!-- RESOURCES PANEL -->
   <div class="panel" id="panel-resources">
-
-    <!-- Add Resource -->
     <div class="widget" style="max-width:720px">
       <div class="wt">Add New Resource</div>
       <div class="form-grid">
@@ -381,7 +353,7 @@
         </div>
         <div class="form-full">
           <label class="form-label">Description</label>
-          <textarea class="form-textarea" id="resDesc" placeholder="Short description of what this resource covers..." style="min-height:68px"></textarea>
+          <textarea class="form-textarea" id="resDesc" placeholder="Short description…" style="min-height:68px"></textarea>
         </div>
         <div>
           <label class="form-label">File Type *</label>
@@ -392,7 +364,7 @@
           </select>
         </div>
         <div>
-          <label class="form-label">File URL * <span style="font-size:10px;color:var(--white3);font-weight:400;text-transform:none">(Google Drive, Dropbox, or direct link)</span></label>
+          <label class="form-label">File URL * <span style="font-size:10px;font-weight:400;text-transform:none;color:var(--white3)">(Google Drive / Dropbox / direct link)</span></label>
           <input class="form-input" id="resUrl" placeholder="https://drive.google.com/file/d/...">
         </div>
       </div>
@@ -400,11 +372,10 @@
       <div class="msg" id="resMsg"></div>
     </div>
 
-    <!-- Resources List -->
     <div class="widget">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
         <div class="wt" style="margin-bottom:0">All Resources</div>
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <div style="display:flex;gap:8px;align-items:center">
           <select class="form-select" id="resCatFilter" style="max-width:160px" onchange="filterResources()">
             <option value="">All Types</option>
             <option value="Word">📄 Word</option>
@@ -418,9 +389,41 @@
     </div>
   </div>
 
-</div><!-- end #app -->
+  <!-- FEEDBACK PANEL -->
+  <div class="panel" id="panel-feedback">
+    <div class="widget">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div class="wt" style="margin-bottom:0">Feedback Submissions</div>
+        <button class="btn btn-o" onclick="loadFeedback()" style="padding:7px 14px">🔄 Refresh</button>
+      </div>
+      <div class="tbl-wrap" id="feedbackList"><div class="q-empty"><div class="spinner"></div></div></div>
+    </div>
+  </div>
 
-<!-- ── EDIT MODAL ── -->
+  <!-- CONTACT PANEL -->
+  <div class="panel" id="panel-contact">
+    <div class="widget">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div class="wt" style="margin-bottom:0">Contact Messages</div>
+        <button class="btn btn-o" onclick="loadContact()" style="padding:7px 14px">🔄 Refresh</button>
+      </div>
+      <div class="tbl-wrap" id="contactList"><div class="q-empty"><div class="spinner"></div></div></div>
+    </div>
+  </div>
+
+  <!-- RATINGS PANEL -->
+  <div class="panel" id="panel-ratings">
+    <div class="widget">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div class="wt" style="margin-bottom:0">Ratings Overview</div>
+        <button class="btn btn-o" onclick="loadRatings()" style="padding:7px 14px">🔄 Refresh</button>
+      </div>
+      <div id="ratingsList"><div class="q-empty"><div class="spinner"></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT QUESTION MODAL -->
 <div class="modal-overlay" id="editModal">
   <div class="modal">
     <div class="modal-head">
@@ -430,19 +433,19 @@
     <input type="hidden" id="editDocId">
     <div style="margin-bottom:12px">
       <label class="form-label">Question *</label>
-      <textarea class="form-textarea" id="editQ" style="min-height:80px"></textarea>
+      <textarea class="form-textarea" id="editQ" style="min-height:90px"></textarea>
     </div>
     <div style="margin-bottom:12px">
       <label class="form-label">Answer *</label>
       <textarea class="form-textarea" id="editA" style="min-height:150px"></textarea>
     </div>
-    <div class="form-grid" style="margin-bottom:16px">
+    <div class="form-grid" style="margin-bottom:12px">
       <div>
         <label class="form-label">Category</label>
         <select class="form-select" id="editCat">
           <option>Accounting</option>
           <option>Valuation</option>
-          <option>M&A / LBO / IB</option>
+          <option>M&amp;A / LBO / IB</option>
           <option>General Finance</option>
           <option>Equity Research</option>
           <option>Behavioral</option>
@@ -465,512 +468,7 @@
   </div>
 </div>
 
-<script>
-  // ── ADMIN LIST — add/remove UIDs here to manage access ──
-  var ADMIN_UIDS = [
-    'YrboLZfJ5HPHWbmrGA5rYtZCz4y1',  // Admin 1 (original)
-    'PLZxvQzEp0WHTAoIj7cvIDDZUd82'   // Admin 2 (new)
-  ];
-  function isAdmin(uid) { return ADMIN_UIDS.indexOf(uid) !== -1; }
-
-  var allQuestions = [];
-
-  // ── AUTH ─────────────────────────────────────────────
-
-  // Handle the result when Google redirects back to this page
-  firebase.auth().getRedirectResult()
-    .then(function(cred) {
-      if (cred && cred.user) {
-        if (!isAdmin(cred.user.uid)) {
-          firebase.auth().signOut();
-          document.getElementById('gateForm').style.display = 'none';
-          document.getElementById('gateDenied').style.display = 'block';
-        }
-        // onAuthStateChanged handles unlocking the app for valid admin
-      }
-    })
-    .catch(function(e) {
-      var err = document.getElementById('gErr');
-      var btn = document.getElementById('gGoogleBtn');
-      if (err) err.textContent = e.message;
-      if (btn) {
-        btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.2l6.7-6.7C35.7 2.5 30.2 0 24 0 14.7 0 6.7 5.4 2.7 13.3l7.8 6C12.4 13 17.8 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4 7.1-10 7.1-17z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.8-6A23.9 23.9 0 0 0 0 24c0 3.9.9 7.5 2.7 10.7l7.8-6z"/><path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.5l-7.5-5.8c-2 1.4-4.6 2.2-7.7 2.2-6.2 0-11.5-4.2-13.4-9.8l-7.8 6C6.7 42.6 14.7 48 24 48z"/></svg> Continue with Google';
-        btn.disabled = false;
-      }
-    });
-
-  function gGoogleLogin() {
-    var err = document.getElementById('gErr');
-    var btn = document.getElementById('gGoogleBtn');
-    btn.textContent = 'Redirecting to Google...'; btn.disabled = true; err.textContent = '';
-    var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithRedirect(provider);
-  }
-
-  function gLogin() {
-    var email = document.getElementById('gEmail').value.trim();
-    var pass  = document.getElementById('gPass').value;
-    var err   = document.getElementById('gErr');
-    var btn   = document.getElementById('gBtn');
-    if (!email || !pass) { err.textContent = 'Please enter email and password.'; return; }
-    btn.textContent = 'Signing in...'; btn.disabled = true; err.textContent = '';
-    firebase.auth().signInWithEmailAndPassword(email, pass)
-      .then(function(cred) {
-        if (!isAdmin(cred.user.uid)) {
-          firebase.auth().signOut();
-          document.getElementById('gateForm').style.display = 'none';
-          document.getElementById('gateDenied').style.display = 'block';
-        }
-        // onAuthStateChanged handles the rest
-      })
-      .catch(function(e) {
-        err.textContent = e.message;
-        btn.textContent = 'Sign In'; btn.disabled = false;
-      });
-  }
-
-  function gSignOut() {
-    firebase.auth().signOut().then(function() { window.location.reload(); });
-  }
-
-  firebase.auth().onAuthStateChanged(function(user) {
-    var btn = document.getElementById('gBtn');
-    if (btn) { btn.textContent = 'Sign In'; btn.disabled = false; }
-
-    if (user && isAdmin(user.uid)) {
-      document.getElementById('gate').style.display = 'none';
-      document.getElementById('app').style.display = 'flex';
-      document.getElementById('app').style.flexDirection = 'column';
-      var email = user.email || '';
-      document.getElementById('tbUser').textContent = email;
-      initApp();
-    }
-  });
-
-  function initApp() {
-    loadStats();
-    loadQuestions();
-    loadResources();
-    loadFeedback();
-    loadContact();
-    loadRatings();
-  }
-
-  // ── TABS ─────────────────────────────────────────────
-  function switchTab(name, el) {
-    document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
-    document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
-    document.getElementById('panel-' + name).classList.add('active');
-    if (el) el.classList.add('active');
-    if (name === 'resources') loadResources();
-    if (name === 'feedback')  loadFeedback();
-    if (name === 'contact')   loadContact();
-    if (name === 'ratings')   loadRatings();
-  }
-
-  // ── STATS ─────────────────────────────────────────────
-  function loadStats() {
-    [['questions','statQ'],['resources','statRes'],['feedback','statF'],['contact','statC'],['ratings','statR']].forEach(function(pair){
-      db.collection(pair[0]).get()
-        .then(function(s){ document.getElementById(pair[1]).textContent = s.size; })
-        .catch(function(){ document.getElementById(pair[1]).textContent = '?'; });
-    });
-  }
-
-  // ── QUESTIONS ─────────────────────────────────────────
-  function loadQuestions() {
-    var el = document.getElementById('qList');
-    el.innerHTML = '<div class="q-empty"><div class="spinner"></div></div>';
-    db.collection('questions').get()
-      .then(function(snap) {
-        allQuestions = [];
-        snap.forEach(function(doc){
-          var d = doc.data();
-          allQuestions.push({ docId:doc.id, q:d.q||'', a:d.a||'', cat:d.cat||'General Finance', diff:d.diff||'Medium' });
-        });
-        filterQuestions();
-      })
-      .catch(function(e){ el.innerHTML = '<div class="q-empty" style="color:var(--red)">Error: '+e.message+'</div>'; });
-  }
-
-  function filterQuestions() {
-    var search = (document.getElementById('qSearch').value||'').toLowerCase();
-    var cat    = document.getElementById('qCatFilter').value;
-    var diff   = document.getElementById('qDiffFilter').value;
-    var list   = allQuestions.filter(function(q){
-      return (!search || q.q.toLowerCase().includes(search) || q.a.toLowerCase().includes(search))
-          && (!cat  || q.cat  === cat)
-          && (!diff || q.diff === diff);
-    });
-    renderQuestions(list);
-  }
-
-  function renderQuestions(list) {
-    var el = document.getElementById('qList');
-    document.getElementById('qCount').textContent = list.length + ' questions';
-    if (!list.length) { el.innerHTML = '<div class="q-empty">No questions match your filters.</div>'; return; }
-    var html = '';
-    list.forEach(function(q) {
-      var diffCls = q.diff === 'Easy' ? 'chip-easy' : q.diff === 'Hard' ? 'chip-hard' : 'chip-medium';
-      html += '<div class="q-item">'
-        + '<div style="flex:1;min-width:0">'
-        + '<div class="q-text">' + esc(q.q.slice(0,150)) + (q.q.length>150?'…':'') + '</div>'
-        + '<div class="q-meta">'
-        + '<span class="chip chip-cat">' + esc(q.cat) + '</span>'
-        + '<span class="chip ' + diffCls + '">' + esc(q.diff) + '</span>'
-        + '</div></div>'
-        + '<div class="q-actions">'
-        + '<button class="btn btn-o" style="padding:5px 12px;font-size:11px" onclick="openEdit(\'' + q.docId + '\')">✏️ Edit</button>'
-        + '<button class="btn btn-r" style="padding:5px 10px;font-size:11px" onclick="deleteQ(\'' + q.docId + '\',this)">🗑</button>'
-        + '</div></div>';
-    });
-    el.innerHTML = html;
-  }
-
-  // ── EDIT ──────────────────────────────────────────────
-  function openEdit(docId) {
-    var q = allQuestions.find(function(x){ return x.docId === docId; });
-    if (!q) return;
-    document.getElementById('editDocId').value = docId;
-    document.getElementById('editQ').value = q.q;
-    document.getElementById('editA').value = q.a;
-    document.getElementById('editCat').value = q.cat;
-    document.getElementById('editDiff').value = q.diff;
-    document.getElementById('editMsg').className = 'msg';
-    document.getElementById('editMsg').textContent = '';
-    document.getElementById('editModal').classList.add('open');
-  }
-
-  function closeEdit() {
-    document.getElementById('editModal').classList.remove('open');
-  }
-
-  function saveEdit() {
-    var docId = document.getElementById('editDocId').value;
-    var q     = document.getElementById('editQ').value.trim();
-    var a     = document.getElementById('editA').value.trim();
-    var cat   = document.getElementById('editCat').value;
-    var diff  = document.getElementById('editDiff').value;
-    var msg   = document.getElementById('editMsg');
-    if (!q || !a) { msg.textContent = '⚠ Question and answer required.'; msg.className = 'msg err'; return; }
-    msg.textContent = 'Saving...'; msg.className = 'msg ok';
-    db.collection('questions').doc(docId).update({ q:q, a:a, cat:cat, diff:diff, updatedAt: firebase.firestore.FieldValue.serverTimestamp() })
-      .then(function(){
-        msg.textContent = '✅ Saved successfully.';
-        var idx = allQuestions.findIndex(function(x){ return x.docId === docId; });
-        if (idx !== -1) allQuestions[idx] = { docId:docId, q:q, a:a, cat:cat, diff:diff };
-        filterQuestions();
-        setTimeout(closeEdit, 800);
-      })
-      .catch(function(e){ msg.textContent = '❌ ' + e.message; msg.className = 'msg err'; });
-  }
-
-  function deleteQ(docId, btn) {
-    if (!confirm('Delete this question from Firestore? This cannot be undone.')) return;
-    btn.textContent = '…'; btn.disabled = true;
-    db.collection('questions').doc(docId).delete()
-      .then(function(){
-        allQuestions = allQuestions.filter(function(x){ return x.docId !== docId; });
-        filterQuestions();
-        loadStats();
-      })
-      .catch(function(e){ alert('Error: ' + e.message); btn.textContent = '🗑'; btn.disabled = false; });
-  }
-
-  // ── ADD SINGLE QUESTION ───────────────────────────────
-  function addQuestion() {
-    var q   = document.getElementById('addQ').value.trim();
-    var a   = document.getElementById('addA').value.trim();
-    var msg = document.getElementById('addMsg');
-    if (!q || !a) { msg.textContent = '⚠ Question and answer are required.'; msg.className = 'msg err'; return; }
-    msg.textContent = 'Saving...'; msg.className = 'msg ok';
-    db.collection('questions').add({ q:q, a:a, cat:document.getElementById('addCat').value, diff:document.getElementById('addDiff').value, source:'admin', addedAt: firebase.firestore.FieldValue.serverTimestamp() })
-      .then(function(){
-        msg.textContent = '✅ Question saved to Firestore.';
-        document.getElementById('addQ').value = '';
-        document.getElementById('addA').value = '';
-        loadStats();
-        loadQuestions();
-      })
-      .catch(function(e){ msg.textContent = '❌ ' + e.message; msg.className = 'msg err'; });
-  }
-
-  // ── BULK IMPORT ───────────────────────────────────────
-  function parseBulk(text) {
-    var parsed = [];
-    text = text.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
-    var chunks = text.split(/(?=^\s*Q\s*[:：.]\s*)/im).filter(function(c){ return c.trim(); });
-    chunks.forEach(function(chunk){
-      var lines = chunk.split('\n').map(function(l){ return l.trim(); }).filter(Boolean);
-      var q='', a='', cat='General Finance', diff='Medium', inA=false;
-      lines.forEach(function(line){
-        if (/^Q\s*[:：.]\s*/i.test(line))        { q = line.replace(/^Q\s*[:：.]\s*/i,'').trim(); inA=false; }
-        else if (/^A\s*[:：.]\s*/i.test(line))   { a = line.replace(/^A\s*[:：.]\s*/i,'').trim(); inA=true; }
-        else if (/^Category\s*[:：.]\s*/i.test(line)) { cat = line.replace(/^Category\s*[:：.]\s*/i,'').trim(); }
-        else if (/^Difficulty\s*[:：.]\s*/i.test(line)){ diff = line.replace(/^Difficulty\s*[:：.]\s*/i,'').trim(); }
-        else if (inA) { a += '\n' + line; }
-        else if (q && !inA) { q += ' ' + line; }
-      });
-      if (q && a) parsed.push({ q:q.trim(), a:a.trim(), cat:cat, diff:diff });
-    });
-    return parsed;
-  }
-
-  function previewBulk() {
-    var parsed = parseBulk(document.getElementById('bulkText').value);
-    var msg  = document.getElementById('bulkMsg');
-    var prev = document.getElementById('bulkPreview');
-    if (!parsed.length) { msg.textContent = '⚠ No Q&A pairs detected. Use Q: and A: prefixes.'; msg.className = 'msg err'; prev.innerHTML=''; return; }
-    msg.textContent = '👁 ' + parsed.length + ' questions detected.'; msg.className = 'msg ok';
-    var html = '';
-    parsed.slice(0,3).forEach(function(p,i){
-      html += '<div class="preview-item"><strong>'+(i+1)+'. '+esc(p.q.slice(0,100))+'</strong>'
-            + '<div style="font-size:11px;color:var(--white3);margin-top:3px">'+esc(p.cat)+' · '+esc(p.diff)+'</div></div>';
-    });
-    if (parsed.length > 3) html += '<div style="font-size:11px;color:var(--white3);padding:4px 0">...and '+(parsed.length-3)+' more</div>';
-    prev.innerHTML = html;
-  }
-
-  function importBulk() {
-    var parsed = parseBulk(document.getElementById('bulkText').value);
-    var msg = document.getElementById('bulkMsg');
-    if (!parsed.length) { msg.textContent = '⚠ Nothing to import.'; msg.className = 'msg err'; return; }
-    msg.textContent = '⏳ Importing ' + parsed.length + ' questions...'; msg.className = 'msg ok';
-    var batch = db.batch();
-    parsed.forEach(function(p){
-      var ref = db.collection('questions').doc();
-      batch.set(ref, { q:p.q, a:p.a, cat:p.cat, diff:p.diff, source:'admin-bulk', addedAt: firebase.firestore.FieldValue.serverTimestamp() });
-    });
-    batch.commit()
-      .then(function(){
-        msg.textContent = '✅ ' + parsed.length + ' questions imported to Firestore.';
-        document.getElementById('bulkText').value = '';
-        document.getElementById('bulkPreview').innerHTML = '';
-        loadStats(); loadQuestions();
-      })
-      .catch(function(e){ msg.textContent = '❌ ' + e.message; msg.className = 'msg err'; });
-  }
-
-  // ── FEEDBACK ──────────────────────────────────────────
-  function loadFeedback() {
-    var el = document.getElementById('feedbackList');
-    el.innerHTML = '<div class="q-empty"><div class="spinner"></div></div>';
-    db.collection('feedback').orderBy('timestamp','desc').get()
-      .then(function(snap){
-        if (snap.empty) { el.innerHTML = '<div class="tbl-empty">No feedback yet.</div>'; return; }
-        var html = '<table class="tbl"><thead><tr><th>Date</th><th>What went well</th><th>Improve</th><th>Feature request</th></tr></thead><tbody>';
-        snap.forEach(function(doc){
-          var d = doc.data();
-          var dt = d.timestamp ? d.timestamp.toDate().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : (d.date||'').slice(0,10);
-          html += '<tr><td style="white-space:nowrap;color:var(--white3);font-size:11px">'+dt+'</td>'
-                + '<td>'+esc(d.good||'—')+'</td><td>'+esc(d.improve||'—')+'</td><td>'+esc(d.feature||'—')+'</td></tr>';
-        });
-        el.innerHTML = html + '</tbody></table>';
-      })
-      .catch(function(e){ el.innerHTML = '<div class="tbl-empty" style="color:var(--red)">Error: '+e.message+'</div>'; });
-  }
-
-  // ── CONTACT ───────────────────────────────────────────
-  function loadContact() {
-    var el = document.getElementById('contactList');
-    el.innerHTML = '<div class="q-empty"><div class="spinner"></div></div>';
-    db.collection('contact').orderBy('timestamp','desc').get()
-      .then(function(snap){
-        if (snap.empty) { el.innerHTML = '<div class="tbl-empty">No messages yet.</div>'; return; }
-        var html = '<table class="tbl"><thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Subject</th><th>Message</th></tr></thead><tbody>';
-        snap.forEach(function(doc){
-          var d = doc.data();
-          var dt = d.timestamp ? d.timestamp.toDate().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : (d.date||'').slice(0,10);
-          html += '<tr><td style="white-space:nowrap;color:var(--white3);font-size:11px">'+dt+'</td>'
-                + '<td>'+esc(d.name||'—')+'</td>'
-                + '<td style="color:var(--gold2)">'+esc(d.email||'—')+'</td>'
-                + '<td>'+esc(d.subject||'—')+'</td>'
-                + '<td>'+esc(d.message||'—')+'</td></tr>';
-        });
-        el.innerHTML = html + '</tbody></table>';
-      })
-      .catch(function(e){ el.innerHTML = '<div class="tbl-empty" style="color:var(--red)">Error: '+e.message+'</div>'; });
-  }
-
-  // ── RATINGS ───────────────────────────────────────────
-  function loadRatings() {
-    var el = document.getElementById('ratingsList');
-    el.innerHTML = '<div class="q-empty"><div class="spinner"></div></div>';
-    db.collection('ratings').orderBy('timestamp','desc').get()
-      .then(function(snap){
-        if (snap.empty) { el.innerHTML = '<div class="tbl-empty">No ratings yet.</div>'; return; }
-        var counts = {1:0,2:0,3:0};
-        snap.forEach(function(doc){ var r=doc.data().rating; if(counts[r]!==undefined) counts[r]++; });
-        var total = snap.size;
-        var labels = {1:'Needs Work',2:'Pretty Good',3:'Love It!'};
-        var emojis = {1:'😕',2:'🙂',3:'🤩'};
-        var colors = {1:'var(--red)',2:'var(--orange)',3:'var(--green)'};
-        var summary = '<div class="rating-summary">';
-        [1,2,3].forEach(function(r){
-          var pct = total ? Math.round(counts[r]/total*100) : 0;
-          summary += '<div class="rating-card"><div class="rating-emoji">'+emojis[r]+'</div>'
-                   + '<div class="rating-count" style="color:'+colors[r]+'">'+counts[r]+'</div>'
-                   + '<div class="rating-label">'+labels[r]+' · '+pct+'%</div></div>';
-        });
-        summary += '</div>';
-        var html = summary + '<table class="tbl"><thead><tr><th>Date</th><th>Rating</th><th>Label</th></tr></thead><tbody>';
-        snap.forEach(function(doc){
-          var d = doc.data();
-          var dt = d.timestamp ? d.timestamp.toDate().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : '—';
-          html += '<tr><td style="white-space:nowrap;color:var(--white3);font-size:11px">'+dt+'</td>'
-                + '<td>'+emojis[d.rating||1]+' '+(d.rating||'—')+'</td>'
-                + '<td>'+esc(d.label||'—')+'</td></tr>';
-        });
-        el.innerHTML = html + '</tbody></table>';
-      })
-      .catch(function(e){ el.innerHTML = '<div class="tbl-empty" style="color:var(--red)">Error: '+e.message+'</div>'; });
-  }
-
-  // ── UTIL ──────────────────────────────────────────────
-  function esc(s) {
-    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  // Close edit modal on overlay click
-  document.getElementById('editModal').addEventListener('click', function(e){
-    if (e.target === this) closeEdit();
-  });
-
-  // ── RESOURCES ─────────────────────────────────────────
-  var allResources = [];
-  var RES = {
-    'Word':  { icon:'📄', iconCls:'res-icon-word',  badgeCls:'res-badge-word',  label:'Word'  },
-    'Excel': { icon:'📊', iconCls:'res-icon-excel', badgeCls:'res-badge-excel', label:'Excel' },
-    'PDF':   { icon:'📕', iconCls:'res-icon-pdf',   badgeCls:'res-badge-pdf',   label:'PDF'   }
-  };
-
-  function addResource() {
-    var title = document.getElementById('resTitle').value.trim();
-    var desc  = document.getElementById('resDesc').value.trim();
-    var cat   = document.getElementById('resCat').value;
-    var url   = document.getElementById('resUrl').value.trim();
-    var msg   = document.getElementById('resMsg');
-    if (!title) { msg.textContent = 'Title is required.'; msg.className = 'msg err'; return; }
-    if (!url)   { msg.textContent = 'File URL is required.'; msg.className = 'msg err'; return; }
-    if (url.indexOf('http') !== 0) { msg.textContent = 'URL must start with http:// or https://'; msg.className = 'msg err'; return; }
-    msg.textContent = 'Saving...'; msg.className = 'msg ok';
-    db.collection('resources').add({
-      title: title, desc: desc, cat: cat, url: url,
-      addedAt: firebase.firestore.FieldValue.serverTimestamp()
-    }).then(function() {
-      msg.textContent = 'Resource saved successfully.';
-      document.getElementById('resTitle').value = '';
-      document.getElementById('resDesc').value  = '';
-      document.getElementById('resUrl').value   = '';
-      loadResources(); loadStats();
-    }).catch(function(e) { msg.textContent = 'Error: ' + e.message; msg.className = 'msg err'; });
-  }
-
-  function loadResources() {
-    var el = document.getElementById('resList');
-    if (!el) return;
-    el.innerHTML = '<div class="q-empty"><div class="spinner"></div></div>';
-    db.collection('resources').get()
-      .then(function(snap) {
-        allResources = [];
-        snap.forEach(function(doc) {
-          var d = doc.data();
-          allResources.push({ id:doc.id, title:d.title||'', desc:d.desc||'', cat:d.cat||'PDF', url:d.url||'' });
-        });
-        filterResources();
-      })
-      .catch(function(e) { el.innerHTML = '<div class="q-empty" style="color:var(--red)">Error: ' + e.message + '</div>'; });
-  }
-
-  function filterResources() {
-    var catEl = document.getElementById('resCatFilter');
-    var cat = catEl ? catEl.value : '';
-    var list = allResources.filter(function(r) { return !cat || r.cat === cat; });
-    renderResources(list);
-  }
-
-  function renderResources(list) {
-    var el = document.getElementById('resList');
-    if (!list.length) { el.innerHTML = '<div class="q-empty">No resources yet. Add one above.</div>'; return; }
-    var html = '<div style="font-size:11px;color:var(--white3);margin-bottom:12px;font-weight:600">' + list.length + ' resource' + (list.length !== 1 ? 's' : '') + '</div>';
-    list.forEach(function(r) {
-      var m = RES[r.cat] || RES['PDF'];
-      html += '<div class="res-item">'
-        + '<div class="res-icon ' + m.iconCls + '">' + m.icon + '</div>'
-        + '<div class="res-body">'
-        +   '<div class="res-title">' + esc(r.title) + '</div>'
-        +   (r.desc ? '<div class="res-desc">' + esc(r.desc) + '</div>' : '')
-        +   '<div class="res-meta">'
-        +     '<span class="res-badge ' + m.badgeCls + '">' + m.label + '</span>'
-        +     '<a class="res-link" href="' + esc(r.url) + '" target="_blank" rel="noopener">Open File</a>'
-        +   '</div>'
-        + '</div>'
-        + '<div class="res-actions">'
-        +   '<button class="btn btn-o" style="padding:5px 12px;font-size:11px" onclick="openEditRes('' + r.id + '')">Edit</button>'
-        +   '<button class="btn btn-r" style="padding:5px 10px;font-size:11px" onclick="deleteRes('' + r.id + '',this)">Del</button>'
-        + '</div>'
-        + '</div>';
-    });
-    el.innerHTML = html;
-  }
-
-  function deleteRes(id, btn) {
-    if (!confirm('Delete this resource? This cannot be undone.')) return;
-    btn.textContent = '...'; btn.disabled = true;
-    db.collection('resources').doc(id).delete()
-      .then(function() {
-        allResources = allResources.filter(function(r) { return r.id !== id; });
-        filterResources(); loadStats();
-      })
-      .catch(function(e) { alert('Error: ' + e.message); btn.textContent = 'Del'; btn.disabled = false; });
-  }
-
-  function openEditRes(id) {
-    var r = allResources.find(function(x) { return x.id === id; });
-    if (!r) return;
-    document.getElementById('editResId').value    = id;
-    document.getElementById('editResTitle').value = r.title;
-    document.getElementById('editResDesc').value  = r.desc;
-    document.getElementById('editResCat').value   = r.cat;
-    document.getElementById('editResUrl').value   = r.url;
-    document.getElementById('editResMsg').className   = 'msg';
-    document.getElementById('editResMsg').textContent = '';
-    document.getElementById('editResModal').classList.add('open');
-  }
-
-  function closeEditRes() {
-    document.getElementById('editResModal').classList.remove('open');
-  }
-
-  function saveEditRes() {
-    var id    = document.getElementById('editResId').value;
-    var title = document.getElementById('editResTitle').value.trim();
-    var desc  = document.getElementById('editResDesc').value.trim();
-    var cat   = document.getElementById('editResCat').value;
-    var url   = document.getElementById('editResUrl').value.trim();
-    var msg   = document.getElementById('editResMsg');
-    if (!title) { msg.textContent = 'Title is required.'; msg.className = 'msg err'; return; }
-    if (!url)   { msg.textContent = 'URL is required.';   msg.className = 'msg err'; return; }
-    msg.textContent = 'Saving...'; msg.className = 'msg ok';
-    db.collection('resources').doc(id).update({
-      title:title, desc:desc, cat:cat, url:url,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    }).then(function() {
-      msg.textContent = 'Updated successfully.';
-      var idx = allResources.findIndex(function(x) { return x.id === id; });
-      if (idx !== -1) allResources[idx] = { id:id, title:title, desc:desc, cat:cat, url:url };
-      filterResources();
-      setTimeout(closeEditRes, 700);
-    }).catch(function(e) { msg.textContent = 'Error: ' + e.message; msg.className = 'msg err'; });
-  }
-
-  document.getElementById('editResModal').addEventListener('click', function(e) {
-    if (e.target === this) closeEditRes();
-  });
-
-</script>
-
-<!-- ── EDIT RESOURCE MODAL ── -->
+<!-- EDIT RESOURCE MODAL -->
 <div class="modal-overlay" id="editResModal">
   <div class="modal">
     <div class="modal-head">
@@ -984,7 +482,7 @@
     </div>
     <div style="margin-bottom:12px">
       <label class="form-label">Description</label>
-      <textarea class="form-textarea" id="editResDesc" style="min-height:68px" placeholder="Short description..."></textarea>
+      <textarea class="form-textarea" id="editResDesc" style="min-height:68px" placeholder="Short description…"></textarea>
     </div>
     <div class="form-grid" style="margin-bottom:12px">
       <div>
@@ -1008,5 +506,500 @@
   </div>
 </div>
 
+<script>
+  // ── ADMIN UIDs — add more as needed ──────────────────
+  var ADMIN_UIDS = [
+    'YrboLZfJ5HPHWbmrGA5rYtZCz4y1',   // Admin 1 (original)
+    'PLZxvQzEp0WHTAoIj7cvIDDZUd82'    // Admin 2 (new)
+  ];
+  function isAdmin(uid) { return ADMIN_UIDS.indexOf(uid) !== -1; }
+
+  var allQuestions = [];
+  var allResources = [];
+  var RES = {
+    'Word':  { icon:'📄', iconCls:'res-icon-word',  badgeCls:'res-badge-word',  label:'Word'  },
+    'Excel': { icon:'📊', iconCls:'res-icon-excel', badgeCls:'res-badge-excel', label:'Excel' },
+    'PDF':   { icon:'📕', iconCls:'res-icon-pdf',   badgeCls:'res-badge-pdf',   label:'PDF'   }
+  };
+
+  // ── AUTH ─────────────────────────────────────────────
+
+  // This fires when the page loads after a Google redirect completes
+  firebase.auth().getRedirectResult()
+    .then(function(result) {
+      if (!result || !result.user) return; // no redirect just happened, normal page load
+      var user = result.user;
+      if (!isAdmin(user.uid)) {
+        firebase.auth().signOut();
+        showDenied(user);
+      }
+      // If admin → onAuthStateChanged handles showing the app
+    })
+    .catch(function(e) {
+      var errEl = document.getElementById('gErr');
+      var btn   = document.getElementById('gGoogleBtn');
+      errEl.textContent = '⚠ ' + e.message;
+      errEl.classList.add('show');
+      btn.disabled = false;
+      btn.innerHTML = googleBtnHTML();
+      document.getElementById('gateInfo').classList.remove('show');
+    });
+
+  // Fires on every page load — handles persistent sessions
+  firebase.auth().onAuthStateChanged(function(user) {
+    var emailBtn = document.getElementById('gEmailBtn');
+    if (emailBtn) { emailBtn.textContent = 'Sign In with Email'; emailBtn.disabled = false; }
+
+    if (user && isAdmin(user.uid)) {
+      // Admin is signed in — show the app
+      document.getElementById('gate').style.display  = 'none';
+      document.getElementById('app').style.display   = 'flex';
+      document.getElementById('app').style.flexDirection = 'column';
+      document.getElementById('tbUser').textContent  = user.email || user.displayName || '';
+      initApp();
+    } else if (user && !isAdmin(user.uid)) {
+      // Someone signed in but is not admin — show denied
+      showDenied(user);
+    }
+    // If user is null, stay on login gate (do nothing)
+  });
+
+  function showDenied(user) {
+    document.getElementById('gateGoogle').style.display = 'none';
+    document.getElementById('gateDenied').style.display = 'block';
+    document.getElementById('deniedUid').textContent = 'UID: ' + (user ? user.uid : 'unknown') + '\nEmail: ' + (user ? (user.email || '—') : '—');
+  }
+
+  function googleBtnHTML() {
+    return '<svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.2l6.7-6.7C35.7 2.5 30.2 0 24 0 14.7 0 6.7 5.4 2.7 13.3l7.8 6C12.4 13 17.8 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4 7.1-10 7.1-17z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.8-6A23.9 23.9 0 0 0 0 24c0 3.9.9 7.5 2.7 10.7l7.8-6z"/><path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.5l-7.5-5.8c-2 1.4-4.6 2.2-7.7 2.2-6.2 0-11.5-4.2-13.4-9.8l-7.8 6C6.7 42.6 14.7 48 24 48z"/></svg> Continue with Google';
+  }
+
+  function gGoogleLogin() {
+    var btn  = document.getElementById('gGoogleBtn');
+    var info = document.getElementById('gateInfo');
+    var err  = document.getElementById('gErr');
+    btn.disabled = true;
+    btn.textContent = 'Redirecting…';
+    err.classList.remove('show');
+    info.classList.add('show');
+    var provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithRedirect(provider);
+  }
+
+  function gEmailLogin() {
+    var email = document.getElementById('gEmail').value.trim();
+    var pass  = document.getElementById('gPass').value;
+    var err   = document.getElementById('gErr');
+    var btn   = document.getElementById('gEmailBtn');
+    err.classList.remove('show');
+    if (!email || !pass) {
+      err.textContent = '⚠ Please enter both email and password.';
+      err.classList.add('show');
+      return;
+    }
+    btn.textContent = 'Signing in…'; btn.disabled = true;
+    firebase.auth().signInWithEmailAndPassword(email, pass)
+      .then(function(cred) {
+        if (!isAdmin(cred.user.uid)) {
+          firebase.auth().signOut();
+          showDenied(cred.user);
+        }
+        // onAuthStateChanged handles showing the app for valid admins
+      })
+      .catch(function(e) {
+        var msg = e.code === 'auth/user-not-found'    ? '⚠ No account found with this email.' :
+                  e.code === 'auth/wrong-password'    ? '⚠ Incorrect password.' :
+                  e.code === 'auth/invalid-email'     ? '⚠ Invalid email address.' :
+                  e.code === 'auth/account-exists-with-different-credential'
+                                                      ? '⚠ This email is linked to Google. Use "Continue with Google" instead.' :
+                  '⚠ ' + e.message;
+        err.textContent = msg;
+        err.classList.add('show');
+        btn.textContent = 'Sign In with Email'; btn.disabled = false;
+      });
+  }
+
+  function gSignOut() {
+    firebase.auth().signOut().then(function() { window.location.reload(); });
+  }
+
+  // ── APP INIT ─────────────────────────────────────────
+  function initApp() {
+    loadStats();
+    loadQuestions();
+    loadResources();
+    loadFeedback();
+    loadContact();
+    loadRatings();
+  }
+
+  // ── TABS ─────────────────────────────────────────────
+  function switchTab(name, el) {
+    document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+    document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+    document.getElementById('panel-' + name).classList.add('active');
+    if (el) el.classList.add('active');
+  }
+
+  // ── STATS ─────────────────────────────────────────────
+  function loadStats() {
+    [['questions','statQ'],['resources','statRes'],['feedback','statF'],['contact','statC'],['ratings','statR']].forEach(function(p){
+      db.collection(p[0]).get()
+        .then(function(s){ document.getElementById(p[1]).textContent = s.size; })
+        .catch(function(){  document.getElementById(p[1]).textContent = '?'; });
+    });
+  }
+
+  // ── QUESTIONS ─────────────────────────────────────────
+  function loadQuestions() {
+    var el = document.getElementById('qList');
+    el.innerHTML = '<div class="q-empty"><div class="spinner"></div></div>';
+    db.collection('questions').get()
+      .then(function(snap) {
+        allQuestions = [];
+        snap.forEach(function(doc){
+          var d = doc.data();
+          allQuestions.push({ docId:doc.id, q:d.q||'', a:d.a||'', cat:d.cat||'General Finance', diff:d.diff||'Medium' });
+        });
+        filterQuestions();
+        loadStats();
+      })
+      .catch(function(e){ el.innerHTML = '<div class="q-empty" style="color:var(--red)">Error loading questions: '+esc(e.message)+'</div>'; });
+  }
+
+  function filterQuestions() {
+    var search = (document.getElementById('qSearch').value||'').toLowerCase();
+    var cat    = document.getElementById('qCatFilter').value;
+    var diff   = document.getElementById('qDiffFilter').value;
+    var list   = allQuestions.filter(function(q){
+      return (!search || q.q.toLowerCase().includes(search) || q.a.toLowerCase().includes(search))
+          && (!cat   || q.cat  === cat)
+          && (!diff  || q.diff === diff);
+    });
+    renderQuestions(list);
+  }
+
+  function renderQuestions(list) {
+    var el = document.getElementById('qList');
+    document.getElementById('qCount').textContent = list.length + ' of ' + allQuestions.length + ' questions';
+    if (!list.length) { el.innerHTML = '<div class="q-empty">No questions match your filters.</div>'; return; }
+    var html = '';
+    list.forEach(function(q) {
+      var diffCls = q.diff === 'Easy' ? 'chip-easy' : q.diff === 'Hard' ? 'chip-hard' : 'chip-medium';
+      html += '<div class="q-item">'
+        + '<div style="flex:1;min-width:0">'
+        + '<div class="q-text">' + esc(q.q.slice(0,160)) + (q.q.length>160?'…':'') + '</div>'
+        + '<div class="q-meta">'
+        + '<span class="chip chip-cat">' + esc(q.cat) + '</span>'
+        + '<span class="chip ' + diffCls + '">' + esc(q.diff) + '</span>'
+        + '</div></div>'
+        + '<div class="q-actions">'
+        + '<button class="btn btn-o" style="padding:5px 12px;font-size:11px" onclick="openEdit(\'' + q.docId + '\')">✏️ Edit</button>'
+        + '<button class="btn btn-r" style="padding:5px 10px;font-size:11px" onclick="deleteQ(\'' + q.docId + '\',this)">🗑</button>'
+        + '</div></div>';
+    });
+    el.innerHTML = html;
+  }
+
+  function openEdit(docId) {
+    var q = allQuestions.find(function(x){ return x.docId === docId; });
+    if (!q) return;
+    document.getElementById('editDocId').value  = docId;
+    document.getElementById('editQ').value      = q.q;
+    document.getElementById('editA').value      = q.a;
+    document.getElementById('editCat').value    = q.cat;
+    document.getElementById('editDiff').value   = q.diff;
+    document.getElementById('editMsg').className = 'msg';
+    document.getElementById('editMsg').textContent = '';
+    document.getElementById('editModal').classList.add('open');
+  }
+
+  function closeEdit() { document.getElementById('editModal').classList.remove('open'); }
+
+  function saveEdit() {
+    var docId = document.getElementById('editDocId').value;
+    var q     = document.getElementById('editQ').value.trim();
+    var a     = document.getElementById('editA').value.trim();
+    var cat   = document.getElementById('editCat').value;
+    var diff  = document.getElementById('editDiff').value;
+    var msg   = document.getElementById('editMsg');
+    if (!q || !a) { msg.textContent = '⚠ Question and answer are required.'; msg.className = 'msg err'; return; }
+    msg.textContent = 'Saving…'; msg.className = 'msg ok';
+    db.collection('questions').doc(docId).update({ q:q, a:a, cat:cat, diff:diff, updatedAt:firebase.firestore.FieldValue.serverTimestamp() })
+      .then(function(){
+        msg.textContent = '✅ Saved successfully.';
+        var idx = allQuestions.findIndex(function(x){ return x.docId === docId; });
+        if (idx !== -1) allQuestions[idx] = { docId:docId, q:q, a:a, cat:cat, diff:diff };
+        filterQuestions();
+        setTimeout(closeEdit, 800);
+      })
+      .catch(function(e){ msg.textContent = '❌ ' + e.message; msg.className = 'msg err'; });
+  }
+
+  function deleteQ(docId, btn) {
+    if (!confirm('Delete this question? This cannot be undone.')) return;
+    btn.textContent = '…'; btn.disabled = true;
+    db.collection('questions').doc(docId).delete()
+      .then(function(){
+        allQuestions = allQuestions.filter(function(x){ return x.docId !== docId; });
+        filterQuestions(); loadStats();
+      })
+      .catch(function(e){ alert('Error: ' + e.message); btn.textContent = '🗑'; btn.disabled = false; });
+  }
+
+  // ── ADD QUESTION ───────────────────────────────────────
+  function addQuestion() {
+    var q   = document.getElementById('addQ').value.trim();
+    var a   = document.getElementById('addA').value.trim();
+    var msg = document.getElementById('addMsg');
+    if (!q || !a) { msg.textContent = '⚠ Question and answer are required.'; msg.className = 'msg err'; return; }
+    msg.textContent = 'Saving…'; msg.className = 'msg ok';
+    db.collection('questions').add({
+      q:q, a:a,
+      cat:document.getElementById('addCat').value,
+      diff:document.getElementById('addDiff').value,
+      source:'admin',
+      addedAt:firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .then(function(){
+      msg.textContent = '✅ Question saved.';
+      document.getElementById('addQ').value = '';
+      document.getElementById('addA').value = '';
+      loadStats(); loadQuestions();
+    })
+    .catch(function(e){ msg.textContent = '❌ ' + e.message; msg.className = 'msg err'; });
+  }
+
+  // ── BULK IMPORT ───────────────────────────────────────
+  function parseBulk(text) {
+    var parsed = [];
+    text = text.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
+    var chunks = text.split(/(?=^\s*Q\s*[:：.]\s*)/im).filter(function(c){ return c.trim(); });
+    chunks.forEach(function(chunk){
+      var lines = chunk.split('\n').map(function(l){ return l.trim(); }).filter(Boolean);
+      var q='', a='', cat='General Finance', diff='Medium', inA=false;
+      lines.forEach(function(line){
+        if      (/^Q\s*[:：.]\s*/i.test(line))         { q=line.replace(/^Q\s*[:：.]\s*/i,'').trim(); inA=false; }
+        else if (/^A\s*[:：.]\s*/i.test(line))          { a=line.replace(/^A\s*[:：.]\s*/i,'').trim(); inA=true; }
+        else if (/^Category\s*[:：.]\s*/i.test(line))   { cat=line.replace(/^Category\s*[:：.]\s*/i,'').trim(); }
+        else if (/^Difficulty\s*[:：.]\s*/i.test(line)) { diff=line.replace(/^Difficulty\s*[:：.]\s*/i,'').trim(); }
+        else if (inA)       { a += '\n' + line; }
+        else if (q && !inA) { q += ' ' + line; }
+      });
+      if (q && a) parsed.push({ q:q.trim(), a:a.trim(), cat:cat, diff:diff });
+    });
+    return parsed;
+  }
+
+  function previewBulk() {
+    var parsed = parseBulk(document.getElementById('bulkText').value);
+    var msg    = document.getElementById('bulkMsg');
+    var prev   = document.getElementById('bulkPreview');
+    if (!parsed.length) { msg.textContent='⚠ No Q&A pairs detected. Use Q: and A: prefixes.'; msg.className='msg err'; prev.innerHTML=''; return; }
+    msg.textContent='👁 '+parsed.length+' questions detected.'; msg.className='msg ok';
+    var html='';
+    parsed.slice(0,3).forEach(function(p,i){
+      html+='<div class="preview-item"><strong>'+(i+1)+'. '+esc(p.q.slice(0,100))+'</strong><div style="font-size:11px;color:var(--white3);margin-top:3px">'+esc(p.cat)+' · '+esc(p.diff)+'</div></div>';
+    });
+    if (parsed.length>3) html+='<div style="font-size:11px;color:var(--white3);padding:4px 0">…and '+(parsed.length-3)+' more</div>';
+    prev.innerHTML=html;
+  }
+
+  function importBulk() {
+    var parsed = parseBulk(document.getElementById('bulkText').value);
+    var msg    = document.getElementById('bulkMsg');
+    if (!parsed.length) { msg.textContent='⚠ Nothing to import.'; msg.className='msg err'; return; }
+    msg.textContent='⏳ Importing '+parsed.length+' questions…'; msg.className='msg ok';
+    var batch = db.batch();
+    parsed.forEach(function(p){
+      batch.set(db.collection('questions').doc(), { q:p.q, a:p.a, cat:p.cat, diff:p.diff, source:'bulk', addedAt:firebase.firestore.FieldValue.serverTimestamp() });
+    });
+    batch.commit()
+      .then(function(){ msg.textContent='✅ '+parsed.length+' questions imported.'; document.getElementById('bulkText').value=''; document.getElementById('bulkPreview').innerHTML=''; loadStats(); loadQuestions(); })
+      .catch(function(e){ msg.textContent='❌ '+e.message; msg.className='msg err'; });
+  }
+
+  // ── RESOURCES ─────────────────────────────────────────
+  function addResource() {
+    var title = document.getElementById('resTitle').value.trim();
+    var desc  = document.getElementById('resDesc').value.trim();
+    var cat   = document.getElementById('resCat').value;
+    var url   = document.getElementById('resUrl').value.trim();
+    var msg   = document.getElementById('resMsg');
+    if (!title)              { msg.textContent='Title is required.';                msg.className='msg err'; return; }
+    if (!url)                { msg.textContent='File URL is required.';             msg.className='msg err'; return; }
+    if (!url.startsWith('http')) { msg.textContent='URL must start with http://';   msg.className='msg err'; return; }
+    msg.textContent='Saving…'; msg.className='msg ok';
+    db.collection('resources').add({ title:title, desc:desc, cat:cat, url:url, addedAt:firebase.firestore.FieldValue.serverTimestamp() })
+      .then(function(){
+        msg.textContent='✅ Resource saved.';
+        document.getElementById('resTitle').value='';
+        document.getElementById('resDesc').value='';
+        document.getElementById('resUrl').value='';
+        loadResources(); loadStats();
+      })
+      .catch(function(e){ msg.textContent='❌ '+e.message; msg.className='msg err'; });
+  }
+
+  function loadResources() {
+    var el = document.getElementById('resList');
+    if (!el) return;
+    el.innerHTML='<div class="q-empty"><div class="spinner"></div></div>';
+    db.collection('resources').get()
+      .then(function(snap){
+        allResources=[];
+        snap.forEach(function(doc){ var d=doc.data(); allResources.push({id:doc.id,title:d.title||'',desc:d.desc||'',cat:d.cat||'PDF',url:d.url||''}); });
+        filterResources();
+      })
+      .catch(function(e){ el.innerHTML='<div class="q-empty" style="color:var(--red)">Error: '+esc(e.message)+'</div>'; });
+  }
+
+  function filterResources() {
+    var cat  = (document.getElementById('resCatFilter')||{}).value || '';
+    var list = allResources.filter(function(r){ return !cat || r.cat===cat; });
+    renderResources(list);
+  }
+
+  function renderResources(list) {
+    var el = document.getElementById('resList');
+    if (!list.length) { el.innerHTML='<div class="q-empty">No resources yet. Add one above.</div>'; return; }
+    var html='<div style="font-size:11px;color:var(--white3);margin-bottom:12px;font-weight:600">'+list.length+' resource'+(list.length!==1?'s':'')+'</div>';
+    list.forEach(function(r){
+      var m=RES[r.cat]||RES['PDF'];
+      html+='<div class="res-item">'
+        +'<div class="res-icon '+m.iconCls+'">'+m.icon+'</div>'
+        +'<div class="res-body">'
+        +  '<div class="res-title">'+esc(r.title)+'</div>'
+        +  (r.desc?'<div class="res-desc">'+esc(r.desc)+'</div>':'')
+        +  '<div class="res-meta"><span class="res-badge '+m.badgeCls+'">'+m.label+'</span>'
+        +  '<a class="res-link" href="'+esc(r.url)+'" target="_blank" rel="noopener">Open File ↗</a>'
+        +  '</div></div>'
+        +'<div class="res-actions">'
+        +'<button class="btn btn-o" style="padding:5px 12px;font-size:11px" onclick="openEditRes(\''+r.id+'\')">Edit</button>'
+        +'<button class="btn btn-r" style="padding:5px 10px;font-size:11px" onclick="deleteRes(\''+r.id+'\',this)">Del</button>'
+        +'</div></div>';
+    });
+    el.innerHTML=html;
+  }
+
+  function deleteRes(id, btn) {
+    if (!confirm('Delete this resource? Cannot be undone.')) return;
+    btn.textContent='…'; btn.disabled=true;
+    db.collection('resources').doc(id).delete()
+      .then(function(){ allResources=allResources.filter(function(r){ return r.id!==id; }); filterResources(); loadStats(); })
+      .catch(function(e){ alert('Error: '+e.message); btn.textContent='Del'; btn.disabled=false; });
+  }
+
+  function openEditRes(id) {
+    var r=allResources.find(function(x){ return x.id===id; });
+    if (!r) return;
+    document.getElementById('editResId').value    = id;
+    document.getElementById('editResTitle').value = r.title;
+    document.getElementById('editResDesc').value  = r.desc;
+    document.getElementById('editResCat').value   = r.cat;
+    document.getElementById('editResUrl').value   = r.url;
+    document.getElementById('editResMsg').className='msg';
+    document.getElementById('editResMsg').textContent='';
+    document.getElementById('editResModal').classList.add('open');
+  }
+
+  function closeEditRes() { document.getElementById('editResModal').classList.remove('open'); }
+
+  function saveEditRes() {
+    var id    = document.getElementById('editResId').value;
+    var title = document.getElementById('editResTitle').value.trim();
+    var desc  = document.getElementById('editResDesc').value.trim();
+    var cat   = document.getElementById('editResCat').value;
+    var url   = document.getElementById('editResUrl').value.trim();
+    var msg   = document.getElementById('editResMsg');
+    if (!title) { msg.textContent='Title is required.'; msg.className='msg err'; return; }
+    if (!url)   { msg.textContent='URL is required.';   msg.className='msg err'; return; }
+    msg.textContent='Saving…'; msg.className='msg ok';
+    db.collection('resources').doc(id).update({ title:title, desc:desc, cat:cat, url:url, updatedAt:firebase.firestore.FieldValue.serverTimestamp() })
+      .then(function(){
+        msg.textContent='✅ Updated.';
+        var idx=allResources.findIndex(function(x){ return x.id===id; });
+        if (idx!==-1) allResources[idx]={id:id,title:title,desc:desc,cat:cat,url:url};
+        filterResources();
+        setTimeout(closeEditRes,700);
+      })
+      .catch(function(e){ msg.textContent='❌ '+e.message; msg.className='msg err'; });
+  }
+
+  // ── FEEDBACK ──────────────────────────────────────────
+  function loadFeedback() {
+    var el=document.getElementById('feedbackList');
+    el.innerHTML='<div class="q-empty"><div class="spinner"></div></div>';
+    db.collection('feedback').orderBy('timestamp','desc').get()
+      .then(function(snap){
+        if (snap.empty) { el.innerHTML='<div class="tbl-empty">No feedback yet.</div>'; return; }
+        var html='<table class="tbl"><thead><tr><th>Date</th><th>What went well</th><th>Improve</th><th>Feature request</th></tr></thead><tbody>';
+        snap.forEach(function(doc){
+          var d=doc.data();
+          var dt=d.timestamp?d.timestamp.toDate().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}):(d.date||'').slice(0,10);
+          html+='<tr><td style="white-space:nowrap;color:var(--white3);font-size:11px">'+dt+'</td><td>'+esc(d.good||'—')+'</td><td>'+esc(d.improve||'—')+'</td><td>'+esc(d.feature||'—')+'</td></tr>';
+        });
+        el.innerHTML=html+'</tbody></table>';
+      })
+      .catch(function(e){ el.innerHTML='<div class="tbl-empty" style="color:var(--red)">Error: '+esc(e.message)+'</div>'; });
+  }
+
+  // ── CONTACT ───────────────────────────────────────────
+  function loadContact() {
+    var el=document.getElementById('contactList');
+    el.innerHTML='<div class="q-empty"><div class="spinner"></div></div>';
+    db.collection('contact').orderBy('timestamp','desc').get()
+      .then(function(snap){
+        if (snap.empty) { el.innerHTML='<div class="tbl-empty">No messages yet.</div>'; return; }
+        var html='<table class="tbl"><thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Subject</th><th>Message</th></tr></thead><tbody>';
+        snap.forEach(function(doc){
+          var d=doc.data();
+          var dt=d.timestamp?d.timestamp.toDate().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}):(d.date||'').slice(0,10);
+          html+='<tr><td style="white-space:nowrap;color:var(--white3);font-size:11px">'+dt+'</td><td>'+esc(d.name||'—')+'</td><td style="color:var(--gold2)">'+esc(d.email||'—')+'</td><td>'+esc(d.subject||'—')+'</td><td>'+esc(d.message||'—')+'</td></tr>';
+        });
+        el.innerHTML=html+'</tbody></table>';
+      })
+      .catch(function(e){ el.innerHTML='<div class="tbl-empty" style="color:var(--red)">Error: '+esc(e.message)+'</div>'; });
+  }
+
+  // ── RATINGS ───────────────────────────────────────────
+  function loadRatings() {
+    var el=document.getElementById('ratingsList');
+    el.innerHTML='<div class="q-empty"><div class="spinner"></div></div>';
+    db.collection('ratings').orderBy('timestamp','desc').get()
+      .then(function(snap){
+        if (snap.empty) { el.innerHTML='<div class="tbl-empty">No ratings yet.</div>'; return; }
+        var counts={1:0,2:0,3:0};
+        snap.forEach(function(doc){ var r=doc.data().rating; if(counts[r]!==undefined) counts[r]++; });
+        var total=snap.size;
+        var labels={1:'Needs Work',2:'Pretty Good',3:'Love It!'};
+        var emojis={1:'😕',2:'🙂',3:'🤩'};
+        var colors={1:'var(--red)',2:'var(--orange)',3:'var(--green)'};
+        var summary='<div class="rating-summary">';
+        [1,2,3].forEach(function(r){
+          var pct=total?Math.round(counts[r]/total*100):0;
+          summary+='<div class="rating-card"><div class="rating-emoji">'+emojis[r]+'</div><div class="rating-count" style="color:'+colors[r]+'">'+counts[r]+'</div><div class="rating-label">'+labels[r]+' · '+pct+'%</div></div>';
+        });
+        summary+='</div>';
+        var html=summary+'<table class="tbl"><thead><tr><th>Date</th><th>Rating</th><th>Label</th></tr></thead><tbody>';
+        snap.forEach(function(doc){
+          var d=doc.data();
+          var dt=d.timestamp?d.timestamp.toDate().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}):'—';
+          html+='<tr><td style="white-space:nowrap;color:var(--white3);font-size:11px">'+dt+'</td><td>'+emojis[d.rating||1]+' '+(d.rating||'—')+'</td><td>'+esc(d.label||'—')+'</td></tr>';
+        });
+        el.innerHTML=html+'</tbody></table>';
+      })
+      .catch(function(e){ el.innerHTML='<div class="tbl-empty" style="color:var(--red)">Error: '+esc(e.message)+'</div>'; });
+  }
+
+  // ── UTILS ─────────────────────────────────────────────
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // Close modals on overlay click
+  document.getElementById('editModal').addEventListener('click',   function(e){ if(e.target===this) closeEdit(); });
+  document.getElementById('editResModal').addEventListener('click', function(e){ if(e.target===this) closeEditRes(); });
+</script>
 </body>
 </html>
