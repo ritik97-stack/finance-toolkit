@@ -4107,7 +4107,8 @@
     #view-finstatements,
     #view-revenue,
     #view-files,
-    #view-flashcard {
+    #view-flashcard,
+    #view-industry {
       padding: 0 !important;
     }
 
@@ -4120,7 +4121,8 @@
     #view-finstatements.active,
     #view-revenue.active,
     #view-files.active,
-    #view-flashcard.active {
+    #view-flashcard.active,
+    #view-industry.active {
       height: 100%;
       overflow: hidden;
       display: flex;
@@ -4144,7 +4146,8 @@
     /* Landing grids inside full-height views get their own padding */
     #dcf-landing,
     #fs-landing,
-    #rm-sector-grid {
+    #rm-sector-grid,
+    #ind-sector-grid {
       padding: 26px;
       overflow-y: auto;
       flex: 1;
@@ -4155,7 +4158,8 @@
     #view-dcf .rm-wrap,
     #view-finstatements .rm-wrap,
     #view-revenue .rm-wrap,
-    #view-files .rm-wrap {
+    #view-files .rm-wrap,
+    #view-industry .rm-wrap {
       flex: 1;
       min-height: 0;
     }
@@ -4176,7 +4180,8 @@
     /* Detail views fill the full space */
     #dcf-detail .rm-wrap,
     #fs-detail .rm-wrap,
-    #rm-sector-detail .rm-wrap {
+    #rm-sector-detail .rm-wrap,
+    #ind-sector-detail .rm-wrap {
       flex: 1;
       min-height: 0;
     }
@@ -4184,7 +4189,8 @@
     /* Detail wrapper divs must also flex to fill */
     #dcf-detail,
     #fs-detail,
-    #rm-sector-detail {
+    #rm-sector-detail,
+    #ind-sector-detail {
       flex: 1;
       display: flex;
       flex-direction: column;
@@ -7576,7 +7582,8 @@
       /* Landing grids — own padding, natural scroll */
       #dcf-landing,
       #fs-landing,
-      #rm-sector-grid {
+      #rm-sector-grid,
+      #ind-sector-grid {
         padding: 14px 12px !important;
         overflow: visible !important;
       }
@@ -8368,7 +8375,88 @@
       display: inline-block
     }
   </style>
-</head>
+  <style id="industryStyle">
+    /* ── Industry Structure — Landing Grid ── */
+    .ind-hero { background: linear-gradient(135deg, var(--navy3) 0%, var(--navy4) 100%); border: 1px solid var(--border); border-radius: 14px; padding: 26px 30px; margin-bottom: 22px; position: relative; overflow: hidden; }
+    .ind-hero::before { content: ""; position: absolute; top: -50px; right: -50px; width: 220px; height: 220px; border-radius: 50%; background: var(--gold-bg2); pointer-events: none; }
+    .ind-hero h2 { font-family: "DM Serif Display", serif; font-size: 22px; color: var(--white); margin-bottom: 6px; position: relative; }
+    .ind-hero p { font-size: 12.5px; color: var(--white2); max-width: 540px; line-height: 1.65; position: relative; }
+    .ind-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+    .ind-sector-card { background: var(--navy2); border: 1px solid var(--border2); border-radius: 12px; padding: 16px; cursor: pointer; transition: all .18s; position: relative; overflow: hidden; }
+    .ind-sector-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent-color, var(--gold)); }
+    .ind-sector-card:hover { box-shadow: var(--sh2); transform: translateY(-2px); border-color: var(--border); }
+    .ind-sector-card .isc-icon { font-size: 26px; margin-bottom: 10px; }
+    .ind-sector-card .isc-name { font-size: 12.5px; font-weight: 600; color: var(--white); margin-bottom: 4px; line-height: 1.3; }
+    .ind-sector-card .isc-sub { font-size: 10px; color: var(--white3); line-height: 1.4; }
+    .ind-sector-card .isc-tag { margin-top: 10px; display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 6px; text-transform: uppercase; letter-spacing: .06em; background: var(--tag-bg, var(--gold-bg)); color: var(--tag-col, var(--gold)); }
+    /* ── Sidebar sector header strip ── */
+    .ind-sector-head { display: flex; align-items: flex-start; gap: 16px; padding: 20px 24px; background: linear-gradient(135deg, var(--navy3), var(--navy4)); border-bottom: 1px solid var(--border2); margin-bottom: 20px; border-radius: 10px; }
+    .ind-sector-icon { font-size: 38px; flex-shrink: 0; }
+    .ind-sector-title { font-family: "DM Serif Display", serif; font-size: 18px; color: var(--white); margin-bottom: 4px; line-height: 1.25; }
+    .ind-sector-sub { font-size: 11.5px; color: var(--white2); line-height: 1.6; }
+    .ind-sector-meta { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+    .ind-meta-chip { font-size: 10px; font-weight: 600; padding: 2px 9px; border-radius: 8px; background: var(--white4); color: var(--white2); }
+    /* ── Sub-tabs within panel ── */
+    .ind-sub-tabs { display: flex; gap: 4px; margin-bottom: 18px; overflow-x: auto; padding-bottom: 2px; }
+    .ind-sub-tab { flex-shrink: 0; padding: 6px 13px; font-size: 11px; font-weight: 600; border-radius: 8px; cursor: pointer; color: var(--white2); background: var(--navy3); border: 1px solid var(--border2); transition: all .15s; white-space: nowrap; }
+    .ind-sub-tab.active { background: var(--gold-bg); color: var(--gold2); border-color: var(--gold-bg); }
+    .ind-sub-panel { display: none; }
+    .ind-sub-panel.active { display: block; }
+    /* ── Stat row ── */
+    .ind-stat-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-bottom: 16px; }
+    .ind-stat-box { background: var(--navy3); border: 1px solid var(--border2); border-radius: 10px; padding: 12px 14px; }
+    .ind-stat-val { font-family: "IBM Plex Mono", monospace; font-size: 17px; color: var(--gold2); line-height: 1; margin-bottom: 3px; }
+    .ind-stat-lab { font-size: 9.5px; color: var(--white3); text-transform: uppercase; letter-spacing: .07em; }
+    /* ── Value chain ── */
+    .ind-chain { display: flex; align-items: center; overflow-x: auto; padding-bottom: 6px; margin-bottom: 18px; }
+    .ind-chain-node { flex-shrink: 0; background: var(--navy3); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 10.5px; font-weight: 600; color: var(--white2); text-align: center; min-width: 85px; }
+    .ind-chain-arrow { flex-shrink: 0; color: var(--white3); font-size: 14px; padding: 0 5px; }
+    /* ── Porter Five Forces ── */
+    .ind-p5-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+    .ind-p5-box { background: var(--navy3); border: 1px solid var(--border2); border-radius: 10px; padding: 12px 14px; }
+    .ind-p5-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--white3); margin-bottom: 5px; }
+    .ind-p5-val { font-size: 11px; color: var(--white2); line-height: 1.5; }
+    .ind-p5-badge { display: inline-block; font-size: 9px; font-weight: 700; padding: 1px 7px; border-radius: 5px; text-transform: uppercase; margin-bottom: 4px; }
+    .ind-p5-hi { background: var(--red-bg); color: var(--red); }
+    .ind-p5-med { background: var(--ora-bg); color: var(--orange); }
+    .ind-p5-lo { background: var(--green-bg); color: var(--green); }
+    /* ── KPI table ── */
+    .ind-kpi-table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+    .ind-kpi-table th { text-align: left; font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--white3); padding: 6px 10px; border-bottom: 1px solid var(--border2); }
+    .ind-kpi-table td { padding: 9px 10px; border-bottom: 1px solid var(--border2); color: var(--white2); vertical-align: top; }
+    .ind-kpi-table tr:last-child td { border-bottom: none; }
+    .ind-kpi-table tr:hover td { background: var(--white4); }
+    /* ── Companies ── */
+    .ind-co-list { display: flex; flex-direction: column; gap: 8px; }
+    .ind-co-card { background: var(--navy3); border: 1px solid var(--border2); border-radius: 10px; padding: 12px 14px; display: flex; gap: 12px; }
+    .ind-co-rank { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--white3); flex-shrink: 0; min-width: 22px; padding-top: 1px; }
+    .ind-co-name { font-size: 12.5px; font-weight: 700; color: var(--white); margin-bottom: 2px; }
+    .ind-co-desc { font-size: 11px; color: var(--white2); line-height: 1.5; }
+    .ind-co-tags { display: flex; gap: 5px; margin-top: 6px; flex-wrap: wrap; }
+    .ind-co-tag { font-size: 9px; font-weight: 600; padding: 1px 7px; border-radius: 5px; background: var(--white4); color: var(--white3); }
+    .ind-co-tag.listed { background: var(--green-bg); color: var(--green); }
+    .ind-co-tag.unlisted { background: var(--ora-bg); color: var(--orange); }
+    .ind-co-tag.psu { background: var(--blue-bg); color: var(--blue); }
+    .ind-co-tag.large { background: var(--gold-bg); color: var(--gold); }
+    /* ── Interview Q&A accordion ── */
+    .ind-qa-list { display: flex; flex-direction: column; gap: 10px; }
+    .ind-qa-item { background: var(--navy3); border: 1px solid var(--border2); border-radius: 10px; overflow: hidden; }
+    .ind-qa-q { padding: 12px 14px; font-size: 12px; font-weight: 600; color: var(--white); cursor: pointer; display: flex; justify-content: space-between; gap: 10px; }
+    .ind-qa-q:hover { background: var(--white4); }
+    .ind-qa-arrow { flex-shrink: 0; font-size: 11px; color: var(--white3); transition: transform .2s; }
+    .ind-qa-item.open .ind-qa-arrow { transform: rotate(90deg); }
+    .ind-qa-a { display: none; padding: 10px 14px 12px; font-size: 11.5px; color: var(--white2); line-height: 1.65; border-top: 1px solid var(--border2); }
+    .ind-qa-item.open .ind-qa-a { display: block; }
+    /* ── Section label ── */
+    .ind-sec-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--white3); margin-bottom: 10px; margin-top: 16px; }
+    /* ── Mobile ── */
+    @media (max-width: 700px) {
+      .ind-card-grid { grid-template-columns: 1fr 1fr; }
+      .ind-p5-grid { grid-template-columns: 1fr; }
+      .ind-stat-row { grid-template-columns: 1fr 1fr; }
+      .ind-sector-head { flex-direction: column; gap: 10px; }
+    }
+  </style>
 
 <body>
   <div id="gate-overlay" style="display: none;">
@@ -8687,16 +8775,16 @@
 
     <div class="mm-sep"></div>
     <div class="mm-sec">Reference</div>
-    <div class="mm-item" onclick="mmNav(&#39;revenue&#39;)"><span class="mm-item-icon">📊</span><span
-        class="mm-item-label">Revenue Models</span><span class="mm-item-arrow">›</span></div>
     <div class="mm-item" onclick="mmNav(&#39;finstatements&#39;)"><span class="mm-item-icon">📑</span><span
         class="mm-item-label">Fin. Statements &amp; Ratios</span><span class="mm-item-arrow">›</span></div>
+    <div class="mm-item" onclick="mmNav(&#39;revenue&#39;)"><span class="mm-item-icon">📊</span><span
+        class="mm-item-label">Revenue Models</span><span class="mm-item-arrow">›</span></div>
+    <div class="mm-item" onclick="mmNav(&#39;industry&#39;)"><span class="mm-item-icon">🏭</span><span
+        class="mm-item-label">Industry Structure</span><span class="mm-item-arrow">›</span></div>
     <div class="mm-item" onclick="mmNav(&#39;dcf&#39;)"><span class="mm-item-icon">🎯</span><span
-        class="mm-item-label">DCF, Val
-        &amp; Modelling</span><span class="mm-item-arrow">›</span></div>
+        class="mm-item-label">DCF, Val &amp; Modelling</span><span class="mm-item-arrow">›</span></div>
     <div class="mm-item" onclick="mmNav(&#39;macro&#39;)"><span class="mm-item-icon">🌐</span><span
-        class="mm-item-label">India
-        Macro</span><span class="mm-item-arrow">›</span></div>
+        class="mm-item-label">India Macro</span><span class="mm-item-arrow">›</span></div>
 
     <div class="mm-sep"></div>
     <div class="mm-sec">Documents &amp; Files</div>
@@ -9063,8 +9151,9 @@
       <div class="nav-item" onclick="startMockInterview()"><span>🎯</span> Mock Interview</div>
       <div class="nav-sep"></div>
       <div class="sb-sec">Reference</div>
-      <div class="nav-item" onclick="nav(&#39;revenue&#39;)"><span>📊</span> Revenue Models</div>
       <div class="nav-item" onclick="nav(&#39;finstatements&#39;)"><span>📑</span> Fin. Statements &amp; Ratios</div>
+      <div class="nav-item" onclick="nav(&#39;revenue&#39;)"><span>📊</span> Revenue Models</div>
+      <div class="nav-item" onclick="nav(&#39;industry&#39;)"><span>🏭</span> Industry Structure</div>
       <div class="nav-item" onclick="nav(&#39;dcf&#39;)"><span>🎯</span> DCF, Val &amp; Modelling</div>
       <div class="nav-item" onclick="nav(&#39;macro&#39;)" id="macroNavItem"><span>🌐</span> India Macro</div>
       <div class="nav-sep"></div>
@@ -9094,13 +9183,7 @@
               <rect x="2" y="11" width="12" height="3" rx="1"></rect>
             </svg>Export
           </button>
-          <button class="btn btn-o" onclick="userClearCache()" title="Clear my local data" style="gap:5px;padding:7px 11px;color:var(--red);border-color:rgba(239,68,68,.3)">
-            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
-              <polyline points="3,6 4,14 12,14 13,6"></polyline>
-              <line x1="1" y1="6" x2="15" y2="6"></line>
-              <path d="M6 6V4a2 2 0 0 1 4 0v2"></path>
-            </svg>Clear Cache
-          </button>
+
           <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleBtn">
             <span id="themeIcon">☀️</span>
             <div class="toggle-track">
@@ -22761,6 +22844,30 @@ A: WACC is the weighted average cost of capital."></textarea>
         </div>
       </div>
       <div id="toast" style="opacity: 0;">🔄 Missed &amp; learning questions loaded</div>
+      <!-- ═══════════════════════════════════════════════════════════
+           INDUSTRY STRUCTURE VIEW
+      ══════════════════════════════════════════════════════════════ -->
+      <div class="view" id="view-industry">
+        <!-- Landing grid -->
+        <div id="ind-sector-grid">
+          <div class="ind-hero">
+            <h2>🏭 Industry Structure</h2>
+            <p>Deep-dive into India's major sectors — value chains, Porter's Five Forces, sector KPIs, top companies, and interview-ready frameworks. Click any sector to explore.</p>
+          </div>
+          <div id="indCardGrid" class="ind-card-grid"></div>
+        </div>
+        <!-- Detail panel — same rm-wrap layout as Revenue Models -->
+        <div id="ind-sector-detail" style="display:none;">
+          <div class="rm-wrap">
+            <div class="rm-sidebar" id="indRmSidebar">
+              <!-- Back button + sector tabs populated by JS -->
+            </div>
+            <div class="rm-panel" id="indRmPanel">
+              <!-- Panel content populated by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
       <script>var BIWS_QS = [];
         var questions = [];
         var resources = [];
@@ -24908,7 +25015,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
             var vs = document.querySelectorAll('.view');
             for (var i = 0; i < vs.length; i++) vs[i].classList.remove('active');
             document.getElementById('view-' + view).classList.add('active');
-            var nmap = { dashboard: 'Dashboard', flashcard: 'Flashcards', browse: 'Browse All', add: 'Add Question', import: 'Bulk Import', files: 'Files & Resources', revenue: 'Revenue Models', finstatements: 'Fin. Statements & Ratios', dcf: 'DCF & Valuation', macro: 'India Macro', support: 'Feedback & Contact' };
+            var nmap = { dashboard: 'Dashboard', flashcard: 'Flashcards', browse: 'Browse All', add: 'Add Question', import: 'Bulk Import', files: 'Files & Resources', revenue: 'Revenue Models', finstatements: 'Fin. Statements & Ratios', dcf: 'DCF & Valuation', macro: 'India Macro', industry: 'Industry Structure', support: 'Feedback & Contact' };
             var activeLabel = nmap[view];
             if (view === 'browse' && document.getElementById('statF') && document.getElementById('statF').value === 'bookmarked') activeLabel = 'Bookmarked';
             var ns = document.querySelectorAll('.nav-item');
@@ -26587,7 +26694,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
           if (bc) bc.textContent = FS_LABELS[idx] || '';
         }
 
-        // reset landing when nav to finstatements
+        // reset landing when nav to finstatements / dcf / industry
         (function () {
           var _nav = nav;
           nav = function (view) {
@@ -26602,6 +26709,12 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
               var dl = document.getElementById('dcf-landing');
               if (dd) dd.style.display = 'none';
               if (dl) dl.style.display = '';
+            }
+            if (view === 'industry') {
+              var ig = document.getElementById('ind-sector-grid');
+              var id = document.getElementById('ind-sector-detail');
+              if (ig) ig.style.display = '';
+              if (id) id.style.display = 'none';
             }
             _nav(view);
           };
@@ -27097,11 +27210,12 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
       <div
         style="font-weight:700; color:var(--white3); font-size:12px; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; margin-top:24px;">
         Reference Library</div>
-      <div class="bs-item" onclick="nav(&#39;revenue&#39;); closeMobileMore();"><span class="bs-icon">📊</span> Revenue
-        Models</div>
       <div class="bs-item" onclick="nav(&#39;finstatements&#39;); closeMobileMore();"><span class="bs-icon">📑</span>
         Fin.
         Statements &amp; Ratios</div>
+      <div class="bs-item" onclick="nav(&#39;revenue&#39;); closeMobileMore();"><span class="bs-icon">📊</span> Revenue
+        Models</div>
+      <div class="bs-item" onclick="nav(&#39;industry&#39;); closeMobileMore();"><span class="bs-icon">🏭</span> Industry Structure</div>
       <div class="bs-item" onclick="nav(&#39;dcf&#39;); closeMobileMore();"><span class="bs-icon">🎯</span> DCF &amp;
         Valuation</div>
       <div class="bs-item" onclick="nav(&#39;macro&#39;); closeMobileMore();"><span class="bs-icon">🌐</span> India
@@ -27194,6 +27308,679 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
     })();
   </script>
 
+
+</body>
+
+  <!-- ═══════════════ INDUSTRY STRUCTURE SCRIPT ═══════════════ -->
+  <script>
+  var IND_DATA = [
+    {
+      id:'bfsi', icon:'🏦', name:'Banking & Financial Services',
+      shortName:'BFSI',
+      tagline:"India's financial backbone — largest sector by employment in formal finance",
+      accentColor:'#3ecfa0', tagBg:'rgba(62,207,160,.12)', tagCol:'#3ecfa0', tag:'Highly Regulated',
+      stats:[
+        {val:'~$2.8T',lab:'Total Bank Assets (2024)'},
+        {val:'27+',lab:'Public Sector Banks'},
+        {val:'3.1%',lab:'Avg Gross NPA (FY24)'},
+        {val:'16.8%',lab:'CRAR (Scheduled Banks)'}
+      ],
+      overview:"India's BFSI sector is the most systemically critical — regulated by RBI, SEBI, IRDAI, and PFRDA. It encompasses commercial banks, NBFCs, insurance companies, AMCs, and capital markets intermediaries. Post-2015 NPA crisis clean-up (IBC 2016, SARFAESI) and Jan Dhan Yojana drove massive structural reform. India is the world's 5th largest insurance market by premiums.",
+      segments:['Public Sector Banks (PSBs)','Private Banks','Small Finance Banks (SFBs)','NBFCs & HFCs','Insurance (Life & General)','Asset Management (AMCs)','Stockbrokers & Wealth Mgmt'],
+      chain:['Savers / Depositors','Banks / NBFCs','Credit Underwriting','Borrowers / Corporates','Capital Markets','Investors / FIIs'],
+      porter:[
+        {force:'Competitive Rivalry',level:'High',desc:'PSU banks + 21 private banks + 100+ NBFCs compete intensely on rates, distribution, and digital.'},
+        {force:'New Entrant Threat',level:'Low–Med',desc:'RBI banking licences are rare. Fintechs disrupt niches but full banking entry is hard.'},
+        {force:'Supplier Power',level:'Low',desc:'Depositors are fragmented. RBI controls wholesale funding rates via repo.'},
+        {force:'Buyer Power',level:'Medium',desc:'Corporate borrowers negotiate; retail borrowers increasingly comparison-shop via fintech aggregators.'},
+        {force:'Substitution Threat',level:'Medium',desc:'Fintech lenders, P2P platforms, and bond markets substitute bank credit for high-rated borrowers.'}
+      ],
+      kpis:[
+        {kpi:'Net Interest Margin (NIM)',def:'Net interest income / avg interest-earning assets',benchmark:'Private ~3.5–4.5%; PSB ~2.8–3.5%'},
+        {kpi:'Gross NPA Ratio',def:'Gross non-performing assets / gross advances',benchmark:'<3% healthy; system avg ~3.1% (FY24)'},
+        {kpi:'Capital Adequacy (CRAR)',def:'Regulatory capital / risk-weighted assets',benchmark:'Min 11.5% (RBI); SBI ~14.3%'},
+        {kpi:'Return on Assets (RoA)',def:'Net profit / avg total assets',benchmark:'>1% good; top private banks ~1.8–2.1%'},
+        {kpi:'Return on Equity (RoE)',def:'Net profit / avg shareholders equity',benchmark:'>15% good; HDFC Bank ~17%'},
+        {kpi:'Credit-Deposit (C-D) Ratio',def:'Total credit deployed / total deposits',benchmark:'RBI comfortable with 75–80%'},
+        {kpi:'Cost-to-Income Ratio',def:'Operating expenses / net income',benchmark:'Private banks ~40–50%; PSBs ~50–60%'},
+        {kpi:'AUM / NAV (for AMCs)',def:'Assets under management at market value',benchmark:'India MF AUM ₹58L cr (Apr 2024)'}
+      ],
+      companies:[
+        {name:'HDFC Bank',desc:'Largest private bank by assets; merged with HDFC Ltd in 2023. Dominant in retail, home loans, and credit cards.',tags:['Large Cap','NSE/BSE','Private']},
+        {name:'State Bank of India (SBI)',desc:"Largest bank in India by assets. ~22% market share in deposits. Government owns 57.5%.",tags:['Large Cap','NSE/BSE','PSU']},
+        {name:'ICICI Bank',desc:'Second-largest private bank. Strong in retail, SME, and international banking. Robust digital platform.',tags:['Large Cap','NSE/BSE','Private']},
+        {name:'Kotak Mahindra Bank',desc:'Known for premium retail banking and wealth management. Low NPA, high NIM profile.',tags:['Large Cap','NSE/BSE','Private']},
+        {name:'Axis Bank',desc:'Third-largest private bank. Strong corporate and retail book; acquired Citi India consumer business.',tags:['Large Cap','NSE/BSE','Private']},
+        {name:'Bajaj Finance',desc:"India's largest NBFC by AUM. Consumer durables, home loans, personal loans. Dominant in EMI card ecosystem.",tags:['Large Cap','NSE/BSE','NBFC']},
+        {name:'LIC of India',desc:'Largest insurer — manages ₹43L cr+ in assets. PSU; listed in 2022. Dominant in life insurance.',tags:['Large Cap','NSE/BSE','PSU','Insurance']},
+        {name:'HDFC AMC / SBI MF',desc:"Top AMCs by AUM. India's MF industry at ₹58L cr+ AUM. SBI MF is largest; HDFC AMC most profitable.",tags:['Large Cap','NSE/BSE','AMC']}
+      ],
+      qa:[
+        {q:'Walk me through how a bank makes money.',a:'A bank earns through: (1) Net Interest Income — spread between lending rate and cost of funds; (2) Fee income — processing fees, forex, trade finance, wealth management; (3) Treasury gains — MTM profits on investment book. NIM is the primary driver for retail-heavy banks; fee income matters more for wholesale banks.'},
+        {q:'What is the difference between a bank and an NBFC?',a:"NBFCs cannot accept demand deposits (CASA), have no access to RBI's Liquidity Adjustment Facility, and are not part of payment/settlement systems. However, NBFCs face lighter regulation and often serve underbanked segments banks avoid. Key risk: NBFCs rely on wholesale funding (CPs, NCDs) — making them vulnerable to liquidity crises (IL&FS 2018, DHFL 2019)."},
+        {q:'What happened to Indian bank NPAs post-2015?',a:"After RBI's Asset Quality Review (AQR) in 2015, PSBs were forced to recognise hidden NPAs — system gross NPAs peaked at ~11.5% in FY18. Resolution came via: IBC 2016 (time-bound insolvency), SARFAESI for secured assets, and government recapitalisation of PSBs (₹3.5L cr over 5 years). By FY24, gross NPAs fell to ~3.1%."},
+        {q:"How does RBI's repo rate change affect bank earnings?",a:'Most bank loans are now linked to external benchmark (repo rate). A rate hike immediately reprices floating rate loans upward, widening NIM in the short run. But deposits reprice with a lag — over 12–18 months, deposit costs catch up and NIM compresses. Fixed-income investment books also take MTM hits when rates rise.'},
+        {q:'What is CRAR and why does RBI set minimum thresholds?',a:"CRAR (Capital to Risk-Weighted Assets Ratio) ensures banks hold enough capital buffer to absorb unexpected losses. RBI mandates minimum 9% (Basel III: 10.875% including CCB). Higher CRAR = more credit-worthy but = capital drag on RoE. India's system CRAR is ~16.8%, comfortable above minimums."}
+      ]
+    },
+    {
+      id:'it', icon:'💻', name:'Information Technology (IT & ITeS)',
+      shortName:'IT Services',
+      tagline:"India's largest export sector — ~$254B industry employing 5.4 million professionals",
+      accentColor:'#60a5fa', tagBg:'rgba(96,165,250,.12)', tagCol:'#60a5fa', tag:'Export-Driven',
+      stats:[
+        {val:'$254B',lab:'Export Revenue (FY24E)'},
+        {val:'5.4M',lab:'Employees in IT/ITeS'},
+        {val:'~10%',lab:"Share of India's GDP"},
+        {val:'~55%',lab:'Revenue from North America'}
+      ],
+      overview:"India's IT sector is the country's flagship export industry, built on software services, BPO/KPO, and increasingly digital transformation, cloud, and AI services. The sector operates on a body-shopping-to-solutions journey — from low-cost labour arbitrage to high-value consulting. NASSCOM estimates industry revenues of ~$254B in FY24. TCS, Infosys, Wipro, and HCL are the Big 4 of Indian IT.",
+      segments:['Application Development & Maintenance (ADM)','BPO / BPM / KPO','Infrastructure & Cloud Services','Testing & QA','Digital / AI / Analytics','Product Companies (SaaS)'],
+      chain:['Client (Global MNC)','Deal Structuring / RFP','Delivery Center (India)','Offshore Dev Teams','QA & Testing','Support & Maintenance'],
+      porter:[
+        {force:'Competitive Rivalry',level:'High',desc:'TCS, Infosys, Wipro, HCL, Cognizant, Accenture, Capgemini all compete for the same Fortune 500 clients globally.'},
+        {force:'New Entrant Threat',level:'Low–Med',desc:'Scale, talent networks, and client relationships create barriers. Boutique/niche IT firms can win digital mandates.'},
+        {force:'Supplier Power',level:'Medium–High',desc:'Talent is the key input. High attrition (18–25% pre-2023), salary inflation, and bench costs affect margins.'},
+        {force:'Buyer Power',level:'High',desc:'Global clients consolidate vendors, negotiate hard on pricing, and threaten insourcing.'},
+        {force:'Substitution Threat',level:'Medium',desc:'AI/automation (GitHub Copilot, GenAI) threatens entry-level coding. But complex delivery still needs human oversight.'}
+      ],
+      kpis:[
+        {kpi:'Revenue per Employee',def:'Total revenue / headcount',benchmark:'TCS ~₹26L/employee/year; top quartile $30K+/yr'},
+        {kpi:'EBIT Margin',def:'EBIT / revenue',benchmark:'Large IT: 20–26%; Mid-tier: 12–18%'},
+        {kpi:'Attrition Rate',def:'Annualised employee churn %',benchmark:'Normalised: 12–18%; COVID-era peak: 23–28%'},
+        {kpi:'Utilisation Rate',def:'Billable headcount / total delivery headcount',benchmark:'Target ~82–85%; low utilisation = margin drag'},
+        {kpi:'Deal TCV',def:'Total contract value of new deals signed in the period',benchmark:'Large deals >$50M TCV tracked closely by analysts'},
+        {kpi:'DSO (Days Sales Outstanding)',def:'Receivables / (revenue / 90)',benchmark:'Healthy <70 days for IT services'},
+        {kpi:'Offshore / Onsite Mix',def:'Ratio of offshore to onsite delivery headcount',benchmark:'Higher offshore = better margins; typically 70:30'},
+        {kpi:'Digital Revenue %',def:'Revenue from cloud, AI, analytics, automation',benchmark:'TCS Digital ~58%; Infosys Digital ~62%+'}
+      ],
+      companies:[
+        {name:'Tata Consultancy Services (TCS)',desc:'Largest Indian IT firm by revenue and market cap (~$170B). Known for large multi-year contracts, stable margins (~25%), low attrition.',tags:['Large Cap','NSE/BSE','Tata Group']},
+        {name:'Infosys',desc:'Second-largest. Strong in BFS, retail, manufacturing verticals. Known for aggressive deal wins and buyback programs.',tags:['Large Cap','NSE/BSE','NYSE: INFY']},
+        {name:'HCL Technologies',desc:'Strong in infrastructure (ER&D) and tech products. Unique for acquiring IP from IBM. Fastest margin expansion among Big 4.',tags:['Large Cap','NSE/BSE']},
+        {name:'Wipro',desc:'Big 4 IT. Heavy in BFSI and healthcare verticals. Went through major restructuring 2022–24.',tags:['Large Cap','NSE/BSE']},
+        {name:'Tech Mahindra',desc:'Strong in telecom (BT/AT&T). Went through turnaround under CEO Mohit Joshi in 2024. M&A-heavy growth strategy.',tags:['Large Cap','NSE/BSE','Mahindra']},
+        {name:'LTIMindtree',desc:'Formed from merger of L&T Infotech and Mindtree. Fast-growing mid-large tier, strong in BFSI and manufacturing.',tags:['Large Cap','NSE/BSE','L&T Group']},
+        {name:'Mphasis',desc:'BFS-focused IT. Strong US presence, Blackstone-backed. Known for direct channel client wins and high margin profile.',tags:['Mid Cap','NSE/BSE']},
+        {name:'Persistent Systems',desc:'Fastest growing mid-size Indian IT firm. BFSI, healthcare, hitech verticals. High digital revenue mix.',tags:['Mid Cap','NSE/BSE']}
+      ],
+      qa:[
+        {q:'Why do Indian IT stocks trade at high PE multiples despite being services businesses?',a:'Indian IT combines four rare qualities: (1) Asset-light models with 20–26% EBIT margins; (2) Strong FCF conversion (>90% of PAT); (3) Secular demand tailwind (digital transformation, cloud, AI); (4) High dividend/buyback yields. The result is a quasi-annuity revenue stream with pricing power in specialised verticals — justifying premium multiples of 25–35x PE.'},
+        {q:'What is the difference between a T&M and a fixed-price contract?',a:"Time & Materials (T&M): Client billed per hour/day of resource deployed — revenue = effort, less risk for IT firm. Fixed-Price: Deliverable-based; IT firm bears cost overrun risk. FP contracts require tight scoping and project management. Trend is toward outcome-based models (XaaS) where IT firms price by business outcome, not headcount."},
+        {q:'How does INR depreciation affect IT company earnings?',a:"IT companies earn in USD/GBP/EUR and report in INR. INR depreciation is a tailwind — each dollar earned translates to more INR revenue. Rule of thumb: 1% INR depreciation = ~30–50 bps EBIT margin expansion. Companies hedge 3–6 months of receivables, so impact is lagged. Natural hedge: some USD-linked employee costs."},
+        {q:'What is NASSCOM and why does it matter for Indian IT?',a:"NASSCOM is the apex trade body for Indian IT and BPM industry. It publishes the annual IT industry report, lobbies for visa facilitation (H-1B), promotes data privacy and IP frameworks, and runs FutureSkills upskilling initiative. Analysts use NASSCOM's guidance as a bellwether for sector-level demand."},
+        {q:'What are the key risks to Indian IT growth going into FY25–26?',a:'Key risks: (1) AI/GenAI commoditising low-skill coding (ADM segment at risk); (2) US macro slowdown — client IT budget freezes; (3) H-1B visa restrictions limiting onsite delivery; (4) Competition from nearshore vendors (Eastern Europe, LatAm); (5) Wage inflation if talent market tightens again. Mitigants: shift to high-value AI services, longer deal durations locking revenue.'}
+      ]
+    },
+    {
+      id:'fmcg', icon:'🛒', name:'Fast-Moving Consumer Goods (FMCG)',
+      shortName:'FMCG',
+      tagline:"India's 4th largest sector — driven by 1.4B consumers across urban & rural India",
+      accentColor:'#fb923c', tagBg:'rgba(251,146,60,.12)', tagCol:'#fb923c', tag:'Domestic Consumption',
+      stats:[
+        {val:'$167B',lab:'FMCG Market Size (2024)'},
+        {val:'~65%',lab:'Revenue from Rural India'},
+        {val:'35–55%',lab:'Gross Margins (Avg)'},
+        {val:'18–22%',lab:'EBITDA Margins (HUL/ITC)'}
+      ],
+      overview:"India's FMCG sector encompasses food & beverages, personal care, home care, and healthcare OTC products. Dominated by MNC brands (HUL, P&G, Nestle) and strong domestic players (ITC, Dabur, Marico). India's young demographics, rising incomes, and premiumisation trend drive long-term growth. Rural India (65%+ of volumes) is distributed via a complex 7–8 million kiranas network.",
+      segments:['Food & Beverages (biscuits, dairy, noodles)','Personal Care (soaps, shampoo, skincare)','Home Care (detergents, cleaners)','Health & OTC (chyawanprash, ORS)','Cigarettes & Agri (ITC)'],
+      chain:['Raw Material Sourcing','Manufacturing (Owned/Contract)','C&F Agent / Super-Stockist','Distributor','Retailer / Kirana','End Consumer'],
+      porter:[
+        {force:'Competitive Rivalry',level:'High',desc:'HUL, ITC, P&G, Nestle, Dabur, Marico, Britannia, Godrej fight category-by-category. D2C challengers disrupt premium niches.'},
+        {force:'New Entrant Threat',level:'Medium',desc:'Scale in manufacturing, distribution reach, and brand equity are strong moats. D2C brands can enter but lack kirana penetration.'},
+        {force:'Supplier Power',level:'Low–Med',desc:'Key inputs: palm oil, crude, packaging. Commodity price spikes compress margins. Dual-sourcing mitigates risk.'},
+        {force:'Buyer Power',level:'Low',desc:'Fragmented end consumers have low power. Modern trade (Reliance, DMart) has more leverage than kiranas.'},
+        {force:'Substitution Threat',level:'Medium',desc:'Private labels (Reliance Smart, DMart Select) threaten commodity categories. Premium D2C brands substitute in personal care.'}
+      ],
+      kpis:[
+        {kpi:'Volume Growth vs Value Growth',def:'Separates price-driven growth from actual demand increase',benchmark:'Healthy: volume growth >5% YoY; HUL target 4–6%'},
+        {kpi:'Gross Margin',def:'(Revenue – Material Cost) / Revenue',benchmark:'HUL ~50%; Nestle ~57%; Dabur ~47%'},
+        {kpi:'EBITDA Margin',def:'EBITDA / Net Revenue',benchmark:'Large FMCG: 18–25%; D2C brands: 5–12%'},
+        {kpi:'Distribution Reach',def:'Number of retail outlets directly or indirectly served',benchmark:'HUL serves 9M+ outlets; Dabur 6.7M+'},
+        {kpi:'Market Share (by category)',def:"Brand's volume share within its product category",benchmark:'Tracked by Nielsen/Kantar; key focus for mgmt commentary'},
+        {kpi:'A&P Spend %',def:'Advertising & promotion spend as % of sales',benchmark:'Typically 10–14% for large FMCG'},
+        {kpi:'Working Capital Days',def:'Debtor + inventory – creditor days',benchmark:'FMCG runs on negative WC; HUL: -20 to -40 days'},
+        {kpi:'Return on Capital Employed',def:'EBIT / (Equity + Debt)',benchmark:'Best FMCG: >80–100% RoCE (capital-light model)'}
+      ],
+      companies:[
+        {name:'Hindustan Unilever (HUL)',desc:'Largest FMCG company in India. 50+ brands across home care, personal care, foods. Subsidiary of Unilever Plc.',tags:['Large Cap','NSE/BSE','MNC']},
+        {name:'ITC Limited',desc:'Conglomerate with FMCG, cigarettes (90% of EBIT), hotels, paperboards, and agribusiness. FMCG segment now ₹20,000 cr+ but still margin dilutive.',tags:['Large Cap','NSE/BSE','Conglomerate']},
+        {name:'Nestlé India',desc:'Dominates in Maggi noodles, KitKat, Milo, Nescafé. Premium portfolio, strong pricing power. Subsidiary of Nestlé SA Switzerland.',tags:['Large Cap','NSE/BSE','MNC']},
+        {name:'Dabur India',desc:'Ayurvedic-first FMCG. Strong in health supplements (Chyawanprash), hair oils, juices. Significant international business.',tags:['Large Cap','NSE/BSE','Indian']},
+        {name:'Marico',desc:'Parachute coconut oil + Saffola. Expanding into D2C (Beardo, Just Herbs). International revenue ~23%.',tags:['Large Cap','NSE/BSE','Indian']},
+        {name:'Britannia Industries',desc:'Biscuits and bakery. 70%+ market share in premium biscuits. Capital-light, negative working capital, high RoCE.',tags:['Large Cap','NSE/BSE','Indian']},
+        {name:'Godrej Consumer Products',desc:'Household insecticides (Goodknight), hair colour, soaps. Strong Africa + Indonesia presence (~40% revenue international).',tags:['Large Cap','NSE/BSE','Godrej']},
+        {name:'Emami',desc:'Winter-skewed portfolio (BoroPlus, Navratna). High gross margins, low capex. Promoter pledging historically a risk.',tags:['Mid Cap','NSE/BSE','Indian']}
+      ],
+      qa:[
+        {q:'Why do FMCG companies command such high PE multiples (50–70x) in India?',a:'High PE reflects: (1) near-zero capex requirements (asset-light with contract manufacturing); (2) negative working capital cycle; (3) pricing power via brand equity; (4) secular demand from 1.4B consumers; (5) high and stable RoCE (80–120%). These translate to strong, compounding FCF — market pays up for quality and predictability.'},
+        {q:'What is premiumisation and why does it matter for FMCG margins?',a:'Premiumisation is the shift of consumers from mass to premium SKUs as incomes rise. Premium SKUs carry 200–400 bps higher gross margins. With volume growth harder to achieve in saturated urban markets, FMCG companies rely on premiumisation for mix-driven margin expansion without volume risk.'},
+        {q:"Walk me through HUL's distribution model.",a:"HUL operates a multi-layered distribution: Carrying & Forwarding Agents (C&FAs) handle warehousing in ~40 locations. From there, ~7,500 distributors service ~9M retail outlets — 7M+ kiranas + modern trade (DMart, Reliance, Flipkart). GT (general trade) is still 75%+ of volumes; e-commerce is growing but <5%."},
+        {q:'How does rural demand affect FMCG volume growth?',a:'Rural India (>65% of FMCG volumes) is driven by: agricultural income, MSP hikes, MNREGS wages, and rural credit. When monsoon is good + MSP is hiked, rural volumes outpace urban by 200–400 bps. FMCG companies use sachet/small SKU strategy for rural — ₹5 shampoo sachets being the classic example.'},
+        {q:'What is the threat from D2C brands to established FMCG giants?',a:'D2C brands (Mamaearth, WOW, Sugar, Plum) win on digital acquisition and clean-label narrative. However, they struggle with kirana distribution and unit economics at scale. Large FMCG firms are acquiring D2C brands (HUL acquired Wellbeing Nutrition, Marico bought Beardo) as a defensive hedge.'}
+      ]
+    },
+    {
+      id:'pharma', icon:'💊', name:'Pharmaceuticals & Healthcare',
+      shortName:'Pharma',
+      tagline:"Pharmacy of the world — India supplies 20% of global generic medicines by volume",
+      accentColor:'#a78bfa', tagBg:'rgba(167,139,250,.12)', tagCol:'#a78bfa', tag:'Export + Domestic',
+      stats:[
+        {val:'$65B',lab:'Industry Size (FY24E)'},
+        {val:'~20%',lab:'Global Generic Supply Share'},
+        {val:'200+',lab:'Countries Exported To'},
+        {val:'~54%',lab:'Revenue from Exports'}
+      ],
+      overview:"India is the largest supplier of generic medicines globally by volume — the 'Pharmacy of the World.' The sector spans generics manufacturers (Sun, Cipla, Dr. Reddy's), API makers, formulations, CRAMS/CDMO, and hospitals/diagnostics. USFDA approval is the critical gateway for US market access. The sector is a mix of export-heavy generic players and domestic branded-generic companies.",
+      segments:['Generic Formulations (India & Export)','API & Intermediates','CRAMS / CDMO','Branded Generics (India OTC + Rx)','Hospitals & Diagnostics','Biotechnology / Biosimilars'],
+      chain:['Drug Discovery / R&D','API Manufacturing','Formulation (Dosage Forms)','USFDA / Regulatory Approval','Distribution (India: stockists)','Hospital / Pharmacist / Patient'],
+      porter:[
+        {force:'Competitive Rivalry',level:'High',desc:'Hundreds of Indian generic players compete on price globally. Domestic market is fragmented — top 10 players hold ~40% branded generic share.'},
+        {force:'New Entrant Threat',level:'Low',desc:'USFDA approval process is a massive barrier — 3–5 years, ₹50–200 cr investment per ANDA. API scale is also capital-intensive.'},
+        {force:'Supplier Power',level:'Medium',desc:'Key APIs from China create supply chain risk (60–70% dependence). PLI scheme incentivises domestic API manufacturing.'},
+        {force:'Buyer Power',level:'High (US)',desc:'US market: 3 big GPOs control 90% of generic procurement — extract extreme price concessions. India domestic: fragmented, so less buyer power.'},
+        {force:'Substitution Threat',level:'Low–Med',desc:'Biologics/biosimilars displace small-molecule generics in some indications. Teva, Mylan compete in same generic space.'}
+      ],
+      kpis:[
+        {kpi:'US Business Revenue & Filings',def:'Revenue from US generics + ANDA pipeline pending at USFDA',benchmark:'Tracked quarterly; key signal for growth pipeline'},
+        {kpi:'EBITDA Margin',def:'EBITDA / Net Revenue',benchmark:'Pharma majors: 22–30%; CRAMS: 25–35%'},
+        {kpi:'R&D as % of Revenue',def:'R&D spend / net sales',benchmark:"Sun/Dr. Reddy's: ~7–10%; specialty pharma: up to 15%"},
+        {kpi:'Domestic Market Ranking (IPM)',def:'Share of Indian Pharmaceutical Market (IQVIA data)',benchmark:'Abbott, Sun, Cipla in top 5 by IPM share'},
+        {kpi:'ANDA Count (Approved + Pending)',def:'Abbreviated New Drug Applications filed with USFDA',benchmark:'Strong ANDA pipeline = future US revenue visibility'},
+        {kpi:'API Revenue Mix',def:'Revenue from selling APIs externally',benchmark:"Divi's: 90%+ API; Laurus: high API + CRAMS"},
+        {kpi:'Warning Letters / 483s',def:'USFDA observations/violations at manufacturing sites',benchmark:'Any warning letter can block US shipments — major stock risk'},
+        {kpi:'Chronic vs Acute Mix',def:'Revenue from chronic (long-term) vs acute (short-term) therapies',benchmark:'Higher chronic = more predictable, sticky revenue'}
+      ],
+      companies:[
+        {name:'Sun Pharmaceutical',desc:'Largest Indian pharma by revenue. Specialty pharma pivot in US (dermatology, ophthalmology). 40+ countries. Largest IPM market share.',tags:['Large Cap','NSE/BSE']},
+        {name:"Dr. Reddy's Laboratories",desc:'Strong US generics and biosimilars. Co-manufactured Sputnik V vaccine. Russia/CIS is a key market. CDMO ambitions.',tags:['Large Cap','NSE/BSE','NYSE: RDY']},
+        {name:'Cipla',desc:'Pioneer in HIV antiretrovirals for Africa. Strong India branded generics (respiratory). Acquired two US companies for specialty pipeline.',tags:['Large Cap','NSE/BSE']},
+        {name:"Divi's Laboratories",desc:'Purest-play API and CRAMS company. Supplies to global innovators. 90%+ revenue exports. Massive cost moat in complex chemistry.',tags:['Large Cap','NSE/BSE']},
+        {name:'Aurobindo Pharma',desc:'Largest US ANDA filer. Vertically integrated — makes own APIs. Strong in injectables and penicillins.',tags:['Large Cap','NSE/BSE']},
+        {name:'Zydus Lifesciences',desc:"Domestic + US generics. Made India's COVID vaccine ZyCov-D. Needle-free injection platform. Strong biosimilars pipeline.",tags:['Large Cap','NSE/BSE']},
+        {name:'Apollo Hospitals',desc:'Largest hospital chain by revenue. 70+ hospitals, 10,000 beds+. Digital health via Apollo 24|7.',tags:['Large Cap','NSE/BSE','Healthcare']},
+        {name:'Laurus Labs',desc:'API for antiretrovirals + CDMO. Rapid transition to CRAMS — capex cycle paying off. Key Gilead and MSD supplier.',tags:['Mid Cap','NSE/BSE']}
+      ],
+      qa:[
+        {q:'What is the difference between a generic drug and a branded generic?',a:"A generic contains the same active ingredient as the innovator drug, sold by chemical name (e.g., 'Paracetamol 500mg'). A branded generic is given a brand name and marketed — dominant in India (e.g., Crocin, Dolo 650). In the US, generics are unbranded and compete on price. In India, brand+doctor relationships drive prescriptions, giving companies pricing power."},
+        {q:'Why is the USFDA so important for Indian pharma companies?',a:"The US generics market is $100B+ and the most profitable globally. Access requires USFDA-approved manufacturing sites and ANDA approvals per product. A Warning Letter bans exports from that facility — Sun Pharma lost ~$600M revenue from Halol shutdown. Maintaining USFDA compliance is non-negotiable for any company with US ambitions."},
+        {q:'What is CRAMS/CDMO and why is it a preferred model?',a:"Contract Research & Manufacturing Services/CDMOs manufacture drugs for global innovators. Benefits: (1) Higher margins (20–35% EBITDA); (2) Long-term contracted revenue; (3) No regulatory/pricing risk; (4) China+1 trend driving global pharma to Indian CDMOs. Divi's, Laurus, Piramal are key beneficiaries."},
+        {q:'How does price erosion work in the US generics market?',a:'When first generic launches (Day 1 after patent expiry), it commands 70–80% of innovator price. As more ANDAs get approved, 6–10 filers compete — price erodes 70–90% within 2–3 years. Commodity generics see 5–15% annual price erosion. Companies combat this via complex generics (injectables, inhalers, patches) with fewer filers.'},
+        {q:'What is the impact of the PLI scheme on Indian pharma?',a:'PLI for pharma: ₹15,000 cr outlay to reduce China API dependence. Incentivises domestic manufacturing of 41 critical KSMs and APIs. India imports 60–70% of key APIs from China — a supply chain vulnerability exposed during COVID. PLI aims to make India self-sufficient in APIs by 2030.'}
+      ]
+    },
+    {
+      id:'auto', icon:'🚗', name:'Automobile & Auto Ancillaries',
+      shortName:'Auto / Mfg',
+      tagline:"India is the 3rd largest auto market globally — 4.2M passenger vehicles sold in FY24",
+      accentColor:'#f59e0b', tagBg:'rgba(245,158,11,.12)', tagCol:'#f59e0b', tag:'Manufacturing + EV',
+      stats:[
+        {val:'4.2M',lab:'PV Sold in FY24 (Record)'},
+        {val:'~21M',lab:'2-Wheeler Units FY24'},
+        {val:'$222B',lab:'Turnover (Incl. Ancillaries)'},
+        {val:'7.1%',lab:"Share of India GDP"}
+      ],
+      overview:"India's auto sector is the world's 3rd largest by volume. The market spans 2-wheelers (mass market, rural barometer), passenger vehicles (PV), commercial vehicles (CV, GDP-linked), tractors (agri), and a nascent EV segment. Auto ancillaries supply 20,000+ components. The sector is undergoing an EV transition — Tata, M&M, and new entrants (Ola Electric) are leading. The sector's fortunes mirror India's GDP and rural income cycles.",
+      segments:['Passenger Vehicles (PV)','2-Wheelers (2W)','Commercial Vehicles (CV)','Tractors','Electric Vehicles (EV)','Auto Components & Ancillaries'],
+      chain:['Steel / Aluminium / Plastics','Tier 2/3 Component Suppliers','Tier 1 Ancillary OEMs','Vehicle OEM (Assembly)','Dealer Network','End Customer + Finance (NBFCs)'],
+      porter:[
+        {force:'Competitive Rivalry',level:'High',desc:'PV: Maruti, Hyundai, Tata, M&M, Kia, Toyota all compete. 2W: Hero vs Honda vs TVS vs Bajaj. EV entrants (Ola, Ather) add more competition.'},
+        {force:'New Entrant Threat',level:'Medium',desc:'Traditional ICE entry is hard (scale, dealer networks). EVs lower barriers — software and battery know-how matter more than engine expertise.'},
+        {force:'Supplier Power',level:'Medium',desc:'Key inputs: steel (55% of cost), semiconductors, batteries. Semi shortage (2021–22) showed vulnerability.'},
+        {force:'Buyer Power',level:'Medium',desc:'Retail buyers are fragmented but dealers negotiate. Fleet buyers (Uber, Blue Dart) have leverage.'},
+        {force:'Substitution Threat',level:'Low–Med',desc:'Shared mobility + metro expansion may reduce 4W ownership in cities. 2W unlikely substituted until mass transit coverage improves.'}
+      ],
+      kpis:[
+        {kpi:'Monthly Wholesale Volumes',def:'Units dispatched from factory to dealers (not retail sales)',benchmark:'SIAM monthly data; key data point watched by all analysts'},
+        {kpi:'Average Selling Price (ASP)',def:'Revenue / units sold',benchmark:'PV ASP risen from ₹8L (FY19) to ₹13L+ (FY24) — premiumisation'},
+        {kpi:'EBITDA Margin',def:'EBITDA / Net Revenue',benchmark:'Maruti: 11–13%; Tata Motors: 10–12%; M&M: 15–17% (auto)'},
+        {kpi:'Inventory at Dealer Level',def:'Weeks of retail inventory held at dealers',benchmark:'Healthy: 4–6 weeks; >8 weeks = demand worry signal'},
+        {kpi:'EV Penetration %',def:'EV units / total segment units',benchmark:'2W EV: ~5% FY24; PV EV: ~2%; target 30% by 2030'},
+        {kpi:'Order Book / Waiting Period',def:'Pending bookings / months of waiting for popular models',benchmark:'Long waiting periods = strong demand signal'},
+        {kpi:'Realization per Vehicle',def:'Net revenue per unit sold',benchmark:'1% realisation change = ~100 bps EBITDA impact'},
+        {kpi:'R&D & Capex as % of Revenue',def:'EV transition requires heavy R&D and battery capex',benchmark:'M&M: ₹40,000 cr EV investment committed'}
+      ],
+      companies:[
+        {name:'Maruti Suzuki India',desc:'Largest PV manufacturer with ~41% market share. JV with Suzuki Japan. Dominates small car segment; shifting to SUVs with Brezza, Grand Vitara, Fronx.',tags:['Large Cap','NSE/BSE','Suzuki JV']},
+        {name:'Tata Motors',desc:'PV + commercial vehicles + Jaguar Land Rover (UK). Leads Indian EV market (Nexon, Punch, Curvv). JLR turnaround driving global consolidated profits.',tags:['Large Cap','NSE/BSE','Tata Group']},
+        {name:'Mahindra & Mahindra (M&M)',desc:'Dominant in SUVs (Scorpio, XUV700, Thar) and tractors. Strong EV pipeline. Best-in-class margins in Indian auto.',tags:['Large Cap','NSE/BSE','Mahindra']},
+        {name:'Hero MotoCorp',desc:"World's largest 2W manufacturer by volume. Dominates mass rural market. Transitioning to EV with VIDA brand.",tags:['Large Cap','NSE/BSE']},
+        {name:'Bajaj Auto',desc:'Strong in premium 2W (Pulsar, Dominar) and 3-wheelers. Chetak EV brand. Partnerships with KTM and Triumph. High margin and dividend payout.',tags:['Large Cap','NSE/BSE']},
+        {name:'Eicher Motors',desc:'Royal Enfield — dominant in premium motorcycles (>250cc). Near-monopoly with ~94% share. High margin, aspirational brand.',tags:['Large Cap','NSE/BSE']},
+        {name:'Ola Electric',desc:"India's largest EV 2W player by volumes. Listed in 2024. Vertical integration model (in-house battery, motor). Cash burn continues.",tags:['Mid Cap','NSE/BSE','EV']},
+        {name:'Bosch India / Motherson Sumi',desc:'Bosch: global auto tech leader, BSVI and EV components. Motherson: largest Indian auto ancillary by revenue, global wiring harness leader.',tags:['Large Cap','NSE/BSE','Ancillary']}
+      ],
+      qa:[
+        {q:"How is the auto sector a barometer of India's broader economy?",a:'Auto sales across segments mirror economic activity: 2W = rural income and consumer sentiment; PV = urban middle-class spending; CV = industrial capex, freight, construction; Tractors = agricultural income. When multiple segments decline together (as in FY19–20), it signals broad-based slowdown. Auto sector leads GDP indicators by 1–2 quarters.'},
+        {q:'What is FAME and how is it driving EV adoption in India?',a:"FAME (Faster Adoption and Manufacturing of EVs) is the government EV subsidy scheme. FAME II: ₹10,000 cr for 2W and bus EV subsidies + charging infra. It reduces upfront EV cost — critical for 2W where ₹50,000 TCO gap vs ICE is the key barrier. States also offer their own EV policies on top of central subsidies."},
+        {q:'Why do auto ancillary companies often have better margins than OEMs?',a:'OEMs are squeezed on both sides — dealer discounts and raw material inflation. Ancillaries making specialised components (fuel injectors, lighting, electrical harnesses) have: (1) long-term supply contracts; (2) technology moats with high switching costs; (3) global customer diversification. Companies like Motherson, Minda, Sona BLW command 20–28% EBITDA margins.'},
+        {q:'What are the key risks of the ICE-to-EV transition for traditional auto players?',a:'ICE-heavy OEMs and ancillaries face: (1) Stranded assets — powertrain machinery (engine, gearbox plants) becomes worthless; (2) Talent gap — EVs need software/battery engineers, not mechanical; (3) China-dominated battery supply chain; (4) Margin pressure — EVs currently earn lower margins than ICE. Mitigation: gradual portfolio transition while protecting ICE cash flows to fund EV capex.'}
+      ]
+    },
+    {
+      id:'energy', icon:'⚡', name:'Energy & Power',
+      shortName:'Energy / Power',
+      tagline:"India's energy sector is undergoing the world's largest clean energy transition at scale",
+      accentColor:'#34d399', tagBg:'rgba(52,211,153,.12)', tagCol:'#34d399', tag:'Strategic & Infra',
+      stats:[
+        {val:'500 GW',lab:'Renewable Target by 2030'},
+        {val:'~187 GW',lab:'Renewable Capacity (Mar 24)'},
+        {val:'$110B',lab:'Oil Import Bill (FY24)'},
+        {val:'#3',lab:"World's Largest Oil Importer"}
+      ],
+      overview:"India's energy sector spans upstream oil & gas (ONGC, Oil India), downstream refining/marketing (IOC, BPCL, HPCL), natural gas (GAIL, IGL), coal (Coal India), and a fast-growing renewable sector (Adani Green, NTPC Renewable, Torrent Power). India imports ~87% of its crude oil — a structural vulnerability. The 500 GW renewable target by 2030 is driving unprecedented solar, wind, and battery storage investment.",
+      segments:['Upstream Oil & Gas (E&P)','Refining & Marketing (OMCs)','Natural Gas (pipelines + CGD)','Coal & Thermal Power','Solar & Wind Energy','Hydro & Nuclear Power'],
+      chain:['Upstream: Exploration & Production','Crude/LNG Import + Pipeline','Refining / LNG Regasification','Pipeline / Transmission Grid','Distribution (Discoms / CGD)','End Consumer (Industrial / Retail)'],
+      porter:[
+        {force:'Competitive Rivalry',level:'Medium',desc:'Upstream: ONGC dominates. Downstream: IOC/BPCL/HPCL are PSU oligopoly. Renewables: Adani, Tata Power, NTPC, Greenko competing intensely for bids.'},
+        {force:'New Entrant Threat',level:'Low',desc:'Massive capital requirements, land acquisition, grid connectivity, and regulatory approvals create very high barriers across the energy value chain.'},
+        {force:'Supplier Power',level:'High',desc:"India is 87% crude oil import-dependent. OPEC+ decisions directly affect Indian refining margins and fiscal deficit."},
+        {force:'Buyer Power',level:'Low–Med',desc:'Discoms are often loss-making — payment risk. Industrial buyers negotiate PPAs. Retail buyers have no choice in regulated segments.'},
+        {force:'Substitution Threat',level:'High (long-term)',desc:'Solar + Wind + BESS increasingly competitive with thermal. EV adoption will displace petrol/diesel demand. Green hydrogen is the wildcard.'}
+      ],
+      kpis:[
+        {kpi:'GRM (Gross Refining Margin)',def:'$ per barrel earned by refinery on each barrel processed',benchmark:'Complex refinery GRM: $8–14/bbl healthy; IOC targets $10+'},
+        {kpi:'Realization per BOE',def:'Revenue per barrel of oil equivalent produced (upstream)',benchmark:'ONGC: ~$75–85/bbl linked to global crude price'},
+        {kpi:'CUF (Capacity Utilisation Factor)',def:'For renewables: actual generation / maximum possible',benchmark:'Solar: 20–25% CUF; Wind: 28–35%; higher = better IRR'},
+        {kpi:'PPA Tariff (₹/unit)',def:'Power purchase agreement price for renewable projects',benchmark:'Solar auctions at ₹2.5–3.0/kWh; below thermal parity'},
+        {kpi:'Discom AT&C Loss',def:'Aggregate technical & commercial losses for distribution companies',benchmark:'Target <10%; actual avg ~17% — a chronic pain point'},
+        {kpi:'Net Debt / EBITDA',def:'Leverage ratio for capital-heavy energy companies',benchmark:'Adani Green: ~7x (high; long-asset duration); NTPC: ~4x'},
+        {kpi:'Under-recovery Amount',def:'LPG, kerosene subsidised — gap between market cost and retail price',benchmark:'LPG under-recovery cost GoI ₹50,000 cr+ in FY23'},
+        {kpi:'MW Pipeline / Order Book',def:'For renewable IPPs, contracted but unbuilt capacity',benchmark:'Adani Green has 19.8 GW operational + development pipeline'}
+      ],
+      companies:[
+        {name:'Reliance Industries (RIL)',desc:"Largest company in India by revenue. O2C refining complex at Jamnagar is world's largest. Pivoting to green energy (₹75,000 cr investment in solar, hydrogen, battery).",tags:['Large Cap','NSE/BSE','Conglomerate']},
+        {name:'ONGC',desc:"India's largest upstream oil & gas producer. PSU — government owns 58%+. Also owns HPCL. Production declining; needs deep-water and new basin exploration.",tags:['Large Cap','NSE/BSE','PSU']},
+        {name:'Indian Oil Corporation (IOC)',desc:'Largest OMC by revenue. Operates 11 refineries + largest fuel retail network (~34,000 petrol pumps). GRM is the key margin driver.',tags:['Large Cap','NSE/BSE','PSU']},
+        {name:'NTPC',desc:'Largest thermal power generator. Rapidly adding renewable capacity (NTPC Renewables). PSU — long-term PPAs make revenue highly visible.',tags:['Large Cap','NSE/BSE','PSU']},
+        {name:'Adani Green Energy',desc:'Largest Indian renewable IPP — 10.9 GW operational (Mar 2024). Aggressive expansion to 45 GW by 2030. High leverage is the key risk.',tags:['Large Cap','NSE/BSE','Adani']},
+        {name:'Power Grid Corporation',desc:'Monopoly inter-state electricity transmission. Regulated ROE business (~15.5% allowed ROE). Steady dividend payer. PSU.',tags:['Large Cap','NSE/BSE','PSU']},
+        {name:'Coal India',desc:"World's largest coal producer. PSU — supplies 80%+ of India's thermal coal. High dividend yield play. Structural long-term decline as renewables grow.",tags:['Large Cap','NSE/BSE','PSU']},
+        {name:'Tata Power / Torrent Power',desc:'Tata Power: integrated utility with ~7 GW renewables capacity. Torrent: Gujarat-centric, high-margin distribution monopoly in Ahmedabad and Surat.',tags:['Large Cap','NSE/BSE','Tata']}
+      ],
+      qa:[
+        {q:'What is a Gross Refining Margin (GRM) and what drives it?',a:'GRM = revenue from all products refined (petrol, diesel, LPG, naphtha, etc.) minus the cost of crude, per barrel processed. Key drivers: (1) Crude oil spread (light-heavy, sweet-sour differentials); (2) Product demand (diesel/petrol premium over crude); (3) Refinery complexity — higher Nelson Complexity Index lets refinery process cheaper, dirtier crudes for higher margin; (4) Regional product shortage/glut.'},
+        {q:'What is under-recovery, and why does it matter for Indian OMCs?',a:"Under-recovery = the gap between government-controlled retail price (petrol/diesel/LPG) and the market cost of supplying the fuel. Before 2014 diesel deregulation, OMCs were forced to sell below cost. LPG is still subsidised. OMC margins fluctuate wildly with crude prices and government pricing decisions — making them difficult to value on pure fundamentals."},
+        {q:"How does the Discom problem affect India's power sector?",a:"State electricity Discoms lose ~₹1.1L cr/year due to: AT&C losses (theft, technical losses ~17%); below-cost tariffs for agriculture (political subsidy); inefficient billing/collection. Result: Discoms cannot pay GenCos → GenCos face receivable stress. The Discom problem is the single biggest structural bottleneck in India's power sector reform."},
+        {q:'Why is India targeting 500 GW of renewables by 2030, and is it achievable?',a:'India needs to triple electricity capacity to meet 2030 demand while decarbonising (COP26 commitment: net zero by 2070). Solar is now the cheapest electricity source in India at ₹2.5/kWh — below coal at ₹4/kWh. As of Mar 2024: ~187 GW renewable installed. Most analysts think 350–380 GW is realistic by 2030 given land, grid, and Discom financing constraints.'}
+      ]
+    },
+    {
+      id:'infra', icon:'🏗️', name:'Infrastructure & Real Estate',
+      shortName:'Infra / Realty',
+      tagline:"India's National Infrastructure Pipeline: ₹111 lakh crore capex target by 2025",
+      accentColor:'#94a3b8', tagBg:'rgba(148,163,184,.12)', tagCol:'#94a3b8', tag:'Govt-Led Capex',
+      stats:[
+        {val:'₹111L cr',lab:'National Infra Pipeline'},
+        {val:'₹10L cr',lab:'Infra Budget FY24 (GoI)'},
+        {val:'$477B',lab:'Real Estate Market Size'},
+        {val:'~32K km',lab:'Highways Built (FY24)'}
+      ],
+      overview:"India's infrastructure sector encompasses roads & highways (NHAI), railways, airports, ports, urban infra (metro, smart cities), and water. Real estate spans residential, commercial (Grade A offices), retail malls, warehousing, and data centres. Both sectors are heavily interlinked — real estate drives construction material demand; infra spending drives economic multiplier effects (~2.5x GDP multiplier). PM Gati Shakti NMP is the integrated planning framework.",
+      segments:['Roads & Highways (EPC + HAM + BOT)','Railways (EPC, rolling stock, stations)','Airports & Ports','Residential Real Estate','Commercial Real Estate (Grade A Office)','Warehousing & Industrial','Data Centres'],
+      chain:['Govt / Developer (Client)','EPC Contractor (L&T, NCC)','Sub-Contractors (Civil, Mechanical)','Building Materials (Cement, Steel, Wires)','Construction Workforce','End-User (Buyer / Tenant / State)'],
+      porter:[
+        {force:'Competitive Rivalry',level:'High',desc:'Roads: L&T, KEC, IRB, Kalpataru, Ashoka Buildcon compete hard on bids. Real Estate: DLF, Godrej, Prestige, Sobha compete city-by-city.'},
+        {force:'New Entrant Threat',level:'Low–Med',desc:'Large EPC projects need proven execution track record, bonding capacity, and balance sheet. New entrants struggle to qualify for ₹5,000+ cr projects.'},
+        {force:'Supplier Power',level:'Medium–High',desc:'Steel and cement are 35–50% of project cost — commodity inflation hits margins severely. Labour scarcity post-COVID also affected execution.'},
+        {force:'Buyer Power',level:'High (Govt)',desc:'Government is the primary client for infra — dictates terms and payment timelines. Commercial real estate lessees negotiate hard.'},
+        {force:'Substitution Threat',level:'Low',desc:"Physical infrastructure has no substitutes. In real estate, co-working (WeWork, Awfis) substitutes traditional office leases."}
+      ],
+      kpis:[
+        {kpi:'Order Book / Revenue Ratio',def:'Pending order book / trailing revenue = revenue visibility in years',benchmark:"L&T: order book 3.5x revenue = 3.5 years of backlog"},
+        {kpi:'EBITDA Margin (EPC)',def:'Typically thin for EPC — competitively bid',benchmark:'EPC EBITDA: 10–15%; NHAI toll road concessionaires: 60–70%'},
+        {kpi:'Pre-Sales / Bookings (Realty)',def:'Value of new apartments/units booked (not yet handed over)',benchmark:'DLF FY24 pre-sales: ₹14,778 cr (record)'},
+        {kpi:'Net Debt / EBITDA',def:'Leverage — infra is inherently capital-heavy',benchmark:'Developers try to keep <3x; HAM/BOT toll cos can sustain higher'},
+        {kpi:'Collections Efficiency',def:'Collections from buyers / pre-sales booked',benchmark:'High collections = lower debt; watched in real estate cycle'},
+        {kpi:'Inventory Overhang (months)',def:'Unsold inventory / monthly sales rate',benchmark:'Healthy: <18 months; >30 months = demand risk'},
+        {kpi:'Grade A Office Vacancy',def:'Empty Grade A office space / total stock',benchmark:'India Grade A vacancy ~17%; Bangalore <15% (tight)'},
+        {kpi:'Road km/day',def:'National highways constructed per day',benchmark:'Target 50 km/day; achieved 34 km/day in FY24'}
+      ],
+      companies:[
+        {name:"Larsen & Toubro (L&T)",desc:"India's largest EPC conglomerate. Roads, metros, defence, shipbuilding, technology services, financial services. The benchmark for Indian engineering.",tags:['Large Cap','NSE/BSE','Conglomerate']},
+        {name:'DLF',desc:"India's largest listed real estate developer. Delhi-NCR focused — CyberCity commercial assets are crown jewels. Luxury residential at ₹7 cr+ per apartment.",tags:['Large Cap','NSE/BSE','Real Estate']},
+        {name:'IRB Infrastructure / KNR Constructions',desc:'IRB: largest private roads conglomerate (BOT + InvIT). KNR: mid-size, high-execution, debt-free roads EPC.',tags:['Mid Cap','NSE/BSE','Roads']},
+        {name:'Godrej Properties',desc:'Aggressive land-banking and launches across Mumbai, Pune, NCR, Bengaluru. Record pre-sales FY23–24. Part of Godrej Group.',tags:['Large Cap','NSE/BSE','Real Estate']},
+        {name:'Prestige Estates / Brigade Group',desc:"South India's premium real estate developers. Prestige: Bengaluru + Mumbai + NCR expansion. Brigade: strong commercial portfolio in Bengaluru.",tags:['Large Cap','NSE/BSE','Real Estate']},
+        {name:'Embassy Office Parks REIT',desc:"India's first REIT (2019). Largest commercial office REIT in Asia by area. ~45M sq ft portfolio. Stable distribution yield play.",tags:['Large Cap','NSE/BSE','REIT']},
+        {name:'IRCON / RITES / RVNL',desc:'Government railway construction companies. Order books exploded with ₹2.4L cr railway budget. RVNL listed; major rail expansion beneficiary.',tags:['Mid Cap','NSE/BSE','PSU','Railways']},
+        {name:'Oberoi Realty',desc:'Ultra-premium residential developer. Mumbai-centric. One of the most profitable realty companies on a per-unit basis.',tags:['Large Cap','NSE/BSE','Real Estate']}
+      ],
+      qa:[
+        {q:'What is HAM (Hybrid Annuity Model) and how does it differ from BOT/EPC?',a:"Three models for road construction: (1) EPC: Government pays contractor directly — contractor bears no traffic risk. (2) BOT-Toll: Private player builds, operates, and collects tolls for 25–30 years — bears full traffic risk. (3) HAM: Hybrid — government pays 40% during construction; remaining 60% paid as annuity over 15 years. HAM now dominates as it balances government capex with private participation and reduced risk."},
+        {q:'Why is Indian real estate in a strong upcycle post-COVID?',a:'Post-COVID demand driven by: (1) WFH creating demand for larger homes (2BHK → 3BHK upgrades); (2) Low mortgage rates 2020–22 front-loading demand; (3) Strong NRI demand; (4) Consolidation — RERA 2016 weeded out unorganised developers, benefiting listed players; (5) Improved project delivery credibility. FY23–24 saw record pre-sales across DLF, Godrej, Prestige, Sobha.'},
+        {q:'What is an InvIT and why is it relevant for infrastructure investors?',a:"Infrastructure Investment Trust (InvIT) is a pass-through vehicle that pools infrastructure assets (toll roads, power lines, pipelines) and distributes 90%+ of net distributable cash flows to unit-holders. Key appeal: stable 8–11% quarterly distribution yield; underlying assets have 25–35 year toll/PPA contracts; access to infrastructure returns without direct project risk."},
+        {q:'How does government capex translate to revenue for EPC companies like L&T?',a:"Government announces budget outlay → tenders floated → L&T bids competitively → wins contract → order book grows → project execution over 2–4 years → revenue recognized (% completion method) → collections from government. Order book growth is the leading indicator; execution pace and working capital management determine margins."}
+      ]
+    },
+    {
+      id:'telecom', icon:'📡', name:'Telecom & Media',
+      shortName:'Telecom / Media',
+      tagline:"India is the world's 2nd largest telecom market — 1.17 billion mobile subscribers",
+      accentColor:'#e879f9', tagBg:'rgba(232,121,249,.12)', tagCol:'#e879f9', tag:'Duopoly + 5G',
+      stats:[
+        {val:'1.17B',lab:'Mobile Subscribers (Mar 24)'},
+        {val:'850M+',lab:'Internet Subscribers'},
+        {val:'₹189',lab:'Avg ARPU (Airtel, Q4FY24)'},
+        {val:'5G',lab:'~97% Districts Covered (FY24)'}
+      ],
+      overview:"India's telecom sector has consolidated from 12+ operators in 2010 to effectively a 3-player market: Reliance Jio, Airtel, and the troubled Vodafone Idea (Vi). Jio's 2016 disruption (free voice + dirt-cheap data) destroyed ₹3L cr in industry value before the market stabilised. The sector is now recovering: ARPU is rising, 5G is being deployed, and fixed broadband + enterprise segments are the growth frontiers.",
+      segments:['Wireless Voice + Data (Prepaid/Postpaid)','Fixed Broadband (Fiber)','Enterprise / B2B Services','Tower Infrastructure','OTT & Digital Media','DTH & Cable TV'],
+      chain:['Spectrum (DoT Auctions)','Network Build (Towers, Fibre, BTS)','Core Network (MSC, EPC)','Telecom Circle Distribution','SIM / App Activation','Subscriber (Prepaid + Postpaid)'],
+      porter:[
+        {force:'Competitive Rivalry',level:'High → Med',desc:'Was extreme (Jio disruption 2016–18). Now a 3-player duopoly Jio/Airtel — rational oligopoly allowing tariff hikes.'},
+        {force:'New Entrant Threat',level:'Very Low',desc:'Spectrum auctions cost ₹50,000+ cr. Tower network and fibre rollout cost ₹1L cr+. Effectively impossible for new entrants.'},
+        {force:'Supplier Power',level:'High',desc:'Key suppliers: Ericsson, Nokia (network infra), tower companies (Indus Towers). Huawei being phased out adds cost.'},
+        {force:'Buyer Power',level:'Low',desc:'With Jio/Airtel raising tariffs in tandem, retail buyers have little choice. Postpaid/enterprise are stickier.'},
+        {force:'Substitution Threat',level:'Low',desc:'OTT apps (WhatsApp, Zoom) substituted voice somewhat. But data/connectivity itself has no substitute.'}
+      ],
+      kpis:[
+        {kpi:'ARPU (Avg Revenue Per User)',def:'Wireless revenue / average subscribers for the quarter',benchmark:'Airtel: ₹189; Jio: ₹182; Vi: ₹156 (Q4FY24)'},
+        {kpi:'Subscriber Market Share',def:"Company's total wireless subscribers / industry subscribers",benchmark:'Jio ~39%; Airtel ~33%; Vi ~18%; BSNL ~10%'},
+        {kpi:'EBITDA Margin',def:'EBITDA / Gross Revenue',benchmark:'Airtel Consol: ~52%; Jio standalone: ~53%; Vi: ~44%'},
+        {kpi:'Net Debt / EBITDA',def:'Leverage — telecom is extremely capex-heavy',benchmark:'Vi: ~20x (unsustainable); Airtel: ~2.5x; Jio: ~1x'},
+        {kpi:'Capex Intensity',def:'Annual capex / revenue (%)',benchmark:'5G rollout phase: 20–30%; steady-state: 12–18%'},
+        {kpi:'Data Usage per User (GB/month)',def:'Total data traffic / average subscribers',benchmark:"Jio avg: ~27 GB/month/user (among world's highest)"},
+        {kpi:'Postpaid Subscriber Mix',def:'% of total subscribers on postpaid (higher-ARPU, sticky)',benchmark:'Airtel postpaid: ~9M (higher ARPU ₹800+)'},
+        {kpi:'EBITDA – Capex (FCF proxy)',def:'Cash generation after network investment',benchmark:'Airtel FCF turning positive; Vi FCF deeply negative'}
+      ],
+      companies:[
+        {name:'Reliance Jio',desc:"India's #1 telecom by subscribers (~478M). Unlisted standalone; subsidiary of RIL. Disrupted market in 2016. Now monetising via ARPU hikes, JioFiber, JioCinema, and enterprise 5G.",tags:['Unlisted','RIL Subsidiary']},
+        {name:'Bharti Airtel',desc:"India's most profitable telecom. Premium positioning (postpaid, enterprise, home broadband). Africa operations (Airtel Africa listed in London) add scale.",tags:['Large Cap','NSE/BSE']},
+        {name:'Vodafone Idea (Vi)',desc:'Beleaguered #3 player. ₹2.1L cr+ debt burden (including AGR dues). Rights issue 2024. Government converted dues to equity — now holds 22%+ stake.',tags:['Mid Cap','NSE/BSE','Distressed']},
+        {name:'Indus Towers',desc:"India's largest tower company (~225K towers). Airtel + Vodafone-backed. Key revenue risk: Vi non-payment. Serves all operators.",tags:['Large Cap','NSE/BSE']},
+        {name:'BSNL',desc:"State-run telecom undergoing revival. Government infusing ₹1.64L cr — buying domestic 4G gear (C-DoT/TCS). Gaining subs from Vi's rural weakness.",tags:['Unlisted','PSU']},
+        {name:'Tata Communications',desc:'B2B connectivity and cloud — not a retail telco. IZO cloud networking, global MPLS submarine cable. Key enterprise 5G and IoT play.',tags:['Large Cap','NSE/BSE','Tata']},
+        {name:'Zee Entertainment / Sun TV',desc:'Zee: national broadcaster (Sony merger failed 2024). Sun TV: South India monopoly with Sun Direct DTH. High FCF, declining linear TV volumes.',tags:['Large Cap','NSE/BSE','Media']},
+        {name:'PVR INOX / BookMyShow',desc:"PVR INOX: India's largest cinema chain (1,700+ screens). BookMyShow: largest ticketing platform. Recovering post-COVID with blockbuster content cycle.",tags:['Mid Cap','NSE/BSE','Entertainment']}
+      ],
+      qa:[
+        {q:"What happened to Indian telecom after Jio's entry in 2016?",a:"Jio launched September 2016 with free voice + 4G data — a price shock triggering brutal competition. Result: industry revenues fell 40%; 8 operators (Aircel, Tata Teleservices, Telenor, RCOM, etc.) exited. Consolidation left Jio + Airtel as the strong survivors; Vi barely surviving. The bloodbath destroyed ₹3L cr in equity value — one of the most dramatic industry disruptions globally."},
+        {q:'What is AGR and why did it nearly kill Vodafone Idea?',a:"AGR (Adjusted Gross Revenue) is the basis on which DoT levies spectrum usage charges. Supreme Court (2019) ruled AGR must include non-telecom revenues — Airtel, Vi, RCOM had underpaid by ₹92,000+ cr. Vi's AGR liability alone: ₹58,000 cr. Combined with ₹1.5L cr debt, the company became technically insolvent. The government had to convert dues to equity to prevent collapse."},
+        {q:"Why is ARPU such a critical metric for Indian telcos?",a:"ARPU determines revenue without needing subscriber growth — critical because India's subscriber market is near-saturated. ARPU drivers: (1) Tariff hike — Jun 2024 hike added ~₹15–20 to industry ARPU; (2) Upselling prepaid to postpaid; (3) Bundling (JioFiber + OTT + mobile); (4) Data usage growth. India ARPU at ₹182–189 is still ~5–10x below US/South Korea — significant structural headroom."},
+        {q:'What is the 5G opportunity for Indian telcos?',a:'5G revenue opportunities: (1) Enterprise — private 5G networks for factories, ports, smart cities; (2) Fixed Wireless Access (FWA) — home broadband via 5G, cheaper rollout than fibre; (3) Higher data speeds driving premium plan upgrades. Airtel is ahead on monetisation. Jio leads in network scale — 97% districts covered. Vi has no 5G spectrum/resources — existential disadvantage.'}
+      ]
+    },
+    {
+      id:'metals', icon:'⛏️', name:'Metals, Mining & Materials',
+      shortName:'Metals / Mining',
+      tagline:"India is the world's 2nd largest steel producer — backbone of all industrial sectors",
+      accentColor:'#94a3b8', tagBg:'rgba(100,116,139,.15)', tagCol:'#cbd5e1', tag:'Cyclical & Commodity',
+      stats:[
+        {val:'125MT',lab:'Steel Production FY24'},
+        {val:'#2',lab:"World's Largest Steel Producer"},
+        {val:'~$80B',lab:'Metals & Mining Export Revenue'},
+        {val:'300MT',lab:'Steel Capacity Target by 2030'}
+      ],
+      overview:"India's metals sector is anchored by steel (JSW, Tata Steel, SAIL), aluminium (Hindalco, Vedanta), copper (Hindalco's Birla Copper), zinc (Hindustan Zinc/Vedanta), and precious metals. Mining covers coal (Coal India), iron ore (NMDC, Vedanta), bauxite, and limestone. These are highly cyclical businesses — driven by China's industrial output, global commodity price cycles, domestic construction/auto demand, and GoI's infrastructure capex.",
+      segments:['Flat Steel (HRC, CRC, plates — auto, white goods)','Long Steel (TMT bars, angles — construction)','Stainless & Specialty Steel','Aluminium (primary + downstream)','Zinc & Lead','Copper','Iron Ore & Coal Mining'],
+      chain:['Iron Ore / Bauxite / Zinc Mining','Beneficiation / Processing','Smelting / Steelmaking (BF-BOF / EAF)','Flat / Long Product Rolling','Distribution / Service Centres','End Users: Auto, Construction, Infra'],
+      porter:[
+        {force:'Competitive Rivalry',level:'High',desc:'Steel: JSW, Tata, SAIL, AMNS (Mittal+SAIL JV), JSPL compete. Aluminium: Hindalco vs Vedanta. Global commodity pricing means players are price-takers, not price-makers.'},
+        {force:'New Entrant Threat',level:'Low',desc:'Steel blast furnace: ₹10,000 cr+ capex. Mining needs captive iron ore or secured long-term contracts. High capex + cyclicality deters new entrants.'},
+        {force:'Supplier Power',level:'Medium',desc:'Iron ore (NMDC, overseas) and coking coal (100% import from Australia/USA) are key inputs. Price spikes 2021–22 crushed steel margins globally.'},
+        {force:'Buyer Power',level:'High',desc:'Auto OEMs negotiate annual volume contracts. Construction buyers buy from spot markets — more price-elastic.'},
+        {force:'Substitution Threat',level:'Low–Med',desc:'Aluminium substitutes steel in auto (lightweighting for EV). But steel remains irreplaceable for construction.'}
+      ],
+      kpis:[
+        {kpi:'EBITDA per Tonne (Steel)',def:'EBITDA / steel volumes produced',benchmark:'JSW/Tata Steel India: ₹8,000–12,000/tonne; SAIL: ₹5,000–7,000'},
+        {kpi:'Steel Spread',def:'Margin from raw material → steel conversion (HRC – iron ore – coking coal)',benchmark:'Global HRC-to-coking coal spread tracked weekly by analysts'},
+        {kpi:'Net Debt / EBITDA',def:'Leverage — capex heavy, cyclical earnings',benchmark:'Peak cycle: Tata India ~0.5x; trough: can spike to 5x+'},
+        {kpi:'Capacity Utilisation %',def:'Actual production / installed capacity',benchmark:'India avg ~80%; running full capacity at cycle peak'},
+        {kpi:'Realization per Tonne',def:'Revenue / volume sold',benchmark:'HRC benchmark price — tracks China steel price + India import parity'},
+        {kpi:'Cost of Production ($/tonne)',def:'All-in cost including ore, coal, power, conversion',benchmark:'Captive ore mines = massive cost advantage (JSW vs SAIL)'},
+        {kpi:'LME Price (Aluminium, Zinc, Copper)',def:'London Metal Exchange benchmark price drives realizations',benchmark:'LME Aluminium: $2,200–2,600/tonne; Copper: $8,500–10,000'},
+        {kpi:'Capex Guidance',def:'Annual capex commitment for capacity expansion',benchmark:'JSW Steel: ₹18,000–20,000 cr over FY24–26 for Vijayanagar expansion'}
+      ],
+      companies:[
+        {name:'JSW Steel',desc:"India's largest integrated steel producer by capacity (27 MTPA). Sajjan Jindal-led. Captive iron ore mines in Karnataka = cost advantage. Expanding to USA (Bayou Steel).",tags:['Large Cap','NSE/BSE','JSW Group']},
+        {name:'Tata Steel',desc:'Second-largest. Both India ops (high margin, captive ore) and UK ops (Tata Steel UK — transitioning to EAF with government support). M&A-heavy history.',tags:['Large Cap','NSE/BSE','Tata Group']},
+        {name:'Steel Authority of India (SAIL)',desc:'Largest PSU steel company. Integrated plants in eastern India. Higher costs vs JSW/Tata due to ageing assets and non-captive coal.',tags:['Large Cap','NSE/BSE','PSU']},
+        {name:'Hindalco Industries',desc:"Aditya Birla Group. Largest aluminium producer in Asia. Novelis (US subsidiary) — premium auto sheet aluminium. Also operates Birla Copper.",tags:['Large Cap','NSE/BSE','Aditya Birla']},
+        {name:'Vedanta Limited',desc:'Diversified metals and mining — zinc (Hindustan Zinc), aluminium, oil (Cairn India), iron ore. Complex holding structure. Demerger underway.',tags:['Large Cap','NSE/BSE','Vedanta']},
+        {name:'NMDC',desc:"India's largest iron ore miner (PSU). Captive mines in Chhattisgarh and Karnataka. Setting up a 3 MTPA steel plant (Nagarnar). High dividend yield.",tags:['Large Cap','NSE/BSE','PSU']},
+        {name:'Jindal Steel & Power (JSPL)',desc:'Strong in long steel (rails, beams) — key beneficiary of railway capex. Also power generation. Oman operations add international revenue.',tags:['Large Cap','NSE/BSE']},
+        {name:'APL Apollo Tubes',desc:'Structural steel tubes — disrupted the steel tube industry with a branded consumer approach. High volume, wide distribution, strong EBITDA/tonne growth.',tags:['Mid Cap','NSE/BSE']}
+      ],
+      qa:[
+        {q:'Why are metals companies called cyclicals, and how should you value them?',a:"Metals companies are cyclicals because earnings are driven by commodity prices which follow supply-demand cycles — peaking when demand booms (2021), crashing when China dumps excess supply (2016). Valuation methods: (1) EV/EBITDA through the cycle; (2) Replacement cost of assets; (3) EV/tonne of capacity; (4) Net debt trajectory; (5) Price-to-book. Never value at peak earnings — assume mean-reversion."},
+        {q:'What is the China factor in Indian steel prices?',a:'China produces ~55% of global steel. When Chinese demand is weak (property crisis, 2023–24), Chinese mills dump cheap HRC into Asian markets including India — depressing Indian steel prices by ₹4,000–6,000/tonne. Indian companies lobby for anti-dumping duties. This is why monitoring China PMI and property sales is critical for Indian steel margin forecasting.'},
+        {q:'What is captive ore and why is it a key differentiator?',a:'Captive iron ore mines allow a steel company to source ore at mining cost (₹1,500–2,000/tonne) vs open market prices (₹4,000–6,000/tonne). JSW Steel has captive mines in Karnataka; Tata Steel in Odisha and Jharkhand. This creates a ₹2,000–4,000/tonne structural cost advantage — in commodity businesses, the lowest-cost producer survives the cycle and gains share.'},
+        {q:'How does infrastructure capex translate to demand for steel?',a:"Every ₹1 cr of infra spending consumes ~2–4 tonnes of steel: highways consume TMT rebar, bridges need structural steel/plates, railways need rails and wagons, metro projects need heavy structural steel. GoI's ₹10L cr infra budget in FY24 implies 20–40 MT of steel demand from infra alone. Long steel (TMT, structural) players like JSPL and SAIL benefit most."}
+      ]
+    },
+    {
+      id:'ecommerce', icon:'📦', name:'E-Commerce & New Age Tech',
+      shortName:'Internet / Tech',
+      tagline:"India's internet economy expected to reach $1 trillion by 2030",
+      accentColor:'#f472b6', tagBg:'rgba(244,114,182,.12)', tagCol:'#f472b6', tag:'High Growth + Burn',
+      stats:[
+        {val:'$125B',lab:'E-Commerce Market Size (FY24)'},
+        {val:'850M+',lab:'Internet Users in India'},
+        {val:'$150B+',lab:'Total PE/VC Invested 2014–24'},
+        {val:'100+',lab:'Unicorn Companies (India)'}
+      ],
+      overview:"India's digital economy spans e-commerce (Flipkart, Meesho, Amazon India), food delivery (Zomato, Swiggy), ride-hailing (Ola, Uber India), fintech (Paytm, Razorpay, PhonePe), ed-tech, healthtech, and SaaS. The sector is funded by global PE/VC (SoftBank, Tiger Global, Prosus, Accel). Most companies are loss-making — the investment thesis is based on GMV growth, market share, and eventual profitability as unit economics improve.",
+      segments:['Horizontal E-Commerce (Amazon, Flipkart)','Quick Commerce (Blinkit, Zepto, Swiggy Instamart)','Food & Grocery Delivery','Fintech (Payments, Lending, Insurance)','Ed-Tech & Health-Tech','B2B SaaS (Zoho, Freshworks, Postman)'],
+      chain:['Consumer / Merchant','Platform (App / Website)','Payments Gateway (Razorpay/Paytm)','Logistics Partner (Delhivery/Ecom Express)','Warehouse / Dark Store / Fulfilment','Last Mile Delivery (Gig Worker)'],
+      porter:[
+        {force:'Competitive Rivalry',level:'Very High',desc:'Flipkart vs Amazon India vs Meesho vs JioMart in e-commerce. Zomato vs Swiggy in food. PhonePe vs GPay vs Paytm in payments. Intense, cash-burning competition.'},
+        {force:'New Entrant Threat',level:'Medium',desc:'Low technical barrier, but distribution (logistics network, seller network, consumer trust) is hard to replicate. Quick Commerce emerged as a new disruptor.'},
+        {force:'Supplier Power',level:'Low',desc:'Sellers/merchants are fragmented and dependent on platforms for distribution. Platforms dictate commission rates (12–25% take rate).'},
+        {force:'Buyer Power',level:'High',desc:'Price-sensitive Indian consumers switch platforms instantly for better deals. UPI frictionless payments enable easy switching.'},
+        {force:'Substitution Threat',level:'High',desc:'Quick commerce threatens horizontal e-commerce for daily needs. Social commerce (Meesho, Instagram) competes with marketplaces.'}
+      ],
+      kpis:[
+        {kpi:'GMV (Gross Merchandise Value)',def:'Total value of goods sold through the platform (pre-returns, pre-commissions)',benchmark:'Flipkart GMV ~$23B; Amazon India ~$20B (FY24E)'},
+        {kpi:'Take Rate / Commission %',def:'(Revenue / GMV) — what % of transaction value platform earns',benchmark:'Zomato platform take rate ~22%; Swiggy ~20%'},
+        {kpi:'Unit Economics (Contribution Margin)',def:'(Revenue – variable cost per order) / order',benchmark:'Zomato Adjusted EBITDA positive from Q2FY24 — milestone event'},
+        {kpi:'Monthly Active Users (MAU)',def:'Users active on platform in a given month',benchmark:'PhonePe: 540M+ registered users; Paytm: 100M+ MAU'},
+        {kpi:'Average Order Value (AOV)',def:'GMV / number of orders',benchmark:'Zomato AOV: ~₹460; Quick commerce AOV: ₹500–600'},
+        {kpi:'Order Frequency (Orders/User/Month)',def:'Engagement metric — higher frequency = stronger habit loop',benchmark:'Blinkit: 10–15 orders/month for core users'},
+        {kpi:'Net Revenue Retention (SaaS)',def:'Revenue from existing customers YoY including upsells',benchmark:'Freshworks NRR: ~108%; Zoho: private but high NRR'},
+        {kpi:'Burn Rate / Runway',def:'Monthly cash consumed; months of cash left',benchmark:"BYJU'S ran out of runway in 2024 — cautionary tale"}
+      ],
+      companies:[
+        {name:'Zomato',desc:"India's largest food delivery platform. Also owns Blinkit (quick commerce). Turned EBITDA-profitable in FY24. Hyperpure for B2B supply to restaurants.",tags:['Large Cap','NSE/BSE','Listed 2021']},
+        {name:'Swiggy',desc:"Zomato's direct competitor in food delivery. Owns Instamart (quick commerce). Listed November 2024. Still loss-making — narrowing losses.",tags:['Large Cap','NSE/BSE','Listed 2024']},
+        {name:'Nykaa (FSN E-Commerce)',desc:'Beauty & fashion e-commerce platform. First profitable new-age tech company to list (2021). Omni-channel with 150+ stores.',tags:['Large Cap','NSE/BSE','Listed 2021']},
+        {name:'Paytm (One97 Communications)',desc:'Fintech — payments, lending, insurance distribution. RBI revoked Paytm Payments Bank licence in Feb 2024 — major business disruption. Rebuilding.',tags:['Large Cap','NSE/BSE','Distressed']},
+        {name:'PB Fintech (PolicyBazaar/PaisaBazaar)',desc:'Online insurance + lending aggregator. Near-profitability in core insurance distribution. High renewal premium (sticky revenue).',tags:['Large Cap','NSE/BSE']},
+        {name:'Flipkart / Meesho / Amazon India',desc:'Flipkart: Walmart-owned (~77% stake). Meesho: social commerce (Tier 2/3 focus) — 140M+ active buyers. Amazon India: losing market share to Flipkart/Meesho.',tags:['Unlisted','VC-Backed']},
+        {name:'Zoho / Freshworks',desc:"Zoho: profitable B2B SaaS unicorn (private). Freshworks: listed on NASDAQ ($FRSH). Both serve global SMB market with CRM, ITSM, HR tools.",tags:['Unlisted / NASDAQ','SaaS']},
+        {name:'PhonePe / Razorpay / CRED',desc:"PhonePe: India's #1 UPI app by volume (47%+ market share). Razorpay: dominant payment gateway. CRED: premium credit card rewards platform.",tags:['Unlisted','Fintech']}
+      ],
+      qa:[
+        {q:'How do you value a loss-making new-age tech company?',a:'Never use PE (no earnings). Key frameworks: (1) EV/GMV or EV/Revenue — compare to global comps (Uber, DoorDash, Sea Limited); (2) DCF with terminal value — requires assumptions about long-run margins once scaled; (3) Unit economics analysis — is contribution margin positive?; (4) Market share × TAM approach. The risk: investors overpaid on GMV multiples in 2021; now profitability is the primary lens.'},
+        {q:'What is quick commerce and why is it disrupting traditional e-commerce?',a:"Quick commerce (q-comm) delivers grocery and daily essentials in 10–20 minutes via a network of dark stores. Blinkit, Zepto, and Swiggy Instamart are the three players. Disrupts: (1) Kirana stores for impulse/emergency purchases; (2) Horizontal e-commerce for daily grocery; (3) Traditional supermarkets. Blinkit (owned by Zomato) is now EBITDA-positive. The category is expected to be a ₹5L cr GMV market by 2030."},
+        {q:"What happened to BYJU'S and what lessons does it teach?",a:"BYJU'S peaked at $22B valuation in 2022, then collapsed by 2024 — facing insolvency. Lessons: (1) Revenue recognition abuse (booking multi-year subscriptions as current revenue); (2) Aggressive acquisition spending with no integration discipline; (3) Governance failure — resisted audits and board oversight; (4) Business model dependence on easy credit financing for consumers. The case is a textbook on startup governance risk."},
+        {q:"Why has UPI been transformative for India's fintech ecosystem?",a:'UPI, built by NPCI, created an open API real-time payment rail that any licensed app can use. Impact: (1) Digital payments grew from $50B to $2T+ in transaction value in 7 years; (2) Enabled fintech companies to build at scale with no proprietary infrastructure cost; (3) Created data asset — UPI transaction history enables credit scoring for unbanked populations; (4) Eliminated card network rent from domestic transactions.'},
+        {q:'What is the difference between GMV and revenue for an e-commerce marketplace?',a:'GMV = total value of all orders, before cancellations, returns, and commissions. Revenue = GMV × take rate (commissions) + advertising + logistics revenue. For Flipkart, GMV might be ₹100 cr but revenue is ₹15–20 cr (15–20% take rate). Investors inflated valuations using GMV multiples in 2021; now GAAP revenue multiples are the primary yardstick — much more conservative.'}
+      ]
+    }
+  ];
+
+  /* ── State ── */
+  var indCurrentIdx = 0;
+  var indCurrentSubTab = 'overview';
+
+  /* ── Landing card grid ── */
+  function indRenderCards() {
+    var g = document.getElementById('indCardGrid');
+    if (!g) return;
+    var h = '';
+    IND_DATA.forEach(function(s, i) {
+      h += '<div class="ind-sector-card" style="--accent-color:' + s.accentColor + ';--tag-bg:' + s.tagBg + ';--tag-col:' + s.tagCol + '" onclick="indOpenSector(' + i + ')">';
+      h += '<div class="isc-icon">' + s.icon + '</div>';
+      h += '<div class="isc-name">' + s.name + '</div>';
+      h += '<div class="isc-sub">' + s.tagline + '</div>';
+      h += '<div class="isc-tag">' + s.tag + '</div>';
+      h += '</div>';
+    });
+    g.innerHTML = h;
+  }
+
+  /* ── Populate sidebar tabs ── */
+  function indBuildSidebar() {
+    var sb = document.getElementById('indRmSidebar');
+    if (!sb) return;
+    var h = '<div onclick="indBackToGrid()" style="display:flex;align-items:center;gap:7px;padding:8px 14px 10px;font-size:11px;font-weight:600;color:var(--white3);cursor:pointer;border-bottom:1px solid var(--border2);margin-bottom:8px;transition:color .15s" onmouseover="this.style.color=\'var(--gold2)\'" onmouseout="this.style.color=\'var(--white3)\'">← All Sectors</div>';
+    h += '<div class="rm-sidebar-label">Sectors</div>';
+    IND_DATA.forEach(function(s, i) {
+      h += '<div class="rm-tab' + (i === indCurrentIdx ? ' active' : '') + '" onclick="indShowSector(' + i + ')"><span class="rm-tab-icon">' + s.icon + '</span> ' + s.shortName + '</div>';
+    });
+    sb.innerHTML = h;
+  }
+
+  /* ── Build panel HTML for one sector ── */
+  function indPanelHTML(s, i) {
+    var lvlCls = {'High':'ind-p5-hi','Very High':'ind-p5-hi','High → Med':'ind-p5-hi','Medium':'ind-p5-med','Medium–High':'ind-p5-med','Low–Med':'ind-p5-lo','Low':'ind-p5-lo','Very Low':'ind-p5-lo'};
+
+    /* Sector hero */
+    var h = '<div class="ind-sector-head">';
+    h += '<div class="ind-sector-icon">' + s.icon + '</div>';
+    h += '<div><div class="ind-sector-title">' + s.name + '</div>';
+    h += '<div class="ind-sector-sub">' + s.tagline + '</div>';
+    h += '<div class="ind-sector-meta">';
+    s.stats.forEach(function(st) { h += '<div class="ind-meta-chip"><b>' + st.val + '</b> ' + st.lab + '</div>'; });
+    h += '</div></div></div>';
+
+    /* Sub-tab pills */
+    var subTabs = [{id:'overview',label:'📋 Overview'},{id:'structure',label:'⛓ Value Chain & Forces'},{id:'kpis',label:'📊 Key Metrics'},{id:'companies',label:'🏢 Companies'},{id:'interview',label:'🎯 Interview Q&A'}];
+    h += '<div class="ind-sub-tabs" id="indSubTabs-' + i + '">';
+    subTabs.forEach(function(t) {
+      h += '<div class="ind-sub-tab' + (t.id === indCurrentSubTab ? ' active' : '') + '" data-tab="' + t.id + '" onclick="indSwitchSubTab(' + i + ',\'' + t.id + '\')">' + t.label + '</div>';
+    });
+    h += '</div>';
+
+    /* ── Overview panel ── */
+    h += '<div class="ind-sub-panel' + (indCurrentSubTab==='overview'?' active':'') + '" data-panel="overview">';
+    h += '<div class="widget" style="margin-bottom:14px"><div class="wt">Sector Overview</div><p style="font-size:12.5px;color:var(--white2);line-height:1.7">' + s.overview + '</p></div>';
+    h += '<div class="ind-stat-row">';
+    s.stats.forEach(function(st) { h += '<div class="ind-stat-box"><div class="ind-stat-val">' + st.val + '</div><div class="ind-stat-lab">' + st.lab + '</div></div>'; });
+    h += '</div>';
+    h += '<div class="ind-sec-label">Key Segments</div><div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px">';
+    s.segments.forEach(function(seg) { h += '<span style="font-size:11px;padding:4px 11px;background:var(--white4);border-radius:7px;color:var(--white2);border:1px solid var(--border2)">' + seg + '</span>'; });
+    h += '</div></div>';
+
+    /* ── Structure panel ── */
+    h += '<div class="ind-sub-panel' + (indCurrentSubTab==='structure'?' active':'') + '" data-panel="structure">';
+    h += '<div class="ind-sec-label">Value Chain</div>';
+    h += '<div class="widget" style="margin-bottom:16px"><div class="ind-chain">';
+    s.chain.forEach(function(node, ni) {
+      h += '<div class="ind-chain-node">' + node + '</div>';
+      if (ni < s.chain.length - 1) h += '<div class="ind-chain-arrow">→</div>';
+    });
+    h += '</div></div>';
+    h += '<div class="ind-sec-label">Porter\'s Five Forces</div><div class="ind-p5-grid">';
+    s.porter.forEach(function(p) {
+      var cls = lvlCls[p.level] || 'ind-p5-med';
+      h += '<div class="ind-p5-box"><div class="ind-p5-title">' + p.force + '</div>';
+      h += '<span class="ind-p5-badge ' + cls + '">' + p.level + '</span>';
+      h += '<div class="ind-p5-val">' + p.desc + '</div></div>';
+    });
+    h += '</div></div>';
+
+    /* ── KPIs panel ── */
+    h += '<div class="ind-sub-panel' + (indCurrentSubTab==='kpis'?' active':'') + '" data-panel="kpis">';
+    h += '<div class="widget"><table class="ind-kpi-table"><thead><tr><th>Metric</th><th>Definition</th><th>India Benchmark</th></tr></thead><tbody>';
+    s.kpis.forEach(function(k) {
+      h += '<tr><td><b>' + k.kpi + '</b></td><td>' + k.def + '</td><td style="color:var(--gold2);font-family:\'IBM Plex Mono\',monospace;font-size:10.5px">' + k.benchmark + '</td></tr>';
+    });
+    h += '</tbody></table></div></div>';
+
+    /* ── Companies panel ── */
+    h += '<div class="ind-sub-panel' + (indCurrentSubTab==='companies'?' active':'') + '" data-panel="companies">';
+    h += '<div class="ind-co-list">';
+    s.companies.forEach(function(c, ci) {
+      h += '<div class="ind-co-card"><div class="ind-co-rank">#' + (ci+1) + '</div>';
+      h += '<div style="flex:1"><div class="ind-co-name">' + c.name + '</div>';
+      h += '<div class="ind-co-desc">' + c.desc + '</div>';
+      h += '<div class="ind-co-tags">';
+      c.tags.forEach(function(t) {
+        var cls = t==='PSU'?'psu':(t==='Large Cap'?'large':(t==='NSE/BSE'?'listed':(t.indexOf('Unlisted')>=0?'unlisted':'')));
+        h += '<span class="ind-co-tag ' + cls + '">' + t + '</span>';
+      });
+      h += '</div></div></div>';
+    });
+    h += '</div></div>';
+
+    /* ── Interview Q&A panel ── */
+    h += '<div class="ind-sub-panel' + (indCurrentSubTab==='interview'?' active':'') + '" data-panel="interview">';
+    h += '<div class="ind-qa-list">';
+    s.qa.forEach(function(q, qi) {
+      h += '<div class="ind-qa-item"><div class="ind-qa-q" onclick="this.closest(\'.ind-qa-item\').classList.toggle(\'open\')">';
+      h += '<span>' + q.q + '</span><span class="ind-qa-arrow">&#9654;</span></div>';
+      h += '<div class="ind-qa-a">' + q.a + '</div></div>';
+    });
+    h += '</div></div>';
+
+    return h;
+  }
+
+  /* ── Populate all panels ── */
+  function indBuildPanels() {
+    var panel = document.getElementById('indRmPanel');
+    if (!panel) return;
+    var h = '';
+    IND_DATA.forEach(function(s, i) {
+      h += '<div class="rm-panel-inner' + (i === indCurrentIdx ? ' active' : '') + '">' + indPanelHTML(s, i) + '</div>';
+    });
+    panel.innerHTML = h;
+  }
+
+  /* ── Open from landing grid ── */
+  function indOpenSector(idx) {
+    indCurrentIdx = idx;
+    indCurrentSubTab = 'overview';
+    document.getElementById('ind-sector-grid').style.display = 'none';
+    document.getElementById('ind-sector-detail').style.display = 'block';
+    indBuildSidebar();
+    indBuildPanels();
+    var c = document.querySelector('.content');
+    if (c) c.scrollTop = 0;
+    window.scrollTo(0, 0);
+  }
+
+  /* ── Switch sector from sidebar ── */
+  function indShowSector(idx) {
+    indCurrentIdx = idx;
+    indCurrentSubTab = 'overview';
+    /* Update sidebar active state */
+    var tabs = document.querySelectorAll('#indRmSidebar .rm-tab');
+    for (var j = 0; j < tabs.length; j++) tabs[j].classList.toggle('active', j === idx);
+    /* Rebuild panels with new sector active */
+    indBuildPanels();
+    /* Scroll panel to top */
+    var panel = document.getElementById('indRmPanel');
+    if (panel) panel.scrollTop = 0;
+  }
+
+  /* ── Back to grid ── */
+  function indBackToGrid() {
+    document.getElementById('ind-sector-grid').style.display = '';
+    document.getElementById('ind-sector-detail').style.display = 'none';
+    var c = document.querySelector('.content');
+    if (c) c.scrollTop = 0;
+    window.scrollTo(0, 0);
+  }
+
+  /* ── Switch sub-tab within a sector ── */
+  function indSwitchSubTab(sectorIdx, tab) {
+    indCurrentSubTab = tab;
+    /* Update pill active state */
+    var pills = document.querySelectorAll('#indSubTabs-' + sectorIdx + ' .ind-sub-tab');
+    for (var j = 0; j < pills.length; j++) pills[j].classList.toggle('active', pills[j].dataset.tab === tab);
+    /* Show/hide sub panels */
+    var panels = document.querySelectorAll('#indRmPanel .rm-panel-inner.active .ind-sub-panel');
+    for (var k = 0; k < panels.length; k++) panels[k].classList.toggle('active', panels[k].dataset.panel === tab);
+  }
+
+  /* ── Init ── */
+  document.addEventListener('DOMContentLoaded', function() { indRenderCards(); });
+  if (document.readyState !== 'loading') indRenderCards();
+  </script>
 
 </body>
 
