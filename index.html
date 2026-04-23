@@ -1665,18 +1665,16 @@
     .theme-toggle {
       display: flex;
       align-items: center;
-      gap: 7px;
-      padding: 5px 12px;
+      gap: 5px;
+      padding: 4px 8px;
       border-radius: 20px;
       border: 1.5px solid var(--border2);
       background: var(--white4);
       cursor: pointer;
-      font-size: 11px;
-      font-weight: 600;
+      font-size: 13px;
       color: var(--white2);
       transition: all .2s;
       font-family: "Outfit", sans-serif;
-      letter-spacing: .03em
     }
 
     .theme-toggle:hover {
@@ -1686,8 +1684,8 @@
     }
 
     .theme-toggle .toggle-track {
-      width: 30px;
-      height: 16px;
+      width: 24px;
+      height: 13px;
       border-radius: 8px;
       background: var(--white4);
       border: 1.5px solid var(--border2);
@@ -1696,8 +1694,8 @@
     }
 
     .theme-toggle .toggle-thumb {
-      width: 10px;
-      height: 10px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: var(--white2);
       position: absolute;
@@ -1711,7 +1709,7 @@
     }
 
     [data-theme="light"] .theme-toggle .toggle-thumb {
-      transform: translateX(14px);
+      transform: translateX(11px);
       background: var(--gold)
     }
 
@@ -8754,27 +8752,6 @@
         </div>
       </div>
 
-      <!-- What's inside -->
-      <div class="pitch-divider-label">What you get access to</div>
-      <div class="pitch-perks">
-        <div class="pitch-perk">
-          <div class="pitch-perk-icon">🃏</div>
-          <div class="pitch-perk-text"><strong>400+ Q&amp;A Flashcards</strong>Curated questions with detailed answers</div>
-        </div>
-        <div class="pitch-perk">
-          <div class="pitch-perk-icon">💡</div>
-          <div class="pitch-perk-text"><strong>Key Financial Concepts</strong>Accounting, Valuation, M&amp;A, LBO &amp; more</div>
-        </div>
-        <div class="pitch-perk">
-          <div class="pitch-perk-icon">📊</div>
-          <div class="pitch-perk-text"><strong>Financial Modeling Files</strong>DCF walkthroughs &amp; revenue frameworks</div>
-        </div>
-        <div class="pitch-perk">
-          <div class="pitch-perk-icon">📄</div>
-          <div class="pitch-perk-text"><strong>Resume Template</strong>Finance-ready CV built for the industry</div>
-        </div>
-      </div>
-
       <!-- Quote -->
       <div class="pitch-quote">
         "This is the place you need to be — the <strong>one-stop destination</strong> for finance professionals who are serious about landing and excelling in core finance roles."
@@ -8861,29 +8838,20 @@
   </div>
 <script>
   /* ── Pitch / Landing Page Logic ── */
-  (function() {
-    // Check Firebase auth state — only show pitch if user is NOT already logged in
-    // and hasn't seen the pitch before
-    document.addEventListener('DOMContentLoaded', function() {
-      var seen = localStorage.getItem('ft_pitch_seen');
-      if (!seen) {
-        var po = document.getElementById('pitch-overlay');
-        if (po) po.style.display = 'flex';
-      }
-    });
-  })();
+  /* Pitch always shows for unauthenticated users — controlled by Firebase auth, not localStorage */
+  document.addEventListener('DOMContentLoaded', function() {
+    var po = document.getElementById('pitch-overlay');
+    if (po) po.style.display = 'flex'; // show by default; hidden only if user is already signed in
+  });
 
   function pitchProceed() {
     var po = document.getElementById('pitch-overlay');
     if (!po) return;
-    // Smooth fade out
     po.style.transition = 'opacity 0.35s ease';
     po.style.opacity = '0';
     setTimeout(function() {
       po.style.display = 'none';
-      localStorage.setItem('ft_pitch_seen', '1');
-      // The gate-overlay visibility is controlled by Firebase auth state —
-      // no need to manually show it; it will appear automatically if not logged in.
+      // gate-overlay is already visible underneath — user will now see the sign-in screen
     }, 360);
   }
 </script>
@@ -9026,10 +8994,13 @@
           if (btn) { btn.textContent = '🔓 Sign In'; btn.disabled = false; }
           return;
         }
-        // Authenticated (Google user or verified email user) — load the app
+        // Authenticated — hide pitch (user is already signed in, skip it entirely)
+        var po = document.getElementById('pitch-overlay');
+        if (po) po.style.display = 'none';
+        // Load the app directly
         loadDataAndStartApp();
       } else {
-        // No user logged in — enable the sign-in button
+        // No user logged in — pitch is already visible; just enable the sign-in button
         var btn = document.getElementById('gateBtn');
         if (btn) { btn.textContent = '🔓 Sign In'; btn.disabled = false; }
       }
@@ -9377,7 +9348,7 @@
         <div class="ws-feat">
           <div class="ws-feat-icon">🃏</div>
           <div class="ws-feat-body">
-            <div class="ws-feat-title">500+ Flashcards</div>
+            <div class="ws-feat-title">400+ Flashcards</div>
             <div class="ws-feat-sub">Accounting, Valuation, M&amp;A, LBO, Equity Research &amp; more — with spaced repetition so you study what you actually need.</div>
           </div>
         </div>
@@ -9599,12 +9570,11 @@
             </svg>Export
           </button>
 
-          <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleBtn">
+          <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleBtn" title="Toggle dark/light mode">
             <span id="themeIcon">☀️</span>
             <div class="toggle-track">
               <div class="toggle-thumb"></div>
             </div>
-            <span id="themeLabel">Light</span>
           </button>
           <div style="position:relative" id="settingsDropWrap">
             <button class="btn btn-o" onclick="toggleSettingsMenu()" style="gap:5px;padding:7px 11px" title="Settings">
@@ -9641,10 +9611,7 @@
               </div>
             </div>
           </div>
-          <button class="btn btn-o" onclick="openUserManual()" id="userManualBtn" title="User Manual" style="gap:6px;padding:7px 13px;font-size:12px;">
-            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 7v5"/><circle cx="8" cy="4.5" r="0.6" fill="currentColor" stroke="none"/></svg>
-            Guide
-          </button>
+          <button class="btn btn-o" onclick="openUserManual()" id="userManualBtn" title="User Guide" style="padding:7px 11px;font-size:13px;font-weight:700;font-style:italic;">i</button>
           <button class="btn btn-p" onclick="nav(&#39;flashcard&#39;)">▶ Start Studying</button>
         </div>
       </div>
@@ -15448,7 +15415,7 @@
         <div class="view" id="view-bookmarks">
           <div id="bkBulkBar" class="bulk-bar">
             <span class="bulk-count" id="bkBulkCount">0 selected</span>
-            <button class="btn btn-o" style="font-size:11px;padding:5px 12px;margin-right:8px" onclick="selectAllBkVisible()">☑ Toggle All</button>
+            <button class="btn btn-o" style="font-size:11px;padding:5px 12px;margin-right:8px" onclick="selectAllBkVisible()">☑ Select All</button>
             <button class="btn btn-o" style="font-size:11px;padding:5px 12px;" onclick="bulkUnbookmarkOnly()">🔖 Unbookmark</button>
             <button class="btn btn-o" style="font-size:11px;padding:5px 12px;" onclick="exitBkMultiMode()">✕ Cancel</button>
           </div>
@@ -24115,10 +24082,16 @@ A: WACC is the weighted average cost of capital."></textarea>
         function checkOnboarding() {
           var profile = getProfile();
           if (!profile) {
-            var overlay = document.getElementById('onboardingOverlay');
-            if (overlay) {
-              overlay.style.display = 'flex';
-              overlay.style.opacity = '1';
+            // Show welcome splash first if this is a first-ever visit, else go straight to onboarding
+            if (!localStorage.getItem('ft_welcome_seen')) {
+              var splash = document.getElementById('welcomeSplash');
+              if (splash) { splash.style.display = 'flex'; splash.style.opacity = '1'; }
+            } else {
+              var overlay = document.getElementById('onboardingOverlay');
+              if (overlay) {
+                overlay.style.display = 'flex';
+                overlay.style.opacity = '1';
+              }
             }
           }
         }
@@ -26782,7 +26755,19 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
           if (bar) bar.classList.toggle('visible', _bkMultiMode);
           renderBookmarks();
         }
-        function exitBkMultiMode() { _bkMultiMode = false; _bkSelected.clear(); toggleBkMultiMode(); }
+        function exitBkMultiMode() {
+          _bkMultiMode = false;
+          _bkSelected.clear();
+          var btn = document.getElementById('bkMultiBtn');
+          if (btn) { btn.textContent = '☑ Select'; btn.className = 'btn btn-o'; btn.style = 'font-size:11px;padding:5px 12px;'; }
+          var list = document.getElementById('bkList');
+          if (list) list.classList.remove('multi-mode');
+          var bar = document.getElementById('bkBulkBar');
+          if (bar) bar.classList.remove('visible');
+          var bcount = document.getElementById('bkBulkCount');
+          if (bcount) bcount.textContent = '0 selected';
+          renderBookmarks();
+        }
         function toggleBkSelect(id) {
           if (_bkSelected.has(id)) _bkSelected.delete(id); else _bkSelected.add(id);
           var el = document.getElementById('bk-qi-' + id);
@@ -27108,7 +27093,25 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
 
         function confirmResetProgress() {
           if (document.getElementById('settingsDropMenu')) document.getElementById('settingsDropMenu').style.display = 'none';
-          if (confirm('Reset ALL progress? This cannot be undone.')) { resetProgress(); }
+          if (!confirm('This will reset all your progress, notes, bookmarks and settings on this device.\n\nYour account and Firestore data are NOT affected.\n\nContinue?')) return;
+          [
+            'finToolkit_v2',
+            'finToolkit_feedback',
+            'finToolkit_messages',
+            'finToolkit_rating',
+            'ft_profile',
+            'ft_studydata',
+            'ft_notes',
+            'ft_diffvotes',
+            'finTheme',
+            'sidebarCollapsed',
+            'ft_welcome_seen',
+            'macro_kpis_v2',
+            'macro_kpis_ts',
+            'macro_groq_key'
+          ].forEach(function(key) { localStorage.removeItem(key); });
+          showToast('✅ Progress reset. Reloading...');
+          setTimeout(function() { window.location.reload(); }, 1200);
         }
 
         // ── Hero date + mission briefing ──
@@ -28656,7 +28659,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.55);
-    z-index: 9000;
+    z-index: 99997;
     align-items: center;
     justify-content: center;
     padding: 16px;
@@ -29289,17 +29292,21 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
       s.style.display = 'none';
       localStorage.setItem('ft_welcome_seen', '1');
       if (!localStorage.getItem('ft_profile')) {
-        try { localStorage.setItem('ft_profile', JSON.stringify({ role:'general', dailyGoal:20, focusCats:[], createdAt: new Date().toISOString(), skipped:true })); } catch(e){}
+        try { localStorage.setItem('ft_profile', JSON.stringify({ role:'general', dailyGoal:20, focusCats:[], createdAt: new Date().toISOString(), skipped:true })); } catch(e){} 
       }
+      // Navigate to dashboard and re-render so layout is correct
+      if (typeof nav === 'function') nav('dashboard');
+      if (typeof renderDashboard === 'function') renderDashboard();
+      if (typeof renderSidebar === 'function') renderSidebar();
+      // Open the User Guide (same as after completing onboarding)
+      setTimeout(function() {
+        if (typeof openUserManual === 'function') openUserManual();
+        localStorage.setItem('um_seen', '1');
+        var btn = document.getElementById('userManualBtn');
+        if (btn) btn.classList.remove('um-new');
+      }, 200);
     }, 340);
   }
-  document.addEventListener('DOMContentLoaded', function() {
-    if (!localStorage.getItem('ft_welcome_seen')) {
-      var s = document.getElementById('welcomeSplash');
-      if (s) { s.style.display = 'flex'; s.style.opacity = '1'; }
-    }
-  });
-
   /* ── Privacy Policy ── */
   function openPrivacyPolicy() { document.getElementById('ppOverlay').classList.add('open'); }
   function closePrivacyPolicy() { document.getElementById('ppOverlay').classList.remove('open'); }
