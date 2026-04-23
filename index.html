@@ -4242,6 +4242,230 @@
     }
   </style>
   <style>
+    /* ── Pitch / Landing Page Overlay ── */
+    #pitch-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100001;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: #030712;
+      font-family: 'Outfit', sans-serif;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    #pitch-overlay::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(ellipse at 10% 20%, rgba(245, 158, 11, 0.13) 0%, transparent 55%),
+        radial-gradient(ellipse at 90% 80%, rgba(59, 130, 246, 0.12) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, rgba(139, 92, 246, 0.06) 0%, transparent 70%),
+        url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='0.5' fill='rgba(255,255,255,0.04)'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .pitch-box {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin: auto;
+      text-align: center;
+      padding: 20px 0 40px;
+    }
+
+    .pitch-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: #F59E0B;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-radius: 20px;
+      padding: 5px 14px;
+      margin-bottom: 28px;
+    }
+
+    .pitch-headline {
+      font-family: 'DM Serif Display', serif;
+      font-size: 42px;
+      line-height: 1.12;
+      color: #F9FAFB;
+      margin-bottom: 18px;
+      letter-spacing: -0.02em;
+    }
+
+    .pitch-headline span {
+      color: #F59E0B;
+    }
+
+    .pitch-sub {
+      font-size: 16px;
+      color: rgba(249, 250, 251, 0.6);
+      line-height: 1.65;
+      max-width: 480px;
+      margin: 0 auto 36px;
+    }
+
+    /* Qualifying questions */
+    .pitch-questions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 36px;
+      text-align: left;
+    }
+
+    .pitch-q {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      padding: 16px 20px;
+      transition: border-color .2s, background .2s;
+      cursor: default;
+    }
+
+    .pitch-q:hover {
+      background: rgba(245, 158, 11, 0.05);
+      border-color: rgba(245, 158, 11, 0.2);
+    }
+
+    .pitch-q-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .pitch-q-text {
+      font-size: 14.5px;
+      font-weight: 500;
+      color: #F9FAFB;
+      line-height: 1.5;
+    }
+
+    .pitch-q-sub {
+      font-size: 12px;
+      color: rgba(249, 250, 251, 0.45);
+      margin-top: 3px;
+      line-height: 1.5;
+    }
+
+    /* What you get */
+    .pitch-divider-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: rgba(249, 250, 251, 0.3);
+      margin-bottom: 16px;
+    }
+
+    .pitch-perks {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 36px;
+      text-align: left;
+    }
+
+    .pitch-perk {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 13px 15px;
+    }
+
+    .pitch-perk-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .pitch-perk-text {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: rgba(249, 250, 251, 0.8);
+      line-height: 1.4;
+    }
+
+    .pitch-perk-text strong {
+      color: #F9FAFB;
+      display: block;
+      font-size: 13.5px;
+    }
+
+    /* Holy grail quote */
+    .pitch-quote {
+      background: rgba(245, 158, 11, 0.07);
+      border: 1px solid rgba(245, 158, 11, 0.18);
+      border-radius: 16px;
+      padding: 20px 24px;
+      margin-bottom: 32px;
+      font-size: 14px;
+      color: rgba(249, 250, 251, 0.75);
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    .pitch-quote strong {
+      color: #F59E0B;
+      font-style: normal;
+    }
+
+    /* CTA */
+    .pitch-cta {
+      width: 100%;
+      padding: 17px 24px;
+      background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+      color: #030712;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+      cursor: pointer;
+      transition: all .2s cubic-bezier(0.4, 0, 0.2, 1);
+      letter-spacing: .02em;
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.35), inset 0 1px 0 rgba(255,255,255,0.2);
+      margin-bottom: 14px;
+    }
+
+    .pitch-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(245, 158, 11, 0.45), inset 0 1px 0 rgba(255,255,255,0.2);
+      background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+    }
+
+    .pitch-cta:active {
+      transform: translateY(0);
+      box-shadow: 0 3px 8px rgba(245, 158, 11, 0.25);
+    }
+
+    .pitch-footer-note {
+      font-size: 11.5px;
+      color: rgba(249, 250, 251, 0.3);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 600px) {
+      .pitch-headline { font-size: 28px; }
+      .pitch-sub { font-size: 14px; }
+      .pitch-perks { grid-template-columns: 1fr; }
+      .pitch-box { padding: 10px 0 30px; }
+    }
+
     #gate-overlay {
       position: fixed;
       inset: 0;
@@ -8493,6 +8717,78 @@
   </style>
 
 <body>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- PITCH / LANDING PAGE — shown before login              -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div id="pitch-overlay">
+    <div class="pitch-box">
+
+      <!-- Badge -->
+      <div class="pitch-badge">✦ Finance Analyst Toolkit</div>
+
+      <!-- Headline -->
+      <h1 class="pitch-headline">The <span>Holy Grail</span><br>for Finance Careers</h1>
+      <p style="font-size:13px; color:rgba(249,250,251,0.55); letter-spacing:0.03em; margin-bottom:10px; font-style:italic;">
+        One place. Every resource you need.
+      </p>
+      <p class="pitch-sub">
+        Built for Finance Professionals. By Finance Professional.
+      </p>
+
+      <!-- Qualifying Questions -->
+      <div class="pitch-questions">
+        <div class="pitch-q">
+          <div class="pitch-q-icon">🎓</div>
+          <div>
+            <div class="pitch-q-text">Are you a CA, CFA, or MBA — or expect to pursue any of these in the future?</div>
+            <div class="pitch-q-sub">CA Inter / Final · CFA Level I / II / III · MBA Finance · CMA · ACCA</div>
+          </div>
+        </div>
+        <div class="pitch-q">
+          <div class="pitch-q-icon">🔥</div>
+          <div>
+            <div class="pitch-q-text">Are you really passionate about a career in core finance?</div>
+            <div class="pitch-q-sub">IB · Equity Research · PE/VC · FP&amp;A · Corporate Finance · Credit</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- What's inside -->
+      <div class="pitch-divider-label">What you get access to</div>
+      <div class="pitch-perks">
+        <div class="pitch-perk">
+          <div class="pitch-perk-icon">🃏</div>
+          <div class="pitch-perk-text"><strong>400+ Q&amp;A Flashcards</strong>Curated questions with detailed answers</div>
+        </div>
+        <div class="pitch-perk">
+          <div class="pitch-perk-icon">💡</div>
+          <div class="pitch-perk-text"><strong>Key Financial Concepts</strong>Accounting, Valuation, M&amp;A, LBO &amp; more</div>
+        </div>
+        <div class="pitch-perk">
+          <div class="pitch-perk-icon">📊</div>
+          <div class="pitch-perk-text"><strong>Financial Modeling Files</strong>DCF walkthroughs &amp; revenue frameworks</div>
+        </div>
+        <div class="pitch-perk">
+          <div class="pitch-perk-icon">📄</div>
+          <div class="pitch-perk-text"><strong>Resume Template</strong>Finance-ready CV built for the industry</div>
+        </div>
+      </div>
+
+      <!-- Quote -->
+      <div class="pitch-quote">
+        "This is the place you need to be — the <strong>one-stop destination</strong> for finance professionals who are serious about landing and excelling in core finance roles."
+      </div>
+
+      <!-- CTA -->
+      <button class="pitch-cta" onclick="pitchProceed()">
+        I'm Ready — Get Me In &nbsp;→
+      </button>
+      <div class="pitch-footer-note">Free to access · No spam · Your progress stays private</div>
+
+    </div>
+  </div>
+
   <div id="gate-overlay" style="display: none;">
     <div class="gate-box">
       <div class="gate-logo">🎯</div>
@@ -8563,6 +8859,35 @@
       <div class="gate-footer">This toolkit requires an account.<br>Please sign in or create one to access.</div>
     </div>
   </div>
+<script>
+  /* ── Pitch / Landing Page Logic ── */
+  (function() {
+    // Check Firebase auth state — only show pitch if user is NOT already logged in
+    // and hasn't seen the pitch before
+    document.addEventListener('DOMContentLoaded', function() {
+      var seen = localStorage.getItem('ft_pitch_seen');
+      if (!seen) {
+        var po = document.getElementById('pitch-overlay');
+        if (po) po.style.display = 'flex';
+      }
+    });
+  })();
+
+  function pitchProceed() {
+    var po = document.getElementById('pitch-overlay');
+    if (!po) return;
+    // Smooth fade out
+    po.style.transition = 'opacity 0.35s ease';
+    po.style.opacity = '0';
+    setTimeout(function() {
+      po.style.display = 'none';
+      localStorage.setItem('ft_pitch_seen', '1');
+      // The gate-overlay visibility is controlled by Firebase auth state —
+      // no need to manually show it; it will appear automatically if not logged in.
+    }, 360);
+  }
+</script>
+
   <script>
     async function signInWithGoogle() {
       var errEl = document.getElementById('gateErr');
@@ -9040,6 +9365,63 @@
 
 
   <!-- ── Onboarding Overlay ── -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- WELCOME SPLASH (shown before onboarding, first visit)  -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div id="welcomeSplash" style="display:none">
+    <div id="welcomeBox">
+      <div class="ws-logo">Finance <span>Analyst</span> Toolkit</div>
+      <div class="ws-tagline">Your complete interview prep system for finance roles</div>
+
+      <div class="ws-features">
+        <div class="ws-feat">
+          <div class="ws-feat-icon">🃏</div>
+          <div class="ws-feat-body">
+            <div class="ws-feat-title">500+ Flashcards</div>
+            <div class="ws-feat-sub">Accounting, Valuation, M&amp;A, LBO, Equity Research &amp; more — with spaced repetition so you study what you actually need.</div>
+          </div>
+        </div>
+        <div class="ws-feat">
+          <div class="ws-feat-icon">📊</div>
+          <div class="ws-feat-body">
+            <div class="ws-feat-title">DCF &amp; Financial Models</div>
+            <div class="ws-feat-sub">Step-by-step DCF walkthroughs, revenue model frameworks, and India macro dashboard built in.</div>
+          </div>
+        </div>
+        <div class="ws-feat">
+          <div class="ws-feat-icon">🎯</div>
+          <div class="ws-feat-body">
+            <div class="ws-feat-title">Personalised to your role</div>
+            <div class="ws-feat-sub">Tell us whether you're targeting IB, Equity Research, PE/VC, or general finance — we'll tailor your study plan.</div>
+          </div>
+        </div>
+        <div class="ws-feat">
+          <div class="ws-feat-icon">🔒</div>
+          <div class="ws-feat-body">
+            <div class="ws-feat-title">100% private</div>
+            <div class="ws-feat-sub">Your progress, notes, and edits stay in your browser. Nothing is shared with other users.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ws-who">
+        <div class="ws-who-question">Are you a <span class="ws-who-highlight">CA</span>, <span class="ws-who-highlight">CFA</span>, or <span class="ws-who-highlight">MBA</span> — or pursuing any of these — and want to build a career in core finance roles?</div>
+        <div class="ws-who-sub">This toolkit was built for you.</div>
+      </div>
+
+      <div class="ws-actions">
+        <button class="btn btn-p ws-cta" onclick="welcomeStart()">Get Started → Set Up My Plan</button>
+        <button class="ws-skip" onclick="welcomeSkip()">Skip setup — take me straight in</button>
+      </div>
+
+      <div class="ws-footer-links">
+        <span onclick="openPrivacyPolicy()" class="ws-link">Privacy Policy</span>
+        <span class="ws-sep">·</span>
+        <span class="ws-link" onclick="openUserManual()">User Guide</span>
+      </div>
+    </div>
+  </div>
+
   <div id="onboardingOverlay" style="display:none">
     <div id="onboardingBox">
       <div class="ob-logo">Finance <span>Analyst</span> Toolkit</div>
@@ -9094,18 +9476,18 @@
       <div class="ob-step" id="obStep1">
         <div class="ob-step-label">Step 2 of 3 · Daily Goal</div>
         <div class="ob-title">How many cards per day?</div>
-        <div class="ob-sub">Consistency beats intensity. Even 10 cards daily compounds massively over weeks.</div>
+        <div class="ob-sub">Consistency beats intensity. Even 20 cards daily compounds massively over weeks.</div>
         <div class="ob-goal-grid">
-          <div class="ob-goal-card" onclick="obSelectGoal(this,10)">
-            <div class="ob-goal-num">10</div>
-            <div class="ob-goal-label">Casual</div>
-          </div>
           <div class="ob-goal-card ob-selected" onclick="obSelectGoal(this,20)">
             <div class="ob-goal-num">20</div>
-            <div class="ob-goal-label">Focused</div>
+            <div class="ob-goal-label">Casual</div>
           </div>
           <div class="ob-goal-card" onclick="obSelectGoal(this,30)">
             <div class="ob-goal-num">30</div>
+            <div class="ob-goal-label">Focused</div>
+          </div>
+          <div class="ob-goal-card" onclick="obSelectGoal(this,40)">
+            <div class="ob-goal-num">40+</div>
             <div class="ob-goal-label">Intensive</div>
           </div>
         </div>
@@ -9259,6 +9641,10 @@
               </div>
             </div>
           </div>
+          <button class="btn btn-o" onclick="openUserManual()" id="userManualBtn" title="User Manual" style="gap:6px;padding:7px 13px;font-size:12px;">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 7v5"/><circle cx="8" cy="4.5" r="0.6" fill="currentColor" stroke="none"/></svg>
+            Guide
+          </button>
           <button class="btn btn-p" onclick="nav(&#39;flashcard&#39;)">▶ Start Studying</button>
         </div>
       </div>
@@ -9636,7 +10022,7 @@
               </div>
               <div class="nav-sep" style="margin:8px 0"></div>
               <div class="rm-sidebar-label" style="padding:0 14px 6px">Quick Start</div>
-              <div class="fc-sidebar-tab" onclick="startBookmarks()"><span class="rm-tab-icon">🔖</span> Bookmarked</div>
+              <div class="fc-sidebar-tab" onclick="startBookmarkSession()"><span class="rm-tab-icon">🔖</span> Bookmarked</div>
               <div class="fc-sidebar-tab" onclick="startMockInterview()" style="color:var(--gold);font-weight:600"><span class="rm-tab-icon">🎯</span> Mock Mode <span style="font-size:9px;background:var(--red-bg);color:var(--red);border-radius:4px;padding:1px 5px;margin-left:2px;font-weight:700">30s</span></div>
               <div
                 style="margin-top:auto;padding:12px 14px;border-top:1px solid var(--border2);display:flex;flex-direction:column;gap:4px">
@@ -9685,6 +10071,7 @@
         <div class="view" id="view-browse">
           <div id="bulkBar" class="bulk-bar">
             <span class="bulk-count" id="bulkCount">0 selected</span>
+            <button class="btn btn-o" style="font-size:11px;padding:5px 12px;margin-right:8px" onclick="toggleSelectAllVisible()">☑ Toggle All</button>
             <select class="sel" id="bulkCatTarget" style="font-size:11px;padding:5px 8px;">
               <option value="">Move to category...</option>
               <option value="Accounting">Accounting</option>
@@ -9695,6 +10082,7 @@
               <option value="Behavioral">Behavioral</option>
             </select>
             <button class="btn btn-o" style="font-size:11px;padding:5px 12px;" onclick="bulkMove()">↗ Move</button>
+            <button class="btn btn-o" style="font-size:11px;padding:5px 12px;" onclick="bulkUnbookmark()">🔖 Unbookmark</button>
             <button class="btn btn-r" style="font-size:11px;padding:5px 12px;" onclick="bulkDelete()">🗑 Delete</button>
             <button class="btn btn-o" style="font-size:11px;padding:5px 12px;" onclick="exitMultiMode()">✕
               Cancel</button>
@@ -9732,7 +10120,6 @@
               <option value="learning">Learning</option>
               <option value="mastered">Mastered</option>
               <option value="missed">Missed</option>
-              <option value="bookmarked">Bookmarked</option>
             </select>
             <select class="sel" id="sortF" onchange="renderBrowse()" title="Sort questions">
               <option value="default">Sort: Default</option>
@@ -15057,6 +15444,19 @@
                   onclick="event.stopPropagation();deleteQ(399)">🗑</button></div>
             </div>
           </div>
+        </div>
+        <div class="view" id="view-bookmarks">
+          <div id="bkBulkBar" class="bulk-bar">
+            <span class="bulk-count" id="bkBulkCount">0 selected</span>
+            <button class="btn btn-o" style="font-size:11px;padding:5px 12px;margin-right:8px" onclick="selectAllBkVisible()">☑ Toggle All</button>
+            <button class="btn btn-o" style="font-size:11px;padding:5px 12px;" onclick="bulkUnbookmarkOnly()">🔖 Unbookmark</button>
+            <button class="btn btn-o" style="font-size:11px;padding:5px 12px;" onclick="exitBkMultiMode()">✕ Cancel</button>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;padding:0">
+            <div style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--white)">Bookmarks &nbsp;<span id="bkCount" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--gold2)">0 questions</span></div>
+            <button class="btn btn-o" style="font-size:11px;padding:5px 12px;" onclick="toggleBkMultiMode()" id="bkMultiBtn">☑ Select</button>
+          </div>
+          <div class="q-list" id="bkList"></div>
         </div>
         <div class="view" id="view-add">
           <div style="max-width:640px;width:100%">
@@ -23730,7 +24130,7 @@ A: WACC is the weighted average cost of capital."></textarea>
         }
         function obSelectGoal(el, goal) {
           _obGoal = goal;
-          document.querySelectorAll('.ob-goal-opt').forEach(function (o) { o.classList.remove('ob-selected'); });
+          document.querySelectorAll('.ob-goal-card').forEach(function (o) { o.classList.remove('ob-selected'); });
           el.classList.add('ob-selected');
         }
         function obToggleCat(el, cat) {
@@ -23766,7 +24166,17 @@ A: WACC is the weighted average cost of capital."></textarea>
           var overlay = document.getElementById('onboardingOverlay');
           if (overlay) {
             overlay.style.opacity = '0';
-            setTimeout(function () { overlay.style.display = 'none'; }, 400);
+            setTimeout(function () {
+              overlay.style.display = 'none';
+              // Auto-open the guide for first-time users once onboarding is done
+              setTimeout(function () {
+                openUserManual();
+                // Mark guide as seen so the pulse badge doesn't appear redundantly
+                localStorage.setItem('um_seen', '1');
+                var btn = document.getElementById('userManualBtn');
+                if (btn) btn.classList.remove('um-new');
+              }, 200);
+            }, 400);
           }
           // Apply focus categories to session
           if (_obCats.length && _obCats.length < 6) {
@@ -24963,8 +25373,8 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
             }
           } catch (e) { }
           try {
-            var saved = localStorage.getItem('finTheme');
-            if (saved === 'light') {
+            var savedTheme = localStorage.getItem('finTheme');
+            if (savedTheme === 'light') {
               document.documentElement.setAttribute('data-theme', 'light');
               var ti = document.getElementById('themeIcon');
               var tl = document.getElementById('themeLabel');
@@ -24972,23 +25382,41 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
               if (tl) tl.textContent = 'Light';
             }
           } catch (e) { }
+
           var saved = null;
           try { saved = localStorage.getItem('finToolkit_v2'); } catch (e) { }
           if (saved) {
             try {
               var d = JSON.parse(saved);
-              questions = buildDefault();
+              var defs = buildDefault();
+              var merged = [];
               if (d.questions && Array.isArray(d.questions)) {
+                // Keep all custom questions, and update default ones
                 d.questions.forEach(function (dq) {
-                  var q = questions.find(function (x) { return x.q === dq.q });
-                  if (q) {
-                    q.status = dq.status || 'unseen';
-                    q.bookmarked = dq.bookmarked || false;
-                    q.timesCorrect = dq.timesCorrect || 0;
-                    q.timesWrong = dq.timesWrong || 0;
-                    q.lastSeen = dq.lastSeen || null;
+                  if (dq.source === 'custom') {
+                    merged.push(dq);
+                  } else {
+                    var q = defs.find(function (x) { return x.q === dq.q });
+                    if (q) {
+                      // Apply saved properties to the default question
+                      q.status = dq.status || 'unseen';
+                      q.bookmarked = dq.bookmarked || false;
+                      q.timesCorrect = dq.timesCorrect || 0;
+                      q.timesWrong = dq.timesWrong || 0;
+                      q.lastSeen = dq.lastSeen || null;
+                      merged.push(q);
+                    }
                   }
                 });
+                // Add any default questions that weren't in saved data (e.g. new questions in a newer version)
+                defs.forEach(function (dq) {
+                  if (!merged.find(function (x) { return x.q === dq.q })) {
+                    merged.push(dq);
+                  }
+                });
+                questions = merged;
+              } else {
+                questions = defs;
               }
             } catch (e) { questions = buildDefault(); }
           } else { questions = buildDefault(); }
@@ -25019,9 +25447,8 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
             var vs = document.querySelectorAll('.view');
             for (var i = 0; i < vs.length; i++) vs[i].classList.remove('active');
             document.getElementById('view-' + view).classList.add('active');
-            var nmap = { dashboard: 'Dashboard', flashcard: 'Flashcards', browse: 'Browse All', add: 'Add Question', import: 'Bulk Import', files: 'Files & Resources', revenue: 'Revenue Models', finstatements: 'Fin. Statements & Ratios', dcf: 'DCF & Valuation', macro: 'India Macro', industry: 'Industry Structure', support: 'Feedback & Contact' };
+            var nmap = { dashboard: 'Dashboard', flashcard: 'Flashcards', browse: 'Browse All', bookmarks: 'Bookmarks', add: 'Add Question', import: 'Bulk Import', files: 'Files & Resources', revenue: 'Revenue Models', finstatements: 'Fin. Statements & Ratios', dcf: 'DCF & Valuation', macro: 'India Macro', industry: 'Industry Structure', support: 'Feedback & Contact' };
             var activeLabel = nmap[view];
-            if (view === 'browse' && document.getElementById('statF') && document.getElementById('statF').value === 'bookmarked') activeLabel = 'Bookmarked';
             var ns = document.querySelectorAll('.nav-item');
             for (var j = 0; j < ns.length; j++) {
               ns[j].classList.remove('active');
@@ -25262,13 +25689,16 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
           nav('browse');
         }
         function startBookmarks() {
-          nav('browse');
-          document.getElementById('statF').value = 'bookmarked';
-          document.getElementById('searchInput').value = '';
-          document.getElementById('catF').value = 'all';
-          document.getElementById('diffF').value = 'all';
-          renderBrowse();
-          showToast('🔖 Bookmarked questions loaded');
+          nav('bookmarks');
+          renderBookmarks();
+        }
+        function startBookmarkSession() {
+          var bks = questions.filter(function (q) { return q.bookmarked; });
+          if (!bks.length) { showToast('❌ No bookmarked questions found'); return; }
+          deck = bks.sort(function () { return Math.random() - .5; });
+          deckPos = 0; results = { got: 0, almost: 0, missed: 0 }; flipped = false;
+          _skipSession = true; nav('flashcard'); renderCard();
+          showToast('🔖 ' + bks.length + ' bookmarked questions loaded');
         }
         function startMissed() {
           deck = questions.filter(function (q) { return q.status === 'missed' || q.status === 'learning'; }).sort(function () { return Math.random() - .5; });
@@ -25350,10 +25780,12 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
           flipped = !flipped; card.classList.toggle('flipped', flipped);
           var btn = document.getElementById('revBtn');
           if (btn) btn.textContent = flipped ? '🔄 Flip Back' : '👁 Reveal Answer';
+          var re = document.getElementById('fcRate');
           if (flipped) {
-            var re = document.getElementById('fcRate');
             if (re) re.style.display = 'flex';
             deck[deckPos].lastSeen = new Date().toISOString(); save();
+          } else {
+            if (re) re.style.display = 'none';
           }
         }
         function rateCard(r) {
@@ -25491,6 +25923,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
             }
             return true;
           });
+          _currentFilteredIds = filtered.map(function(q) { return q.id; });
           document.getElementById('browseCount').textContent = filtered.length + ' question' + (filtered.length !== 1 ? 's' : '');
           var list = document.getElementById('qList');
           if (!filtered.length) { list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--white3);font-size:13px">No questions match your filters.</div>'; return; }
@@ -25548,12 +25981,53 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
         function deleteModal() { if (!modalQid || !confirm('Delete this question?')) return; var id = modalQid; closeModal(); deleteQ(id); }
         function toggleBk(id) {
           var q = questions.find(function (x) { return x.id === id; });
-          if (!q) return; q.bookmarked = !q.bookmarked; save(); renderBrowse(); renderSidebar();
+          if (!q) return; q.bookmarked = !q.bookmarked; save(); 
+          
+          var statF = document.getElementById('statF');
+          if (statF && statF.value === 'bookmarked') {
+            renderBrowse();
+          } else {
+            var el = document.getElementById('qi-' + id);
+            if (el) {
+              var acts = el.querySelectorAll('.q-act');
+              if (acts.length >= 2) {
+                acts[1].innerHTML = q.bookmarked ? '🔖' : '🏷';
+              }
+              var meta = el.querySelector('.q-meta');
+              if (meta) {
+                var bkHtml = '<span style="font-size:11px">🔖</span>';
+                if (q.bookmarked && meta.innerHTML.indexOf(bkHtml) === -1) {
+                  meta.innerHTML += bkHtml;
+                } else if (!q.bookmarked && meta.innerHTML.indexOf(bkHtml) !== -1) {
+                  meta.innerHTML = meta.innerHTML.replace(bkHtml, '');
+                }
+              }
+            }
+          }
+          
+          if (typeof modalQid !== 'undefined' && modalQid === id) {
+            var mm = document.getElementById('modalMeta');
+            if (mm) {
+              var chipStr = '<span class="chip" style="background:var(--gold-bg2);color:var(--gold2)">🔖 bookmarked</span>';
+              if (q.bookmarked && mm.innerHTML.indexOf(chipStr) === -1) {
+                mm.innerHTML += chipStr;
+              } else if (!q.bookmarked && mm.innerHTML.indexOf(chipStr) !== -1) {
+                mm.innerHTML = mm.innerHTML.replace(chipStr, '');
+              }
+            }
+            var mbtn = document.getElementById('modalBmBtn');
+            if (mbtn) mbtn.textContent = q.bookmarked ? '🔖 Unbookmark' : '🔖 Bookmark';
+          }
+          
+          if (typeof renderBookmarks === 'function') renderBookmarks();
+          renderSidebar();
           showToast(q.bookmarked ? '🔖 Bookmarked' : 'Bookmark removed');
         }
         function deleteQ(id) {
           if (!confirm('Delete this question?')) return;
-          questions = questions.filter(function (q) { return q.id !== id; }); save(); renderBrowse(); renderSidebar(); renderDashboard();
+          questions = questions.filter(function (q) { return q.id !== id; }); save(); renderBrowse();
+          if (typeof renderBookmarks === 'function') renderBookmarks();
+          renderSidebar(); renderDashboard();
         }
         function addQuestion() {
           var q = document.getElementById('addQ').value.trim();
@@ -26186,7 +26660,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
         })();
 
         // ── Multi-select browse ──
-        var _multiMode = false, _selected = new Set();
+        var _multiMode = false, _selected = new Set(), _currentFilteredIds = [];
         function toggleMultiMode() {
           _multiMode = !_multiMode;
           if (!_multiMode) { _selected.clear(); }
@@ -26206,6 +26680,27 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
           if (cb) cb.checked = _selected.has(id);
           document.getElementById('bulkCount').textContent = _selected.size + ' selected';
         }
+        function toggleSelectAllVisible() {
+          var allSelected = _currentFilteredIds.length > 0 && _currentFilteredIds.every(function(id) { return _selected.has(id); });
+          if (allSelected) {
+            _currentFilteredIds.forEach(function(id) {
+              _selected.delete(id);
+              var cb = document.getElementById('cb-' + id);
+              if (cb) cb.checked = false;
+              var el = document.getElementById('qi-' + id);
+              if (el) el.classList.remove('selected');
+            });
+          } else {
+            _currentFilteredIds.forEach(function(id) {
+              _selected.add(id);
+              var cb = document.getElementById('cb-' + id);
+              if (cb) cb.checked = true;
+              var el = document.getElementById('qi-' + id);
+              if (el) el.classList.add('selected');
+            });
+          }
+          document.getElementById('bulkCount').textContent = _selected.size + ' selected';
+        }
         function qItemClick(e, id) {
           if (_multiMode) { toggleSelect(id); }
           else { openModal(id); }
@@ -26218,6 +26713,125 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
           document.getElementById('bulkCount').textContent = '0 selected';
           showToast('🗑 Deleted ' + _selected.size + ' questions');
         }
+        function bulkUnbookmark() {
+          if (!_selected.size) return;
+          if (!confirm('Unbookmark ' + _selected.size + ' question(s)?')) return;
+          var count = _selected.size;
+          _selected.forEach(function (id) {
+            var q = questions.find(function (x) { return x.id === id; });
+            if (q) q.bookmarked = false;
+          });
+          _selected.clear(); save(); renderBrowse(); renderSidebar();
+          document.getElementById('bulkCount').textContent = '0 selected';
+          showToast('🔖 Unbookmarked ' + count + ' questions');
+        }
+
+        // ── Dedicated Bookmarks View Logic ──
+        var _bkMultiMode = false, _bkSelected = new Set(), _currentBkFilteredIds = [];
+        
+        function renderBookmarks() {
+          var filtered = questions.filter(function (q) { return q.bookmarked; });
+          _currentBkFilteredIds = filtered.map(function(q) { return q.id; });
+          var countEl = document.getElementById('bkCount');
+          if (countEl) countEl.textContent = filtered.length + ' question' + (filtered.length !== 1 ? 's' : '');
+          var list = document.getElementById('bkList');
+          if (!list) return;
+          if (!filtered.length) { list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--white3);font-size:13px">You have no bookmarked questions.</div>'; return; }
+          list.innerHTML = filtered.map(function (q, i) {
+            var info = CAT_INFO[q.cat] || { chipCls: 'chip-gf' };
+            var p = q.q.length > 160 ? q.q.slice(0, 160) + '…' : q.q;
+            return '<div class="q-item" id="bk-qi-' + q.id + '" onclick="bkItemClick(event,' + q.id + ')">'
+              + '<input type="checkbox" class="q-cb" id="bk-cb-' + q.id + '" onclick="event.stopPropagation();toggleBkSelect(' + q.id + ')">'
+              + '<div class="q-num">#' + (i + 1) + '</div>'
+              + '<div class="q-body"><div class="q-q">' + escH(p) + '</div>'
+              + '<div class="q-meta">'
+              + '<span class="chip ' + info.chipCls + '">' + escH(q.cat) + '</span>'
+              + '<span class="chip ' + diffCls(q.diff) + '">' + escH(q.diff || 'Medium') + '</span>'
+              + '<span class="chip chip-' + (q.status || 'unseen') + '">' + (q.status || 'unseen') + '</span>'
+              + '</div></div>'
+              + '<div class="q-acts">'
+              + '<button class="q-act" title="Edit" onclick="event.stopPropagation();openEditModal(' + q.id + ')">✏️</button>'
+              + '<button class="q-act" onclick="event.stopPropagation();toggleBk(' + q.id + ')">🔖</button>'
+              + '<button class="q-act" onclick="event.stopPropagation();deleteQ(' + q.id + ')">🗑</button>'
+              + '</div></div>';
+          }).join('');
+          
+          if (_bkMultiMode) {
+            _currentBkFilteredIds.forEach(function(id) {
+              if (_bkSelected.has(id)) {
+                var el = document.getElementById('bk-qi-' + id);
+                if (el) el.classList.add('selected');
+                var cb = document.getElementById('bk-cb-' + id);
+                if (cb) cb.checked = true;
+              }
+            });
+          }
+        }
+
+        function toggleBkMultiMode() {
+          _bkMultiMode = !_bkMultiMode;
+          if (!_bkMultiMode) { _bkSelected.clear(); }
+          var btn = document.getElementById('bkMultiBtn');
+          if (btn) {
+            btn.textContent = _bkMultiMode ? '✕ Exit Select' : '☑ Select';
+            btn.className = _bkMultiMode ? 'btn btn-p' : 'btn btn-o';
+          }
+          var list = document.getElementById('bkList');
+          if (list) list.classList.toggle('multi-mode', _bkMultiMode);
+          var bar = document.getElementById('bkBulkBar');
+          if (bar) bar.classList.toggle('visible', _bkMultiMode);
+          renderBookmarks();
+        }
+        function exitBkMultiMode() { _bkMultiMode = false; _bkSelected.clear(); toggleBkMultiMode(); }
+        function toggleBkSelect(id) {
+          if (_bkSelected.has(id)) _bkSelected.delete(id); else _bkSelected.add(id);
+          var el = document.getElementById('bk-qi-' + id);
+          if (el) el.classList.toggle('selected', _bkSelected.has(id));
+          var cb = document.getElementById('bk-cb-' + id);
+          if (cb) cb.checked = _bkSelected.has(id);
+          var bcount = document.getElementById('bkBulkCount');
+          if (bcount) bcount.textContent = _bkSelected.size + ' selected';
+        }
+        function selectAllBkVisible() {
+          var allSelected = _currentBkFilteredIds.length > 0 && _currentBkFilteredIds.every(function(id) { return _bkSelected.has(id); });
+          if (allSelected) {
+            _currentBkFilteredIds.forEach(function(id) {
+              _bkSelected.delete(id);
+              var cb = document.getElementById('bk-cb-' + id);
+              if (cb) cb.checked = false;
+              var el = document.getElementById('bk-qi-' + id);
+              if (el) el.classList.remove('selected');
+            });
+          } else {
+            _currentBkFilteredIds.forEach(function(id) {
+              _bkSelected.add(id);
+              var cb = document.getElementById('bk-cb-' + id);
+              if (cb) cb.checked = true;
+              var el = document.getElementById('bk-qi-' + id);
+              if (el) el.classList.add('selected');
+            });
+          }
+          var bcount = document.getElementById('bkBulkCount');
+          if (bcount) bcount.textContent = _bkSelected.size + ' selected';
+        }
+        function bkItemClick(e, id) {
+          if (_bkMultiMode) { toggleBkSelect(id); }
+          else { openModal(id); }
+        }
+        function bulkUnbookmarkOnly() {
+          if (!_bkSelected.size) return;
+          if (!confirm('Unbookmark ' + _bkSelected.size + ' question(s)?')) return;
+          var count = _bkSelected.size;
+          _bkSelected.forEach(function (id) {
+            var q = questions.find(function (x) { return x.id === id; });
+            if (q) q.bookmarked = false;
+          });
+          _bkSelected.clear(); save(); renderBookmarks(); renderBrowse(); renderSidebar();
+          var bcount = document.getElementById('bkBulkCount');
+          if (bcount) bcount.textContent = '0 selected';
+          showToast('🔖 Unbookmarked ' + count + ' questions');
+        }
+        
         function bulkMove() {
           var cat = document.getElementById('bulkCatTarget').value;
           if (!cat || !_selected.size) { showToast('Select a category first'); return; }
@@ -28031,6 +28645,669 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
   document.addEventListener('DOMContentLoaded', function() { indRenderCards(); });
   if (document.readyState !== 'loading') indRenderCards();
   </script>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- USER MANUAL MODAL                                       -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<style>
+  /* Overlay */
+  #umOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 9000;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    backdrop-filter: blur(4px);
+  }
+  #umOverlay.open { display: flex; }
+
+  /* Modal box */
+  #umModal {
+    background: var(--modal-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 600px;
+    max-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--sh3);
+    overflow: hidden;
+  }
+
+  /* Header */
+  #umModal .um-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px 14px;
+    border-bottom: 1px solid var(--border2);
+    flex-shrink: 0;
+  }
+  #umModal .um-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  #umModal .um-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+  }
+  #umModal .um-subtitle {
+    font-size: 11px;
+    color: var(--white3);
+    margin-top: 1px;
+  }
+  #umModal .um-icon-wrap {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--gold-bg);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .um-close {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--white3);
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .15s, color .15s;
+  }
+  .um-close:hover { background: var(--white4); color: var(--white); }
+
+  /* Tabs */
+  #umModal .um-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border2);
+    overflow-x: auto;
+    scrollbar-width: none;
+    flex-shrink: 0;
+    padding: 0 20px;
+    gap: 0;
+  }
+  #umModal .um-tabs::-webkit-scrollbar { display: none; }
+  #umModal .um-tab {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 10px 14px;
+    color: var(--white3);
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color .15s, border-color .15s;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+  #umModal .um-tab:hover { color: var(--white2); }
+  #umModal .um-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* Body */
+  #umModal .um-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    min-height: 0;
+  }
+
+  /* Tab panes */
+  .um-pane { display: none; }
+  .um-pane.active { display: block; }
+
+  /* Privacy banner */
+  .um-banner {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: var(--blue-bg);
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+  }
+  .um-banner-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .um-banner-text { font-size: 13px; color: var(--white2); line-height: 1.65; }
+  .um-banner-text strong { color: var(--white); }
+
+  /* Check list */
+  .um-check-list { display: flex; flex-direction: column; gap: 8px; }
+  .um-check-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 13px;
+    color: var(--white2);
+    line-height: 1.55;
+    padding: 8px 12px;
+    background: var(--widget-bg);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+  }
+  .um-check-item .um-check {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--green-bg);
+    border: 1px solid rgba(16,185,129,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--green);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* Shortcuts */
+  .um-shortcut-group { margin-bottom: 18px; }
+  .um-shortcut-group-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--white3);
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--border2);
+  }
+  .um-shortcut-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border2);
+  }
+  .um-shortcut-row:last-child { border-bottom: none; }
+  .um-shortcut-desc { font-size: 13px; color: var(--white2); }
+  .um-keys { display: flex; gap: 4px; }
+  .um-key {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--white);
+    font-family: "Inter", monospace;
+  }
+
+  /* Browse section */
+  .um-action-card {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 12px 14px;
+    background: var(--widget-bg);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  .um-action-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+  }
+  .um-action-icon.edit  { background: var(--blue-bg); }
+  .um-action-icon.del   { background: var(--red-bg); }
+  .um-action-icon.diff  { background: var(--ora-bg); }
+  .um-action-icon.cat   { background: var(--purp-bg); }
+  .um-action-body { flex: 1; }
+  .um-action-title { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 3px; }
+  .um-action-desc { font-size: 12px; color: var(--white3); line-height: 1.6; }
+
+  /* Upload steps */
+  .um-step {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  .um-step-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--gold-bg);
+    border: 1px solid rgba(245,158,11,0.25);
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .um-step-text { font-size: 13px; color: var(--white2); line-height: 1.6; }
+  .um-step-text strong { color: var(--white); }
+
+  /* Tips */
+  .um-tip {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 9px 12px;
+    background: var(--widget-bg);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: var(--white2);
+    line-height: 1.55;
+  }
+  .um-tip-icon { font-size: 15px; flex-shrink: 0; }
+
+  /* Green local notice */
+  .um-local-note {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background: var(--green-bg);
+    border: 1px solid rgba(16,185,129,0.2);
+    border-radius: 9px;
+    padding: 10px 14px;
+    margin-top: 14px;
+    font-size: 12px;
+    color: var(--green);
+    line-height: 1.6;
+  }
+
+  /* Footer */
+  #umModal .um-footer {
+    padding: 12px 20px;
+    border-top: 1px solid var(--border2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .um-footer-note { font-size: 11px; color: var(--white3); }
+
+  /* First-visit pulse on guide button */
+  @keyframes um-pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(245,158,11,0); }
+    50%      { box-shadow: 0 0 0 5px rgba(245,158,11,0.25); }
+  }
+  #userManualBtn.um-new { animation: um-pulse 2s ease-in-out 3; }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    #umModal { max-height: 95vh; border-radius: 12px; }
+    #umModal .um-tab { padding: 9px 10px; font-size: 11px; }
+    .um-action-icon { width: 30px; height: 30px; font-size: 14px; }
+  }
+</style>
+
+<!-- Modal HTML -->
+<div id="umOverlay" onclick="umClickOutside(event)">
+  <div id="umModal" role="dialog" aria-modal="true" aria-labelledby="umModalTitle">
+    <!-- Header -->
+    <div class="um-header">
+      <div class="um-header-left">
+        <div class="um-icon-wrap">📘</div>
+        <div>
+          <div class="um-title" id="umModalTitle">User Guide</div>
+          <div class="um-subtitle">Finance Analyst Toolkit — how everything works</div>
+        </div>
+      </div>
+      <button class="um-close" onclick="closeUserManual()" aria-label="Close">✕</button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="um-tabs">
+      <button class="um-tab active" onclick="umTab(0)">🔒 Privacy</button>
+      <button class="um-tab" onclick="umTab(1)">📋 Browse section</button>
+      <button class="um-tab" onclick="umTab(2)">⌨ Shortcuts</button>
+      <button class="um-tab" onclick="umTab(3)">📁 File uploads</button>
+      <button class="um-tab" onclick="umTab(4)">💡 Tips</button>
+    </div>
+
+    <!-- Body -->
+    <div class="um-body">
+
+      <!-- Tab 0: Privacy -->
+      <div class="um-pane active" id="um-pane-0">
+        <div class="um-banner">
+          <div class="um-banner-icon">🔒</div>
+          <div class="um-banner-text">
+            <strong>Everything stays on your device.</strong> All changes you make — editing questions, deleting cards, adjusting difficulty or categories, uploading files — are saved only in your browser's local storage. They are <strong>never sent to a server</strong> and are <strong>never visible to other users.</strong>
+          </div>
+        </div>
+        <div class="um-check-list">
+          <div class="um-check-item"><div class="um-check">✓</div>Deleting a question removes it from your view only — others still see it.</div>
+          <div class="um-check-item"><div class="um-check">✓</div>Editing a question or answer changes it only in your browser session.</div>
+          <div class="um-check-item"><div class="um-check">✓</div>Changing a difficulty level (Easier / Harder) is a personal tag — no one else sees it.</div>
+          <div class="um-check-item"><div class="um-check">✓</div>Changing a category reassigns it for you only, not globally.</div>
+          <div class="um-check-item"><div class="um-check">✓</div>Files you upload are stored in your browser — not on any shared server.</div>
+          <div class="um-check-item"><div class="um-check">✓</div>Clearing your browser data (or using a different browser) will reset everything to the original state.</div>
+        </div>
+      </div>
+
+      <!-- Tab 1: Browse section -->
+      <div class="um-pane" id="um-pane-1">
+        <div class="um-banner" style="background:var(--purp-bg);border-color:rgba(139,92,246,0.2);">
+          <div class="um-banner-icon">📋</div>
+          <div class="um-banner-text">
+            In the <strong>Browse All</strong> section, every question card has action buttons on the right side. You can personalise any card — edits apply only to your browser.
+          </div>
+        </div>
+
+        <div class="um-action-card">
+          <div class="um-action-icon edit">✏️</div>
+          <div class="um-action-body">
+            <div class="um-action-title">Edit question or answer</div>
+            <div class="um-action-desc">Click the <strong>✏️ pencil button</strong> on any card to open the edit panel. You can rewrite the question text, the answer, and also change the category and difficulty — all in one place. Click Save when done.</div>
+          </div>
+        </div>
+
+        <div class="um-action-card">
+          <div class="um-action-icon del">🗑️</div>
+          <div class="um-action-body">
+            <div class="um-action-title">Delete a question</div>
+            <div class="um-action-desc">Click the <strong>🗑 delete button</strong> on a card to remove it from your deck. A confirmation prompt appears first. To restore deleted questions, use <em>Reset Progress</em> in the Settings (⚙) menu.</div>
+          </div>
+        </div>
+
+        <div class="um-action-card">
+          <div class="um-action-icon diff">🎯</div>
+          <div class="um-action-body">
+            <div class="um-action-title">Change difficulty level</div>
+            <div class="um-action-desc">Open a question's full view (click a card to expand it) and use the <strong>Easier / Harder</strong> vote buttons. This adjusts the difficulty tag shown on the card for you only, and helps filter your study sessions.</div>
+          </div>
+        </div>
+
+        <div class="um-action-card">
+          <div class="um-action-icon cat">🏷️</div>
+          <div class="um-action-body">
+            <div class="um-action-title">Change category</div>
+            <div class="um-action-desc">Click the <strong>✏️ edit button</strong> on any card and change the category from the dropdown in the edit panel. You can reassign a question to any of the available subjects — Accounting, Valuation, M&A / LBO, General Finance, or Equity Research.</div>
+          </div>
+        </div>
+
+        <div class="um-local-note">🔒 All changes in the Browse section are saved only in your browser and are invisible to other users.</div>
+      </div>
+
+      <!-- Tab 2: Shortcuts -->
+      <div class="um-pane" id="um-pane-2">
+        <div class="um-shortcut-group">
+          <div class="um-shortcut-group-title">Flashcard study</div>
+          <div class="um-shortcut-row"><span class="um-shortcut-desc">Flip card (show / hide answer)</span><div class="um-keys"><span class="um-key">Space</span></div></div>
+          <div class="um-shortcut-row"><span class="um-shortcut-desc">Next card</span><div class="um-keys"><span class="um-key">→</span></div></div>
+          <div class="um-shortcut-row"><span class="um-shortcut-desc">Previous card</span><div class="um-keys"><span class="um-key">←</span></div></div>
+          <div class="um-shortcut-row"><span class="um-shortcut-desc">Rate card — Got It</span><div class="um-keys"><span class="um-key">1</span></div></div>
+          <div class="um-shortcut-row"><span class="um-shortcut-desc">Rate card — Almost</span><div class="um-keys"><span class="um-key">2</span></div></div>
+          <div class="um-shortcut-row"><span class="um-shortcut-desc">Rate card — Missed It</span><div class="um-keys"><span class="um-key">3</span></div></div>
+          <div class="um-shortcut-row"><span class="um-shortcut-desc">Bookmark current card</span><div class="um-keys"><span class="um-key">B</span></div></div>
+        </div>
+        <div class="um-shortcut-group">
+          <div class="um-shortcut-group-title">Global</div>
+          <div class="um-shortcut-row"><span class="um-shortcut-desc">Open search</span><div class="um-keys"><span class="um-key">⌘</span><span class="um-key">K</span></div></div>
+          <div class="um-shortcut-row"><span class="um-shortcut-desc">Open this guide</span><div class="um-keys"><span class="um-key">?</span></div></div>
+        </div>
+        <div class="um-banner" style="background:var(--gold-bg2);border-color:var(--border);margin-top:4px;">
+          <div class="um-banner-icon">💡</div>
+          <div class="um-banner-text">Tip: the ⌨ keyboard icon on the flashcard toolbar shows a quick shortcut reference without leaving your study session.</div>
+        </div>
+      </div>
+
+      <!-- Tab 3: File uploads -->
+      <div class="um-pane" id="um-pane-3">
+        <div class="um-step"><div class="um-step-num">1</div><div class="um-step-text">Go to <strong>Import / Upload</strong> from the sidebar navigation.</div></div>
+        <div class="um-step"><div class="um-step-num">2</div><div class="um-step-text">Drag and drop a file or click to browse. Supported formats: <strong>CSV, PDF, plain text</strong>.</div></div>
+        <div class="um-step"><div class="um-step-num">3</div><div class="um-step-text">Assign a default <strong>category</strong> and <strong>difficulty level</strong> for all imported questions — you can edit individual cards later in Browse.</div></div>
+        <div class="um-step"><div class="um-step-num">4</div><div class="um-step-text">Imported questions appear immediately in your deck and Browse view.</div></div>
+        <div class="um-step"><div class="um-step-num">5</div><div class="um-step-text">To remove uploaded questions, use <strong>Reset Progress</strong> in the ⚙ Settings menu, or delete them individually in Browse.</div></div>
+        <div class="um-local-note">🔒 Files you upload are stored in your browser's local storage only. They are never uploaded to any server and are not visible to other users.</div>
+      </div>
+
+      <!-- Tab 4: Tips -->
+      <div class="um-pane" id="um-pane-4">
+        <div class="um-tip"><span class="um-tip-icon">🎯</span>Use the difficulty filter in Browse to focus a study session on Hard questions only — great for interview prep the day before.</div>
+        <div class="um-tip"><span class="um-tip-icon">🔖</span>Bookmark cards you keep getting wrong. The Bookmarked filter in flashcard mode lets you drill them in a focused loop.</div>
+        <div class="um-tip"><span class="um-tip-icon">🔀</span>Rate cards honestly — the spaced repetition system uses your ratings to surface weak cards more often.</div>
+        <div class="um-tip"><span class="um-tip-icon">📝</span>Use the Notes field on the answer side of each flashcard to add a personal mnemonic, a formula, or a real-world example. Notes are saved automatically.</div>
+        <div class="um-tip"><span class="um-tip-icon">⌨</span>Learn the Space / Arrow / 1-2-3 shortcuts — they make a 30-card session significantly faster than clicking.</div>
+        <div class="um-tip"><span class="um-tip-icon">🌙</span>Switch to dark mode (the toggle in the toolbar) for late-night study sessions — easier on the eyes.</div>
+        <div class="um-tip"><span class="um-tip-icon">🔄</span>Clearing your browser data resets the app completely. Export any custom questions first if you want to keep them.</div>
+      </div>
+
+    </div><!-- /um-body -->
+
+    <!-- Footer -->
+    <div class="um-footer">
+      <span class="um-footer-note">All your data stays private — stored locally in your browser only.</span>
+      <span onclick="openPrivacyPolicy()" style="font-size:11px;color:var(--gold);cursor:pointer;">Privacy Policy →</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ── User Manual JS ── */
+  function openUserManual() {
+    document.getElementById('umOverlay').classList.add('open');
+    document.getElementById('userManualBtn').classList.remove('um-new');
+    localStorage.setItem('um_seen', '1');
+  }
+  function closeUserManual() {
+    document.getElementById('umOverlay').classList.remove('open');
+  }
+  function umClickOutside(e) {
+    if (e.target === document.getElementById('umOverlay')) closeUserManual();
+  }
+  function umTab(idx) {
+    document.querySelectorAll('.um-tab').forEach(function(t,i){ t.classList.toggle('active', i===idx); });
+    document.querySelectorAll('.um-pane').forEach(function(p,i){ p.classList.toggle('active', i===idx); });
+  }
+  /* Keyboard shortcut: press ? to open guide */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === '?' && !e.ctrlKey && !e.metaKey) {
+      var active = document.activeElement;
+      var tag = active ? active.tagName : '';
+      if (tag !== 'INPUT' && tag !== 'TEXTAREA' && tag !== 'SELECT') {
+        e.preventDefault();
+        openUserManual();
+      }
+    }
+    if (e.key === 'Escape' && document.getElementById('umOverlay').classList.contains('open')) {
+      closeUserManual();
+    }
+  });
+  /* First-visit pulse */
+  document.addEventListener('DOMContentLoaded', function() {
+    if (!localStorage.getItem('um_seen')) {
+      var btn = document.getElementById('userManualBtn');
+      if (btn) btn.classList.add('um-new');
+    }
+  });
+</script>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- WELCOME SPLASH + PRIVACY POLICY — styles & logic       -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<style>
+  #welcomeSplash {
+    position: fixed;
+    inset: 0;
+    z-index: 99995;
+    background: var(--body-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    transition: opacity .35s ease;
+  }
+  #welcomeBox {
+    background: var(--navy2);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 540px;
+    padding: 36px 36px 24px;
+    box-shadow: var(--sh3);
+  }
+  .ws-logo { font-family: "DM Serif Display", serif; font-size: 24px; color: var(--white); margin-bottom: 6px; }
+  .ws-logo span { color: var(--gold); }
+  .ws-tagline { font-size: 13px; color: var(--white3); margin-bottom: 26px; line-height: 1.5; }
+  .ws-features { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .ws-feat { display: flex; gap: 14px; align-items: flex-start; padding: 12px 14px; background: var(--navy3); border: 1px solid var(--border2); border-radius: 12px; }
+  .ws-feat-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+  .ws-feat-title { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+  .ws-feat-sub { font-size: 12px; color: var(--white3); line-height: 1.55; }
+  .ws-who { margin-bottom: 20px; }
+  .ws-who-label { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--white3); margin-bottom: 8px; }
+  .ws-who-question { font-size: 14px; color: var(--white2); line-height: 1.65; margin-bottom: 6px; }
+  .ws-who-highlight { color: var(--gold); font-weight: 600; }
+  .ws-who-sub { font-size: 12px; color: var(--white3); font-style: italic; }
+  .ws-pills { display: flex; flex-wrap: wrap; gap: 7px; }
+  .ws-pill { font-size: 11px; font-weight: 500; padding: 4px 11px; border-radius: 20px; background: var(--gold-bg); border: 1px solid rgba(245,158,11,0.2); color: var(--gold); }
+  .ws-actions { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .ws-cta { width: 100%; justify-content: center; font-size: 14px; padding: 13px 20px; }
+  .ws-skip { background: none; border: none; font-size: 12px; color: var(--white3); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; padding: 0; }
+  .ws-skip:hover { color: var(--white2); }
+  .ws-footer-links { text-align: center; font-size: 11px; color: var(--white3); border-top: 1px solid var(--border2); padding-top: 14px; }
+  .ws-link { cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+  .ws-link:hover { color: var(--gold); }
+  .ws-sep { margin: 0 8px; opacity: .4; }
+
+  #ppOverlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99999; align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(4px); }
+  #ppOverlay.open { display: flex; }
+  #ppModal { background: var(--modal-bg); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 580px; max-height: 88vh; display: flex; flex-direction: column; box-shadow: var(--sh3); overflow: hidden; }
+  #ppModal .pp-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 14px; border-bottom: 1px solid var(--border2); flex-shrink: 0; }
+  #ppModal .pp-title { font-size: 15px; font-weight: 600; color: var(--white); display: flex; align-items: center; gap: 8px; }
+  .pp-body { flex: 1; overflow-y: auto; padding: 22px 24px; font-size: 13px; color: var(--white2); line-height: 1.75; }
+  .pp-body h2 { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); margin: 20px 0 8px; }
+  .pp-body h2:first-child { margin-top: 0; }
+  .pp-body p { margin-bottom: 10px; }
+  .pp-body ul { padding-left: 18px; margin-bottom: 10px; }
+  .pp-body li { margin-bottom: 5px; }
+  .pp-body strong { color: var(--white); }
+  .pp-foot { padding: 12px 20px; border-top: 1px solid var(--border2); font-size: 11px; color: var(--white3); flex-shrink: 0; text-align: center; }
+
+  @media (max-width: 600px) {
+    #welcomeBox { padding: 24px 20px 18px; max-height: 95vh; overflow-y: auto; border-radius: 14px; }
+    #ppModal { max-height: 95vh; border-radius: 12px; }
+  }
+</style>
+
+<!-- Privacy Policy Modal -->
+<div id="ppOverlay" onclick="ppClickOutside(event)">
+  <div id="ppModal" role="dialog" aria-modal="true" aria-labelledby="ppTitle">
+    <div class="pp-header">
+      <div class="pp-title" id="ppTitle">🔏 Privacy Policy</div>
+      <button class="um-close" onclick="closePrivacyPolicy()" aria-label="Close">✕</button>
+    </div>
+    <div class="pp-body">
+      <p><strong>Effective date: June 2025</strong></p>
+
+      <h2>1. Who we are</h2>
+      <p>Finance Analyst Toolkit is a personal study application designed to help individuals prepare for finance industry interviews. It is not operated by a financial institution.</p>
+
+      <h2>2. Data we collect</h2>
+      <p>We collect only what is necessary to run the app:</p>
+      <ul>
+        <li><strong>Account information</strong> — your email address, used solely for authentication via Firebase Auth. We do not store passwords in plain text.</li>
+        <li><strong>Study progress</strong> — card ratings, bookmarks, notes, and streak data are saved in your browser's localStorage. This data never leaves your device unless you are signed in, in which case it may sync to Firestore to preserve your progress across devices.</li>
+        <li><strong>Uploaded files</strong> — any files you upload (CSV, PDF, text) are processed locally in your browser and stored in localStorage only. They are not transmitted to any server.</li>
+        <li><strong>Usage data</strong> — we do not use analytics trackers, third-party ad networks, or behaviour-tracking scripts.</li>
+      </ul>
+
+      <h2>3. How your data is used</h2>
+      <ul>
+        <li>To authenticate you and maintain your session.</li>
+        <li>To save and restore your study progress, notes, and preferences.</li>
+        <li>We do not sell, rent, or share your personal data with any third party for commercial purposes.</li>
+      </ul>
+
+      <h2>4. localStorage and browser storage</h2>
+      <p>This app uses your browser's localStorage to save your preferences, edited questions, deleted cards, difficulty votes, and uploaded content. This data is:</p>
+      <ul>
+        <li>Stored only on your device, in your browser — never on a shared server.</li>
+        <li>Not visible to other users of the app.</li>
+        <li>Cleared if you clear your browser data or use a private / incognito window.</li>
+      </ul>
+
+      <h2>5. Firebase</h2>
+      <p>This app uses <strong>Google Firebase</strong> for authentication and (for signed-in users) optional cloud sync. Firebase may collect technical information such as IP addresses and device type as part of its standard operation. See <a href="https://policies.google.com/privacy" target="_blank" style="color:var(--gold)">Google's Privacy Policy</a> for full details.</p>
+
+      <h2>6. Cookies</h2>
+      <p>This app does not use advertising or tracking cookies. Firebase may set session cookies necessary for authentication to function.</p>
+
+      <h2>7. Data retention &amp; deletion</h2>
+      <p>You can delete your locally stored data at any time using <strong>Reset Progress</strong> in the ⚙ Settings menu, or by clearing your browser's site data. To request account deletion, contact us at the email associated with your account.</p>
+
+      <h2>8. Children's privacy</h2>
+      <p>This app is not directed at children under 13. We do not knowingly collect personal data from children.</p>
+
+      <h2>9. Changes to this policy</h2>
+      <p>We may update this policy as the app evolves. The effective date above will always reflect the latest version.</p>
+
+      <h2>10. Contact</h2>
+      <p>Questions about your data or this policy? Open the User Guide (the "Guide" button in the toolbar) or email the address associated with your Firebase project.</p>
+    </div>
+    <div class="pp-foot">Finance Analyst Toolkit · For personal study use only · Not financial advice</div>
+  </div>
+</div>
+
+<script>
+  /* ── Welcome Splash ── */
+  function welcomeStart() {
+    var s = document.getElementById('welcomeSplash');
+    if (!s) return;
+    s.style.opacity = '0';
+    setTimeout(function() {
+      s.style.display = 'none';
+      localStorage.setItem('ft_welcome_seen', '1');
+      var ob = document.getElementById('onboardingOverlay');
+      if (ob) { ob.style.display = 'flex'; ob.style.opacity = '1'; }
+    }, 340);
+  }
+  function welcomeSkip() {
+    var s = document.getElementById('welcomeSplash');
+    if (!s) return;
+    s.style.opacity = '0';
+    setTimeout(function() {
+      s.style.display = 'none';
+      localStorage.setItem('ft_welcome_seen', '1');
+      if (!localStorage.getItem('ft_profile')) {
+        try { localStorage.setItem('ft_profile', JSON.stringify({ role:'general', dailyGoal:20, focusCats:[], createdAt: new Date().toISOString(), skipped:true })); } catch(e){}
+      }
+    }, 340);
+  }
+  document.addEventListener('DOMContentLoaded', function() {
+    if (!localStorage.getItem('ft_welcome_seen')) {
+      var s = document.getElementById('welcomeSplash');
+      if (s) { s.style.display = 'flex'; s.style.opacity = '1'; }
+    }
+  });
+
+  /* ── Privacy Policy ── */
+  function openPrivacyPolicy() { document.getElementById('ppOverlay').classList.add('open'); }
+  function closePrivacyPolicy() { document.getElementById('ppOverlay').classList.remove('open'); }
+  function ppClickOutside(e) { if (e.target === document.getElementById('ppOverlay')) closePrivacyPolicy(); }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.getElementById('ppOverlay').classList.contains('open')) closePrivacyPolicy();
+  });
+</script>
 
 </body>
 
