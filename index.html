@@ -6,14 +6,45 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description"
-    content="Comprehensive finance interview preparation toolkit with 500+ Q&amp;As, flashcards, DCF walkthroughs, revenue models, financial statement references, and India macro dashboard.">
+    content="Comprehensive finance interview preparation toolkit with 400+ Q&amp;As, flashcards, DCF walkthroughs, revenue models, financial statement references, and India macro dashboard.">
   <title>Finance Analyst Toolkit</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <!-- Preconnect for faster font & Firebase loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://www.gstatic.com">
+  <!-- Consolidated font import: Outfit (UI), DM Serif Display (headings), IBM Plex Mono (code/numbers) -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Firebase core scripts (sync — needed before app init) -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+  <!-- firebase-storage loaded lazily in loadFirebaseStorage() below -->
+  <script>
+    /* Lazy-load Firebase Storage only when file operations are needed */
+    var _fbStorageLoaded = false;
+    function loadFirebaseStorage() {
+      if (_fbStorageLoaded) return Promise.resolve();
+      return new Promise(function(res, rej) {
+        var s = document.createElement('script');
+        s.src = 'https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js';
+        s.onload = function() { _fbStorageLoaded = true; res(); };
+        s.onerror = rej;
+        document.head.appendChild(s);
+      });
+    }
+    /* Lazy-load pdf.js only when a PDF is actually opened */
+    var _pdfJsLoaded = false;
+    function loadPdfJs() {
+      if (_pdfJsLoaded || window.pdfjsLib) { _pdfJsLoaded = true; return Promise.resolve(); }
+      return new Promise(function(res, rej) {
+        var s = document.createElement('script');
+        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js';
+        s.onload = function() { _pdfJsLoaded = true; res(); };
+        s.onerror = rej;
+        document.head.appendChild(s);
+      });
+    }
+  </script>
   <script>
     firebase.initializeApp({
       apiKey: "AIzaSyC8VfCd1BLNW0pq-IhzxdjedrIfafiI_5s",
@@ -62,22 +93,27 @@
       --modal-bg: #0B0F19;
       --modal-foot-bg: #030712;
       --fc-front-bg: rgba(255, 255, 255, 0.03);
-      --mode-icon: "🌙"
+      --mode-icon: "🌙";
+      --dot-pattern: url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='0.5' fill='rgba(255,255,255,0.05)'/%3E%3C/svg%3E");
     }
 
     [data-theme="light"] {
+      /* ── Preparoo Design System ── */
       --navy: #FFFFFF;
-      --navy2: #F8F9FC;
-      --navy3: #EFF1F7;
-      --navy4: #E4E8F2;
-      --gold: #8B5E16;
-      --gold2: #7A5010;
-      --gold-bg: rgba(154, 106, 26, .12);
-      --gold-bg2: rgba(154, 106, 26, .06);
-      --white: #1A1F2E;
-      --white2: rgba(26, 31, 46, .72);
-      --white3: rgba(26, 31, 46, .48);
-      --white4: rgba(26, 31, 46, .08);
+      --navy2: #f8fafc;
+      --navy3: #eef1f6;
+      --navy4: #e2e8f0;
+      /* Primary accent → Preparoo deep navy #0d2442 replaces gold */
+      --gold: #0d2442;
+      --gold2: #162f54;
+      --gold-bg: rgba(13, 36, 66, .10);
+      --gold-bg2: rgba(13, 36, 66, .06);
+      /* Text */
+      --white: #0d2442;
+      --white2: #6b7a90;
+      --white3: #9aabbd;
+      --white4: rgba(13, 36, 66, .06);
+      /* Status colours */
       --green: #0D7A55;
       --green-bg: rgba(13, 122, 85, .10);
       --red: #C0392B;
@@ -88,20 +124,23 @@
       --ora-bg: rgba(192, 90, 10, .10);
       --blue: #1565C0;
       --blue-bg: rgba(21, 101, 192, .10);
-      --border: rgba(154, 106, 26, .18);
-      --border2: rgba(26, 31, 46, .10);
-      --sh: 0 1px 4px rgba(0, 0, 0, .06);
-      --sh2: 0 4px 20px rgba(0, 0, 0, .10);
-      --sh3: 0 8px 40px rgba(0, 0, 0, .14);
-      --body-bg: #F5F2EC;
-      --sidebar-bg-val: #F8F6F0;
-      --topbar-bg-val: rgba(253, 252, 250, .97);
-      --widget-bg: #FDFCFA;
-      --input-bg: #FDFCFA;
-      --modal-bg: #FDFCFA;
-      --modal-foot-bg: #FDFCFA;
-      --fc-front-bg: #FDFCFA;
-      --mode-icon: "☀️"
+      /* Borders & shadows */
+      --border: rgba(13, 36, 66, .14);
+      --border2: rgba(13, 36, 66, .08);
+      --sh: 0 1px 3px rgba(13, 36, 66, .08);
+      --sh2: 0 4px 24px rgba(13, 36, 66, .10);
+      --sh3: 0 8px 32px rgba(13, 36, 66, .14);
+      /* Surfaces */
+      --body-bg: #eef1f6;
+      --sidebar-bg-val: #ffffff;
+      --topbar-bg-val: rgba(255, 255, 255, .97);
+      --widget-bg: #ffffff;
+      --input-bg: #f8fafc;
+      --modal-bg: #ffffff;
+      --modal-foot-bg: #f8fafc;
+      --fc-front-bg: #ffffff;
+      --mode-icon: "☀️";
+      --dot-pattern: url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='0.5' fill='rgba(13,36,66,0.04)'/%3E%3C/svg%3E");
     }
 
     * {
@@ -124,9 +163,9 @@
       position: fixed;
       inset: 0;
       background-image:
-        radial-gradient(ellipse at 80% 0%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-        radial-gradient(ellipse at 20% 100%, rgba(245, 158, 11, 0.08) 0%, transparent 50%),
-        url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='0.5' fill='rgba(255,255,255,0.05)'/%3E%3C/svg%3E");
+        radial-gradient(ellipse at 80% 0%, rgba(13, 36, 66, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 20% 100%, rgba(13, 36, 66, 0.04) 0%, transparent 50%),
+        var(--dot-pattern);
       background-size: 100% 100%, 100% 100%, 40px 40px;
       pointer-events: none;
       z-index: 0
@@ -298,24 +337,51 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 11.5px;
+      font-size: 12px;
       font-weight: 600;
       padding: 7px 15px;
       border-radius: 6px;
       border: none;
       cursor: pointer;
       font-family: "Outfit", sans-serif;
-      transition: all .15s;
-      letter-spacing: .02em
+      transition: all .25s ease;
+      letter-spacing: .02em;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 100%; height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      transform: translate(-50%, -50%) scale(0);
+      border-radius: 50%;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+      opacity: 0;
+    }
+
+    .btn:active::after {
+      transform: translate(-50%, -50%) scale(2);
+      opacity: 1;
+      transition: 0s;
     }
 
     .btn-p {
-      background: var(--gold);
-      color: var(--navy)
+      background: #0d2442;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(13, 36, 66, .20);
     }
 
     .btn-p:hover {
-      background: var(--gold2)
+      background: #162f54;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(13, 36, 66, .28);
     }
 
     .btn-o {
@@ -445,7 +511,7 @@
     }
 
     .hero p {
-      font-size: 12.5px;
+      font-size: 13px;
       color: var(--white2);
       max-width: 480px;
       line-height: 1.65
@@ -643,7 +709,7 @@
     }
 
     .rq-t {
-      font-size: 11.5px;
+      font-size: 12px;
       color: var(--white2);
       flex: 1;
       line-height: 1.4;
@@ -833,9 +899,9 @@
     .fc-kb-popover-title { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--white3); margin-bottom: 10px; }
     .fc-kb-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 5px 0; border-bottom: 1px solid var(--border2); }
     .fc-kb-row:last-child { border-bottom: none; }
-    .fc-kb-desc { font-size: 11.5px; color: var(--white2); }
+    .fc-kb-desc { font-size: 12px; color: var(--white2); }
     .fc-kb-keys { display: flex; gap: 4px; flex-shrink: 0; }
-    .fc-kb-keys kbd { display: inline-flex; align-items: center; justify-content: center; font-size: 9.5px; font-family: 'IBM Plex Mono', monospace; font-weight: 700; background: var(--navy4); border: 1.5px solid var(--border); border-bottom-width: 3px; border-radius: 4px; padding: 1px 6px; color: var(--gold2); line-height: 1.5; }
+    .fc-kb-keys kbd { display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-family: 'IBM Plex Mono', monospace; font-weight: 700; background: var(--navy4); border: 1.5px solid var(--border); border-bottom-width: 3px; border-radius: 4px; padding: 1px 6px; color: var(--gold2); line-height: 1.5; }
 
     .fc-acts {
       display: flex;
@@ -1086,7 +1152,7 @@
     }
 
     .q-q {
-      font-size: 12.5px;
+      font-size: 13px;
       font-weight: 500;
       color: var(--white);
       line-height: 1.45;
@@ -1218,7 +1284,7 @@
 
     .import-area {
       font-family: "IBM Plex Mono", monospace;
-      font-size: 11.5px;
+      font-size: 12px;
       line-height: 1.8;
       min-height: 200px;
       background: var(--navy3);
@@ -1473,7 +1539,7 @@
     }
 
     .rm-desc {
-      font-size: 12.5px;
+      font-size: 13px;
       color: var(--white2);
       font-weight: 300;
       max-width: 440px;
@@ -1590,14 +1656,14 @@
     }
 
     .driver-name {
-      font-size: 11.5px;
+      font-size: 12px;
       font-weight: 600;
       color: var(--white);
       margin-bottom: 3px
     }
 
     .driver-desc {
-      font-size: 10.5px;
+      font-size: 11px;
       color: var(--white2);
       font-weight: 300;
       line-height: 1.4
@@ -1631,7 +1697,7 @@
       border-radius: 9px;
       padding: 15px 17px;
       font-family: "IBM Plex Mono", monospace;
-      font-size: 11.5px;
+      font-size: 12px;
       line-height: 2;
       color: var(--white);
       position: relative;
@@ -1650,7 +1716,7 @@
 
     .formula-box .comment {
       color: var(--white3);
-      font-size: 10.5px
+      font-size: 11px
     }
 
     .formula-box .hl {
@@ -1749,7 +1815,7 @@
     }
 
     .dcf-section-desc {
-      font-size: 12.5px;
+      font-size: 13px;
       color: var(--white2);
       line-height: 1.65;
       margin-bottom: 20px;
@@ -2246,7 +2312,7 @@
     }
 
     .macro-kpi-sub {
-      font-size: 10.5px;
+      font-size: 11px;
       color: var(--white2);
       line-height: 1.5
     }
@@ -2409,27 +2475,27 @@
 
     .macro-table td.mnum {
       font-family: "IBM Plex Mono", monospace;
-      font-size: 10.5px;
+      font-size: 11px;
       color: var(--gold2)
     }
 
     .macro-table td.mgood {
       font-family: "IBM Plex Mono", monospace;
-      font-size: 10.5px;
+      font-size: 11px;
       color: var(--green);
       font-weight: 600
     }
 
     .macro-table td.mbad {
       font-family: "IBM Plex Mono", monospace;
-      font-size: 10.5px;
+      font-size: 11px;
       color: var(--red);
       font-weight: 600
     }
 
     .macro-table td.mwarn {
       font-family: "IBM Plex Mono", monospace;
-      font-size: 10.5px;
+      font-size: 11px;
       color: var(--orange);
       font-weight: 600
     }
@@ -2547,7 +2613,7 @@
     }
 
     .fs-section-desc {
-      font-size: 12.5px;
+      font-size: 13px;
       color: var(--white2);
       line-height: 1.65;
       margin-bottom: 20px;
@@ -2651,7 +2717,7 @@
       border-radius: 8px;
       padding: 12px 14px;
       font-family: "IBM Plex Mono", monospace;
-      font-size: 10.5px;
+      font-size: 11px;
       line-height: 2;
       color: var(--white2);
       margin-bottom: 10px;
@@ -2887,7 +2953,7 @@
     }
 
     .ratio-section-desc {
-      font-size: 12.5px;
+      font-size: 13px;
       color: var(--white2);
       line-height: 1.65;
       margin-bottom: 16px;
@@ -2904,7 +2970,7 @@
     .ratio-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 11.5px
+      font-size: 12px
     }
 
     .ratio-table thead tr {
@@ -2941,7 +3007,7 @@
     }
 
     .ratio-table td:last-child {
-      font-size: 10.5px;
+      font-size: 11px;
       color: var(--white3)
     }
 
@@ -2955,7 +3021,7 @@
 
     .ratio-formula {
       font-family: "IBM Plex Mono", monospace;
-      font-size: 10.5px !important;
+      font-size: 11px !important;
       color: var(--gold2) !important;
       background: var(--gold-bg2);
       padding: 6px 8px;
@@ -2967,12 +3033,12 @@
     .ratio-good {
       color: var(--green) !important;
       font-family: "IBM Plex Mono", monospace;
-      font-size: 10.5px !important
+      font-size: 11px !important
     }
 
     .ratio-bad {
       color: var(--red) !important;
-      font-size: 10.5px !important
+      font-size: 11px !important
     }
 
     .mod-tabs {
@@ -3035,7 +3101,7 @@
     }
 
     .mod-section-desc {
-      font-size: 12.5px;
+      font-size: 13px;
       color: var(--white2);
       line-height: 1.65;
       margin-bottom: 16px;
@@ -3163,7 +3229,7 @@
     }
 
     .mod-shortcut-desc {
-      font-size: 11.5px;
+      font-size: 12px;
       color: var(--white2);
       flex: 1
     }
@@ -3247,7 +3313,7 @@
     }
 
     .mod-warn-text {
-      font-size: 11.5px;
+      font-size: 12px;
       color: var(--white2);
       line-height: 1.6
     }
@@ -3273,7 +3339,7 @@
     }
 
     .mod-tip-text {
-      font-size: 11.5px;
+      font-size: 12px;
       color: var(--white2);
       line-height: 1.6
     }
@@ -3402,6 +3468,13 @@
     }
 
     @media(max-width:768px) {
+
+      /* Allow body to scroll on mobile so virtual keyboard doesn't trap content */
+      body {
+        overflow: auto;
+        height: auto;
+        min-height: 100vh;
+      }
 
       /* Dashboard grids */
       .dash-grid {
@@ -3937,7 +4010,167 @@
       color: var(--gold2);
       border: 1px solid var(--gold-bg)
     }
-  </style>
+  
+
+    /* ═══════════════════════════════════════════════
+       PREPAROO DESIGN SYSTEM OVERRIDES (light mode)
+       ═══════════════════════════════════════════════ */
+
+    /* Sidebar — clean white card */
+    [data-theme="light"] .sidebar {
+      background: #ffffff;
+      border-right: 1px solid rgba(13, 36, 66, .08);
+      box-shadow: 2px 0 12px rgba(13, 36, 66, .05);
+      backdrop-filter: none;
+    }
+
+    [data-theme="light"] .sb-logo-t span {
+      color: #0d2442;
+    }
+
+    /* Active nav item — Preparoo pill style */
+    [data-theme="light"] .nav-item.active {
+      color: #0d2442;
+      font-weight: 600;
+      border-left-color: #0d2442;
+      background: rgba(13, 36, 66, .08);
+      border-radius: 0 8px 8px 0;
+    }
+
+    [data-theme="light"] .nav-item:hover {
+      background: rgba(13, 36, 66, .04);
+      color: #0d2442;
+    }
+
+    /* Topbar — crisp white */
+    [data-theme="light"] .topbar {
+      background: rgba(255, 255, 255, .97);
+      border-bottom: 1px solid rgba(13, 36, 66, .08);
+      box-shadow: 0 1px 6px rgba(13, 36, 66, .06);
+      backdrop-filter: none;
+    }
+
+    /* Buttons */
+    [data-theme="light"] .btn { border-radius: 8px; }
+
+    [data-theme="light"] .btn-p {
+      background: #0d2442;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(13, 36, 66, .20);
+    }
+    [data-theme="light"] .btn-p:hover {
+      background: #162f54;
+      box-shadow: 0 6px 20px rgba(13, 36, 66, .28);
+    }
+
+    [data-theme="light"] .btn-o {
+      border-color: rgba(13, 36, 66, .18);
+      color: #6b7a90;
+    }
+    [data-theme="light"] .btn-o:hover {
+      border-color: rgba(13, 36, 66, .35);
+      background: rgba(13, 36, 66, .05);
+      color: #0d2442;
+    }
+
+    /* Cards / widgets */
+    [data-theme="light"] .widget,
+    [data-theme="light"] .card,
+    [data-theme="light"] .fc-wrap,
+    [data-theme="light"] .modal-inner,
+    [data-theme="light"] .panel {
+      background: #ffffff;
+      box-shadow: 0 4px 24px rgba(13, 36, 66, .08), inset 0 1px 0 #ffffff;
+      border-color: rgba(13, 36, 66, .08);
+      border-radius: 12px;
+    }
+
+    /* Tabs — pill toggle style */
+    [data-theme="light"] .tab-bar,
+    [data-theme="light"] .tabs {
+      background: rgba(13, 36, 66, .05);
+      border-radius: 28px;
+      padding: 4px;
+    }
+
+    [data-theme="light"] .tab.active,
+    [data-theme="light"] .tab-btn.active {
+      background: #ffffff;
+      color: #0d2442;
+      box-shadow: 0 1px 4px rgba(13, 36, 66, .12);
+      border-radius: 24px;
+    }
+    [data-theme="light"] .tab,
+    [data-theme="light"] .tab-btn {
+      border-radius: 24px;
+      color: #6b7a90;
+      font-weight: 500;
+    }
+    [data-theme="light"] .tab:hover:not(.active),
+    [data-theme="light"] .tab-btn:hover:not(.active) { color: #0d2442; }
+
+    /* Inputs */
+    [data-theme="light"] input,
+    [data-theme="light"] select,
+    [data-theme="light"] textarea {
+      background: #f8fafc;
+      border-color: rgba(13, 36, 66, .14);
+      color: #0d2442;
+    }
+    [data-theme="light"] input:focus,
+    [data-theme="light"] select:focus,
+    [data-theme="light"] textarea:focus {
+      border-color: #0d2442;
+      box-shadow: 0 0 0 3px rgba(13, 36, 66, .08);
+      outline: none;
+    }
+
+    /* Progress bars */
+    [data-theme="light"] .progress-fill,
+    [data-theme="light"] .bar-fill {
+      background: linear-gradient(90deg, #0d2442, #1e4a7a);
+    }
+
+    /* Difficulty pills — Preparoo colour palette */
+    [data-theme="light"] .diff-e, [data-theme="light"] .tag-easy {
+      background: #e0f2fe; color: #0c4a6e;
+    }
+    [data-theme="light"] .diff-m, [data-theme="light"] .tag-medium {
+      background: #f1f5f9; color: #475569;
+    }
+    [data-theme="light"] .diff-h, [data-theme="light"] .tag-hard {
+      background: #fff7ed; color: #9a3412;
+    }
+
+    [data-theme="light"] .sb-sec { color: #9aabbd; }
+    [data-theme="light"] .nav-sep { background: rgba(13, 36, 66, .07); }
+    [data-theme="light"] .sb-stats { border-top: 1px solid rgba(13, 36, 66, .07); }
+
+    [data-theme="light"] .file-card-folder-badge {
+      background: rgba(13, 36, 66, .08);
+      color: #0d2442;
+      border-color: rgba(13, 36, 66, .10);
+    }
+    [data-theme="light"] .file-card-link:hover { color: #0d2442; }
+
+    /* Scrollbar */
+    [data-theme="light"] ::-webkit-scrollbar-thumb {
+      background: rgba(13, 36, 66, .15);
+      border-radius: 4px;
+    }
+    [data-theme="light"] ::-webkit-scrollbar-track {
+      background: rgba(13, 36, 66, .04);
+    }
+
+    /* Body bg gradient override for light */
+    [data-theme="light"] body::before {
+      background-image:
+        radial-gradient(ellipse at 85% 0%, rgba(13, 36, 66, .05) 0%, transparent 55%),
+        radial-gradient(ellipse at 15% 100%, rgba(13, 36, 66, .03) 0%, transparent 55%),
+        var(--dot-pattern);
+    }
+
+</style>
   <style>
     /* ── Multi-select Browse ── */
     .q-item.selected {
@@ -4060,7 +4293,7 @@
     }
 
     .rsc-meta {
-      font-size: 10.5px;
+      font-size: 11px;
       color: var(--white3);
       line-height: 1.55;
       margin-bottom: 10px;
@@ -4106,7 +4339,7 @@
       }
 
       .rsc-meta {
-        font-size: 9.5px;
+        font-size: 10px;
       }
     }
 
@@ -4248,7 +4481,7 @@
       display: none;
       align-items: center;
       justify-content: center;
-      background: #030712;
+      background: #eef1f6;
       font-family: 'Outfit', sans-serif;
       padding: 20px;
       overflow-y: auto;
@@ -4259,10 +4492,10 @@
       position: fixed;
       inset: 0;
       background-image:
-        radial-gradient(ellipse at 10% 20%, rgba(245, 158, 11, 0.13) 0%, transparent 55%),
-        radial-gradient(ellipse at 90% 80%, rgba(59, 130, 246, 0.12) 0%, transparent 55%),
-        radial-gradient(ellipse at 50% 50%, rgba(139, 92, 246, 0.06) 0%, transparent 70%),
-        url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='0.5' fill='rgba(255,255,255,0.04)'/%3E%3C/svg%3E");
+        radial-gradient(ellipse at 10% 20%, rgba(13, 36, 66, 0.06) 0%, transparent 55%),
+        radial-gradient(ellipse at 90% 80%, rgba(13, 36, 66, 0.04) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, rgba(13, 36, 66, 0.02) 0%, transparent 70%),
+        var(--dot-pattern);
       pointer-events: none;
     }
 
@@ -4279,13 +4512,13 @@
       display: inline-flex;
       align-items: center;
       gap: 7px;
-      font-size: 10.5px;
+      font-size: 11px;
       font-weight: 700;
       letter-spacing: .15em;
       text-transform: uppercase;
-      color: #F59E0B;
-      background: rgba(245, 158, 11, 0.12);
-      border: 1px solid rgba(245, 158, 11, 0.25);
+      color: #0d2442;
+      background: rgba(13, 36, 66, 0.08);
+      border: 1px solid rgba(13, 36, 66, 0.18);
       border-radius: 20px;
       padding: 5px 14px;
       margin-bottom: 28px;
@@ -4295,18 +4528,19 @@
       font-family: 'DM Serif Display', serif;
       font-size: 42px;
       line-height: 1.12;
-      color: #F9FAFB;
+      color: #0d2442;
       margin-bottom: 18px;
       letter-spacing: -0.02em;
     }
 
     .pitch-headline span {
-      color: #F59E0B;
+      color: #0d2442;
+      position: relative;
     }
 
     .pitch-sub {
       font-size: 16px;
-      color: rgba(249, 250, 251, 0.6);
+      color: #6b7a90;
       line-height: 1.65;
       max-width: 480px;
       margin: 0 auto 36px;
@@ -4325,17 +4559,19 @@
       display: flex;
       align-items: flex-start;
       gap: 16px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.07);
+      background: #ffffff;
+      border: 1px solid rgba(13, 36, 66, 0.08);
       border-radius: 16px;
       padding: 16px 20px;
-      transition: border-color .2s, background .2s;
+      transition: border-color .2s, background .2s, box-shadow .2s;
       cursor: default;
+      box-shadow: 0 2px 8px rgba(13, 36, 66, .06);
     }
 
     .pitch-q:hover {
-      background: rgba(245, 158, 11, 0.05);
-      border-color: rgba(245, 158, 11, 0.2);
+      background: #ffffff;
+      border-color: rgba(13, 36, 66, 0.20);
+      box-shadow: 0 4px 16px rgba(13, 36, 66, .10);
     }
 
     .pitch-q-icon {
@@ -4345,15 +4581,15 @@
     }
 
     .pitch-q-text {
-      font-size: 14.5px;
+      font-size: 14px;
       font-weight: 500;
-      color: #F9FAFB;
+      color: #0d2442;
       line-height: 1.5;
     }
 
     .pitch-q-sub {
       font-size: 12px;
-      color: rgba(249, 250, 251, 0.45);
+      color: #9aabbd;
       margin-top: 3px;
       line-height: 1.5;
     }
@@ -4364,7 +4600,7 @@
       font-weight: 700;
       letter-spacing: .15em;
       text-transform: uppercase;
-      color: rgba(249, 250, 251, 0.3);
+      color: #9aabbd;
       margin-bottom: 16px;
     }
 
@@ -4380,10 +4616,11 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: #ffffff;
+      border: 1px solid rgba(13, 36, 66, 0.08);
       border-radius: 12px;
       padding: 13px 15px;
+      box-shadow: 0 2px 8px rgba(13, 36, 66, .05);
     }
 
     .pitch-perk-icon {
@@ -4392,33 +4629,33 @@
     }
 
     .pitch-perk-text {
-      font-size: 12.5px;
+      font-size: 13px;
       font-weight: 500;
-      color: rgba(249, 250, 251, 0.8);
+      color: #6b7a90;
       line-height: 1.4;
     }
 
     .pitch-perk-text strong {
-      color: #F9FAFB;
+      color: #0d2442;
       display: block;
-      font-size: 13.5px;
+      font-size: 14px;
     }
 
     /* Holy grail quote */
     .pitch-quote {
-      background: rgba(245, 158, 11, 0.07);
-      border: 1px solid rgba(245, 158, 11, 0.18);
+      background: rgba(13, 36, 66, 0.05);
+      border: 1px solid rgba(13, 36, 66, 0.12);
       border-radius: 16px;
       padding: 20px 24px;
       margin-bottom: 32px;
       font-size: 14px;
-      color: rgba(249, 250, 251, 0.75);
+      color: #6b7a90;
       line-height: 1.7;
       font-style: italic;
     }
 
     .pitch-quote strong {
-      color: #F59E0B;
+      color: #0d2442;
       font-style: normal;
     }
 
@@ -4426,8 +4663,8 @@
     .pitch-cta {
       width: 100%;
       padding: 17px 24px;
-      background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-      color: #030712;
+      background: #0d2442;
+      color: #ffffff;
       border: none;
       border-radius: 14px;
       font-size: 16px;
@@ -4436,24 +4673,24 @@
       cursor: pointer;
       transition: all .2s cubic-bezier(0.4, 0, 0.2, 1);
       letter-spacing: .02em;
-      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.35), inset 0 1px 0 rgba(255,255,255,0.2);
+      box-shadow: 0 6px 20px rgba(13, 36, 66, 0.25), inset 0 1px 0 rgba(255,255,255,0.08);
       margin-bottom: 14px;
     }
 
     .pitch-cta:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(245, 158, 11, 0.45), inset 0 1px 0 rgba(255,255,255,0.2);
-      background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+      background: #162f54;
+      box-shadow: 0 10px 28px rgba(13, 36, 66, 0.35), inset 0 1px 0 rgba(255,255,255,0.08);
     }
 
     .pitch-cta:active {
       transform: translateY(0);
-      box-shadow: 0 3px 8px rgba(245, 158, 11, 0.25);
+      box-shadow: 0 3px 8px rgba(13, 36, 66, 0.20);
     }
 
     .pitch-footer-note {
-      font-size: 11.5px;
-      color: rgba(249, 250, 251, 0.3);
+      font-size: 12px;
+      color: #9aabbd;
       line-height: 1.6;
     }
 
@@ -4464,6 +4701,7 @@
       .pitch-box { padding: 10px 0 30px; }
     }
 
+    /* ── Login / Gate Overlay ── */
     #gate-overlay {
       position: fixed;
       inset: 0;
@@ -4471,7 +4709,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #030712;
+      background: #eef1f6;
       font-family: 'Outfit', sans-serif
     }
 
@@ -4480,47 +4718,47 @@
       position: absolute;
       inset: 0;
       background-image:
-        radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.12) 0%, transparent 50%),
-        radial-gradient(circle at 85% 85%, rgba(245, 158, 11, 0.1) 0%, transparent 50%),
-        url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='0.5' fill='rgba(255,255,255,0.05)'/%3E%3C/svg%3E");
+        radial-gradient(circle at 15% 15%, rgba(13, 36, 66, 0.07) 0%, transparent 50%),
+        radial-gradient(circle at 85% 85%, rgba(13, 36, 66, 0.05) 0%, transparent 50%),
+        var(--dot-pattern);
       pointer-events: none;
     }
 
     .gate-box {
       position: relative;
-      background: rgba(255, 255, 255, 0.03);
-      backdrop-filter: blur(24px) saturate(180%);
-      -webkit-backdrop-filter: blur(24px) saturate(180%);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: #ffffff;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border: 1px solid rgba(13, 36, 66, 0.10);
       border-radius: 24px;
       padding: 48px;
       width: 100%;
       max-width: 420px;
       text-align: center;
-      box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      box-shadow: 0 4px 24px rgba(13, 36, 66, 0.10), inset 0 1px 0 #ffffff;
     }
 
     .gate-logo {
       font-size: 40px;
       margin-bottom: 20px;
-      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+      filter: drop-shadow(0 4px 12px rgba(13, 36, 66, 0.10));
     }
 
     .gate-title {
       font-family: 'DM Serif Display', serif;
       font-size: 28px;
-      color: #F9FAFB;
+      color: #0d2442;
       margin-bottom: 6px;
       letter-spacing: -0.02em;
     }
 
     .gate-title span {
-      color: #F59E0B;
+      color: #0d2442;
     }
 
     .gate-sub {
-      font-size: 11.5px;
-      color: rgba(249, 250, 251, 0.5);
+      font-size: 12px;
+      color: #9aabbd;
       text-transform: uppercase;
       letter-spacing: .15em;
       margin-bottom: 36px;
@@ -4528,11 +4766,11 @@
     }
 
     .gate-label {
-      font-size: 10.5px;
+      font-size: 11px;
       font-weight: 700;
       letter-spacing: .1em;
       text-transform: uppercase;
-      color: rgba(249, 250, 251, 0.6);
+      color: #6b7a90;
       text-align: left;
       margin-bottom: 8px;
     }
@@ -4540,111 +4778,61 @@
     .gate-input {
       width: 100%;
       padding: 14px 16px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: #f8fafc;
+      border: 1px solid rgba(13, 36, 66, 0.14);
       border-radius: 12px;
       font-size: 14px;
       font-family: 'Outfit', sans-serif;
-      color: #F9FAFB;
+      color: #0d2442;
       outline: none;
       transition: all .2s cubic-bezier(0.4, 0, 0.2, 1);
       letter-spacing: .02em;
       margin-bottom: 6px;
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2)
+      box-shadow: none;
+    }
+
+    .gate-input::placeholder {
+      color: #9aabbd;
     }
 
     .gate-input:focus {
-      background: rgba(255, 255, 255, 0.06);
-      border-color: #3B82F6;
-      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+      background: #ffffff;
+      border-color: #0d2442;
+      box-shadow: 0 0 0 3px rgba(13, 36, 66, 0.10);
     }
 
     .gate-input.error {
-      border-color: #EF4444;
+      border-color: #C0392B;
       animation: shake .4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
     }
 
     .gate-btn {
       width: 100%;
       padding: 14px;
-      background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-      color: #030712;
+      background: #0d2442;
+      color: #ffffff;
       border: none;
       border-radius: 12px;
-      font-size: 14.5px;
+      font-size: 14px;
       font-weight: 700;
       font-family: 'Outfit', sans-serif;
       cursor: pointer;
-      margin-top: 12px;
       transition: all .2s cubic-bezier(0.4, 0, 0.2, 1);
-      letter-spacing: .03em;
-      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      letter-spacing: .02em;
+      margin-top: 20px;
+      box-shadow: 0 4px 12px rgba(13, 36, 66, 0.20);
     }
 
-    .gate-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+    .gate-btn:hover:not(:disabled) {
+      background: #162f54;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(13, 36, 66, 0.28);
     }
 
-    .gate-btn:active {
-      transform: translateY(0);
-      box-shadow: 0 2px 4px rgba(245, 158, 11, 0.2);
-    }
-
-    .gate-err {
-      font-size: 12px;
-      color: #EF4444;
-      margin-top: 12px;
-      min-height: 18px;
-      transition: opacity .2s;
-      font-weight: 500;
-    }
-
-    .gate-footer {
-      font-size: 11px;
-      color: rgba(249, 250, 251, 0.3);
-      margin-top: 32px;
-      line-height: 1.6
-    }
-
-    @keyframes shake {
-
-      0%,
-      100% {
-        transform: translateX(0)
-      }
-
-      25% {
-        transform: translateX(-8px)
-      }
-
-      75% {
-        transform: translateX(8px)
-      }
-    }
-
-    @keyframes fadeOut {
-      to {
-        opacity: 0;
-        transform: scale(1.02);
-        pointer-events: none
-      }
-    }
-
-    .gate-unlocking {
-      animation: fadeOut .4s ease forwards
-    }
-
-    .gate-input-wrap {
-      position: relative;
-      width: 100%;
-      margin-bottom: 8px
-    }
-
-    .gate-input-wrap .gate-input {
-      margin-bottom: 0;
-      padding-right: 44px
+    .gate-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
     }
 
     .gate-eye {
@@ -4655,17 +4843,39 @@
       background: none;
       border: none;
       cursor: pointer;
-      color: rgba(240, 237, 230, .35);
       font-size: 16px;
       padding: 4px;
-      transition: color .15s;
-      line-height: 1
+      color: #9aabbd;
     }
 
-    .gate-eye:hover {
-      color: rgba(240, 237, 230, .7)
+    .gate-input-wrap {
+      position: relative;
     }
-  </style>
+
+    .gate-err {
+      color: #C0392B;
+      font-size: 12px;
+      text-align: center;
+      margin-top: 10px;
+      min-height: 18px;
+    }
+
+    .gate-footer {
+      font-size: 11px;
+      color: #9aabbd;
+      text-align: center;
+      margin-top: 18px;
+      line-height: 1.6;
+    }
+
+    @keyframes shake {
+      10%, 90% { transform: translateX(-1px); }
+      20%, 80% { transform: translateX(2px); }
+      30%, 50%, 70% { transform: translateX(-3px); }
+      40%, 60% { transform: translateX(3px); }
+    }
+
+</style>
   <style>
     /* ── Flashcard Sidebar Layout ── */
     .fc-layout-wrap {
@@ -4753,12 +4963,6 @@
    VISUAL IMPROVEMENTS — FINANCE ANALYST TOOLKIT
    ═══════════════════════════════════════════════════════════ */
 
-    @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap');
-
-    body {
-      font-family: 'Sora', 'Outfit', sans-serif;
-    }
-
     /* ── Hero ── */
     .hero {
       background: linear-gradient(135deg, var(--navy3) 0%, var(--navy4) 60%, rgba(201, 168, 76, .06) 100%);
@@ -4797,7 +5001,7 @@
     }
 
     .hs-lab {
-      font-size: 9.5px;
+      font-size: 10px;
       font-weight: 600;
       letter-spacing: .1em;
       margin-top: 5px;
@@ -4830,7 +5034,7 @@
 
     /* ── Widget headers ── */
     .wt {
-      font-size: 9.5px;
+      font-size: 10px;
       font-weight: 700;
       letter-spacing: .14em;
       text-transform: uppercase;
@@ -4933,7 +5137,7 @@
     .mod-table td,
     .macro-table td {
       padding: 10px 12px;
-      font-size: 11.5px;
+      font-size: 12px;
       line-height: 1.55;
       vertical-align: top;
       border-bottom: 1px solid var(--border2);
@@ -4970,7 +5174,7 @@
     }
 
     .ratio-table td:last-child {
-      font-size: 10.5px;
+      font-size: 11px;
       color: var(--white3);
     }
 
@@ -5041,7 +5245,7 @@
     }
 
     .fc-label {
-      font-size: 8.5px;
+      font-size: 9px;
       letter-spacing: .14em;
       padding-bottom: 8px;
       border-bottom: 1px solid var(--border2);
@@ -5053,7 +5257,7 @@
       padding: 7px 20px;
       min-width: unset;
       border-radius: 8px;
-      font-size: 12.5px;
+      font-size: 13px;
       font-weight: 700;
       gap: 7px;
       flex-direction: row;
@@ -5100,7 +5304,7 @@
     }
 
     .q-num {
-      font-size: 9.5px;
+      font-size: 10px;
       font-family: 'IBM Plex Mono', monospace;
       color: var(--gold);
       background: var(--gold-bg);
@@ -5125,7 +5329,7 @@
     .sens-table th {
       background: var(--navy3);
       color: var(--gold);
-      font-size: 8.5px;
+      font-size: 9px;
       letter-spacing: .1em;
       padding: 9px 12px;
       border: 1px solid var(--border2);
@@ -5134,7 +5338,7 @@
     .sens-table td {
       padding: 8px 12px;
       border: 1px solid var(--border2);
-      font-size: 11.5px;
+      font-size: 12px;
       font-weight: 500;
     }
 
@@ -5172,13 +5376,13 @@
 
     .dcf-warn-text,
     .dcf-tip-text {
-      font-size: 11.5px;
+      font-size: 12px;
       line-height: 1.65;
     }
 
     .dcf-warn-text strong,
     .dcf-tip-text strong {
-      font-size: 11.5px;
+      font-size: 12px;
     }
 
     /* ── Sidebar ── */
@@ -5189,13 +5393,13 @@
     }
 
     .sb-logo-s {
-      font-size: 8.5px;
+      font-size: 9px;
       letter-spacing: .14em;
       margin-top: 4px;
     }
 
     .nav-item {
-      font-size: 12.5px;
+      font-size: 13px;
       padding: 10px 18px;
       gap: 10px;
       letter-spacing: .01em;
@@ -5207,7 +5411,7 @@
     }
 
     .sb-sec {
-      font-size: 8.5px;
+      font-size: 9px;
       letter-spacing: .15em;
       padding: 16px 18px 6px;
       color: rgba(201, 168, 76, .5);
@@ -5220,7 +5424,7 @@
     }
 
     .sb-stat {
-      font-size: 10.5px;
+      font-size: 11px;
       margin-bottom: 4px;
     }
 
@@ -5236,17 +5440,6 @@
     }
 
     /* ── Buttons ── */
-    .btn-p {
-      background: linear-gradient(135deg, var(--gold), var(--gold2));
-      box-shadow: 0 2px 8px rgba(201, 168, 76, .3);
-    }
-
-    .btn-p:hover {
-      background: linear-gradient(135deg, var(--gold2), #f0c040);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 14px rgba(201, 168, 76, .4);
-    }
-
     /* ── Metric pills ── */
     .metric {
       font-size: 11px;
@@ -5288,7 +5481,7 @@
     }
 
     .driver-desc {
-      font-size: 10.5px;
+      font-size: 11px;
       color: var(--white2);
       line-height: 1.5;
     }
@@ -5362,7 +5555,7 @@
     .dcf-step-num {
       width: 28px;
       height: 28px;
-      font-size: 11.5px;
+      font-size: 12px;
       font-weight: 700;
       border-radius: 50%;
       background: var(--gold-bg);
@@ -5386,14 +5579,14 @@
     }
 
     .dcf-step-title {
-      font-size: 12.5px;
+      font-size: 13px;
       font-weight: 700;
       color: var(--white);
       margin-bottom: 5px;
     }
 
     .dcf-step-desc {
-      font-size: 11.5px;
+      font-size: 12px;
       color: var(--white2);
       line-height: 1.65;
     }
@@ -5402,7 +5595,7 @@
     .fs-link-row {
       padding: 9px 0 9px 6px;
       border-bottom: 1px solid var(--border2);
-      font-size: 11.5px;
+      font-size: 12px;
       transition: background .12s;
       border-radius: 4px;
     }
@@ -5457,7 +5650,7 @@
     }
 
     .macro-kpi-label {
-      font-size: 8.5px;
+      font-size: 9px;
       font-weight: 700;
       letter-spacing: .1em;
       text-transform: uppercase;
@@ -5477,7 +5670,7 @@
     }
 
     .football-label {
-      font-size: 11.5px;
+      font-size: 12px;
       font-weight: 600;
       min-width: 170px;
     }
@@ -5944,7 +6137,7 @@
     }
 
     .gs-result-title {
-      font-size: 12.5px;
+      font-size: 13px;
       font-weight: 600;
       color: var(--white);
       white-space: nowrap;
@@ -5961,7 +6154,7 @@
     }
 
     .gs-result-meta {
-      font-size: 10.5px;
+      font-size: 11px;
       color: var(--white3);
       white-space: nowrap;
       overflow: hidden;
@@ -6235,14 +6428,14 @@
     }
 
     .cs-opt-label {
-      font-size: 11.5px;
+      font-size: 12px;
       font-weight: 500;
       color: var(--white);
       flex: 1;
     }
 
     .cs-opt-sub {
-      font-size: 9.5px;
+      font-size: 10px;
       color: var(--white3);
     }
 
@@ -7041,7 +7234,7 @@
     }
 
     .fc-a-formatted .fa-para {
-      font-size: 13.5px;
+      font-size: 14px;
       color: var(--white2);
       line-height: 1.72;
       margin-bottom: 5px;
@@ -8370,36 +8563,6 @@
     }
 
     /* Smooth Button & Chip Interactions */
-    .btn {
-      transition: all 0.25s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn:active {
-      transform: scale(0.96);
-    }
-
-    .btn::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.1);
-      transform: translate(-50%, -50%) scale(0);
-      border-radius: 50%;
-      transition: transform 0.4s ease, opacity 0.4s ease;
-      opacity: 0;
-    }
-
-    .btn:active::after {
-      transform: translate(-50%, -50%) scale(2);
-      opacity: 1;
-      transition: 0s;
-    }
-
     /* Highlight lines and Lists */
     .rq {
       transition: background 0.2s ease, padding-left 0.2s ease;
@@ -8546,71 +8709,7 @@
         transform: scale(0.9);
       }
 
-      /* Bottom Sheet Modal for 'More' menu */
-      .bottom-sheet-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.6);
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
-        z-index: 11000;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-      }
 
-      .bottom-sheet-overlay.show {
-        opacity: 1;
-        pointer-events: auto;
-      }
-
-      .bottom-sheet {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: var(--modal-bg);
-        border-radius: 24px 24px 0 0;
-        border-top: 1px solid var(--border2);
-        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
-        padding: 24px 20px 40px 20px;
-        transform: translateY(100%);
-        transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
-        padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
-      }
-
-      .bottom-sheet-overlay.show .bottom-sheet {
-        transform: translateY(0);
-      }
-
-      .bs-handle {
-        width: 36px;
-        height: 4px;
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 4px;
-        margin: 0 auto 24px auto;
-      }
-
-      .bs-item {
-        display: flex;
-        align-items: center;
-        padding: 16px;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 12px;
-        margin-bottom: 12px;
-        font-weight: 500;
-        color: var(--white);
-        gap: 16px;
-      }
-
-      .bs-item:active {
-        background: rgba(255, 255, 255, 0.08);
-      }
-
-      .bs-icon {
-        font-size: 22px;
-      }
     }
   </style>
   <style id="macroSpinStyle">
@@ -8638,18 +8737,18 @@
     .ind-sector-card:hover::before { opacity: 1; }
     .ind-sector-card .isc-icon { font-size: 28px; margin-bottom: 10px; }
     .ind-sector-card .isc-name { font-family: "DM Serif Display", serif; font-size: 15px; color: var(--white); margin-bottom: 5px; line-height: 1.2; }
-    .ind-sector-card .isc-sub { font-size: 10.5px; color: var(--white3); line-height: 1.55; margin-bottom: 10px; }
+    .ind-sector-card .isc-sub { font-size: 11px; color: var(--white3); line-height: 1.55; margin-bottom: 10px; }
     .ind-sector-card .isc-tag { display: inline-flex; align-items: center; gap: 4px; font-size: 9px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; padding: 3px 9px; border-radius: 4px; background: var(--tag-bg, var(--gold-bg)); color: var(--tag-col, var(--gold)); }
     /* ── Sidebar sector header strip ── */
     .ind-sector-head { display: flex; align-items: flex-start; gap: 16px; padding: 20px 24px; background: linear-gradient(135deg, var(--navy3), var(--navy4)); border-bottom: 1px solid var(--border2); margin-bottom: 20px; border-radius: 10px; }
     .ind-sector-icon { font-size: 38px; flex-shrink: 0; }
     .ind-sector-title { font-family: "DM Serif Display", serif; font-size: 18px; color: var(--white); margin-bottom: 4px; line-height: 1.25; }
-    .ind-sector-sub { font-size: 11.5px; color: var(--white2); line-height: 1.6; }
+    .ind-sector-sub { font-size: 12px; color: var(--white2); line-height: 1.6; }
     .ind-sector-meta { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
     .ind-meta-chip { font-size: 10px; font-weight: 600; padding: 2px 9px; border-radius: 8px; background: var(--white4); color: var(--white2); }
     /* ── Sub-tabs within panel ── */
     .ind-sub-tabs { display: flex; gap: 6px; margin-bottom: 18px; overflow-x: auto; padding-bottom: 4px; }
-    .ind-sub-tab { flex-shrink: 0; padding: 7px 15px; font-size: 11.5px; font-weight: 700; border-radius: 8px; cursor: pointer; color: var(--white2); background: var(--navy3); border: 1.5px solid var(--border); transition: all .15s; white-space: nowrap; letter-spacing: .01em; box-shadow: var(--sh); }
+    .ind-sub-tab { flex-shrink: 0; padding: 7px 15px; font-size: 12px; font-weight: 700; border-radius: 8px; cursor: pointer; color: var(--white2); background: var(--navy3); border: 1.5px solid var(--border); transition: all .15s; white-space: nowrap; letter-spacing: .01em; box-shadow: var(--sh); }
     .ind-sub-tab:hover { background: var(--navy4); color: var(--white); border-color: var(--border); transform: translateY(-1px); }
     .ind-sub-tab.active { background: var(--gold); color: var(--navy); border-color: var(--gold); box-shadow: 0 3px 12px rgba(245,158,11,.35); transform: translateY(-1px); }
     .ind-sub-panel { display: none; }
@@ -8658,10 +8757,10 @@
     .ind-stat-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-bottom: 16px; }
     .ind-stat-box { background: var(--navy3); border: 1px solid var(--border2); border-radius: 10px; padding: 12px 14px; }
     .ind-stat-val { font-family: "IBM Plex Mono", monospace; font-size: 17px; color: var(--gold2); line-height: 1; margin-bottom: 3px; }
-    .ind-stat-lab { font-size: 9.5px; color: var(--white3); text-transform: uppercase; letter-spacing: .07em; }
+    .ind-stat-lab { font-size: 10px; color: var(--white3); text-transform: uppercase; letter-spacing: .07em; }
     /* ── Value chain ── */
     .ind-chain { display: flex; align-items: center; overflow-x: auto; padding-bottom: 6px; margin-bottom: 18px; }
-    .ind-chain-node { flex-shrink: 0; background: var(--navy3); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 10.5px; font-weight: 600; color: var(--white2); text-align: center; min-width: 85px; }
+    .ind-chain-node { flex-shrink: 0; background: var(--navy3); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 11px; font-weight: 600; color: var(--white2); text-align: center; min-width: 85px; }
     .ind-chain-arrow { flex-shrink: 0; color: var(--white3); font-size: 14px; padding: 0 5px; }
     /* ── Porter Five Forces ── */
     .ind-p5-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
@@ -8673,8 +8772,8 @@
     .ind-p5-med { background: var(--ora-bg); color: var(--orange); }
     .ind-p5-lo { background: var(--green-bg); color: var(--green); }
     /* ── KPI table ── */
-    .ind-kpi-table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
-    .ind-kpi-table th { text-align: left; font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--white3); padding: 6px 10px; border-bottom: 1px solid var(--border2); }
+    .ind-kpi-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .ind-kpi-table th { text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--white3); padding: 6px 10px; border-bottom: 1px solid var(--border2); }
     .ind-kpi-table td { padding: 9px 10px; border-bottom: 1px solid var(--border2); color: var(--white2); vertical-align: top; }
     .ind-kpi-table tr:last-child td { border-bottom: none; }
     .ind-kpi-table tr:hover td { background: var(--white4); }
@@ -8682,7 +8781,7 @@
     .ind-co-list { display: flex; flex-direction: column; gap: 8px; }
     .ind-co-card { background: var(--navy3); border: 1px solid var(--border2); border-radius: 10px; padding: 12px 14px; display: flex; gap: 12px; }
     .ind-co-rank { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--white3); flex-shrink: 0; min-width: 22px; padding-top: 1px; }
-    .ind-co-name { font-size: 12.5px; font-weight: 700; color: var(--white); margin-bottom: 2px; }
+    .ind-co-name { font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 2px; }
     .ind-co-desc { font-size: 11px; color: var(--white2); line-height: 1.5; }
     .ind-co-tags { display: flex; gap: 5px; margin-top: 6px; flex-wrap: wrap; }
     .ind-co-tag { font-size: 9px; font-weight: 600; padding: 1px 7px; border-radius: 5px; background: var(--white4); color: var(--white3); }
@@ -8697,7 +8796,7 @@
     .ind-qa-q:hover { background: var(--white4); }
     .ind-qa-arrow { flex-shrink: 0; font-size: 11px; color: var(--white3); transition: transform .2s; }
     .ind-qa-item.open .ind-qa-arrow { transform: rotate(90deg); }
-    .ind-qa-a { display: none; padding: 10px 14px 12px; font-size: 11.5px; color: var(--white2); line-height: 1.65; border-top: 1px solid var(--border2); }
+    .ind-qa-a { display: none; padding: 10px 14px 12px; font-size: 12px; color: var(--white2); line-height: 1.65; border-top: 1px solid var(--border2); }
     .ind-qa-item.open .ind-qa-a { display: block; }
     /* ── Section label ── */
     .ind-sec-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--white3); margin-bottom: 10px; margin-top: 16px; }
@@ -8707,7 +8806,7 @@
       .ind-sector-card { padding: 14px 12px 12px; }
       .ind-sector-card .isc-icon { font-size: 22px; margin-bottom: 7px; }
       .ind-sector-card .isc-name { font-size: 13px; }
-      .ind-sector-card .isc-sub { font-size: 9.5px; }
+      .ind-sector-card .isc-sub { font-size: 10px; }
       .ind-p5-grid { grid-template-columns: 1fr; }
       .ind-stat-row { grid-template-columns: 1fr 1fr; }
       .ind-sector-head { flex-direction: column; gap: 10px; }
@@ -8727,7 +8826,7 @@
 
       <!-- Headline -->
       <h1 class="pitch-headline">The <span>Holy Grail</span><br>for Finance Careers</h1>
-      <p style="font-size:13px; color:rgba(249,250,251,0.55); letter-spacing:0.03em; margin-bottom:10px; font-style:italic;">
+      <p style="font-size:13px; color:#9aabbd; letter-spacing:0.03em; margin-bottom:10px; font-style:italic;">
         One place. Every resource you need.
       </p>
       <p class="pitch-sub">
@@ -8802,9 +8901,9 @@
       </button>
 
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-        <div style="flex:1;height:1px;background:rgba(255,255,255,0.12);"></div>
-        <span style="font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.05em;">or continue with email</span>
-        <div style="flex:1;height:1px;background:rgba(255,255,255,0.12);"></div>
+        <div style="flex:1;height:1px;background:rgba(13,36,66,0.10);"></div>
+        <span style="font-size:11px;color:#9aabbd;letter-spacing:0.05em;">or continue with email</span>
+        <div style="flex:1;height:1px;background:rgba(13,36,66,0.10);"></div>
       </div>
 
       <div class="gate-label">Email Address</div>
@@ -8829,7 +8928,7 @@
           up</a>
         <a href="#" id="gateForgotToggle"
           onclick="gateForgotPassword(event)"
-          style="color: rgba(255,255,255,0.7); text-decoration: underline; display: none;">Forgot your password?</a>
+          style="color: #6b7a90; text-decoration: underline; display: none;">Forgot your password?</a>
       </div>
 
       <div class="gate-err" id="gateErr"></div>
@@ -8948,7 +9047,7 @@
       if (btn) { btn.textContent = 'Loading Data...'; btn.disabled = true; }
 
       try {
-        var snapshot = await db.collection("questions").get();
+        var snapshot = await db.collection("questions").get({ source: 'server' });
         window.BIWS_QS = snapshot.docs.map(doc => doc.data());
         try {
           var resSnapshot = await db.collection("resources").get();
@@ -9090,19 +9189,6 @@
         </svg></button>
     </div>
 
-    <div class="mm-sec">Interview Prep</div>
-    <div class="mm-item" onclick="mmNav(&#39;dashboard&#39;)"><span class="mm-item-icon">🏠</span><span
-        class="mm-item-label">Dashboard</span><span class="mm-item-arrow">›</span></div>
-    <div class="mm-item" onclick="mmNav(&#39;flashcard&#39;)"><span class="mm-item-icon">🃏</span><span
-        class="mm-item-label">Flashcards</span><span class="mm-item-arrow">›</span></div>
-    <div class="mm-item" onclick="closeDrawerMenu(); setTimeout(startBrowseAll, 80)"><span class="mm-item-icon">📋</span><span
-        class="mm-item-label">Browse All</span><span class="mm-item-arrow">›</span></div>
-    <div class="mm-sep"></div>
-    <div class="mm-item" onclick="mmAction(&#39;bookmarks&#39;)"><span class="mm-item-icon">🔖</span><span
-        class="mm-item-label">Bookmarked</span><span class="mm-item-arrow">›</span></div>
-
-
-    <div class="mm-sep"></div>
     <div class="mm-sec">Reference</div>
     <div class="mm-item" onclick="mmNav(&#39;finstatements&#39;)"><span class="mm-item-icon">📑</span><span
         class="mm-item-label">Fin. Statements &amp; Ratios</span><span class="mm-item-arrow">›</span></div>
@@ -9116,24 +9202,16 @@
         class="mm-item-label">India Macro</span><span class="mm-item-arrow">›</span></div>
 
     <div class="mm-sep"></div>
-    <div class="mm-sec">Documents &amp; Files</div>
-    <div class="mm-item" onclick="mmNav(&#39;files&#39;)"><span class="mm-item-icon">🗂️</span><span
-        class="mm-item-label">Files &amp; Resources</span><span class="mm-item-arrow">›</span></div>
-
-
-    <div class="mm-sep"></div>
-    <div class="mm-sec">Manage</div>
+    <div class="mm-sec">Manage &amp; Support</div>
     <div class="mm-item" onclick="mmNav(&#39;add&#39;)"><span class="mm-item-icon">➕</span><span
-        class="mm-item-label">Add
-        Question</span><span class="mm-item-arrow">›</span></div>
-    <div class="mm-item" onclick="mmNav(&#39;import&#39;)"><span class="mm-item-icon">📥</span><span
-        class="mm-item-label">Bulk
-        Import</span><span class="mm-item-arrow">›</span></div>
-
-    <div class="mm-sep"></div>
-    <div class="mm-sec">Support</div>
+        class="mm-item-label">Add / Import Questions</span><span class="mm-item-arrow">›</span></div>
     <div class="mm-item" onclick="mmNav(&#39;support&#39;)"><span class="mm-item-icon">💬</span><span
         class="mm-item-label">Feedback &amp; Contact</span><span class="mm-item-arrow">›</span></div>
+
+    <div class="mm-sep"></div>
+    <div class="mm-sec">Downloads &amp; Uploads</div>
+    <div class="mm-item" onclick="mmNav(&#39;files&#39;)"><span class="mm-item-icon">⬇️</span><span
+        class="mm-item-label">Downloads & Uploads</span><span class="mm-item-arrow">›</span></div>
 
     <div class="mm-stats" id="mmStats">
       <div class="mm-stat">
@@ -9543,13 +9621,12 @@
       <div class="nav-item" onclick="nav(&#39;dcf&#39;)"><span>🎯</span> DCF, Val &amp; Modelling</div>
       <div class="nav-item" onclick="nav(&#39;macro&#39;)" id="macroNavItem"><span>🌐</span> India Macro</div>
       <div class="nav-sep"></div>
-      <div class="sb-sec">Documents &amp; Files</div>
-      <div class="nav-item" onclick="nav(&#39;files&#39;)"><span>🗂️</span> Files &amp; Resources</div>
-      <div class="nav-sep"></div>
       <div class="sb-sec">Manage &amp; Support</div>
-      <div class="nav-item" onclick="nav('add')"><span>➕</span> Add Question</div>
-      <div class="nav-item" onclick="nav('import')"><span>📥</span> Bulk Import</div>
+      <div class="nav-item" onclick="nav('add')"><span>➕</span> Add / Import Questions</div>
       <div class="nav-item" onclick="nav('support')"><span>💬</span> Feedback &amp; Contact</div>
+      <div class="nav-sep"></div>
+      <div class="sb-sec">Downloads &amp; Uploads</div>
+      <div class="nav-item" onclick="nav(&#39;files&#39;)"><span>⬇️</span> Downloads & Uploads</div>
       <div class="sb-stats" id="sbStats">
         <div class="sb-stat">Total Q&amp;As <b>399</b></div>
         <div class="sb-stat">Mastered <b>0 (0%)</b></div>
@@ -9659,23 +9736,22 @@
             </div>
             <div id="heroBriefing"
               style="font-size:12px;color:var(--white2);line-height:1.6;margin-bottom:16px;padding:9px 14px;background:var(--gold-bg2);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;min-height:34px">
-              Welcome back! Start with <strong style="color:var(--gold2)">Quick 20</strong> to assess your current
-              level.</div>
+              Loading your study summary…</div>
             <div class="hero-stats" id="heroStats">
               <div>
-                <div class="hs-val">399</div>
+                <div class="hs-val" id="hsTotalQA">399</div>
                 <div class="hs-lab">Total Q&amp;As</div>
               </div>
               <div>
-                <div class="hs-val">0</div>
+                <div class="hs-val" id="hsMastered">0</div>
                 <div class="hs-lab">Mastered</div>
               </div>
               <div>
-                <div class="hs-val">0</div>
+                <div class="hs-val" id="hsInProgress">0</div>
                 <div class="hs-lab">In Progress</div>
               </div>
               <div>
-                <div class="hs-val">399</div>
+                <div class="hs-val" id="hsUnseen">399</div>
                 <div class="hs-lab">Unseen</div>
               </div>
               <div>
@@ -9683,7 +9759,7 @@
                 <div class="hs-lab">Sectors</div>
               </div>
               <div>
-                <div class="hs-val" id="hsDue" style="color:var(--orange)">399</div>
+                <div class="hs-val" id="hsDue" style="color:var(--orange)">0</div>
                 <div class="hs-lab">Due Today</div>
               </div>
             </div>
@@ -15426,7 +15502,13 @@
           <div class="q-list" id="bkList"></div>
         </div>
         <div class="view" id="view-add">
-          <div style="max-width:640px;width:100%">
+          <!-- Tab bar -->
+          <div style="display:flex;gap:4px;margin-bottom:18px;border-bottom:1px solid var(--border2);padding-bottom:0;max-width:740px">
+            <button id="addImportTab-single" onclick="switchAddImportTab('single')" style="background:none;border:none;cursor:pointer;font-size:13px;font-weight:600;color:var(--gold);padding:8px 16px 10px;border-bottom:2px solid var(--gold);margin-bottom:-1px;transition:.15s">➕ Add Question</button>
+            <button id="addImportTab-bulk" onclick="switchAddImportTab('bulk')" style="background:none;border:none;cursor:pointer;font-size:13px;font-weight:600;color:var(--white3);padding:8px 16px 10px;border-bottom:2px solid transparent;margin-bottom:-1px;transition:.15s">📥 Bulk Import</button>
+          </div>
+          <!-- Single Add Question panel -->
+          <div id="addImportPanel-single" style="max-width:640px;width:100%">
             <div class="widget">
               <div class="wt">Add a Question</div>
               <div class="form-grid">
@@ -15453,138 +15535,83 @@
               </div><button class="btn btn-p" onclick="addQuestion()">➕ Add Question</button>
             </div>
           </div>
-        </div>
-        <div class="view" id="view-resources"></div>
-        <div class="view" id="view-import">
-          <div style="max-width:740px">
+          <!-- Bulk Import panel -->
+          <div id="addImportPanel-bulk" style="max-width:740px;display:none">
             <div class="widget" style="margin-bottom:16px;border:1.5px solid var(--gold-bg)">
               <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
                 <div style="font-size:24px">📄</div>
                 <div>
-                  <div style="font-size:14px;font-weight:600;color:var(--white)">Upload PDF — AI extracts all Q&amp;As
-                    automatically</div>
-                  <div style="font-size:11px;color:var(--white3);margin-top:2px">Upload any PDF with questions and
-                    answers. Claude reads it and imports them instantly.</div>
+                  <div style="font-size:14px;font-weight:600;color:var(--white)">Upload PDF — AI extracts all Q&amp;As automatically</div>
+                  <div style="font-size:11px;color:var(--white3);margin-top:2px">Upload any PDF with questions and answers. Claude reads it and imports them instantly.</div>
                 </div>
               </div>
-              <div id="pdfDropZone" onclick="document.getElementById(&#39;pdfFileInput&#39;).click()"
-                style="border: 2px dashed rgba(201, 168, 76, 0.3); border-radius: 10px; padding: 28px; text-align: center; cursor: pointer; transition: 0.2s; background: rgba(201, 168, 76, 0.03);"
-                onmouseover="this.style.borderColor=&#39;var(--gold)&#39;;this.style.background=&#39;var(--gold-bg2)&#39;"
-                onmouseout="this.style.borderColor=&#39;rgba(201,168,76,.3)&#39;;this.style.background=&#39;rgba(201,168,76,.03)&#39;"
-                ondragover="event.preventDefault();this.style.borderColor=&#39;var(--gold)&#39;"
-                ondragleave="this.style.borderColor=&#39;rgba(201,168,76,.3)&#39;" ondrop="handlePdfDrop(event)">
+              <div id="pdfDropZone" onclick="document.getElementById('pdfFileInput').click()"
+                style="border:2px dashed rgba(201,168,76,0.3);border-radius:10px;padding:28px;text-align:center;cursor:pointer;transition:0.2s;background:rgba(201,168,76,0.03)"
+                onmouseover="this.style.borderColor='var(--gold)';this.style.background='var(--gold-bg2)'"
+                onmouseout="this.style.borderColor='rgba(201,168,76,.3)';this.style.background='rgba(201,168,76,.03)'"
+                ondragover="event.preventDefault();this.style.borderColor='var(--gold)'"
+                ondragleave="this.style.borderColor='rgba(201,168,76,.3)'" ondrop="handlePdfDrop(event)">
                 <div style="font-size:32px;margin-bottom:8px">📎</div>
-                <div style="font-size:13px;font-weight:600;color:var(--white)">Click to choose PDF or drag &amp; drop
-                  here</div>
-                <div style="font-size:11px;color:var(--white3);margin-top:4px">Works with your notes, study guides, any
-                  finance Q&amp;A PDF</div>
-              </div><input type="file" id="pdfFileInput" accept=".pdf" style="display:none"
-                onchange="handlePdfUpload(this)">
-              <div id="pdfStatus" style="display: block; margin-top: 14px;">
-                <div
-                  style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--navy3);border-radius:8px;border:1px solid var(--border2)">
+                <div style="font-size:13px;font-weight:600;color:var(--white)">Click to choose PDF or drag &amp; drop here</div>
+                <div style="font-size:11px;color:var(--white3);margin-top:4px">Works with your notes, study guides, any finance Q&amp;A PDF</div>
+              </div>
+              <input type="file" id="pdfFileInput" accept=".pdf" style="display:none" onchange="handlePdfUpload(this)">
+              <div id="pdfStatus" style="display:block;margin-top:14px">
+                <div style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--navy3);border-radius:8px;border:1px solid var(--border2)">
                   <div id="pdfStatusIcon" style="font-size:18px">🎉</div>
                   <div style="flex:1">
-                    <div id="pdfStatusText" style="font-size:13px;font-weight:500;color:var(--white)">Imported 85
-                      questions!</div>
-                    <div id="pdfStatusSub" style="font-size:11px;color:var(--white3);margin-top:2px">Head to Browse All
-                      or start studying</div>
+                    <div id="pdfStatusText" style="font-size:13px;font-weight:500;color:var(--white)">Imported 85 questions!</div>
+                    <div id="pdfStatusSub" style="font-size:11px;color:var(--white3);margin-top:2px">Head to Browse All or start studying</div>
                   </div>
-                  <div id="pdfSpinner"
-                    style="width: 18px; height: 18px; border-top-style: ; border-top-width: ; border-right-color: ; border-right-style: ; border-right-width: ; border-bottom-color: ; border-bottom-style: ; border-bottom-width: ; border-left-color: ; border-left-style: ; border-left-width: ; border-image-source: ; border-image-slice: ; border-image-width: ; border-image-outset: ; border-image-repeat: ; border-top-color: var(--gold); border-radius: 50%; animation: 0.8s linear 0s infinite normal none running spin; display: none;">
-                  </div>
+                  <div id="pdfSpinner" style="width:18px;height:18px;border-top-color:var(--gold);border-radius:50%;animation:0.8s linear 0s infinite normal none running spin;display:none"></div>
                 </div>
-                <div id="pdfProgBar"
-                  style="display: block; height: 3px; background: var(--white4); border-radius: 3px; margin-top: 8px; overflow: hidden;">
-                  <div id="pdfProgFill"
-                    style="height: 100%; background: var(--gold); border-radius: 3px; width: 100%; transition: width 0.4s;">
-                  </div>
+                <div id="pdfProgBar" style="display:block;height:3px;background:var(--white4);border-radius:3px;margin-top:8px;overflow:hidden">
+                  <div id="pdfProgFill" style="height:100%;background:var(--gold);border-radius:3px;width:100%;transition:width 0.4s"></div>
                 </div>
               </div>
-              <div id="pdfResult" style="display: none; margin-top: 14px;">
+              <div id="pdfResult" style="display:none;margin-top:14px">
                 <div class="widget">
-                  <div class="wt">Preview — 85 questions extracted</div>
-                  <div style="font-size:11px;color:var(--white3);margin-bottom:11px">Equity Research: 85</div>
-                  <div class="rq">
-                    <div class="rq-t"><strong>1. Explain the concept of a stock's 'intrinsic value' in Equity
-                        Research.</strong><br><span style="font-size:10px;color:var(--white3)">Equity Research</span>
-                    </div>
-                  </div>
-                  <div class="rq">
-                    <div class="rq-t"><strong>2. Explain the concept of 'margin of safety' in stock
-                        valuation.</strong><br><span style="font-size:10px;color:var(--white3)">Equity Research</span>
-                    </div>
-                  </div>
-                  <div class="rq">
-                    <div class="rq-t"><strong>3. What are the different valuation methods used in Equity
-                        Research?</strong><br><span style="font-size:10px;color:var(--white3)">Equity Research</span>
-                    </div>
-                  </div>
-                  <div class="rq">
-                    <div class="rq-t"><strong>4. Discounted Cash Flow (DCF): Projects future free cash flows and
-                        discounts them t…</strong><br><span style="font-size:10px;color:var(--white3)">Equity
-                        Research</span></div>
-                  </div>
-                  <div class="rq">
-                    <div class="rq-t"><strong>5. Explain the concept of 'value investing' and its key
-                        principles.</strong><br><span style="font-size:10px;color:var(--white3)">Equity Research</span>
-                    </div>
-                  </div>
-                  <div style="font-size:12px;color:var(--white3);padding:6px 0">…and 80 more</div>
-                  <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap"><button class="btn btn-p"
-                      onclick="importPdfResults(window._pdfParsed)">📥 Import All 85 Questions</button><button
-                      class="btn btn-o"
-                      onclick="document.getElementById(&#39;pdfResult&#39;).style.display=&#39;none&#39;">Cancel</button>
+                  <div class="wt">Preview — questions extracted</div>
+                  <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+                    <button class="btn btn-p" onclick="importPdfResults(window._pdfParsed)">📥 Import All Questions</button>
+                    <button class="btn btn-o" onclick="document.getElementById('pdfResult').style.display='none'">Cancel</button>
                   </div>
                 </div>
               </div>
             </div>
             <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
               <div style="flex:1;height:1px;background:var(--border2)"></div>
-              <div
-                style="font-size:11px;color:var(--white3);font-weight:600;text-transform:uppercase;letter-spacing:.08em">
-                OR paste text manually</div>
+              <div style="font-size:11px;color:var(--white3);font-weight:600;text-transform:uppercase;letter-spacing:.08em">OR paste text manually</div>
               <div style="flex:1;height:1px;background:var(--border2)"></div>
             </div>
             <div class="import-hint">
               <div class="import-hint-t">📋 Paste questions — any format works</div>
-              <p style="margin-bottom:9px"><strong style="color:var(--white)">With Q: / A: prefixes</strong> (blank
-                lines optional):<br><code>Q: Your question text here</code><br><code>A: Your answer text here</code>
-                &nbsp; <code>Category: Valuation</code></p>
-              <p><strong style="color:var(--white)">Without prefixes</strong> — alternating paragraphs (question, blank,
-                answer, blank, next question...):</p>
+              <p style="margin-bottom:9px"><strong style="color:var(--white)">With Q: / A: prefixes</strong>:<br><code>Q: Your question text here</code><br><code>A: Your answer text here</code></p>
+              <p><strong style="color:var(--white)">Without prefixes</strong> — alternating paragraphs (question, blank, answer, blank...):</p>
             </div>
             <div class="widget">
               <div class="form-grid" style="margin-bottom:11px">
-                <div class="form-group"><label class="form-label">Default Category</label><select class="form-select"
-                    id="importCat">
-                    <option>Accounting</option>
-                    <option>Valuation</option>
-                    <option>M&amp;A / LBO / IB</option>
-                    <option>General Finance</option>
-                    <option>Equity Research</option>
-                    <option>Behavioral</option>
+                <div class="form-group"><label class="form-label">Default Category</label><select class="form-select" id="importCat">
+                    <option>Accounting</option><option>Valuation</option><option>M&amp;A / LBO / IB</option>
+                    <option>General Finance</option><option>Equity Research</option><option>Behavioral</option>
                   </select></div>
-                <div class="form-group"><label class="form-label">Default Difficulty</label><select class="form-select"
-                    id="importDiff">
-                    <option>Easy</option>
-                    <option selected="">Medium</option>
-                    <option>Hard</option>
+                <div class="form-group"><label class="form-label">Default Difficulty</label><select class="form-select" id="importDiff">
+                    <option>Easy</option><option selected="">Medium</option><option>Hard</option>
                   </select></div>
               </div>
               <div class="form-group" style="margin-bottom:11px"><label class="form-label">Paste questions here</label>
-                <textarea class="import-area" id="importText" placeholder="Q: What is a DCF?
-A: A DCF values a company based on discounted future cash flows.
-Q: What is WACC?
-A: WACC is the weighted average cost of capital."></textarea>
+                <textarea class="import-area" id="importText" placeholder="Q: What is a DCF?&#10;A: A DCF values a company based on discounted future cash flows."></textarea>
               </div>
-              <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-p" onclick="runImport()">📥 Import
-                  Questions</button><button class="btn btn-o" onclick="previewImport()">👁 Preview First</button></div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button class="btn btn-p" onclick="runImport()">📥 Import Questions</button>
+                <button class="btn btn-o" onclick="previewImport()">👁 Preview First</button>
+              </div>
               <div class="import-result" id="importResult"></div>
             </div>
             <div id="importPreview" style="margin-top:14px"></div>
           </div>
         </div>
+        <div class="view" id="view-resources"></div>
         <div class="view" id="view-revenue">
 
           <!-- ── Step 1: Sector grid (shown by default) ── -->
@@ -21841,7 +21868,7 @@ A: WACC is the weighted average cost of capital."></textarea>
 
           <!-- HOW TO USE BANNER -->
           <div
-            style="background:var(--gold-bg2);border:1.5px dashed var(--gold);border-radius:10px;padding:11px 16px;margin-bottom:22px;font-size:11.5px;color:var(--white2);line-height:1.6">
+            style="background:var(--gold-bg2);border:1.5px dashed var(--gold);border-radius:10px;padding:11px 16px;margin-bottom:22px;font-size:12px;color:var(--white2);line-height:1.6">
             <strong style="color:var(--gold2)">✎ How to update:</strong> Click any card → edit value, trend &amp; note →
             Save. Hit <strong style="color:var(--gold2)">Save All</strong> to persist. Update after RBI MPC
             (bi-monthly), MoSPI CPI (monthly), and GDP estimates (quarterly).
@@ -22091,7 +22118,7 @@ A: WACC is the weighted average cost of capital."></textarea>
                   style="flex:1;padding:9px 6px;text-align:center;font-size:10px;font-weight:700;border:1.5px solid var(--gold);color:var(--gold2);background:var(--gold-bg);border-radius:0 8px 8px 0">
                   ▼ Cutting<br><span style="font-size:9px;font-weight:400">Feb 2025 onwards</span></div>
               </div>
-              <div style="font-size:11.5px;color:var(--white2);line-height:1.7">RBI cut 25bps in Feb 2025 — the first
+              <div style="font-size:12px;color:var(--white2);line-height:1.7">RBI cut 25bps in Feb 2025 — the first
                 cut since May 2020. <strong style="color:var(--white)">Market pricing 50–75bps total cuts in
                   FY26</strong> as CPI converges toward the 4% target. Rate-sensitive sectors (banking, real estate,
                 NBFCs) are the primary beneficiaries.</div>
@@ -22738,7 +22765,7 @@ A: WACC is the weighted average cost of capital."></textarea>
               ⚡
               Quick Cheat Sheet — Numbers to Know Cold</div>
             <div class="mob-grid-3col"
-              style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px 20px;font-size:11.5px;color:var(--white2);line-height:1.8">
+              style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px 20px;font-size:12px;color:var(--white2);line-height:1.8">
               <div><span style="color:var(--gold2);font-weight:600">India GDP size:</span> ~$3.7 trillion (FY25E) — 5th
                 largest globally</div>
               <div><span style="color:var(--gold2);font-weight:600">Nominal GDP growth:</span> ~10.5% (real 6.4% + ~4%
@@ -22773,7 +22800,7 @@ A: WACC is the weighted average cost of capital."></textarea>
         <!-- FILES MAIN TAB BAR -->
         <div style="padding:20px 26px 0;border-bottom:1px solid var(--border2);flex-shrink:0;display:flex;align-items:flex-end;gap:0">
           <div style="flex:1">
-            <div style="font-family:&#39;DM Serif Display&#39;,serif;font-size:20px;color:var(--white);margin-bottom:12px">Files <span style="color:var(--gold)">&amp; Resources</span></div>
+            <div style="font-family:&#39;DM Serif Display&#39;,serif;font-size:20px;color:var(--white);margin-bottom:12px">Study Sheet <span style="color:var(--gold)">Downloads</span></div>
           </div>
           <div style="display:flex;gap:0">
             <button id="fmtDownloads" onclick="switchFilesMainTab(&#39;downloads&#39;)"
@@ -23042,130 +23069,76 @@ A: WACC is the weighted average cost of capital."></textarea>
       </div>
 
       <div class="view" id="view-support">
-        <div style="max-width:760px">
+        <div style="max-width:580px">
           <div class="hero" style="margin-bottom:24px">
             <h2>💬 Feedback &amp; Contact</h2>
-            <p>Share your thoughts to help improve this toolkit, or reach out directly for questions, collaborations, or
-              help.</p>
+            <p>Share thoughts, report a bug, or reach out — one form does it all.</p>
           </div>
 
-          <div class="mob-grid-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
-
-            <!-- LEFT: Feedback -->
-            <div class="widget">
-              <div class="wt">Share Feedback</div>
-              <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:12px">
+          <div class="widget" style="margin-bottom:16px">
+            <div class="wt">Send a Message</div>
+            <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:14px">
+              <div class="form-group">
+                <label class="form-label">Type</label>
+                <select class="form-select" id="unifiedType">
+                  <option value="feedback">💡 Feedback — what's working / what could improve</option>
+                  <option value="feature">✨ Feature request</option>
+                  <option value="bug">🐛 Bug report</option>
+                  <option value="question">❓ Question about content</option>
+                  <option value="collab">🤝 Collaboration / partnership</option>
+                  <option value="other">💬 Other</option>
+                </select>
+              </div>
+              <div class="mob-grid-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
                 <div class="form-group">
-                  <label class="form-label">What's working well?</label>
-                  <textarea class="form-textarea" id="fbGood" placeholder="e.g. The DCF section is really clear..."
-                    style="min-height:72px"></textarea>
+                  <label class="form-label">Name <span style="color:var(--white3);font-weight:400">(optional)</span></label>
+                  <input class="form-input" id="unifiedName" placeholder="Rahul Sharma">
                 </div>
                 <div class="form-group">
-                  <label class="form-label">What could be improved?</label>
-                  <textarea class="form-textarea" id="fbImprove" placeholder="e.g. More LBO questions would help..."
-                    style="min-height:72px"></textarea>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Feature request</label>
-                  <textarea class="form-textarea" id="fbFeature" placeholder="e.g. Mock interview timer mode..."
-                    style="min-height:56px"></textarea>
+                  <label class="form-label">Email <span style="color:var(--white3);font-weight:400">(optional)</span></label>
+                  <input class="form-input" id="unifiedEmail" type="email" placeholder="rahul@email.com">
                 </div>
               </div>
-              <button class="btn btn-p" onclick="submitFeedback()" style="width:100%;justify-content:center">📤 Submit
-                Feedback</button>
-              <div id="fbThanks"
-                style="display:none;margin-top:10px;padding:9px 13px;background:var(--green-bg);border:1px solid rgba(62,207,160,.2);border-radius:8px;font-size:12px;color:var(--green);font-weight:600">
-                ✅ Thank you! Feedback saved.</div>
-
-              <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border2)">
-                <div
-                  style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--white3);margin-bottom:10px">
-                  Rate This Toolkit</div>
-                <div style="display:flex;gap:8px" id="ratingBtns">
-                  <button class="rate-btn rate-missed" onclick="setRating(1)"
-                    style="flex:1;min-width:0;padding:9px 6px;font-size:11px">😕<br><span style="font-size:10px">Needs
-                      Work</span></button>
-                  <button class="rate-btn rate-almost" onclick="setRating(2)"
-                    style="flex:1;min-width:0;padding:9px 6px;font-size:11px">🙂<br><span style="font-size:10px">Pretty
-                      Good</span></button>
-                  <button class="rate-btn rate-got" onclick="setRating(3)"
-                    style="flex:1;min-width:0;padding:9px 6px;font-size:11px">🤩<br><span style="font-size:10px">Love
-                      It!</span></button>
-                </div>
-                <div id="ratingThanks"
-                  style="display:none;margin-top:8px;font-size:12px;color:var(--gold2);font-weight:600">⭐ Rating saved —
-                  thank you!</div>
+              <div class="form-group">
+                <label class="form-label">Message *</label>
+                <textarea class="form-textarea" id="unifiedMessage" placeholder="Tell us what's on your mind..." style="min-height:120px"></textarea>
               </div>
             </div>
+            <button class="btn btn-p" onclick="submitUnified()" style="width:100%;justify-content:center">📤 Send</button>
+            <div id="unifiedThanks" style="display:none;margin-top:10px;padding:9px 13px;background:var(--green-bg);border:1px solid rgba(62,207,160,.2);border-radius:8px;font-size:12px;color:var(--green);font-weight:600">✅ Sent! Thank you for reaching out.</div>
+          </div>
 
-            <!-- RIGHT: Contact -->
-            <div style="display:flex;flex-direction:column;gap:16px">
-              <div class="widget">
-                <div class="wt">Reach Out</div>
-                <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:12px">
-                  <div class="mob-grid-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-                    <div class="form-group">
-                      <label class="form-label">Your Name</label>
-                      <input class="form-input" id="ctName" placeholder="Rahul Sharma">
-                    </div>
-                    <div class="form-group">
-                      <label class="form-label">Email</label>
-                      <input class="form-input" id="ctEmail" type="email" placeholder="rahul@email.com">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Subject</label>
-                    <select class="form-select" id="ctSubject">
-                      <option>Question about content</option>
-                      <option>Bug report</option>
-                      <option>Collaboration / partnership</option>
-                      <option>Feature suggestion</option>
-                      <option>Other</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Message</label>
-                    <textarea class="form-textarea" id="ctMessage" placeholder="Write your message here..."
-                      style="min-height:100px"></textarea>
-                  </div>
+          <div class="widget" style="margin-bottom:16px">
+            <div class="wt">Rate This Toolkit</div>
+            <div style="display:flex;gap:8px" id="ratingBtns">
+              <button class="rate-btn rate-missed" onclick="setRating(1)" style="flex:1;min-width:0;padding:9px 6px;font-size:11px">😕<br><span style="font-size:10px">Needs Work</span></button>
+              <button class="rate-btn rate-almost" onclick="setRating(2)" style="flex:1;min-width:0;padding:9px 6px;font-size:11px">🙂<br><span style="font-size:10px">Pretty Good</span></button>
+              <button class="rate-btn rate-got" onclick="setRating(3)" style="flex:1;min-width:0;padding:9px 6px;font-size:11px">🤩<br><span style="font-size:10px">Love It!</span></button>
+            </div>
+            <div id="ratingThanks" style="display:none;margin-top:8px;font-size:12px;color:var(--gold2);font-weight:600">⭐ Rating saved — thank you!</div>
+          </div>
+
+          <div class="widget">
+            <div class="wt">Quick Links</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;align-items:center;gap:12px;padding:11px 13px;background:var(--navy3);border-radius:8px;border:1px solid var(--border2);cursor:pointer;transition:border-color .15s"
+                onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor=''">
+                <span style="font-size:22px">📧</span>
+                <div>
+                  <div style="font-size:12px;font-weight:600;color:var(--white)">Email</div>
+                  <div style="font-size:11px;color:var(--white3)">For detailed queries and collaborations</div>
                 </div>
-                <button class="btn btn-p" onclick="submitContact()" style="width:100%;justify-content:center">✉️ Send
-                  Message</button>
-                <div id="ctThanks"
-                  style="display:none;margin-top:10px;padding:9px 13px;background:var(--green-bg);border:1px solid rgba(62,207,160,.2);border-radius:8px;font-size:12px;color:var(--green);font-weight:600">
-                  ✅ Message saved! We'll get back to you soon.</div>
               </div>
-
-              <div class="widget">
-                <div class="wt">Quick Links</div>
-                <div style="display:flex;flex-direction:column;gap:8px">
-                  <div
-                    style="display:flex;align-items:center;gap:12px;padding:11px 13px;background:var(--navy3);border-radius:8px;border:1px solid var(--border2);cursor:pointer;transition:border-color .15s"
-                    onmouseover="this.style.borderColor=&#39;var(--gold)&#39;"
-                    onmouseout="this.style.borderColor=&#39;&#39;">
-                    <span style="font-size:22px">📧</span>
-                    <div>
-                      <div style="font-size:12px;font-weight:600;color:var(--white)">Email</div>
-                      <div style="font-size:11px;color:var(--white3)">For detailed queries and collaborations</div>
-                    </div>
-                  </div>
-                  <div
-                    style="display:flex;align-items:center;gap:12px;padding:11px 13px;background:var(--navy3);border-radius:8px;border:1px solid var(--border2);cursor:pointer;transition:border-color .15s"
-                    onmouseover="this.style.borderColor=&#39;var(--gold)&#39;"
-                    onmouseout="this.style.borderColor=&#39;&#39;">
-                    <span style="font-size:22px">💼</span>
-                    <div>
-                      <div style="font-size:12px;font-weight:600;color:var(--white)">LinkedIn</div>
-                      <div style="font-size:11px;color:var(--white3)">Connect professionally</div>
-                    </div>
-                  </div>
+              <div style="display:flex;align-items:center;gap:12px;padding:11px 13px;background:var(--navy3);border-radius:8px;border:1px solid var(--border2);cursor:pointer;transition:border-color .15s"
+                onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor=''">
+                <span style="font-size:22px">💼</span>
+                <div>
+                  <div style="font-size:12px;font-weight:600;color:var(--white)">LinkedIn</div>
+                  <div style="font-size:11px;color:var(--white3)">Connect professionally</div>
                 </div>
               </div>
             </div>
-
           </div>
-
-
 
         </div>
       </div>
@@ -23299,37 +23272,29 @@ A: WACC is the weighted average cost of capital."></textarea>
           }
         }
 
-        function submitFeedback() {
-          var good = document.getElementById('fbGood').value.trim();
-          var improve = document.getElementById('fbImprove').value.trim();
-          var feature = document.getElementById('fbFeature').value.trim();
-          if (!good && !improve && !feature) { showToast('Please fill in at least one field'); return; }
-
-          // Save locally
+        function submitUnified() {
+          var type = document.getElementById('unifiedType').value;
+          var name = (document.getElementById('unifiedName').value || '').trim();
+          var email = (document.getElementById('unifiedEmail').value || '').trim();
+          var msg = (document.getElementById('unifiedMessage').value || '').trim();
+          if (!msg) { showToast('⚠ Please enter a message'); return; }
           try {
-            var existing = JSON.parse(localStorage.getItem('finToolkit_feedback') || '[]');
-            existing.push({ good: good, improve: improve, feature: feature, date: new Date().toISOString() });
-            localStorage.setItem('finToolkit_feedback', JSON.stringify(existing));
-          } catch (e) { }
-
-          document.getElementById('fbThanks').style.display = 'block';
-          document.getElementById('fbGood').value = '';
-          document.getElementById('fbImprove').value = '';
-          document.getElementById('fbFeature').value = '';
-          // Save to Firestore
+            var existing = JSON.parse(localStorage.getItem('finToolkit_messages') || '[]');
+            existing.push({ type: type, name: name, email: email, message: msg, date: new Date().toISOString() });
+            localStorage.setItem('finToolkit_messages', JSON.stringify(existing));
+          } catch (e) {}
           try {
-            db.collection('feedback').add({
-              good: good,
-              improve: improve,
-              feature: feature,
-              date: new Date().toISOString(),
-              timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
-          } catch (e) { console.warn('Firestore feedback save failed:', e); }
-
-          showToast('\u2705 Feedback submitted');
-          setTimeout(function () { document.getElementById('fbThanks').style.display = 'none'; }, 3000);
+            db.collection('contact').add({ type: type, name: name, email: email, message: msg, date: new Date().toISOString(), timestamp: firebase.firestore.FieldValue.serverTimestamp() });
+          } catch (e) { console.warn('Firestore save failed:', e); }
+          document.getElementById('unifiedName').value = '';
+          document.getElementById('unifiedEmail').value = '';
+          document.getElementById('unifiedMessage').value = '';
+          document.getElementById('unifiedThanks').style.display = 'block';
+          showToast('✅ Sent — thank you!');
+          setTimeout(function () { var el = document.getElementById('unifiedThanks'); if (el) el.style.display = 'none'; }, 4000);
         }
+        function submitFeedback() { submitUnified(); }
+        function submitContact() { submitUnified(); }
         function setRating(r) {
           try { localStorage.setItem('finToolkit_rating', r); } catch (e) { }
 
@@ -23346,39 +23311,6 @@ A: WACC is the weighted average cost of capital."></textarea>
 
           document.getElementById('ratingThanks').style.display = 'block';
           document.querySelectorAll('#ratingBtns .rate-btn').forEach(function (b) { b.style.opacity = '0.4'; });
-        }
-        function submitContact() {
-          var name = document.getElementById('ctName').value.trim();
-          var senderEmail = document.getElementById('ctEmail').value.trim();
-          var subject = document.getElementById('ctSubject').value;
-          var msg = document.getElementById('ctMessage').value.trim();
-          if (!name || !msg) { showToast('Please fill in your name and message'); return; }
-
-          // Save locally
-          try {
-            var existing = JSON.parse(localStorage.getItem('finToolkit_messages') || '[]');
-            existing.push({ name: name, email: senderEmail, subject: subject, message: msg, date: new Date().toISOString() });
-            localStorage.setItem('finToolkit_messages', JSON.stringify(existing));
-          } catch (e) { }
-
-          document.getElementById('ctThanks').style.display = 'block';
-          document.getElementById('ctName').value = '';
-          document.getElementById('ctEmail').value = '';
-          document.getElementById('ctMessage').value = '';
-          // Save to Firestore
-          try {
-            db.collection('contact').add({
-              name: name,
-              email: senderEmail,
-              subject: subject,
-              message: msg,
-              date: new Date().toISOString(),
-              timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
-          } catch (e) { console.warn('Firestore contact save failed:', e); }
-
-          showToast('\u2705 Message sent');
-          setTimeout(function () { document.getElementById('ctThanks').style.display = 'none'; }, 4000);
         }
 
         function userClearCache() {
@@ -23608,9 +23540,8 @@ A: WACC is the weighted average cost of capital."></textarea>
             { title: 'Browse All Questions', icon: '📋', action: function () { startBrowseAll(); } },
             { title: 'Quick 20', icon: '⚡', action: function () { startQuickFire(); } },
             { title: 'Bookmarked Questions', icon: '🔖', action: function () { startBookmarks(); } },
-            { title: 'Add Question', icon: '➕', action: function () { nav('add'); } },
-            { title: 'Bulk Import', icon: '📥', action: function () { nav('import'); } },
-            { title: 'Files & Resources', icon: '🗂️', action: function () { nav('files'); } },
+            { title: 'Add / Import Questions', icon: '➕', action: function () { nav('add'); } },
+            { title: 'Downloads', icon: '⬇️', action: function () { nav('files'); } },
             { title: 'India Macro Dashboard', icon: '🌐', action: function () { nav('macro'); } },
             { title: 'Feedback & Contact', icon: '💬', action: function () { nav('support'); } },
           ];
@@ -24606,15 +24537,16 @@ A: WACC is the weighted average cost of capital."></textarea>
         function toggleTheme() {
           var html = document.documentElement;
           var isLight = html.getAttribute('data-theme') === 'light';
+          var tl = document.getElementById('themeLabel');
           if (isLight) {
             html.removeAttribute('data-theme');
             document.getElementById('themeIcon').textContent = '🌙';
-            document.getElementById('themeLabel').textContent = 'Dark';
+            if (tl) tl.textContent = 'Dark';
             try { localStorage.setItem('finTheme', 'dark'); } catch (e) { }
           } else {
             html.setAttribute('data-theme', 'light');
             document.getElementById('themeIcon').textContent = '☀️';
-            document.getElementById('themeLabel').textContent = 'Light';
+            if (tl) tl.textContent = 'Light';
             try { localStorage.setItem('finTheme', 'light'); } catch (e) { }
           }
         }
@@ -25396,7 +25328,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
           buildCatFilters();
           renderSidebar();
           renderDashboard();
-          renderBrowse();
+          // renderBrowse() is called lazily by nav('browse') — no need to run it on every load
           checkOnboarding();
         }
         function buildDefault() {
@@ -25410,6 +25342,11 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
         }
         function nav(view) {
           if (view === 'resources') { view = 'files'; }
+          if (view === 'import') {
+            nav('add');
+            setTimeout(function () { switchAddImportTab('bulk'); }, 80);
+            return;
+          }
           currentView = view;
 
           // Show skeleton immediately before switching
@@ -25420,7 +25357,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
             var vs = document.querySelectorAll('.view');
             for (var i = 0; i < vs.length; i++) vs[i].classList.remove('active');
             document.getElementById('view-' + view).classList.add('active');
-            var nmap = { dashboard: 'Dashboard', flashcard: 'Flashcards', browse: 'Browse All', bookmarks: 'Bookmarks', add: 'Add Question', import: 'Bulk Import', files: 'Files & Resources', revenue: 'Revenue Models', finstatements: 'Fin. Statements & Ratios', dcf: 'DCF & Valuation', macro: 'India Macro', industry: 'Industry Structure', support: 'Feedback & Contact' };
+            var nmap = { dashboard: 'Dashboard', flashcard: 'Flashcards', browse: 'Browse All', bookmarks: 'Bookmarks', add: 'Add / Import Questions', files: 'Downloads & Uploads', revenue: 'Revenue Models', finstatements: 'Fin. Statements & Ratios', dcf: 'DCF & Valuation', macro: 'India Macro', industry: 'Industry Structure', support: 'Feedback & Contact' };
             var activeLabel = nmap[view];
             var ns = document.querySelectorAll('.nav-item');
             for (var j = 0; j < ns.length; j++) {
@@ -25435,8 +25372,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
               'dashboard': 'bn-dashboard',
               'flashcard': 'bn-flashcard',
               'browse': 'bn-browse',
-              'resources': 'bn-resources',
-              'files': 'bn-resources'
+              'bookmarks': 'bn-bookmarks'
             };
             if (bnMap[view]) {
               var actBn = document.getElementById(bnMap[view]);
@@ -25552,7 +25488,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
             '<div><div class="hs-val">' + (learning + missed) + '</div><div class="hs-lab">In Progress</div></div>' +
             '<div><div class="hs-val">' + unseen + '</div><div class="hs-lab">Unseen</div></div>' +
             '<div><div class="hs-val" style="color:var(--green)">' + (typeof RM_NAMES !== 'undefined' ? RM_NAMES.length : 10) + '</div><div class="hs-lab">Sectors</div></div>' +
-            '<div><div class="hs-val" id="hsDue" style="color:var(--orange)">' + getDueCards().length + '</div><div class="hs-lab">Due Today</div></div>';
+            '<div><div class="hs-val" style="color:var(--orange)">' + getDueCards().length + '</div><div class="hs-lab">Due Today</div></div>';
           var cg = document.getElementById('catGrid'); cg.innerHTML = '';
           var cats = ['Accounting', 'Valuation', 'M&A / LBO / IB', 'General Finance', 'Equity Research', 'Behavioral'];
           for (var i = 0; i < cats.length; i++) {
@@ -26012,6 +25948,18 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
           document.getElementById('addQ').value = ''; document.getElementById('addA').value = '';
           showToast('✅ Question added!'); nav('browse');
         }
+        function switchAddImportTab(tab) {
+          var tabs = ['single', 'bulk'];
+          tabs.forEach(function (t) {
+            var btn = document.getElementById('addImportTab-' + t);
+            var panel = document.getElementById('addImportPanel-' + t);
+            if (!btn || !panel) return;
+            var active = t === tab;
+            btn.style.color = active ? 'var(--gold)' : 'var(--white3)';
+            btn.style.borderBottomColor = active ? 'var(--gold)' : 'transparent';
+            panel.style.display = active ? '' : 'none';
+          });
+        }
         function resetProgress() {
           if (!confirm('Reset all progress? Questions are kept, statuses reset to unseen.')) return;
           questions.forEach(function (q) { q.status = 'unseen'; q.timesCorrect = 0; q.timesWrong = 0; q.lastSeen = null; });
@@ -26335,7 +26283,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
           var items = menu.querySelectorAll('.mm-item');
           for (var i = 0; i < items.length; i++) items[i].classList.remove('active');
           if (typeof currentView !== 'undefined' && currentView) {
-            var nmap = { dashboard: 'Dashboard', flashcard: 'Flashcards', browse: 'Browse All', add: 'Add Question', import: 'Bulk Import', files: 'Files & Resources', revenue: 'Revenue Models', finstatements: 'Fin. Statements', dcf: 'DCF, Val', macro: 'India', support: 'Feedback' };
+            var nmap = { dashboard: 'Dashboard', flashcard: 'Flashcards', browse: 'Browse All', add: 'Add / Import Questions', files: 'Downloads', revenue: 'Revenue Models', finstatements: 'Fin. Statements', dcf: 'DCF, Val', macro: 'India', support: 'Feedback' };
             for (var j = 0; j < items.length; j++) {
               if (nmap[currentView] && items[j].textContent.indexOf(nmap[currentView]) !== -1) {
                 items[j].classList.add('active');
@@ -27142,14 +27090,35 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
           if ((el = document.getElementById('hsInProgress'))) el.textContent = inProg;
           if ((el = document.getElementById('hsUnseen'))) el.textContent = unseen;
           if ((el = document.getElementById('hsDue'))) el.textContent = due;
-          // mission briefing
+          // mission briefing — dynamic, context-aware
           if (briefEl) {
-            var weak = Object.entries(catMissed).sort(function (a, b) { return b[1] - a[1] }).slice(0, 2).map(function (x) { return x[0] });
+            var weak = Object.entries(catMissed).sort(function (a, b) { return b[1] - a[1] }).slice(0, 1).map(function (x) { return x[0] });
             var parts = [];
-            if (due > 0) parts.push('<strong style="color:var(--gold2)">' + due + ' card' + (due !== 1 ? 's' : '') + ' due for review</strong>');
-            if (weak.length > 0) parts.push('Weak areas: <strong style="color:var(--white)">' + weak.join(', ') + '</strong>');
-            if (mastered > 0 && total > 0) parts.push(mastered + ' / ' + total + ' mastered');
-            if (parts.length === 0) parts.push('Welcome back! Start with <strong style="color:var(--gold2)">Quick 20</strong> to assess your current level.');
+            var streak = 0;
+            try { streak = parseInt(localStorage.getItem('ft_streak') || '0', 10) || 0; } catch (e) {}
+            var pct = total > 0 ? Math.round((mastered / total) * 100) : 0;
+            if (due > 0) {
+              parts.push('<strong style="color:var(--gold2)">' + due + ' card' + (due !== 1 ? 's' : '') + ' due for review</strong> — tackle these first');
+            }
+            if (weak.length > 0) {
+              parts.push('Weakest: <strong style="color:var(--white)">' + weak[0] + '</strong> — worth extra focus');
+            }
+            if (streak >= 3) {
+              parts.push('🔥 <strong style="color:var(--orange, #f97316)">' + streak + '-day streak</strong> — keep it going!');
+            } else if (streak === 1) {
+              parts.push('Day 1 streak started — come back tomorrow to build momentum');
+            }
+            if (mastered > 0 && total > 0) {
+              parts.push(pct + '% mastered (' + mastered + '/' + total + ')');
+            }
+            if (unseen > 0 && mastered === 0 && inProg === 0) {
+              parts.push(unseen + ' cards waiting — start with a <strong style="color:var(--gold2)">Quick 20</strong> to assess your level');
+            } else if (unseen > 0) {
+              parts.push(unseen + ' cards not yet seen');
+            }
+            if (parts.length === 0) {
+              parts.push('All caught up — run a <strong style="color:var(--gold2)">Quick 20</strong> to reinforce what you know');
+            }
             briefEl.innerHTML = parts.join(' &nbsp;·&nbsp; ');
           }
           // cat-pct "Start →" vs percentage
@@ -27843,15 +27812,15 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
     </div>
     <div class="bn-item active" onclick="nav(&#39;flashcard&#39;)" id="bn-flashcard">
       <span class="bn-icon">🃏</span>
-      <span class="bn-label">Train</span>
+      <span class="bn-label">Flashcards</span>
     </div>
     <div class="bn-item" onclick="startBrowseAll()" id="bn-browse">
       <span class="bn-icon">📚</span>
-      <span class="bn-label">Learn</span>
+      <span class="bn-label">Browse</span>
     </div>
-    <div class="bn-item" onclick="nav(&#39;files&#39;)" id="bn-resources">
-      <span class="bn-icon">🗂️</span>
-      <span class="bn-label">Files</span>
+    <div class="bn-item" onclick="mmAction('bookmarks')" id="bn-bookmarks">
+      <span class="bn-icon">🔖</span>
+      <span class="bn-label">Bookmarks</span>
     </div>
     <div class="bn-item" onclick="openDrawerMenu()" id="bn-more">
       <span class="bn-icon">☰</span>
@@ -27859,72 +27828,6 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
     </div>
   </nav>
 
-  <!-- Mobile Redesign: Bottom Sheet (More Menu) -->
-  <div class="bottom-sheet-overlay" id="mobileMoreSheet" onclick="closeMobileMore(event)">
-    <div class="bottom-sheet">
-      <div class="bs-handle"></div>
-
-      <div
-        style="font-weight:700; color:var(--white3); font-size:12px; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; margin-top:-8px;">
-        Daily Training</div>
-      <div class="bs-item" onclick="startSmartReview(); closeMobileMore();"><span class="bs-icon">📅</span> Due Today
-        Review</div>
-      <div class="bs-item" onclick="startQuickFire(); closeMobileMore();"><span class="bs-icon">⚡</span> Quick 20 Speed
-        Drill</div>
-      <div class="bs-item" onclick="startMockInterview(); closeMobileMore();"><span class="bs-icon">🎯</span> Mock
-        Interview</div>
-
-      <div
-        style="font-weight:700; color:var(--white3); font-size:12px; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; margin-top:24px;">
-        Reference Library</div>
-      <div class="bs-item" onclick="nav(&#39;finstatements&#39;); closeMobileMore();"><span class="bs-icon">📑</span>
-        Fin.
-        Statements &amp; Ratios</div>
-      <div class="bs-item" onclick="nav(&#39;revenue&#39;); closeMobileMore();"><span class="bs-icon">📊</span> Revenue
-        Models</div>
-      <div class="bs-item" onclick="nav(&#39;industry&#39;); closeMobileMore();"><span class="bs-icon">🏭</span> Industry Structure</div>
-      <div class="bs-item" onclick="nav(&#39;dcf&#39;); closeMobileMore();"><span class="bs-icon">🎯</span> DCF &amp;
-        Valuation</div>
-      <div class="bs-item" onclick="nav(&#39;macro&#39;); closeMobileMore();"><span class="bs-icon">🌐</span> India
-        Macro</div>
-
-      <div
-        style="font-weight:700; color:var(--white3); font-size:12px; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; margin-top:24px;">
-        Support &amp; Admin</div>
-      <div class="bs-item" onclick="nav(&#39;support&#39;); closeMobileMore();"><span class="bs-icon">💬</span> Feedback
-        &amp;
-        Contact</div>
-      <!-- Hidden from normal UI on mobile to avoid bloat, kept here for deep buried access -->
-      <div class="bs-item" onclick="nav(&#39;add&#39;); closeMobileMore();" style="opacity:0.6;"><span
-          class="bs-icon">➕</span>
-        Add Question</div>
-    </div>
-  </div>
-
-  <script>
-    function toggleMobileMore() {
-      var sheet = document.getElementById('mobileMoreSheet');
-      if (sheet.classList.contains('show')) {
-        sheet.classList.remove('show');
-        document.getElementById('bn-more').classList.remove('active');
-        // Restore active state to current view
-        if (typeof currentView !== 'undefined' && currentView) nav(currentView);
-      } else {
-        sheet.classList.add('show');
-        // Visually deactivate all others
-        var bns = document.querySelectorAll('.bn-item');
-        for (var k = 0; k < bns.length; k++) bns[k].classList.remove('active');
-        document.getElementById('bn-more').classList.add('active');
-      }
-    }
-
-    function closeMobileMore(e) {
-      if (e && e.target !== document.getElementById('mobileMoreSheet')) return;
-      document.getElementById('mobileMoreSheet').classList.remove('show');
-      document.getElementById('bn-more').classList.remove('active');
-      if (typeof currentView !== 'undefined' && currentView) nav(currentView);
-    }
-  </script>
 
   <script>
     // ── Drawer: Swipe-to-close gesture + ESC key ──
@@ -28523,7 +28426,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
 
     /* ── Overview panel ── */
     h += '<div class="ind-sub-panel' + (indCurrentSubTab==='overview'?' active':'') + '" data-panel="overview">';
-    h += '<div class="widget" style="margin-bottom:14px"><div class="wt">Sector Overview</div><p style="font-size:12.5px;color:var(--white2);line-height:1.7">' + s.overview + '</p></div>';
+    h += '<div class="widget" style="margin-bottom:14px"><div class="wt">Sector Overview</div><p style="font-size:13px;color:var(--white2);line-height:1.7">' + s.overview + '</p></div>';
     h += '<div class="ind-stat-row">';
     s.stats.forEach(function(st) { h += '<div class="ind-stat-box"><div class="ind-stat-val">' + st.val + '</div><div class="ind-stat-lab">' + st.lab + '</div></div>'; });
     h += '</div>';
@@ -28553,7 +28456,7 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
     h += '<div class="ind-sub-panel' + (indCurrentSubTab==='kpis'?' active':'') + '" data-panel="kpis">';
     h += '<div class="widget"><table class="ind-kpi-table"><thead><tr><th>Metric</th><th>Definition</th><th>India Benchmark</th></tr></thead><tbody>';
     s.kpis.forEach(function(k) {
-      h += '<tr><td><b>' + k.kpi + '</b></td><td>' + k.def + '</td><td style="color:var(--gold2);font-family:\'IBM Plex Mono\',monospace;font-size:10.5px">' + k.benchmark + '</td></tr>';
+      h += '<tr><td><b>' + k.kpi + '</b></td><td>' + k.def + '</td><td style="color:var(--gold2);font-family:\'IBM Plex Mono\',monospace;font-size:11px">' + k.benchmark + '</td></tr>';
     });
     h += '</tbody></table></div></div>';
 
