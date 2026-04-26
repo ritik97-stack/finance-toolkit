@@ -7417,11 +7417,6 @@
         font-size: 14px;
       }
 
-      .rate-btn {
-        padding: 10px 16px;
-        min-width: 86px;
-      }
-
       .dcf-section-head,
       .fs-section-head {
         font-size: 16px;
@@ -7778,6 +7773,11 @@
         flex-shrink: 0;
       }
 
+      /* Hide Start Studying — Flashcards is one tap in bottom nav */
+      .tb-btns .btn-p {
+        display: none !important;
+      }
+
       .theme-toggle span:last-child {
         display: none;
       }
@@ -7805,48 +7805,163 @@
         /* ensure no bleed from any earlier rule */
       }
 
-      /* fc-sidebar fully hidden — .mob-fc-select (JS-injected) takes over */
+      /* fc-sidebar fully hidden — pill bar takes over */
       .fc-sidebar {
         display: none !important;
       }
 
-      /* Mobile category selector for flashcard — injected by JS */
-      .mob-fc-select {
-        display: block;
-        width: 100%;
-        padding: 10px 14px;
-        font-size: 16px;
-        font-family: "Outfit", sans-serif;
-        font-weight: 500;
-        color: var(--white);
-        background: var(--navy3);
-        border: none;
-        border-bottom: 1px solid var(--border2);
-        border-left: 3px solid var(--gold);
-        cursor: pointer;
-        appearance: none;
-        -webkit-appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16' fill='none' stroke='%23C9A84C' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 14px center;
-        padding-right: 36px;
+      /* ── Mobile pill filter bar ── */
+      .mob-fc-pills {
         position: sticky;
         top: 0;
         z-index: 110;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
-      }
-
-      .mob-fc-select option {
         background: var(--navy2);
-        color: var(--white);
+        border-bottom: 1px solid var(--border2);
+        box-shadow: 0 2px 8px rgba(0,0,0,.18);
+        padding: 10px 12px 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
       }
 
+      .mob-fc-pill-section {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .mob-fc-pill-label {
+        font-size: 9px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .1em;
+        color: var(--white3);
+        padding-left: 2px;
+      }
+
+      .mob-fc-pill-row {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 2px;
+      }
+      .mob-fc-pill-row::-webkit-scrollbar { display: none; }
+
+      .mob-fc-pill {
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 5px 12px;
+        border-radius: 20px;
+        border: 1.5px solid var(--border);
+        background: transparent;
+        color: var(--white2);
+        font-size: 11px;
+        font-weight: 500;
+        font-family: "Outfit", sans-serif;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all .14s;
+      }
+
+      .mob-fc-pill.active {
+        border-color: var(--gold);
+        background: var(--gold-bg);
+        color: var(--gold2);
+        font-weight: 600;
+      }
+
+      .mob-fc-diff-row .mob-fc-pill.active {
+        border-color: var(--blue, #60a5fa);
+        background: rgba(96,165,250,.1);
+        color: var(--blue, #60a5fa);
+      }
+
+      /* ── Sticky rating bar — compact single row, fixed above bottom nav ── */
+      .fc-rate {
+        position: fixed !important;
+        bottom: calc(56px + env(safe-area-inset-bottom, 0px)) !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 120 !important;
+        padding: 6px 10px !important;
+        background: var(--navy2) !important;
+        border-top: 1px solid var(--border) !important;
+        box-shadow: 0 -4px 20px rgba(0,0,0,.25) !important;
+        gap: 6px !important;
+        flex-wrap: nowrap !important;
+        margin: 0 !important;
+        display: none;
+      }
+
+      .rate-btn {
+        flex: 1 !important;
+        min-height: 34px !important;
+        max-height: 34px !important;
+        padding: 0 6px !important;
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        flex-direction: row !important;
+        gap: 4px !important;
+        justify-content: center !important;
+        align-items: center !important;
+        border-radius: 7px !important;
+      }
+
+      .rate-emoji {
+        font-size: 13px !important;
+        line-height: 1 !important;
+      }
+
+      .rate-key { display: none !important; }
+
+      /* Card area — pad bottom so content clears fixed rating bar (34px bar + 6px*2 pad + 56px nav = ~104px) */
       .fc-main-area {
         overflow: visible !important;
         height: auto !important;
-        padding: 14px 12px !important;
-        /* unified with all other rm-panels */
+        padding: 10px 12px 110px !important;
         flex: none !important;
+      }
+
+      /* Slim action bar — single tight row */
+      .fc-acts {
+        flex-wrap: nowrap;
+        gap: 4px;
+        margin-bottom: 6px;
+      }
+
+      .fc-acts .btn {
+        flex: 1;
+        min-width: 0;
+        justify-content: center;
+        font-size: 10px;
+        padding: 5px 4px;
+        white-space: nowrap;
+        height: 30px;
+        min-height: 30px;
+      }
+
+      /* Hide keyboard shortcut and full-view buttons on mobile */
+      .fc-acts .fc-kb-trigger,
+      .fc-acts #fullViewBtn {
+        display: none !important;
+      }
+
+      /* Hide keyboard shortcut button on mobile */
+      .fc-kb-trigger {
+        display: none !important;
+      }
+
+      /* Collapse notes on mobile — expand on focus */
+      .fc-notes-area {
+        min-height: 30px !important;
+        max-height: 60px !important;
+        font-size: 11px !important;
+        padding: 4px 8px !important;
+        margin-top: 4px !important;
       }
 
       .fc-main-area .fc-scene {
@@ -7869,41 +7984,6 @@
       .fc-a {
         font-size: 13px;
         line-height: 1.6;
-      }
-
-      /* Rate buttons — compact row matching action buttons */
-      .fc-rate {
-        gap: 6px;
-        flex-wrap: wrap;
-      }
-
-      .rate-btn {
-        flex: 1;
-        min-height: 40px;
-        padding: 8px 10px;
-        font-size: 11px;
-        flex-direction: row;
-        gap: 6px;
-        justify-content: center;
-      }
-
-      .rate-emoji {
-        font-size: 14px;
-      }
-
-      .rate-key {
-        display: none;
-      }
-
-      .fc-acts {
-        flex-wrap: wrap;
-        gap: 6px;
-      }
-
-      .fc-acts .btn {
-        flex: 1;
-        min-width: 80px;
-        justify-content: center;
       }
 
       /* ── 8. INNER SIDEBAR FOR DCF/FS/REVENUE (rm-sidebar) ──
@@ -8475,10 +8555,6 @@
       .dcf-section-desc,
       .mod-section-desc {
         font-size: 12px;
-      }
-
-      .rate-btn {
-        font-size: 10px;
       }
     }
   </style>
@@ -9212,6 +9288,34 @@
     <div class="mm-sec">Downloads &amp; Uploads</div>
     <div class="mm-item" onclick="mmNav(&#39;files&#39;)"><span class="mm-item-icon">⬇️</span><span
         class="mm-item-label">Downloads & Uploads</span><span class="mm-item-arrow">›</span></div>
+
+    <div class="mm-sep"></div>
+    <div class="mm-sec">Settings</div>
+    <div class="mm-item" onclick="closeDrawerMenu(); setTimeout(csOpen, 80)">
+      <span class="mm-item-icon">📤</span>
+      <span class="mm-item-label">Export Cheatsheet</span>
+      <span class="mm-item-arrow">›</span>
+    </div>
+    <div class="mm-item" onclick="closeDrawerMenu(); setTimeout(openUserManual, 80)">
+      <span class="mm-item-icon">📖</span>
+      <span class="mm-item-label">User Guide</span>
+      <span class="mm-item-arrow">›</span>
+    </div>
+    <div class="mm-item" onclick="closeDrawerMenu(); setTimeout(toggleTheme, 80)" id="mmThemeToggle">
+      <span class="mm-item-icon" id="mmThemeIcon">🌙</span>
+      <span class="mm-item-label" id="mmThemeLabel">Switch to Light Mode</span>
+      <span class="mm-item-arrow">›</span>
+    </div>
+    <div class="mm-item" onclick="closeDrawerMenu(); setTimeout(confirmResetProgress, 80)" style="color:var(--red)">
+      <span class="mm-item-icon">🔄</span>
+      <span class="mm-item-label">Reset Progress</span>
+      <span class="mm-item-arrow">›</span>
+    </div>
+    <div class="mm-item" onclick="closeDrawerMenu(); setTimeout(signOutUser, 80)" style="color:var(--white3)">
+      <span class="mm-item-icon">🚪</span>
+      <span class="mm-item-label">Sign Out</span>
+      <span class="mm-item-arrow">›</span>
+    </div>
 
     <div class="mm-stats" id="mmStats">
       <div class="mm-stat">
@@ -24538,15 +24642,21 @@
           var html = document.documentElement;
           var isLight = html.getAttribute('data-theme') === 'light';
           var tl = document.getElementById('themeLabel');
+          var mmIcon = document.getElementById('mmThemeIcon');
+          var mmLabel = document.getElementById('mmThemeLabel');
           if (isLight) {
             html.removeAttribute('data-theme');
             document.getElementById('themeIcon').textContent = '🌙';
             if (tl) tl.textContent = 'Dark';
+            if (mmIcon) mmIcon.textContent = '☀️';
+            if (mmLabel) mmLabel.textContent = 'Switch to Light Mode';
             try { localStorage.setItem('finTheme', 'dark'); } catch (e) { }
           } else {
             html.setAttribute('data-theme', 'light');
             document.getElementById('themeIcon').textContent = '☀️';
             if (tl) tl.textContent = 'Light';
+            if (mmIcon) mmIcon.textContent = '🌙';
+            if (mmLabel) mmLabel.textContent = 'Switch to Dark Mode';
             try { localStorage.setItem('finTheme', 'light'); } catch (e) { }
           }
         }
@@ -25285,6 +25395,10 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
               var tl = document.getElementById('themeLabel');
               if (ti) ti.textContent = '☀️';
               if (tl) tl.textContent = 'Light';
+              var mmIcon = document.getElementById('mmThemeIcon');
+              var mmLabel = document.getElementById('mmThemeLabel');
+              if (mmIcon) mmIcon.textContent = '🌙';
+              if (mmLabel) mmLabel.textContent = 'Switch to Dark Mode';
             }
           } catch (e) { }
 
@@ -25654,10 +25768,10 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
             + '<textarea class="fc-notes-area" id="fcNoteTA" placeholder="Add a mnemonic, example or context..." onclick="event.stopPropagation()" oninput="this.style.height=\'auto\'; this.style.height=(this.scrollHeight)+\'px\';" onblur="saveFlashcardNote(' + q.id + ')">' + escH(getNotes(q.id)) + '</textarea>'
             + '</div></div></div>'
             + '<div class="fc-acts">'
-            + '<button class="btn btn-o" onclick="prevCard()" id="prevBtn" ' + (deckPos === 0 ? 'disabled style="opacity:.4;cursor:not-allowed"' : '') + '> ← Prev</button>'
-            + '<button class="btn btn-o" onclick="flipCard()" id="revBtn">👁 Reveal Answer</button>'
-            + '<button class="btn btn-o" onclick="toggleBkCurrent()" title="Bookmark (press B)">🔖 ' + (q.bookmarked ? 'Unbookmark' : 'Bookmark') + '</button>'
-            + '<button class="btn btn-o" onclick="openModal(' + q.id + ')">📖 Full View</button>'
+            + '<button class="btn btn-o" onclick="prevCard()" id="prevBtn" ' + (deckPos === 0 ? 'disabled style="opacity:.4;cursor:not-allowed"' : '') + '>← Prev</button>'
+            + '<button class="btn btn-o" onclick="flipCard()" id="revBtn">👁 Reveal</button>'
+            + '<button class="btn btn-o" onclick="toggleBkCurrent()" title="Bookmark (press B)">🔖</button>'
+            + '<button class="btn btn-o" onclick="openModal(' + q.id + ')" id="fullViewBtn">📖 Full</button>'
             + '<button class="btn btn-o" onclick="skipCard()">⏭ Skip</button>'
             + '<div style="position:relative;display:inline-flex">'
             + '<button class="btn btn-o fc-kb-trigger" title="Keyboard shortcuts" style="font-size:14px;padding:7px 11px">⌨</button>'
@@ -27447,61 +27561,91 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
       var BP = 768;
       function mob() { return window.innerWidth <= BP; }
 
-      /* ── FLASHCARD CATEGORY DROPDOWN ────────────────────────────────── */
+      /* ── FLASHCARD CATEGORY + DIFFICULTY PILL BAR ──────────────────── */
       function buildFcSelect() {
         if (!mob()) return;
         var wrap = document.querySelector('.fc-layout-wrap');
-        if (!wrap || wrap.querySelector('.mob-fc-select')) return;
+        if (!wrap || wrap.querySelector('.mob-fc-pills')) return;
         var sidebar = wrap.querySelector('.fc-sidebar');
         if (!sidebar) return;
 
-        var sel = document.createElement('select');
-        sel.className = 'mob-fc-select';
-        sel.setAttribute('aria-label', 'Select category');
+        // Build pill bar container
+        var bar = document.createElement('div');
+        bar.className = 'mob-fc-pills';
 
-        var currentGroup = null;
-        sidebar.childNodes.forEach(function (node) {
-          if (node.nodeType !== 1) return;
-          if (node.classList.contains('rm-sidebar-label')) {
-            currentGroup = document.createElement('optgroup');
-            currentGroup.label = node.textContent.trim();
-            sel.appendChild(currentGroup);
-            return;
-          }
-          if (node.classList.contains('fc-sidebar-tab')) {
-            var opt = document.createElement('option');
-            var icon = node.querySelector('.rm-tab-icon');
-            var label = node.textContent.replace(icon ? icon.textContent : '', '').trim();
-            opt.textContent = (icon ? icon.textContent + ' ' : '') + label;
-            opt.dataset.oc = node.getAttribute('onclick') || '';
-            if (node.classList.contains('active')) opt.selected = true;
-            (currentGroup || sel).appendChild(opt);
-          }
+        // --- Category section ---
+        var catSection = document.createElement('div');
+        catSection.className = 'mob-fc-pill-section';
+        var catLabel = document.createElement('div');
+        catLabel.className = 'mob-fc-pill-label';
+        catLabel.textContent = 'Category';
+        var catRow = document.createElement('div');
+        catRow.className = 'mob-fc-pill-row';
+        var catTabs = sidebar.querySelectorAll('.fc-sidebar-tab[data-cat]');
+        catTabs.forEach(function (tab) {
+          var pill = document.createElement('button');
+          pill.className = 'mob-fc-pill' + (tab.classList.contains('active') ? ' active' : '');
+          var icon = tab.querySelector('.rm-tab-icon');
+          var label = tab.textContent.replace(icon ? icon.textContent : '', '').trim();
+          pill.innerHTML = (icon ? '<span>' + icon.textContent + '</span>' : '') + label;
+          var catVal = tab.getAttribute('data-cat');
+          pill.addEventListener('click', function () {
+            setCatSidebar(tab, catVal);
+            syncPills();
+          });
+          catRow.appendChild(pill);
         });
+        catSection.appendChild(catLabel);
+        catSection.appendChild(catRow);
 
-        sel.addEventListener('change', function () {
-          var opt = sel.options[sel.selectedIndex];
-          if (!opt.dataset.oc) return;
-          try { new Function(opt.dataset.oc)(); } catch (e) { }
-          var fcArea = document.getElementById('fcArea');
-          if (fcArea) setTimeout(function () { fcArea.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+        // --- Difficulty section ---
+        var diffSection = document.createElement('div');
+        diffSection.className = 'mob-fc-pill-section';
+        var diffLabel = document.createElement('div');
+        diffLabel.className = 'mob-fc-pill-label';
+        diffLabel.textContent = 'Difficulty';
+        var diffRow = document.createElement('div');
+        diffRow.className = 'mob-fc-pill-row mob-fc-diff-row';
+        var diffTabs = sidebar.querySelectorAll('#diffFilters .fc-sidebar-tab[data-diff]');
+        diffTabs.forEach(function (tab) {
+          var pill = document.createElement('button');
+          pill.className = 'mob-fc-pill mob-fc-pill-diff' + (tab.classList.contains('active') ? ' active' : '');
+          var icon = tab.querySelector('.rm-tab-icon');
+          var label = tab.textContent.replace(icon ? icon.textContent : '', '').trim();
+          pill.innerHTML = (icon ? '<span>' + icon.textContent + '</span>' : '') + label;
+          var diffVal = tab.getAttribute('data-diff');
+          pill.addEventListener('click', function () {
+            setDiffSidebar(tab, diffVal);
+            syncPills();
+          });
+          diffRow.appendChild(pill);
         });
+        diffSection.appendChild(diffLabel);
+        diffSection.appendChild(diffRow);
 
-        function syncFc() {
-          var active = sidebar.querySelector('.fc-sidebar-tab.active');
-          if (!active) return;
-          var oc = active.getAttribute('onclick') || '';
-          for (var i = 0; i < sel.options.length; i++) {
-            if (sel.options[i].dataset.oc === oc) { sel.selectedIndex = i; break; }
-          }
+        bar.appendChild(catSection);
+        bar.appendChild(diffSection);
+
+        // Sync pill active state from sidebar mutations
+        function syncPills() {
+          var catPills = catRow.querySelectorAll('.mob-fc-pill');
+          var catTabsAll = sidebar.querySelectorAll('.fc-sidebar-tab[data-cat]');
+          catTabsAll.forEach(function(tab, i) {
+            if (catPills[i]) catPills[i].classList.toggle('active', tab.classList.contains('active'));
+          });
+          var diffPills = diffRow.querySelectorAll('.mob-fc-pill');
+          var diffTabsAll = sidebar.querySelectorAll('#diffFilters .fc-sidebar-tab[data-diff]');
+          diffTabsAll.forEach(function(tab, i) {
+            if (diffPills[i]) diffPills[i].classList.toggle('active', tab.classList.contains('active'));
+          });
         }
-        var obs = new MutationObserver(syncFc);
-        sidebar.querySelectorAll('.fc-sidebar-tab').forEach(function (t) {
+        var obs = new MutationObserver(syncPills);
+        sidebar.querySelectorAll('.fc-sidebar-tab').forEach(function(t) {
           obs.observe(t, { attributes: true, attributeFilter: ['class'] });
         });
 
         var main = wrap.querySelector('.fc-main-area');
-        wrap.insertBefore(sel, main);
+        wrap.insertBefore(bar, main);
       }
 
       /* ── RM-SIDEBAR PILL TABS ───────────────────────────────────────── */
@@ -27806,11 +27950,11 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
 
   <!-- Mobile Redesign: Bottom Navigation -->
   <nav class="bottom-nav" id="bottomNav">
-    <div class="bn-item" onclick="nav(&#39;dashboard&#39;)" id="bn-dashboard">
+    <div class="bn-item active" onclick="nav(&#39;dashboard&#39;)" id="bn-dashboard">
       <span class="bn-icon">🏠</span>
       <span class="bn-label">Home</span>
     </div>
-    <div class="bn-item active" onclick="nav(&#39;flashcard&#39;)" id="bn-flashcard">
+    <div class="bn-item" onclick="nav(&#39;flashcard&#39;)" id="bn-flashcard">
       <span class="bn-icon">🃏</span>
       <span class="bn-label">Flashcards</span>
     </div>
