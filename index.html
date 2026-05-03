@@ -258,6 +258,39 @@
       margin: 6px 0
     }
 
+    .nav-badge {
+      margin-left: auto;
+      min-width: 18px;
+      padding: 1px 6px;
+      border-radius: 9px;
+      background: var(--gold, #F59E0B);
+      color: var(--navy, #0d2442);
+      font-size: 10px;
+      font-weight: 700;
+      text-align: center;
+      line-height: 14px;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-pill {
+      margin-left: auto;
+      padding: 1px 7px;
+      border-radius: 8px;
+      background: rgba(245, 158, 11, 0.18);
+      color: var(--gold2, #FBBF24);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    [data-theme="light"] .nav-pill {
+      background: rgba(13, 36, 66, 0.06);
+      color: #0d2442;
+      border-color: rgba(13, 36, 66, 0.18);
+    }
+
     .sb-stats {
       margin-top: auto;
       padding: 12px 18px;
@@ -8897,58 +8930,9 @@
   <!-- ═══════════════════════════════════════════════════════ -->
   <!-- PITCH / LANDING PAGE — shown before login              -->
   <!-- ═══════════════════════════════════════════════════════ -->
-  <div id="pitch-overlay">
-    <div class="pitch-box">
+  <!-- Pitch overlay removed: collapsed into unified onboarding flow (sign-in → personalize) -->
 
-      <!-- Badge -->
-      <div class="pitch-badge">✦ Finance Analyst Toolkit</div>
-
-      <!-- Headline -->
-      <h1 class="pitch-headline">The <span>Holy Grail</span><br>for Finance Careers</h1>
-      <p style="font-size:13px; color:#9aabbd; letter-spacing:0.03em; margin-bottom:10px; font-style:italic;">
-        One place. Every resource you need.
-      </p>
-      <p class="pitch-sub">
-        Built for Finance Professionals. By Finance Professional.
-      </p>
-
-      <!-- Qualifying Questions -->
-      <div class="pitch-questions">
-        <div class="pitch-q">
-          <div class="pitch-q-icon">🎓</div>
-          <div>
-            <div class="pitch-q-text">Are you a CA, CFA, or MBA — or expect to pursue any of these in the future?</div>
-            <div class="pitch-q-sub">CA Inter / Final · CFA Level I / II / III · MBA Finance · CMA · ACCA</div>
-          </div>
-        </div>
-        <div class="pitch-q">
-          <div class="pitch-q-icon">🔥</div>
-          <div>
-            <div class="pitch-q-text">Are you really passionate about a career in core finance?</div>
-            <div class="pitch-q-sub">IB · Equity Research · PE/VC · FP&amp;A · Corporate Finance · Credit</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Quote -->
-      <div class="pitch-quote">
-        "This is the place you need to be — the <strong>one-stop destination</strong> for finance professionals who are serious about landing and excelling in core finance roles."
-      </div>
-
-      <!-- CTA -->
-      <button class="pitch-cta" onclick="pitchProceed()">
-        I'm Ready — Get Me In &nbsp;→
-      </button>
-      <div class="pitch-footer-note">Free to access · No spam · Your progress stays private</div>
-
-      <div style="margin-top:14px;padding:9px 14px;background:rgba(13,36,66,0.05);border:1px solid rgba(13,36,66,0.12);border-radius:10px;text-align:center;font-size:12px;color:#9aabbd;line-height:1.55;">
-        💻 Best viewed on <strong style="color:#0d2442;">desktop or laptop</strong> — grab your laptop for the full experience.
-      </div>
-
-    </div>
-  </div>
-
-  <div id="gate-overlay" style="display: none;">
+  <div id="gate-overlay" style="display: flex;">
     <div class="gate-box">
       <div class="gate-logo">🎯</div>
       <div class="gate-title">Finance <span>Analyst</span></div>
@@ -9020,23 +9004,7 @@
     </div>
   </div>
 <script>
-  /* ── Pitch / Landing Page Logic ── */
-  /* Pitch always shows for unauthenticated users — controlled by Firebase auth, not localStorage */
-  document.addEventListener('DOMContentLoaded', function() {
-    var po = document.getElementById('pitch-overlay');
-    if (po) po.style.display = 'flex'; // show by default; hidden only if user is already signed in
-  });
-
-  function pitchProceed() {
-    var po = document.getElementById('pitch-overlay');
-    if (!po) return;
-    po.style.transition = 'opacity 0.35s ease';
-    po.style.opacity = '0';
-    setTimeout(function() {
-      po.style.display = 'none';
-      // gate-overlay is already visible underneath — user will now see the sign-in screen
-    }, 360);
-  }
+  /* Pitch overlay removed — gate-overlay is the first (and only) auth step */
 </script>
 
   <script>
@@ -9177,13 +9145,11 @@
           if (btn) { btn.textContent = '🔓 Sign In'; btn.disabled = false; }
           return;
         }
-        // Authenticated — hide pitch (user is already signed in, skip it entirely)
-        var po = document.getElementById('pitch-overlay');
-        if (po) po.style.display = 'none';
+        // Authenticated — load app directly (no pitch step anymore)
         // Load the app directly
         loadDataAndStartApp();
       } else {
-        // No user logged in — pitch is already visible; just enable the sign-in button
+        // No user logged in — gate-overlay is shown directly; just enable the sign-in button
         var btn = document.getElementById('gateBtn');
         if (btn) { btn.textContent = '🔓 Sign In'; btn.disabled = false; }
       }
@@ -9527,65 +9493,7 @@
 
   <!-- ── Onboarding Overlay ── -->
   <!-- ═══════════════════════════════════════════════════════ -->
-  <!-- WELCOME SPLASH (shown before onboarding, first visit)  -->
-  <!-- ═══════════════════════════════════════════════════════ -->
-  <div id="welcomeSplash" style="display:none">
-    <div id="welcomeBox">
-      <div class="ws-logo">Finance <span>Analyst</span> Toolkit</div>
-      <div class="ws-tagline">Your complete interview prep system for finance roles</div>
-
-      <div style="margin-bottom:18px;padding:9px 14px;background:rgba(13,36,66,0.04);border:1px solid rgba(13,36,66,0.12);border-radius:10px;text-align:center;font-size:12px;color:#6b7a90;line-height:1.55;">
-        💻 Best viewed on <strong style="color:#0d2442;">desktop or laptop</strong> — grab your laptop for the full experience.
-      </div>
-
-      <div class="ws-features">
-        <div class="ws-feat">
-          <div class="ws-feat-icon">🃏</div>
-          <div class="ws-feat-body">
-            <div class="ws-feat-title">400+ Flashcards</div>
-            <div class="ws-feat-sub">Accounting, Valuation, M&amp;A, LBO, Equity Research &amp; more — with spaced repetition so you study what you actually need.</div>
-          </div>
-        </div>
-        <div class="ws-feat">
-          <div class="ws-feat-icon">📊</div>
-          <div class="ws-feat-body">
-            <div class="ws-feat-title">DCF &amp; Financial Models</div>
-            <div class="ws-feat-sub">Step-by-step DCF walkthroughs, revenue model frameworks, and India macro dashboard built in.</div>
-          </div>
-        </div>
-        <div class="ws-feat">
-          <div class="ws-feat-icon">🎯</div>
-          <div class="ws-feat-body">
-            <div class="ws-feat-title">Personalised to your role</div>
-            <div class="ws-feat-sub">Tell us whether you're targeting IB, Equity Research, PE/VC, or general finance — we'll tailor your study plan.</div>
-          </div>
-        </div>
-        <div class="ws-feat">
-          <div class="ws-feat-icon">🔒</div>
-          <div class="ws-feat-body">
-            <div class="ws-feat-title">100% private</div>
-            <div class="ws-feat-sub">Your progress, notes, and edits stay in your browser. Nothing is shared with other users.</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="ws-who">
-        <div class="ws-who-question">Are you a <span class="ws-who-highlight">CA</span>, <span class="ws-who-highlight">CFA</span>, or <span class="ws-who-highlight">MBA</span> — or pursuing any of these — and want to build a career in core finance roles?</div>
-        <div class="ws-who-sub">This toolkit was built for you.</div>
-      </div>
-
-      <div class="ws-actions">
-        <button class="btn btn-p ws-cta" onclick="welcomeStart()">Get Started → Set Up My Plan</button>
-        <button class="ws-skip" onclick="welcomeSkip()">Skip setup — take me straight in</button>
-      </div>
-
-      <div class="ws-footer-links">
-        <span onclick="openPrivacyPolicy()" class="ws-link">Privacy Policy</span>
-        <span class="ws-sep">·</span>
-        <span class="ws-link" onclick="openUserManual()">User Guide</span>
-      </div>
-    </div>
-  </div>
+  <!-- Welcome splash removed: collapsed into unified onboarding flow -->
 
   <div id="onboardingOverlay" style="display:none">
     <div id="onboardingBox">
@@ -9593,12 +9501,11 @@
       <div class="ob-progress">
         <div class="ob-dot ob-done" id="obDot0"></div>
         <div class="ob-dot" id="obDot1"></div>
-        <div class="ob-dot" id="obDot2"></div>
       </div>
 
-      <!-- Step 1: Role -->
+      <!-- Step 1: Role + Daily Goal (combined) -->
       <div class="ob-step ob-active" id="obStep0">
-        <div class="ob-step-label">Step 1 of 3 · Your Goal</div>
+        <div class="ob-step-label">Step 1 of 2 · Your Goal</div>
         <div class="ob-title">What are you preparing for?</div>
         <div class="ob-sub">We'll customise your study plan based on your target role.</div>
         <div class="ob-options">
@@ -9631,40 +9538,34 @@
             </div>
           </div>
         </div>
+
+        <div style="margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);">
+          <div class="ob-sub" style="margin-bottom:10px;font-weight:600;color:var(--white,#fff);">Daily study goal — cards per day</div>
+          <div class="ob-goal-grid">
+            <div class="ob-goal-card ob-selected" onclick="obSelectGoal(this,20)">
+              <div class="ob-goal-num">20</div>
+              <div class="ob-goal-label">Casual</div>
+            </div>
+            <div class="ob-goal-card" onclick="obSelectGoal(this,30)">
+              <div class="ob-goal-num">30</div>
+              <div class="ob-goal-label">Focused</div>
+            </div>
+            <div class="ob-goal-card" onclick="obSelectGoal(this,40)">
+              <div class="ob-goal-num">40+</div>
+              <div class="ob-goal-label">Intensive</div>
+            </div>
+          </div>
+        </div>
+
         <div class="ob-nav">
           <span></span>
           <button class="btn btn-p" onclick="obNext(1)">Continue →</button>
         </div>
       </div>
 
-      <!-- Step 2: Daily Goal -->
+      <!-- Step 2: Focus categories -->
       <div class="ob-step" id="obStep1">
-        <div class="ob-step-label">Step 2 of 3 · Daily Goal</div>
-        <div class="ob-title">How many cards per day?</div>
-        <div class="ob-sub">Consistency beats intensity. Even 20 cards daily compounds massively over weeks.</div>
-        <div class="ob-goal-grid">
-          <div class="ob-goal-card ob-selected" onclick="obSelectGoal(this,20)">
-            <div class="ob-goal-num">20</div>
-            <div class="ob-goal-label">Casual</div>
-          </div>
-          <div class="ob-goal-card" onclick="obSelectGoal(this,30)">
-            <div class="ob-goal-num">30</div>
-            <div class="ob-goal-label">Focused</div>
-          </div>
-          <div class="ob-goal-card" onclick="obSelectGoal(this,40)">
-            <div class="ob-goal-num">40+</div>
-            <div class="ob-goal-label">Intensive</div>
-          </div>
-        </div>
-        <div class="ob-nav">
-          <button class="ob-back" onclick="obNext(0)">← Back</button>
-          <button class="btn btn-p" onclick="obNext(2)">Continue →</button>
-        </div>
-      </div>
-
-      <!-- Step 3: Focus categories -->
-      <div class="ob-step" id="obStep2">
-        <div class="ob-step-label">Step 3 of 3 · Focus Areas</div>
+        <div class="ob-step-label">Step 2 of 2 · Focus Areas</div>
         <div class="ob-title">Which topics to prioritise?</div>
         <div class="ob-sub">Select all that apply. We'll weight your study sessions accordingly.</div>
         <div class="ob-cats">
@@ -9688,7 +9589,7 @@
               style="font-size:12px;font-weight:600;color:var(--white)">Behavioral</span></div>
         </div>
         <div class="ob-nav">
-          <button class="ob-back" onclick="obNext(1)">← Back</button>
+          <button class="ob-back" onclick="obNext(0)">← Back</button>
           <button class="btn btn-p" onclick="obFinish()">🚀 Start Studying</button>
         </div>
       </div>
@@ -9725,6 +9626,7 @@
       </div>
       <div class="sb-sec">Interview Prep</div>
       <div class="nav-item active" onclick="nav(&#39;dashboard&#39;)"><span>🏠</span> Dashboard</div>
+      <div class="nav-item" onclick="startTodayReview()"><span>📅</span> Today's Review <span class="nav-badge" id="todayReviewBadge" style="display:none"></span></div>
       <div class="nav-item" onclick="nav(&#39;flashcard&#39;)"><span>🃏</span> Flashcards</div>
       <div class="nav-item" onclick="startBrowseAll()"><span>📋</span> Browse All</div>
       <div class="nav-item" onclick="startBookmarks()"><span>🔖</span> Bookmarked</div>
@@ -9732,17 +9634,22 @@
       <div class="nav-sep"></div>
       <div class="sb-sec">Reference</div>
       <div class="nav-item" onclick="nav(&#39;finstatements&#39;)"><span>📑</span> Fin. Statements &amp; Ratios</div>
+      <div class="nav-item" onclick="nav(&#39;dcf&#39;)"><span>🎯</span> DCF, Val &amp; Modelling</div>
       <div class="nav-item" onclick="nav(&#39;revenue&#39;)"><span>📊</span> Revenue Models</div>
       <div class="nav-item" onclick="nav(&#39;industry&#39;)"><span>🏭</span> Industry Structure</div>
-      <div class="nav-item" onclick="nav(&#39;dcf&#39;)"><span>🎯</span> DCF, Val &amp; Modelling</div>
       <div class="nav-item" onclick="nav(&#39;macro&#39;)" id="macroNavItem"><span>🌐</span> India Macro</div>
+
       <div class="nav-sep"></div>
-      <div class="sb-sec">Manage &amp; Support</div>
-      <div class="nav-item" onclick="nav('add')"><span>➕</span> Add / Import Questions</div>
+      <div class="sb-sec">Tools</div>
+      <div class="nav-item" onclick="startMockInterview()"><span>🎤</span> Mock Interview <span class="nav-pill">Beta</span></div>
+      <div class="nav-item" onclick="openDownloadsTab()"><span>⬇️</span> Downloads / Templates</div>
+      <div class="nav-item" onclick="nav('add')"><span>➕</span> Add / Import</div>
+      <div class="nav-item" onclick="openMyUploadsTab()"><span>📂</span> My Uploads</div>
+
+      <div class="nav-sep"></div>
+      <div class="sb-sec">Account</div>
+      <div class="nav-item" onclick="toggleSettingsMenu()"><span>⚙️</span> Settings</div>
       <div class="nav-item" onclick="nav('support')"><span>💬</span> Feedback &amp; Contact</div>
-      <div class="nav-sep"></div>
-      <div class="sb-sec">Downloads &amp; Uploads</div>
-      <div class="nav-item" onclick="nav(&#39;files&#39;)"><span>⬇️</span> Downloads & Uploads</div>
       <div class="sb-stats" id="sbStats">
         <div class="sb-stat">Total Q&amp;As <b>399</b></div>
         <div class="sb-stat">Mastered <b>0 (0%)</b></div>
@@ -24129,17 +24036,14 @@
         function checkOnboarding() {
           var profile = getProfile();
           if (!profile) {
-            // Show welcome splash first if this is a first-ever visit, else go straight to onboarding
-            if (!localStorage.getItem('ft_welcome_seen')) {
-              var splash = document.getElementById('welcomeSplash');
-              if (splash) { splash.style.display = 'flex'; splash.style.opacity = '1'; }
-            } else {
-              var overlay = document.getElementById('onboardingOverlay');
-              if (overlay) {
-                overlay.style.display = 'flex';
-                overlay.style.opacity = '1';
-              }
+            // Unified onboarding: go straight to the personalisation overlay
+            var overlay = document.getElementById('onboardingOverlay');
+            if (overlay) {
+              overlay.style.display = 'flex';
+              overlay.style.opacity = '1';
             }
+            // Mark welcome as seen for any legacy checks elsewhere in the app
+            try { localStorage.setItem('ft_welcome_seen', '1'); } catch (e) {}
           }
         }
 
@@ -29334,41 +29238,82 @@ Write concise, confident, interview-ready answers (3-5 sentences each) for a fin
 </div>
 
 <script>
-  /* ── Welcome Splash ── */
-  function welcomeStart() {
-    var s = document.getElementById('welcomeSplash');
-    if (!s) return;
-    s.style.opacity = '0';
-    setTimeout(function() {
-      s.style.display = 'none';
-      localStorage.setItem('ft_welcome_seen', '1');
-      var ob = document.getElementById('onboardingOverlay');
-      if (ob) { ob.style.display = 'flex'; ob.style.opacity = '1'; }
-    }, 340);
+  /* Welcome splash removed — onboarding starts directly via checkOnboarding() */
+  function welcomeStart() { /* legacy no-op */ }
+  function welcomeSkip()  { /* legacy no-op */ }
+
+  /* ── New sidebar handlers ── */
+  function startTodayReview() {
+    // Open flashcards in SRS-due mode if available, otherwise standard flashcard view
+    try {
+      if (typeof nav === 'function') nav('flashcard');
+      // Try a few likely "due/SRS" entry points without breaking if absent
+      setTimeout(function () {
+        if (typeof startSRSReview === 'function') return startSRSReview();
+        if (typeof startDueReview === 'function') return startDueReview();
+        if (typeof startReviewSession === 'function') return startReviewSession();
+        // Fallback: just stay on the flashcard view
+      }, 60);
+    } catch (e) { console.warn(e); }
   }
-  function welcomeSkip() {
-    var s = document.getElementById('welcomeSplash');
-    if (!s) return;
-    s.style.opacity = '0';
-    setTimeout(function() {
-      s.style.display = 'none';
-      localStorage.setItem('ft_welcome_seen', '1');
-      if (!localStorage.getItem('ft_profile')) {
-        try { localStorage.setItem('ft_profile', JSON.stringify({ role:'general', dailyGoal:20, focusCats:[], createdAt: new Date().toISOString(), skipped:true })); } catch(e){} 
+
+  function startMockInterview() {
+    // Placeholder until the dedicated Mock Interview view ships.
+    // Routes the user to mixed-topic flashcards as the closest existing experience.
+    var msg = '🎤 Mock Interview is in beta — for now, we\'ll start a mixed flashcard session. A timed, scored mock interview is coming soon.';
+    if (typeof showToast === 'function') { showToast(msg); }
+    else { try { alert(msg); } catch(e){} }
+    if (typeof nav === 'function') nav('flashcard');
+  }
+
+  function openDownloadsTab() {
+    if (typeof nav === 'function') nav('files');
+  }
+  function openMyUploadsTab() {
+    if (typeof nav === 'function') nav('files');
+    // If a "My Uploads" sub-tab exists in view-files, activate it
+    setTimeout(function () {
+      var tabs = document.querySelectorAll('#view-files .rm-tab');
+      if (!tabs || !tabs.length) return;
+      // Prefer a tab whose text mentions "upload" or "all"
+      for (var i = 0; i < tabs.length; i++) {
+        var txt = (tabs[i].textContent || '').toLowerCase();
+        if (txt.indexOf('upload') > -1 || txt.indexOf('all') > -1) { tabs[i].click(); break; }
       }
-      // Navigate to dashboard and re-render so layout is correct
-      if (typeof nav === 'function') nav('dashboard');
-      if (typeof renderDashboard === 'function') renderDashboard();
-      if (typeof renderSidebar === 'function') renderSidebar();
-      // Open the User Guide (same as after completing onboarding)
-      setTimeout(function() {
-        if (typeof openUserManual === 'function') openUserManual();
-        localStorage.setItem('um_seen', '1');
-        var btn = document.getElementById('userManualBtn');
-        if (btn) btn.classList.remove('um-new');
-      }, 200);
-    }, 340);
+    }, 80);
   }
+
+  /* ── Today's Review badge ── */
+  function updateTodayReviewBadge() {
+    try {
+      var badge = document.getElementById('todayReviewBadge');
+      if (!badge) return;
+      var due = 0;
+      var sd = null;
+      try { sd = JSON.parse(localStorage.getItem('ft_studydata') || '{}'); } catch (e) {}
+      var now = Date.now();
+      if (sd && typeof sd === 'object') {
+        Object.keys(sd).forEach(function (k) {
+          var rec = sd[k];
+          if (!rec) return;
+          var nextDue = rec.nextReview || rec.due || rec.next || 0;
+          if (typeof nextDue === 'string') { var t = Date.parse(nextDue); if (!isNaN(t)) nextDue = t; }
+          if (nextDue && nextDue <= now) due++;
+        });
+      }
+      if (due > 0) {
+        badge.textContent = due > 99 ? '99+' : String(due);
+        badge.style.display = '';
+      } else {
+        badge.style.display = 'none';
+      }
+    } catch (e) { /* ignore */ }
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    setTimeout(updateTodayReviewBadge, 1500);
+    setInterval(updateTodayReviewBadge, 60000);
+  });
+
   /* ── Privacy Policy ── */
   function openPrivacyPolicy() { document.getElementById('ppOverlay').classList.add('open'); }
   function closePrivacyPolicy() { document.getElementById('ppOverlay').classList.remove('open'); }
